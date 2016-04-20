@@ -1,5 +1,6 @@
 package cfa.vo.vodml
 
+import cfa.vo.vodml.io.Validator
 import cfa.vo.vodml.io.XmlWriter
 
 ObjectType role = new ObjectType(
@@ -328,3 +329,4 @@ ByteArrayOutputStream os = new ByteArrayOutputStream();
 writer.write(datasetModel, os);
 String out = os.toString("UTF-8");
 System.out.println(out)
+assert new Validator().validate(new ByteArrayInputStream(out.bytes))

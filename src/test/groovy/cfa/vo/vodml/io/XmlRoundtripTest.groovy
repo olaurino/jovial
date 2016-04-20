@@ -5,7 +5,7 @@ import org.junit.Test
 import org.uispec4j.xml.XmlAssert
 
 
-class XmlReaderTest {
+class XmlRoundtripTest {
     private input
     private output
 

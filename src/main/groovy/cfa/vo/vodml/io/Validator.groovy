@@ -8,13 +8,17 @@ class Validator {
     private URL schema = getClass().getResource("/vodml-v1.0.xsd");
 
     boolean validate(URL file) {
+        file.withInputStream { xml ->
+            validate(xml)
+        }
+    }
+
+    boolean validate(InputStream is) {
         schema.withInputStream { xsd ->
-            file.withInputStream { xml ->
-                SchemaFactory.newInstance( XMLConstants.W3C_XML_SCHEMA_NS_URI )
-                        .newSchema( new StreamSource( xsd ) )
-                        .newValidator()
-                        .validate( new StreamSource( xml ) )
-            }
+            SchemaFactory.newInstance( XMLConstants.W3C_XML_SCHEMA_NS_URI )
+                    .newSchema( new StreamSource( xsd ) )
+                    .newValidator()
+                    .validate( new StreamSource( is ) )
         }
         true
     }

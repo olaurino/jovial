@@ -399,14 +399,14 @@ class Model implements Buildable {
                 name(this.name)
                 description(this.description)
                 title(this.title)
-                version(this.version)
-                lastModified(this.lastModified)
                 this.authors.each {
                     author(it)
                 }
+                version(this.version)
                 this.previousVersions.each {
                     previousVersion(it)
                 }
+                lastModified(this.lastModified)
                 this.imports.each {
                     out << it
                 }
