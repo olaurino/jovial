@@ -7,14 +7,16 @@
         It has some sample relationships etc to be used in documentation etc.</description>
     <title>Sample VO-DML data model.</title>
     <version>1.0</version>
-    <lastModified>2015-10-09T11:40:28</lastModified>
+    <lastModified>2015-10-09T11:40:28.000-04:00</lastModified>
     <import>
         <name>ivoa</name>
+        <version>1.0</version>
         <url>http://volute.googlecode.com/svn/trunk/projects/dm/vo-dml/models/ivoa/IVOA.vo-dml.xml</url>
         <documentationURL>http://volute.googlecode.com/svn/trunk/projects/dm/vo-dml/models/ivoa/IVOA.html</documentationURL>
     </import>
     <import>
         <name>photdm-alt</name>
+        <version>1.0</version>
         <url>https://volute.googlecode.com/svn/trunk/projects/dm/vo-dml/models/photdm-alt/PhotDM-alt.vo-dml.xml</url>
         <documentationURL>https://volute.googlecode.com/svn/trunk/projects/dm/vo-dml/models/photdm-alt/PhotDM-alt.html</documentationURL>
     </import>

@@ -3,6 +3,7 @@ package cfa.vo.vodml
 import cfa.vo.vodml.annotations.Nonnegative
 import cfa.vo.vodml.annotations.Required
 import groovy.beans.Bindable
+import org.joda.time.DateTime
 
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -21,9 +22,7 @@ class ElementRef implements Buildable {
     @Override
     void build(GroovyObject builder) {
         def elem = {
-            "extends"() {
-                "vodml-ref"(this.vodmlref)
-            }
+            "vodml-ref"(this.vodmlref)
         }
         elem.delegate = builder
         elem()
@@ -50,6 +49,9 @@ class PrimitiveType extends ValueType implements Buildable {
                 "vodml-id"(this.vodmlid)
                 description(this.description)
                 out << this.extends_
+                this.constraints.each {
+                    out << it
+                }
             }
         }
         elem.delegate = builder
@@ -65,10 +67,14 @@ class Enumeration_ extends ValueType implements Buildable {
     void build(GroovyObject builder) {
         def elem = {
             enumeration() {
-                name(this.name)
                 "vodml-id"(this.vodmlid)
+                name(this.name)
                 description(this.description)
-                out << this.extends_
+                if (this.extends_) {
+                    "extends"() {
+                        out << this.extends_
+                    }
+                }
                 this.literals.each {
                     out << it
                 }
@@ -85,8 +91,8 @@ class EnumLiteral extends ReferableElement implements Buildable {
     void build(GroovyObject builder) {
         def elem = {
             literal() {
-                name(this.name)
                 "vodml-id"(this.vodmlid)
+                name(this.name)
                 description(this.description)
             }
         }
@@ -97,24 +103,43 @@ class EnumLiteral extends ReferableElement implements Buildable {
 
 @Bindable
 class DataType extends ValueType implements Buildable {
+    def abstract_ = false
     List<Attribute> attributes
     List<Reference> references
 
     @Override
     void build(GroovyObject builder) {
+        def args = []
+        if (abstract_) {
+            args = ["abstract": true]
+        }
         def elem = {
-            attributes.each {
-                out << it
-            }
-            references.each {
-                out << it
+            dataType(args) {
+                "vodml-id"(this.vodmlid)
+                name(this.name)
+                description(this.description)
+                if (extends_) {
+                    "extends"(this.extends_)
+                }
+                this.constraints.each {
+                    out << it
+                }
+                attributes.each {
+                    out << it
+                }
+                references.each {
+                    out << it
+                }
             }
         }
+        elem.delegate = builder
+        elem()
     }
 }
 
 @Bindable
 class ObjectType extends Type implements Buildable {
+    def abstract_ = false
     List<Attribute> attributes
     List<Composition> collections
     List<Reference> references
@@ -122,11 +147,22 @@ class ObjectType extends Type implements Buildable {
     @Override
     void build(GroovyObject builder) {
         def elem = {
-            objectType() {
-                name(this.name)
+            def args = []
+            if (abstract_) {
+                args = ["abstract": true]
+            }
+            objectType(args) {
                 "vodml-id"(this.vodmlid)
+                name(this.name)
                 description(this.description)
-                out << this.extends_
+                if (this.extends_) {
+                    "extends"() {
+                        out << this.extends_
+                    }
+                }
+                this.constraints.each {
+                    out << it
+                }
                 this.attributes.each {
                     out << it
                 }
@@ -157,9 +193,13 @@ class Attribute extends Role implements Buildable {
     void build(GroovyObject builder) {
         def elem = {
             attribute() {
-                name(this.name)
                 "vodml-id"(this.vodmlid)
+                name(this.name)
                 description(this.description)
+                datatype() {
+                    out << this.dataType
+                }
+                out << this.multiplicity
                 semanticConcepts.each {
                     out << it
                 }
@@ -172,14 +212,22 @@ class Attribute extends Role implements Buildable {
 
 @Bindable
 class SemanticConcept implements Buildable {
-    URI vocabularyURI
-    URI topConcept
+    String vocabularyURI
+    String topConcept
 
     @Override
     void build(GroovyObject builder) {
         def elem = {
-            vocabularyURI(this.vocabularyURI)
-            topConcept(this.topConcept)
+            if (topConcept || vocabularyURI) {
+                semanticconcept() {
+                    if (topConcept) {
+                        topConcept(new URI(this.topConcept))
+                    }
+                    if (vocabularyURI) {
+                        vocabularyURI(new URI(this.vocabularyURI))
+                    }
+                }
+            }
         }
         elem.delegate = builder
         elem()
@@ -196,11 +244,13 @@ class Composition extends Relation implements Buildable {
     @Override
     void build(GroovyObject builder) {
         def elem = {
-            relation() {
-                name(this.name)
+            collection() {
                 "vodml-id"(this.vodmlid)
+                name(this.name)
                 description(this.description)
-                out << this.dataType
+                datatype() {
+                    out << this.dataType
+                }
                 out << this.multiplicity
             }
         }
@@ -214,11 +264,13 @@ class Reference extends Relation implements Buildable {
     @Override
     void build(GroovyObject builder) {
         def elem = {
-            relation() {
-                name(this.name)
+            reference() {
                 "vodml-id"(this.vodmlid)
+                name(this.name)
                 description(this.description)
-                out << this.dataType
+                datatype() {
+                    out << this.dataType
+                }
                 out << this.multiplicity
             }
         }
@@ -251,8 +303,6 @@ class Constraint extends ReferableElement implements Buildable {
     void build(GroovyObject builder) {
         def elem = {
             constraint() {
-                name(this.name)
-                "vodml-id"(this.vodmlid)
                 description(this.description)
             }
         }
@@ -262,33 +312,59 @@ class Constraint extends ReferableElement implements Buildable {
 }
 
 @Bindable
+class SubsettedRole extends Constraint {
+    ElementRef role
+    ElementRef dataType
+    SemanticConcept semanticConcept
+
+    @Override
+    void build(GroovyObject builder) {
+        def elem = {
+            constraint("xsi:type": "vo-dml:SubsettedRole") {
+                role() {
+                    out << this.role
+                }
+                datatype {
+                    out << this.dataType
+                }
+                if (this.semanticConcept) {
+                    out << semanticConcept
+                }
+            }
+        }
+        elem.delegate = builder
+        elem()
+    }
+}
+
+@Bindable
 class Package extends ReferableElement implements Buildable {
-    List<ObjectType> objectTypes
-    List<DataType> dataTypes
     List<PrimitiveType> primitiveTypes
     List<Enumeration_> enumerations
+    List<DataType> dataTypes
+    List<ObjectType> objectTypes
     List<Package> packages
 
     @Override
     void build(GroovyObject builder) {
         def package_ = {
             "package"() {
-                name(this.name)
                 "vodml-id"(this.vodmlid)
+                name(this.name)
                 description(this.description)
-                this.packages.each {
-                    out << it
-                }
-                this.objectTypes.each {
-                    out << it
-                }
-                this.dataTypes.each {
+                this.primitiveTypes.each {
                     out << it
                 }
                 this.enumerations.each {
                     out << it
                 }
-                this.primitiveTypes.each {
+                this.dataTypes.each {
+                    out << it
+                }
+                this.objectTypes.each {
+                    out << it
+                }
+                this.packages.each {
                     out << it
                 }
             }
@@ -305,30 +381,26 @@ class Model implements Buildable {
     @Required String name = "my:model"
     @Required String title = "My Model"
     @Required String version = "1.0"
-    @Required Date lastModified = new Date()
+    @Required DateTime lastModified = new DateTime()
     String description
-    List<String> authors
-    List<URI> previousVersions
-    List<ModelImport> imports
-    List<Package> packages
-    List<ObjectType> objectTypes
-    List<DataType> dataTypes
-    List<Enumeration_> enumerations
-    List<PrimitiveType> primitiveTypes
-
-    static Model from(xml) {
-
-    }
+    List<String> authors = []
+    List<URI> previousVersions = []
+    List<ModelImport> imports = []
+    List<PrimitiveType> primitiveTypes = []
+    List<Enumeration_> enumerations = []
+    List<DataType> dataTypes = []
+    List<ObjectType> objectTypes = []
+    List<Package> packages = []
 
     @Override
     void build(GroovyObject builder) {
         def model = {
             "vo-dml:model"("xsi:schemaLocation": "${this.ns} http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/xsd/vo-dml-v1.0.xsd") {
                 name(this.name)
+                description(this.description)
                 title(this.title)
                 version(this.version)
-                lastModified(format(this.lastModified))
-                description(this.description)
+                lastModified(this.lastModified)
                 this.authors.each {
                     author(it)
                 }
@@ -338,19 +410,19 @@ class Model implements Buildable {
                 this.imports.each {
                     out << it
                 }
-                this.packages.each {
-                    out << it
-                }
-                this.objectTypes.each {
-                    out << it
-                }
-                this.dataTypes.each {
+                this.primitiveTypes.each {
                     out << it
                 }
                 this.enumerations.each {
                     out << it
                 }
-                this.primitiveTypes.each {
+                this.dataTypes.each {
+                    out << it
+                }
+                this.objectTypes.each {
+                    out << it
+                }
+                this.packages.each {
                     out << it
                 }
             }
