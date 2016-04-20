@@ -8,8 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 public class XmlWriterTest {
     private Model model;

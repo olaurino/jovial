@@ -430,11 +430,6 @@ class Model implements Buildable {
         model.delegate = builder
         model()
     }
-
-    private String format(Date date) {
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        df.format(date);
-    }
 }
 
 @Bindable
