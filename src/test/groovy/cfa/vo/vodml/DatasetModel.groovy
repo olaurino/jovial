@@ -80,11 +80,218 @@ ObjectType individual = new ObjectType(
         ]
 )
 
-ModelImport ivoa = new ModelImport(
-        name: "ivoa",
-        version: "1.0",
-        url: new URL("http://some/url"),
-        documentationURL: new URL("http://someother/url)")
+DataType collection = new DataType(
+        name: "Collection",
+        description: "",
+        vodmlid: "dataset.Collection",
+        attributes: [
+                new Attribute(
+                        name: "name",
+                        vodmlid: "dataset.Collection.name",
+                        dataType: new ElementRef(vodmlref: "ivoa:string")
+                )
+        ]
+)
+
+DataType contributor = new DataType(
+        name: "Contributor",
+        description: "",
+        vodmlid: "dataset.Contributor",
+        extends_: new ElementRef (vodmlref: "dataset:party.Role"),
+        attributes: [
+                new Attribute(
+                        name: "acknowledgment",
+                        vodmlid: "dataset.Contributor.acknowledgment",
+                        dataType: new ElementRef(vodmlref: "ivoa:string")
+                )
+        ]
+)
+
+DataType creator = new DataType(
+        name: "Creator",
+        description: "",
+        vodmlid: "dataset.Creator",
+        extends_: new ElementRef (vodmlref: "dataset:party.Role"),
+)
+
+ObjectType dataId = new ObjectType(
+        name: "DataID",
+        description: "",
+        vodmlid: "dataset.DataID",
+        attributes: [
+                new Attribute(
+                        name: "title",
+                        vodmlid: "dataset.DataID.title",
+                        dataType: new ElementRef(vodmlref: "ivoa:string"),
+                        multiplicity: new Multiplicity(minOccurs: 0, maxOccurs: 1)
+                ),
+                new Attribute(
+                        name: "datasetID",
+                        vodmlid: "dataset.DataID.datasetID",
+                        dataType: new ElementRef(vodmlref: "ivoa:anyURI"),
+                        multiplicity: new Multiplicity(minOccurs: 0, maxOccurs: 1)
+                ),
+                new Attribute(
+                        name: "creatorDID",
+                        vodmlid: "dataset.DataID.creatorDID",
+                        dataType: new ElementRef(vodmlref: "ivoa:anyURI"),
+                        multiplicity: new Multiplicity(minOccurs: 0, maxOccurs: 1)
+                ),
+                new Attribute(
+                        name: "version",
+                        vodmlid: "dataset.DataID.version",
+                        dataType: new ElementRef(vodmlref: "ivoa:string"),
+                        multiplicity: new Multiplicity(minOccurs: 0, maxOccurs: 1)
+                ),
+                new Attribute(
+                        name: "date",
+                        vodmlid: "dataset.DataID.version",
+                        dataType: new ElementRef(vodmlref: "ivoa:datetime"),
+                        multiplicity: new Multiplicity(minOccurs: 0, maxOccurs: 1)
+                ),
+                new Attribute(
+                        name: "creationType",
+                        vodmlid: "dataset.DataID.creationType",
+                        dataType: new ElementRef(vodmlref: "dataset:CreationType"),
+                        multiplicity: new Multiplicity(minOccurs: 0, maxOccurs: 1)
+                ),
+                new Attribute(
+                        name: "creator",
+                        vodmlid: "dataset.DataID.creator",
+                        dataType: new ElementRef(vodmlref: "dataset:dataset.Creator"),
+                        multiplicity: new Multiplicity(minOccurs: 0, maxOccurs: 1),
+                ),
+        ],
+        collections: [
+                new Composition(
+                        name: "collection",
+                        vodmlid: "dataset.DataID.collection",
+                        dataType: new ElementRef(vodmlref: "dataset:dataset.Collection"),
+                        multiplicity: new Multiplicity(minOccurs: 0, maxOccurs: -1)
+                ),
+                new Composition(
+                        name: "contributor",
+                        vodmlid: "dataset.DataID.contributor",
+                        dataType: new ElementRef(vodmlref: "dataset:dataset.Contributor"),
+                        multiplicity: new Multiplicity(minOccurs: 0, maxOccurs: -1)
+                )
+        ]
+)
+
+DataType contact = new DataType(
+        name: "Contact",
+        description: "",
+        vodmlid: "dataset.Contact",
+        extends_: new ElementRef(vodmlref: "dataset:party.Individual"),
+)
+
+DataType publisher = new DataType(
+        name: "Publisher",
+        description: "",
+        vodmlid: "dataset.Publisher",
+        attributes: [
+                new Attribute(
+                        name: "publisherId",
+                        vodmlid: "dataset.Publisher.publisherId",
+                        dataType: new ElementRef(vodmlref: "ivoa:anyURI")
+                )
+        ]
+)
+
+DataType publication = new DataType(
+        name: "Publication",
+        description: "",
+        vodmlid: "dataset.Publication",
+        attributes: [
+                new Attribute(
+                        name: "refCode",
+                        vodmlid: "dataset.Publication.refCode",
+                        dataType: new ElementRef(vodmlref: "ivoa:string")
+                )
+        ]
+)
+
+ObjectType curation = new ObjectType(
+        name: "Curation",
+        description: "",
+        vodmlid: "dataset.Curation",
+        attributes: [
+                new Attribute(
+                        name: "publisherDID",
+                        vodmlid: "dataset.Curation.publisherDID",
+                        dataType: new ElementRef(vodmlref: "ivoa:anyURI"),
+                        multiplicity: new Multiplicity(minOccurs: 0, maxOccurs: 1)
+                ),
+                new Attribute(
+                        name: "version",
+                        vodmlid: "dataset.Curation.version",
+                        dataType: new ElementRef(vodmlref: "ivoa:string"),
+                        multiplicity: new Multiplicity(minOccurs: 0, maxOccurs: 1)
+                ),
+                new Attribute(
+                        name: "releaseDate",
+                        vodmlid: "dataset.Curation.releaseDate",
+                        dataType: new ElementRef(vodmlref: "ivoa:datetime"),
+                        multiplicity: new Multiplicity(minOccurs: 0, maxOccurs: 1)
+                ),
+                new Attribute(
+                        name: "rights",
+                        vodmlid: "dataset.Curation.rights",
+                        dataType: new ElementRef(vodmlref: "dataset:RightsType"),
+                        multiplicity: new Multiplicity(minOccurs: 0, maxOccurs: 1)
+                ),
+                new Attribute(
+                        name: "publisher",
+                        vodmlid: "dataset.Curation.publisher",
+                        dataType: new ElementRef(vodmlref: "dataset:dataset.Publisher")
+                ),
+                new Attribute(
+                        name: "contact",
+                        vodmlid: "dataset.Curation.contact",
+                        dataType: new ElementRef(vodmlref: "dataset:dataset.Contact"),
+                        multiplicity: new Multiplicity(minOccurs: 0, maxOccurs: 1),
+                ),
+        ],
+        collections: [
+                new Composition(
+                        name: "reference",
+                        vodmlid: "dataset.Curation.reference",
+                        dataType: new ElementRef(vodmlref: "dataset:dataset.Publication"),
+                        multiplicity: new Multiplicity(minOccurs: 0, maxOccurs: -1)
+                )
+        ]
+)
+
+ObjectType dataset = new ObjectType(
+        name: "Dataset",
+        description: "",
+        vodmlid: "dataset.Dataset",
+        attributes: [
+                new Attribute(
+                        name: "dataProductType",
+                        vodmlid: "dataset.Dataset.dataProductType",
+                        dataType: new ElementRef(vodmlref: "dataset:DataProductType")
+                ),
+                new Attribute(
+                        name: "dataProductSubType",
+                        vodmlid: "dataset.Dataset.dataProductSubType",
+                        dataType: new ElementRef(vodmlref: "ivoa:string"),
+                        multiplicity: new Multiplicity(minOccurs: 0, maxOccurs: 1)
+
+                ),
+                ],
+        collections: [
+                new Composition(
+                        name: "dataID",
+                        vodmlid: "dataset.Dataset.dataID",
+                        dataType: new ElementRef(vodmlref: "dataset:dataset.DataID")
+                ),
+                new Composition(
+                        name: "curation",
+                        vodmlid: "dataset.Dataset.curation",
+                        dataType: new ElementRef(vodmlref: "dataset:dataset.Curation")
+                ),
+        ]
 )
 
 Package partyPackage = new Package(
@@ -96,6 +303,15 @@ Package partyPackage = new Package(
 Package datasetPackage = new Package(
         name: "dataset",
         vodmlid: "dataset",
+        objectTypes: [ dataset, dataId, curation ],
+        dataTypes: [ collection, creator, contributor, contact, publication, publisher ],
+)
+
+ModelImport ivoa = new ModelImport(
+        name: "ivoa",
+        version: "1.0",
+        url: new URL("http://some/url"),
+        documentationURL: new URL("http://someother/url)")
 )
 
 def datasetModel = new Model(
