@@ -7,7 +7,7 @@ import cfa.vo.vodml.DataType
 import cfa.vo.vodml.ElementRef
 import cfa.vo.vodml.EnumLiteral
 import cfa.vo.vodml.Enumeration_
-import cfa.vo.vodml.Model
+import cfa.vo.vodml.ModelSpec
 import cfa.vo.vodml.ModelImport
 import cfa.vo.vodml.Multiplicity
 import cfa.vo.vodml.ObjectType
@@ -23,17 +23,17 @@ import org.joda.time.DateTime
 class XmlReader {
     private slurper = new XmlSlurper()
 
-    Model read(InputStream is) {
+    ModelSpec read(InputStream is) {
         def parsed = slurper.parse(is)
         return modelFrom(parsed)
     }
 
-    Model read(File file) {
+    ModelSpec read(File file) {
         read(new FileInputStream(file))
     }
 
-    private Model modelFrom(GPathResult xml) {
-        new Model(
+    private ModelSpec modelFrom(GPathResult xml) {
+        new ModelSpec(
                 name: xml.name,
                 description: xml.description,
                 title: xml.title,

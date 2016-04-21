@@ -3,10 +3,8 @@ package cfa.vo.vodml
 import cfa.vo.vodml.annotations.Nonnegative
 import cfa.vo.vodml.annotations.Required
 import groovy.beans.Bindable
+import groovy.transform.Canonical
 import org.joda.time.DateTime
-
-import java.text.DateFormat
-import java.text.SimpleDateFormat
 
 @Bindable
 abstract class ReferableElement {
@@ -375,10 +373,11 @@ class Package extends ReferableElement implements Buildable {
 }
 
 @Bindable
-class Model implements Buildable {
+@Canonical
+class ModelSpec implements Buildable {
     String prefix = "vo-dml"
     String ns = "http://www.ivoa.net/xml/VODML/v1.0"
-    @Required String name = "my:model"
+    @Required String name = "my_model"
     @Required String title = "My Model"
     @Required String version = "1.0"
     @Required DateTime lastModified = new DateTime()
@@ -391,6 +390,11 @@ class Model implements Buildable {
     List<DataType> dataTypes = []
     List<ObjectType> objectTypes = []
     List<Package> packages = []
+
+    @Override
+    String toString() {
+        return "$name v$version"
+    }
 
     @Override
     void build(GroovyObject builder) {

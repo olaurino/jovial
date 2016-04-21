@@ -1,7 +1,5 @@
 package cfa.vo.vodml.io
 
-import cfa.vo.vodml.Model
-import cfa.vo.vodml.instance.Instance
 import groovy.xml.StreamingMarkupBuilder
 import groovy.xml.XmlUtil
 

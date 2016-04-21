@@ -1,6 +1,6 @@
 package cfa.vo.vodml.io;
 
-import cfa.vo.vodml.Model;
+import cfa.vo.vodml.ModelSpec;
 import org.custommonkey.xmlunit.XMLAssert;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.joda.time.DateTime;
@@ -10,13 +10,13 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 
 public class XmlWriterTest {
-    private Model model;
+    private ModelSpec model;
     private XmlWriter writer;
     private String expected;
 
     @Before
     public void setUp() throws Exception {
-        model = new Model();
+        model = new ModelSpec();
         model.setName("something");
         model.setTitle("Some Title");
         model.setDescription("Some Description");

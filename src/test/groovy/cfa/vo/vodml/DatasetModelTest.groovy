@@ -5,17 +5,15 @@ import cfa.vo.vodml.io.XmlWriter
 import org.custommonkey.xmlunit.XMLAssert
 import org.custommonkey.xmlunit.XMLUnit
 import org.joda.time.DateTime
-import org.junit.Before
 import org.junit.Test
 
 
 class DatasetModelTest {
-    Model model
-    String expected
-
+    ModelSpec model
 
     @Test
     void testSerialization() {
+        String expected = setUpModel();
         def writer = new XmlWriter()
         ByteArrayOutputStream os = new ByteArrayOutputStream()
         writer.write(model, os)
@@ -24,11 +22,8 @@ class DatasetModelTest {
         assert new Validator().validate(new ByteArrayInputStream(out.bytes))
     }
 
-    @Before
-    void setUp() {
+    String setUpModel() {
         XMLUnit.ignoreWhitespace = true
-
-        expected = getClass().getResource("/dataset.vo-dml.xml").text
 
         ObjectType role = new ObjectType(
                 name: "Role",
@@ -435,7 +430,7 @@ class DatasetModelTest {
                 documentationURL: new URL("http://someother/url)")
         )
 
-        model = new Model(
+        model = new ModelSpec(
                 name: "ds",
                 title: "Dataset Metadata",
                 description: "Generic, high-level metadata associated with an IVOA Dataset.",
@@ -445,5 +440,7 @@ class DatasetModelTest {
                 enumerations: [ dataProductType, creationType, rightsType ],
                 lastModified: DateTime.parse("2016-04-20T16:44:59.239-04:00")
         )
+
+        return getClass().getResource("/dataset.vo-dml.xml").text
     }
 }
