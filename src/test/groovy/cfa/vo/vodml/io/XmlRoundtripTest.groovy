@@ -12,10 +12,10 @@ class XmlRoundtripTest {
     @Before
     void setUp() {
         def resource = getClass().getResource("/source.vodml.xml")
-        def model = new XmlReader().read(resource.openStream())
+        def model = new VodmlReader().read(resource.openStream())
         input = resource.openStream().text
         ByteArrayOutputStream os = new ByteArrayOutputStream();
-        new XmlWriter().write(model, os)
+        new VodmlWriter().write(model, os)
         output = os.toString("UTF-8")
     }
 

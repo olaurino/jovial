@@ -9,8 +9,8 @@ import org.junit.Before
 import org.junit.Test
 
 
-class VOTableBuilderTest {
-    def writer = new XmlWriter()
+class VoTableBuilderTest {
+    def writer = new VodmlWriter()
     ByteArrayOutputStream os = new ByteArrayOutputStream()
     Model modelSpec;
     String org = "ds:party.Organization"
@@ -18,14 +18,14 @@ class VOTableBuilderTest {
     @Before
     void setUp() {
         XMLUnit.setIgnoreWhitespace(true);
-        def reader = new XmlReader()
+        def reader = new VodmlReader()
         modelSpec = reader.read(getClass().getResource("/DatasetMetadata-1.0.vo-dml.xml").openStream())
 //        model = new Model(modelSpec, new URL("http://some/where/dataset.vo-dml.xml"), null)
     }
 
     @Test
     void testPreamble() {
-        def builder = new VOTableBuilder()
+        def builder = new VoTableBuilder()
 
         def instance = builder.votable {
             model(modelSpec)

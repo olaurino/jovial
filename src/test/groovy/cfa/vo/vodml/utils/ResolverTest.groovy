@@ -1,9 +1,7 @@
 package cfa.vo.vodml.utils
 
 import cfa.vo.vodml.Model
-import cfa.vo.vodml.io.XmlReader
-import cfa.vo.vodml.utils.Resolver
-import cfa.vo.vodml.utils.VodmlRef
+import cfa.vo.vodml.io.VodmlReader
 import org.junit.Test
 
 
@@ -12,7 +10,7 @@ class ResolverTest {
     @Test
     public void testIndex() {
         Resolver resolver = new Resolver()
-        def reader = new XmlReader()
+        def reader = new VodmlReader()
         Model modelSpec = reader.read(getClass().getResource("/DatasetMetadata-1.0.vo-dml.xml").openStream())
         resolver << modelSpec
 

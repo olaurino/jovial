@@ -9,9 +9,9 @@ import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 
-public class XmlWriterTest {
+public class VodmlWriterTest {
     private Model model;
-    private XmlWriter writer;
+    private VodmlWriter writer;
     private String expected;
 
     @Before
@@ -24,7 +24,7 @@ public class XmlWriterTest {
         model.setLastModified(new DateTime("2016-04-16T10:16:50.000-04:00"));
         model.getAuthors().add("John Doe");
 
-        writer = new XmlWriter();
+        writer = new VodmlWriter();
         expected = makeString();
 
         XMLUnit.setIgnoreWhitespace(true);

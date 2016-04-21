@@ -1,7 +1,7 @@
 package cfa.vo.vodml
 
 import cfa.vo.vodml.io.Validator
-import cfa.vo.vodml.io.XmlWriter
+import cfa.vo.vodml.io.VodmlWriter
 import org.custommonkey.xmlunit.XMLAssert
 import org.custommonkey.xmlunit.XMLUnit
 import org.joda.time.DateTime
@@ -14,7 +14,7 @@ class MetaModelTest {
     @Test
     void testSerialization() {
         String expected = setUpModel();
-        def writer = new XmlWriter()
+        def writer = new VodmlWriter()
         ByteArrayOutputStream os = new ByteArrayOutputStream()
         writer.write(model, os)
         String out = os.toString("UTF-8")

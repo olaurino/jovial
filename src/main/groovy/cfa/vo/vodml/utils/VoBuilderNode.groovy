@@ -1,7 +1,7 @@
 package cfa.vo.vodml.utils
 
 
-interface VOBuilderNode {
+interface VoBuilderNode {
     void init(Map attrs)
     void finish()
 }

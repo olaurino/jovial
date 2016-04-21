@@ -2,7 +2,7 @@ package cfa.vo.vodml.instance
 
 import cfa.vo.vodml.Model
 import cfa.vo.vodml.utils.Resolver
-import cfa.vo.vodml.utils.VOBuilderNode
+import cfa.vo.vodml.utils.VoBuilderNode
 import cfa.vo.vodml.utils.VodmlRef
 import groovy.transform.Canonical
 import groovy.transform.EqualsAndHashCode
@@ -30,7 +30,7 @@ class Votable {
 
 
 @Canonical(excludes=["resolver", "attrs", "parent"])
-abstract class Instance implements VOBuilderNode {
+abstract class Instance implements VoBuilderNode {
     protected Map attrs
     def parent
     Resolver resolver

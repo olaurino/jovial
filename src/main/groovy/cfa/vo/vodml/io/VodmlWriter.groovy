@@ -3,7 +3,7 @@ package cfa.vo.vodml.io
 import groovy.xml.StreamingMarkupBuilder
 import groovy.xml.XmlUtil
 
-class XmlWriter {
+class VodmlWriter {
 
     def write(model, OutputStream os) {
         def writer = new OutputStreamWriter(os)

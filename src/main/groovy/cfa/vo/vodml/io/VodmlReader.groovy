@@ -20,7 +20,7 @@ import groovy.util.slurpersupport.GPathResult
 import org.joda.time.DateTime
 
 
-class XmlReader {
+class VodmlReader {
     private slurper = new XmlSlurper()
 
     Model read(InputStream is) {
