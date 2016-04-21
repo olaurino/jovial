@@ -1,21 +1,28 @@
 package cfa.vo.vodml
 
-import cfa.vo.vodml.annotations.Nonnegative
-import cfa.vo.vodml.annotations.Required
+import cfa.vo.vodml.utils.VodmlRef
 import groovy.beans.Bindable
 import groovy.transform.Canonical
 import org.joda.time.DateTime
 
 @Bindable
 abstract class ReferableElement {
-    @Required String name
-    @Required String vodmlid
+    String name
+    VodmlRef vodmlid
     String description
+
+    public setVodmlid(String ref) {
+        vodmlid = new VodmlRef(ref)
+    }
 }
 
 @Bindable
 class ElementRef implements Buildable {
-    @Required String vodmlref
+    VodmlRef vodmlref
+
+    public setVodmlref(String ref) {
+        vodmlref = new VodmlRef(ref)
+    }
 
     @Override
     void build(GroovyObject builder) {
@@ -279,8 +286,8 @@ class Reference extends Relation implements Buildable {
 
 @Bindable
 class Multiplicity implements Buildable {
-    @Nonnegative Integer minOccurs = 1
-    @Nonnegative Integer maxOccurs = 1
+    Integer minOccurs = 1
+    Integer maxOccurs = 1
 
     @Override
     void build(GroovyObject builder) {
@@ -374,13 +381,13 @@ class Package extends ReferableElement implements Buildable {
 
 @Bindable
 @Canonical
-class ModelSpec implements Buildable {
+class Model implements Buildable {
     String prefix = "vo-dml"
     String ns = "http://www.ivoa.net/xml/VODML/v1.0"
-    @Required String name = "my_model"
-    @Required String title = "My Model"
-    @Required String version = "1.0"
-    @Required DateTime lastModified = new DateTime()
+    String name = "my_model"
+    String title = "My Model"
+    String version = "1.0"
+    DateTime lastModified = new DateTime()
     String description
     List<String> authors = []
     List<URI> previousVersions = []
@@ -438,10 +445,10 @@ class ModelSpec implements Buildable {
 
 @Bindable
 class ModelImport implements Buildable {
-    @Required String name
-    @Required String version
-    @Required URL url
-    @Required URL documentationURL
+    String name
+    String version
+    URL url
+    URL documentationURL
 
     @Override
     void build(GroovyObject builder) {

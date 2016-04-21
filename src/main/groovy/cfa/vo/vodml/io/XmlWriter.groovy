@@ -14,14 +14,4 @@ class XmlWriter {
         }
         XmlUtil.serialize builder, writer
     }
-
-//    def write(Instance instance, OutputStream os) {
-//        def writer = new OutputStreamWriter(os)
-//        def builder = new StreamingMarkupBuilder().bind {
-//            mkp.xmlDeclaration()
-//            mkp.declareNamespace("${instance.prefix}": instance.ns, xsi: "http://www.w3.org/2001/XMLSchema-instance")
-//            out << instance
-//        }
-//        XmlUtil.serialize builder, writer
-//    }
 }

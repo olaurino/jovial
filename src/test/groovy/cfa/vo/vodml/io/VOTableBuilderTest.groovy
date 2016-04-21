@@ -1,18 +1,18 @@
-package cfa.vo.vodml.instance
+package cfa.vo.vodml.io
 
-import cfa.vo.vodml.ModelSpec
-import cfa.vo.vodml.io.XmlReader
-import cfa.vo.vodml.io.XmlWriter
-import org.custommonkey.xmlunit.XMLAssert
+import cfa.vo.vodml.Model
+import cfa.vo.vodml.instance.ObjectInstance
+import cfa.vo.vodml.instance.ValueInstance
+import cfa.vo.vodml.instance.Votable
 import org.custommonkey.xmlunit.XMLUnit
 import org.junit.Before
 import org.junit.Test
 
 
-class InstanceModelTest {
+class VOTableBuilderTest {
     def writer = new XmlWriter()
     ByteArrayOutputStream os = new ByteArrayOutputStream()
-    ModelSpec modelSpec;
+    Model modelSpec;
     String org = "ds:party.Organization"
 
     @Before

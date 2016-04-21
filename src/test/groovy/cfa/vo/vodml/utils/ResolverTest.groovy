@@ -1,7 +1,9 @@
-package cfa.vo.vodml.instance
+package cfa.vo.vodml.utils
 
-import cfa.vo.vodml.ModelSpec
+import cfa.vo.vodml.Model
 import cfa.vo.vodml.io.XmlReader
+import cfa.vo.vodml.utils.Resolver
+import cfa.vo.vodml.utils.VodmlRef
 import org.junit.Test
 
 
@@ -11,7 +13,7 @@ class ResolverTest {
     public void testIndex() {
         Resolver resolver = new Resolver()
         def reader = new XmlReader()
-        ModelSpec modelSpec = reader.read(getClass().getResource("/DatasetMetadata-1.0.vo-dml.xml").openStream())
+        Model modelSpec = reader.read(getClass().getResource("/DatasetMetadata-1.0.vo-dml.xml").openStream())
         resolver << modelSpec
 
         assert resolver.resolveType("ds:dataset.Dataset").name == "Dataset"

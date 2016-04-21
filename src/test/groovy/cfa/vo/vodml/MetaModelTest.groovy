@@ -8,8 +8,8 @@ import org.joda.time.DateTime
 import org.junit.Test
 
 
-class DatasetModelTest {
-    ModelSpec model
+class MetaModelTest {
+    Model model
 
     @Test
     void testSerialization() {
@@ -430,7 +430,7 @@ class DatasetModelTest {
                 documentationURL: new URL("http://someother/url)")
         )
 
-        model = new ModelSpec(
+        model = new Model(
                 name: "ds",
                 title: "Dataset Metadata",
                 description: "Generic, high-level metadata associated with an IVOA Dataset.",
