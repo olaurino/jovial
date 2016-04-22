@@ -18,6 +18,16 @@ trait HasData {
     public leftShift(DataInstance data) {dataTypes << data}
 }
 
+trait HasValues {
+    List<ValueInstance> attributes = []
+    public leftShift(ValueInstance type) {attributes << type}
+}
+
+trait HasReferences {
+    List<ReferenceInstance> references = []
+    public leftShift(ReferenceInstance type) {references << type}
+}
+
 trait DefaultNode implements VoBuilderNode {
     Resolver resolver = Resolver.instance
     void start(Map m = [:]) {}
@@ -65,13 +75,12 @@ class VotableInstance implements DefaultNode, HasObjects, HasData {
 
 
 @Canonical(excludes=["resolver", "attrs", "parent"])
-abstract class Instance implements VoBuilderNode {
+abstract class Instance implements DefaultNode {
     String id
     def parent
     VodmlRef type
     VodmlRef role
     protected Map attrs
-    protected Resolver resolver = Resolver.instance
 
     void setType(String ref) {
         type = new VodmlRef(ref)
@@ -84,7 +93,7 @@ abstract class Instance implements VoBuilderNode {
             this.role = new VodmlRef(ref)
         }
     }
-    
+
     public void start(Map attrs) {
         this.attrs = attrs
     }
@@ -99,14 +108,7 @@ abstract class Instance implements VoBuilderNode {
 }
 
 @Canonical
-class DataInstance extends Instance {
-    List<ValueInstance> attributes = []
-    List<DataInstance> dataAttributes = []
-    List<ReferenceInstance> references = []
-
-    public leftShift(ValueInstance type) {attributes << type}
-    public leftShift(DataInstance type) {dataAttributes << type}
-    public leftShift(ReferenceInstance type) {references << type}
+class DataInstance extends Instance implements HasData, HasReferences, HasValues {
 
     @Override
     void build(GroovyObject builder) {
@@ -147,16 +149,10 @@ class DataInstance extends Instance {
 }
 
 @Canonical
-class ObjectInstance extends Instance {
-    private List<ValueInstance> attributes = []
+class ObjectInstance extends Instance implements HasValues, HasData, HasReferences {
     private List<CollectionInstance> collections = []
-    private List<DataInstance> dataAttributes = []
-    private List<ReferenceInstance> references = []
 
-    public leftShift(ValueInstance object) {attributes << object; object.parent = this}
-    public leftShift(CollectionInstance object) {collections << object; object.parent = this}
-    public leftShift(ReferenceInstance object) {references << object; object.parent = this}
-    public leftShift(DataInstance object) {dataAttributes << object; object.parent = this}
+    public leftShift(CollectionInstance object) {collections << object}
 
     @Override
     void build(GroovyObject builder) {
@@ -177,7 +173,7 @@ class ObjectInstance extends Instance {
         def elem = {
             GROUP(m) {
                 out << new Vodml(vodmlm)
-                dataAttributes.each {
+                dataTypes.each {
                     out << it
                 }
                 attributes.each {
@@ -197,18 +193,17 @@ class ObjectInstance extends Instance {
 }
 
 @Canonical
-class CollectionInstance extends Instance {
-    List<ObjectInstance> objectInstances = []
+class CollectionInstance extends Instance implements HasObjects {
 
-    void leftShift(ObjectInstance object) {
-        objectInstances << object
+    public leftShift(ObjectInstance object) {
+        HasObjects.super.leftShift(object)
         object.role = role
     }
 
     @Override
     void build(GroovyObject builder) {
         def elem = {
-            objectInstances.each {
+            objectTypes.each {
                 out << it
             }
         }
