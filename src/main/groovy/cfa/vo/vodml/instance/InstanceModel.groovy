@@ -8,24 +8,62 @@ import cfa.vo.vodml.utils.VodmlRef
 import groovy.transform.Canonical
 import groovy.transform.EqualsAndHashCode
 
-trait HasObjects {
+
+trait VodmlBuildable implements Buildable {
+    Set<String> toBuild = []
+
+    void add(String name) {
+        toBuild << name
+    }
+
+    Closure build = { delegate ->
+        toBuild.each { arrayToBuild ->
+            this."$arrayToBuild".each {
+                delegate.out << it
+            }
+        }
+    }
+
+    @Override
+    void build(GroovyObject builder) {
+        def callback = getBuildCallback()
+        callback.delegate = builder
+        callback.call()
+    }
+
+    abstract Closure getBuildCallback()
+}
+
+trait HasObjects implements VodmlBuildable {
     List<ObjectInstance> objectTypes = []
-    public leftShift(ObjectInstance data) {objectTypes << data}
+    public leftShift(ObjectInstance data) {
+        objectTypes << data
+        add("objectTypes")
+    }
 }
 
-trait HasData {
+trait HasData implements VodmlBuildable {
     List<DataInstance> dataTypes = []
-    public leftShift(DataInstance data) {dataTypes << data}
+    public leftShift(DataInstance data) {
+        dataTypes << data
+        add("dataTypes")
+    }
 }
 
-trait HasValues {
+trait HasValues implements VodmlBuildable {
     List<ValueInstance> attributes = []
-    public leftShift(ValueInstance type) {attributes << type}
+    public leftShift(ValueInstance type) {
+        attributes << type
+        toBuild.add("attributes")
+    }
 }
 
-trait HasReferences {
+trait HasReferences implements VodmlBuildable {
     List<ReferenceInstance> references = []
-    public leftShift(ReferenceInstance type) {references << type}
+    public leftShift(ReferenceInstance type) {
+        references << type
+        add("references")
+    }
 }
 
 trait DefaultNode implements VoBuilderNode {
@@ -46,21 +84,17 @@ class VotableInstance implements DefaultNode, HasObjects, HasData {
     public leftShift(Model data) {resolver << data}
 
     @Override
-    void build(GroovyObject builder) {
-        def elem = {
+    Closure getBuildCallback() {
+        def callback = {
             VOTABLE() {
                 RESOURCE() {
                     models.each {
                         out << it
                     }
-                    objectTypes.each {
-                        out << it
-                    }
+                    build.call(delegate)
                 }
             }
         }
-        elem.delegate = builder
-        elem()
     }
 
     /**
@@ -111,40 +145,29 @@ abstract class Instance implements DefaultNode {
 class DataInstance extends Instance implements HasData, HasReferences, HasValues {
 
     @Override
-    void build(GroovyObject builder) {
-        def m = [:]
-        if (this.id) {
-            m.ID = this.id
-        }
+    Closure getBuildCallback() {
+        def callback = {
+            def m = [:]
+            if (this.id) {
+                m.ID = this.id
+            }
 
-        def vodmlm = [:]
+            def vodmlm = [:]
 
-        if (role) {
-            vodmlm.role = role
-        }
+            if (role) {
+                vodmlm.role = role
+            }
 
-        if (type) {
-            vodmlm.type = type
-        }
-        def elem = {
-            GROUP(m) {
-                out << new Vodml(vodmlm)
-                dataAttributes.each {
-                    out << it
-                }
-                attributes.each {
-                    out << it
-                }
-                collections.each {
-                    out << it
-                }
-                references.each {
-                    out << it
+            if (type) {
+                vodmlm.type = type
+            }
+            def elem = {
+                GROUP(m) {
+                    out << new Vodml(vodmlm)
+                    build.call(delegate)
                 }
             }
         }
-        elem.delegate = builder
-        elem()
     }
 }
 
@@ -155,40 +178,30 @@ class ObjectInstance extends Instance implements HasValues, HasData, HasReferenc
     public leftShift(CollectionInstance object) {collections << object}
 
     @Override
-    void build(GroovyObject builder) {
-        def m = [:]
-        if (this.id) {
-            m.ID = this.id
-        }
+    Closure getBuildCallback() {
+        def callback = {
+            def m = [:]
+            if (id) {
+                m.ID = id
+            }
 
-        def vodmlm = [:]
+            def vodmlm = [:]
 
-        if (role) {
-            vodmlm.role = role
-        }
+            if (role) {
+                vodmlm.role = role
+            }
 
-        if (type) {
-            vodmlm.type = type
-        }
-        def elem = {
+            if (type) {
+                vodmlm.type = type
+            }
             GROUP(m) {
                 out << new Vodml(vodmlm)
-                dataTypes.each {
-                    out << it
-                }
-                attributes.each {
-                    out << it
-                }
+                build.call(delegate)
                 collections.each {
-                    out << it
-                }
-                references.each {
                     out << it
                 }
             }
         }
-        elem.delegate = builder
-        elem()
     }
 }
 
@@ -201,14 +214,10 @@ class CollectionInstance extends Instance implements HasObjects {
     }
 
     @Override
-    void build(GroovyObject builder) {
-        def elem = {
-            objectTypes.each {
-                out << it
-            }
+    Closure getBuildCallback() {
+        def callback = {
+            build.call(delegate)
         }
-        elem.delegate = builder
-        elem()
     }
 }
 
