@@ -60,7 +60,24 @@ class VoTableBuilder extends BuilderSupport {
     protected void setParent(Object parent, Object child) {
         log.info("setting child $child to parent $parent")
         if (parent == child) return
+
         child.parent = parent
+        if (parent.respondsTo("apply")) {
+            parent.apply()
+        }
+
+        if (parent) {
+            log.info("$parent << $child")
+            try {
+                parent << child
+            } catch (Exception ex) {
+                throw new IllegalStateException("Cannot attach node $child to parent $parent.\nDoes ${parent.class.simpleName} implement 'leftShift(${child.class.simpleName} object)'?")
+            }
+        }
+
+        if (child.respondsTo("apply")) {
+            child.apply()
+        }
         log.info("DONE setting child $child to parent $parent")
     }
 
@@ -97,7 +114,7 @@ class VoTableBuilder extends BuilderSupport {
             } else {
                 instance = SUPPORTED_MODELS[name].newInstance(value)
             }
-            instance.init(attrs)
+            instance.start(attrs)
             return instance
         }
         catch (ClassNotFoundException ex) {
@@ -113,11 +130,11 @@ class VoTableBuilder extends BuilderSupport {
     @Override
     protected void nodeCompleted(Object parent, Object node) {
         log.info("finishing node $node in parent $parent")
-        node.finish()
-        if (parent) {
-            log.info("$parent << $node")
-            parent << node
+
+        if (node.respondsTo("end")) {
+            node.end()
         }
+
         log.info("DONE")
     }
 }

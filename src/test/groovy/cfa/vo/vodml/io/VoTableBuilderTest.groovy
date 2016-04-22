@@ -42,11 +42,11 @@ class VoTableBuilderTest {
     void testObjectTypeInstance() {
         VotableInstance instance = new VoTableBuilder().votable {
             model(spec: modelSpec, vodmlURL: "http://some/where/dataset.vo-dml.xml")
-            object("ds:dataset.Dataset") {
+            object(type: "ds:dataset.Dataset") {
                 value(role:"dataProductType", value:"ds:dataset.DataProductType.CUBE")
                 value(role:"dataProductSubtype", value:"MySubtype")
                 collection(role: "dataID") {
-                    object("ds:dataset.DataID") {
+                    object(type: "ds:dataset.DataID") {
                         value(role: "title", value: "datasetTitle")
                         value(role: "datasetID", value: "ivo://some/uri")
                         value(role: "creatorDID", value: "me://some/other/uri")
@@ -54,27 +54,29 @@ class VoTableBuilderTest {
                         value(role: "date", value: "20160422T11:55:30")
                         value(role: "creationType", value: "ds:dataset.CreationType.ARCHIVAL")
                         collection(role: "collection") {
-                            object("ds:dataset.Collection") {
+                            object(type: "ds:dataset.Collection") {
                                 value(role: "name", value: "Data Release 3")
                             }
                         }
                         collection(role: "contributor") {
-                            object("ds:dataset.Contributor") {
+                            object(type: "ds:dataset.Contributor") {
                                 value(role: "acknowledgment", value: "Project Manager")
+                                reference(role: "party", value:"BILL")
                             }
-                            object("ds:dataset.Contributor") {
+                            object(type: "ds:dataset.Contributor") {
                                 value(role: "acknowledgment", value: "Bought the donuts!")
+                                reference(role: "party", value:"TOM")
                             }
                         }
                         collection(role: "creator") {
-                            object("ds:dataset.Creator") {
-
+                            object(type: "ds:dataset.Creator") {
+                                reference(role: "party", value: "ACME")
                             }
                         }
                     }
                 }
                 collection(role: "curation") {
-                    object("ds:dataset.Curation") {
+                    object(type: "ds:dataset.Curation") {
                         value(role: "publisherDID", value: "me://some/other/uri")
                         value(role: "version", value: "DR3")
                         value(role: "date", value: "20160422T11:55:30")
@@ -82,17 +84,23 @@ class VoTableBuilderTest {
                     }
                 }
             }
-            object("ds:party.Organization") {
+            object(id: "ACME", type: "ds:party.Organization") {
                 value(role: "name", value: "ACME edu")
                 value(role: "address", value: "Colorado Blvd")
-                value(role: "phone", value: "555-123-456")
+                value(role: "phone", value: "555-012-3456")
                 value(role: "email", value: "helpdesk@acme.org")
                 value(role: "logo", value: "http://acme.org/stunning.png")
             }
-            object("ds:party.Individual") {
+            object(id: "BILL", type: "ds:party.Individual") {
                 value(role: "name", value: "William E. Coyote")
                 value(role: "address", value: "Colorado Blvd")
-                value(role: "phone", value: "555-654-321")
+                value(role: "phone", value: "555-654-3210")
+                value(role: "email", value: "bill@acme.org")
+            }
+            object(id: "TOM", type: "ds:party.Individual") {
+                value(role: "name", value: "Tom Ray")
+                value(role: "address", value: "Colorado Blvd")
+                value(role: "phone", value: "555-999-5555")
                 value(role: "email", value: "bill@acme.org")
             }
         }
@@ -104,7 +112,7 @@ class VoTableBuilderTest {
     void testObjectType() {
         def instance = new VoTableBuilder().votable {
             model(spec: modelSpec)
-            object("$org") {
+            object(type: "$org") {
                 value(role: "name", value:"OrgName")
                 value(role: "address", value:"An Address")
             }
@@ -112,7 +120,7 @@ class VoTableBuilderTest {
 
         def expected = new VotableInstance()
         expected << new ModelInstance(spec: modelSpec)
-        def obj = new ObjectInstance("$org")
+        def obj = new ObjectInstance(type: "$org")
         obj.attributes << new ValueInstance(role: "ds:party.Party.name", value:"OrgName")
         obj.attributes << new ValueInstance(role: "${org}.address", value:"An Address")
         expected.objectTypes << obj

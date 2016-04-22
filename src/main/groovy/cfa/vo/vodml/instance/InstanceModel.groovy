@@ -24,8 +24,9 @@ class VotableInstance implements VoBuilderNode {
     public leftShift(ModelInstance data) {models << data}
     public leftShift(Model data) {resolver << data}
 
-    void init(Map m = [:]) {}
-    void finish() {}
+    void start(Map m = [:]) {}
+    void apply() {}
+    void end() {}
 
     @Override
     void build(GroovyObject builder) {
@@ -59,16 +60,21 @@ class VotableInstance implements VoBuilderNode {
 
 @Canonical(excludes=["resolver", "attrs", "parent"])
 abstract class Instance implements VoBuilderNode {
+    String id
     protected Map attrs
     def parent
     Resolver resolver = Resolver.instance
 
-    public void init(Map attrs) {
+    public void start(Map attrs) {
         this.attrs = attrs
     }
 
-    public void finish() {
+    public void apply() {
         attrs.each {k, v -> this."$k" = v}
+    }
+
+    public void end() {
+
     }
 }
 
@@ -96,28 +102,54 @@ class ObjectInstance extends Instance {
     List<ValueInstance> attributes = []
     List<CollectionInstance> collections = []
 //    List<DataTypeInstance> dataAttributes = []
-//    List<ReferenceInstance> references = []
+    List<ReferenceInstance> references = []
 
-    public ObjectInstance(String vodmlref) {
-        type = new VodmlRef(vodmlref)
+    public setType(String ref) {
+        type = new VodmlRef(ref)
     }
 
-//    public setType(String ref) {
-//        type = new VodmlRef(ref)
-//    }
+    public setRole(String ref) {
+        role = new VodmlRef(ref)
+    }
 
-    public leftShift(ValueInstance type) {attributes << type}
-    public leftShift(CollectionInstance type) {collections << type}
+    public leftShift(ValueInstance object) {attributes << object}
+    public leftShift(CollectionInstance object) {collections << object}
+    public leftShift(ReferenceInstance object) {references << object}
+
+    @Override
+    public void apply() {
+        super.apply()
+        if (parent instanceof CollectionInstance) {
+            role = parent.role
+        }
+    }
 
     @Override
     void build(GroovyObject builder) {
+        def m = [:]
+        if (this.id) {
+            m.ID = this.id
+        }
+
+        def vodmlm = [:]
+
+        if (role) {
+            vodmlm.role = role
+        }
+
+        if (type) {
+            vodmlm.type = type
+        }
         def elem = {
-            GROUP() {
-                out << new Vodml(type: type)
+            GROUP(m) {
+                out << new Vodml(vodmlm)
                 attributes.each {
                     out << it
                 }
                 collections.each {
+                    out << it
+                }
+                references.each {
                     out << it
                 }
             }
@@ -149,11 +181,38 @@ class CollectionInstance extends Instance {
     void build(GroovyObject builder) {
         def elem = {
             objectInstances.each {
-                out << objectInstances
+                out << it
             }
         }
         elem.delegate = builder
         elem()
+    }
+}
+
+@Canonical
+class ReferenceInstance extends Instance {
+    VodmlRef role
+    String value
+
+    @Override
+    void build(GroovyObject builder) {
+        def elem = {
+            GROUPref(ref: value) {
+                out << new Vodml(role: role)
+            }
+        }
+        elem.delegate = builder
+        if (value != null) {
+            elem()
+        }
+    }
+
+    public setRole(String ref) {
+        try {
+            this.role = this.resolver.resolveAttribute(this.parent.type, ref)
+        } catch (Exception ex) {
+            this.role = new VodmlRef(ref)
+        }
     }
 }
 
@@ -224,14 +283,14 @@ class ModelInstance extends Instance {
     Model spec
 
     @Override
-    void finish() {
-        super.finish()
+    void end() {
+        super.end()
         parent << spec
     }
 
     @Override
     void build(GroovyObject builder) {
-        def object = new ObjectInstance("vo-dml:Model")
+        def object = new ObjectInstance(type: "vo-dml:Model")
         object.attributes << new ValueInstance(role: "vo-dml:Model.name", value:spec.name)
         object.attributes << new ValueInstance(role: "vo-dml:Model.version", value:spec.version)
         object.attributes << new ValueInstance(role: "vo-dml:Model.url", value:vodmlURL)
