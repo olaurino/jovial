@@ -35,6 +35,9 @@ class VotableInstance implements VoBuilderNode {
                     models.each {
                         out << it
                     }
+                    objectTypes.each {
+                        out << it
+                    }
                 }
             }
         }
@@ -104,6 +107,7 @@ class ObjectInstance extends Instance {
 //    }
 
     public leftShift(ValueInstance type) {attributes << type}
+    public leftShift(CollectionInstance type) {collections << type}
 
     @Override
     void build(GroovyObject builder) {
@@ -111,6 +115,9 @@ class ObjectInstance extends Instance {
             GROUP() {
                 out << new Vodml(type: type)
                 attributes.each {
+                    out << it
+                }
+                collections.each {
                     out << it
                 }
             }
@@ -126,9 +133,27 @@ class CollectionInstance extends Instance {
     List<ObjectInstance> objectInstances = []
     List<DataInstance> dataInstances = []
 
+    void leftShift(ObjectInstance object) {
+        objectInstances << object
+    }
+
+    public setRole(String ref) {
+        try {
+            this.role = this.resolver.resolveAttribute(this.parent.type, ref)
+        } catch (Exception ex) {
+            this.role = new VodmlRef(ref)
+        }
+    }
+
     @Override
     void build(GroovyObject builder) {
-
+        def elem = {
+            objectInstances.each {
+                out << objectInstances
+            }
+        }
+        elem.delegate = builder
+        elem()
     }
 }
 

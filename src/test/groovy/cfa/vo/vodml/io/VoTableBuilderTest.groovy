@@ -38,23 +38,67 @@ class VoTableBuilderTest {
         XMLAssert.assertXMLEqual(expected, actual)
     }
 
-//    @Test
-//    void testObjectTypeInstance() {
-//        VotableInstance instance = new VoTableBuilder().votable {
-//            model(spec: modelSpec)
-//            object("ds:dataset.Dataset") {
-//                value(role:"dataProductType", value:"ds:dataset.DataProductType.CUBE")
-//                value(role:"dataProductSubType", value:"MySubtype")
-//                collection(role: "dataID") {
-//                    object("ds:dataset.DataID") {
-//                        value(role: "title", value: "datasetTitle")
-//                    }
-//                }
-//            }
-//        }
-//
-//        instance.toXml(System.out)
-//    }
+    @Test
+    void testObjectTypeInstance() {
+        VotableInstance instance = new VoTableBuilder().votable {
+            model(spec: modelSpec, vodmlURL: "http://some/where/dataset.vo-dml.xml")
+            object("ds:dataset.Dataset") {
+                value(role:"dataProductType", value:"ds:dataset.DataProductType.CUBE")
+                value(role:"dataProductSubtype", value:"MySubtype")
+                collection(role: "dataID") {
+                    object("ds:dataset.DataID") {
+                        value(role: "title", value: "datasetTitle")
+                        value(role: "datasetID", value: "ivo://some/uri")
+                        value(role: "creatorDID", value: "me://some/other/uri")
+                        value(role: "version", value: "DR3")
+                        value(role: "date", value: "20160422T11:55:30")
+                        value(role: "creationType", value: "ds:dataset.CreationType.ARCHIVAL")
+                        collection(role: "collection") {
+                            object("ds:dataset.Collection") {
+                                value(role: "name", value: "Data Release 3")
+                            }
+                        }
+                        collection(role: "contributor") {
+                            object("ds:dataset.Contributor") {
+                                value(role: "acknowledgment", value: "Project Manager")
+                            }
+                            object("ds:dataset.Contributor") {
+                                value(role: "acknowledgment", value: "Bought the donuts!")
+                            }
+                        }
+                        collection(role: "creator") {
+                            object("ds:dataset.Creator") {
+
+                            }
+                        }
+                    }
+                }
+                collection(role: "curation") {
+                    object("ds:dataset.Curation") {
+                        value(role: "publisherDID", value: "me://some/other/uri")
+                        value(role: "version", value: "DR3")
+                        value(role: "date", value: "20160422T11:55:30")
+                        value(role: "rights", value: "ds:dataset.RightsType.PUBLIC")
+                    }
+                }
+            }
+            object("ds:party.Organization") {
+                value(role: "name", value: "ACME edu")
+                value(role: "address", value: "Colorado Blvd")
+                value(role: "phone", value: "555-123-456")
+                value(role: "email", value: "helpdesk@acme.org")
+                value(role: "logo", value: "http://acme.org/stunning.png")
+            }
+            object("ds:party.Individual") {
+                value(role: "name", value: "William E. Coyote")
+                value(role: "address", value: "Colorado Blvd")
+                value(role: "phone", value: "555-654-321")
+                value(role: "email", value: "bill@acme.org")
+            }
+        }
+
+        instance.toXml(System.out)
+    }
 
     @Test
     void testObjectType() {

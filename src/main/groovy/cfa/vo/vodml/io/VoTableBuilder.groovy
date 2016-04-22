@@ -1,6 +1,6 @@
 package cfa.vo.vodml.io
 
-import cfa.vo.vodml.instance.VotableInstance
+import groovy.util.logging.Log
 
 /**
  * A groovy builder for VODML Instances to be serialized as VOTable.
@@ -47,6 +47,8 @@ import cfa.vo.vodml.instance.VotableInstance
  * attribute names.
  *
  */
+
+@Log
 class VoTableBuilder extends BuilderSupport {
     private static final String MODEL_PACKAGE = "cfa.vo.vodml.instance"
 
@@ -56,23 +58,34 @@ class VoTableBuilder extends BuilderSupport {
 
     @Override
     protected void setParent(Object parent, Object child) {
+        log.info("setting child $child to parent $parent")
         if (parent == child) return
         child.parent = parent
+        log.info("DONE setting child $child to parent $parent")
     }
 
     @Override
     protected Object createNode(Object name) {
-        return createNode(name, null, null)
+        log.info("create node with name $name")
+        def ret = createNode(name, null, null)
+        log.info("DONE create node with name $name")
+        return ret
     }
 
     @Override
     protected Object createNode(Object name, Object value) {
-        return createNode(name, null, value)
+        log.info("create node with name $name and value $value")
+        def ret = createNode(name, null, value)
+        log.info("DONE create node with name $name and value $value")
+        return ret
     }
 
     @Override
     protected Object createNode(Object name, Map attrs) {
-        return createNode(name, attrs, null)
+        log.info("create node with name $name and attrs $attrs")
+        def ret = createNode(name, attrs, null)
+        log.info("DONE create node with name $name and attrs $attrs")
+        return ret
     }
 
     @Override
@@ -99,9 +112,12 @@ class VoTableBuilder extends BuilderSupport {
 
     @Override
     protected void nodeCompleted(Object parent, Object node) {
+        log.info("finishing node $node in parent $parent")
         node.finish()
         if (parent) {
+            log.info("$parent << $node")
             parent << node
         }
+        log.info("DONE")
     }
 }
