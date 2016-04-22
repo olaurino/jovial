@@ -8,25 +8,32 @@ import cfa.vo.vodml.utils.VodmlRef
 import groovy.transform.Canonical
 import groovy.transform.EqualsAndHashCode
 
-
-@Canonical
-@EqualsAndHashCode(excludes="resolver")
-class VotableInstance implements VoBuilderNode {
-    String ns = "http://www.ivoa.net/xml/VOTable/v1.2"
-    String prefix = ""
-    List<ModelInstance> models = []
-    List<DataInstance> dataTypes = []
+trait HasObjects {
     List<ObjectInstance> objectTypes = []
-    Resolver resolver = Resolver.instance
-
-    public leftShift(DataInstance data) {dataTypes << data}
     public leftShift(ObjectInstance data) {objectTypes << data}
-    public leftShift(ModelInstance data) {models << data}
-    public leftShift(Model data) {resolver << data}
+}
 
+trait HasData {
+    List<DataInstance> dataTypes = []
+    public leftShift(DataInstance data) {dataTypes << data}
+}
+
+trait DefaultNode implements VoBuilderNode {
+    Resolver resolver = Resolver.instance
     void start(Map m = [:]) {}
     void apply() {}
     void end() {}
+}
+
+@Canonical
+@EqualsAndHashCode(excludes="resolver")
+class VotableInstance implements DefaultNode, HasObjects, HasData {
+    String ns = "http://www.ivoa.net/xml/VOTable/v1.2"
+    String prefix = ""
+    List<ModelInstance> models = []
+
+    public leftShift(ModelInstance data) {models << data}
+    public leftShift(Model data) {resolver << data}
 
     @Override
     void build(GroovyObject builder) {
@@ -45,7 +52,6 @@ class VotableInstance implements VoBuilderNode {
         elem.delegate = builder
         elem()
     }
-
 
     /**
      * Serialize this instance to an OutputStream
@@ -71,10 +77,14 @@ abstract class Instance implements VoBuilderNode {
         type = new VodmlRef(ref)
     }
 
-    void setRole(String ref) {
-        role = new VodmlRef(ref)
+    public setRole(String ref) {
+        try {
+            this.role = this.resolver.resolveAttribute(this.parent.type, ref)
+        } catch (Exception ex) {
+            this.role = new VodmlRef(ref)
+        }
     }
-
+    
     public void start(Map attrs) {
         this.attrs = attrs
     }
