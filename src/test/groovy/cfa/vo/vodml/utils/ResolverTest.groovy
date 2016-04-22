@@ -9,7 +9,7 @@ import org.junit.Test
 class ResolverTest {
     @Test
     public void testIndex() {
-        Resolver resolver = new Resolver()
+        Resolver resolver = Resolver.instance
         def reader = new VodmlReader()
         Model modelSpec = reader.read(getClass().getResource("/DatasetMetadata-1.0.vo-dml.xml").openStream())
         resolver << modelSpec

@@ -4,6 +4,7 @@ import cfa.vo.vodml.Model
 import cfa.vo.vodml.Role
 import cfa.vo.vodml.Type
 
+@Singleton
 class Resolver {
     private List<Model> models = []
     private Map<VodmlRef, Type> types = [:]
@@ -16,7 +17,11 @@ class Resolver {
 
     public Role resolveRole(String ref) {
         def key = new VodmlRef(ref)
-        return roles[key]
+        resolveRole(key)
+    }
+
+    public Role resolveRole(VodmlRef ref) {
+        roles[ref]
     }
 
     public VodmlRef resolveAttribute(VodmlRef typeRef, String attributeName) {

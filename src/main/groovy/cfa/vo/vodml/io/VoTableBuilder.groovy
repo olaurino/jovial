@@ -1,5 +1,7 @@
 package cfa.vo.vodml.io
 
+import cfa.vo.vodml.instance.VotableInstance
+
 /**
  * A groovy builder for VODML Instances to be serialized as VOTable.
  * Currently there is not much VOTable specific, and in the future
@@ -46,19 +48,16 @@ package cfa.vo.vodml.io
  *
  */
 class VoTableBuilder extends BuilderSupport {
-
     private static final String MODEL_PACKAGE = "cfa.vo.vodml.instance"
 
     private static final Map SUPPORTED_MODELS = [build: ArrayList,].withDefault {
-        Class.forName("${MODEL_PACKAGE}.${it.capitalize()}")
+        Class.forName("${MODEL_PACKAGE}.${it.capitalize()}Instance")
     }
 
     @Override
     protected void setParent(Object parent, Object child) {
         if (parent == child) return
         child.parent = parent
-        child.resolver = parent.resolver
-        parent << child
     }
 
     @Override
@@ -101,5 +100,8 @@ class VoTableBuilder extends BuilderSupport {
     @Override
     protected void nodeCompleted(Object parent, Object node) {
         node.finish()
+        if (parent) {
+            parent << node
+        }
     }
 }
