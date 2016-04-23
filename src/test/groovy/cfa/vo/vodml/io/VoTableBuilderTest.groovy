@@ -39,7 +39,7 @@ class VoTableBuilderTest {
     }
 
     @Test
-    void testObjectTypeInstance() {
+    void testDatasetInstance() {
         VotableInstance instance = new VoTableBuilder().votable {
             model(spec: modelSpec, vodmlURL: "http://some/where/dataset.vo-dml.xml")
             object(type: "ds:dataset.Dataset") {

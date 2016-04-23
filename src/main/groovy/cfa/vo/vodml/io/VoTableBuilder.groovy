@@ -34,9 +34,9 @@ import groovy.util.logging.Log
  *
  * def votableInstance = new VoTableBuilder().votable {
  *     model(modelSpec)
- *     objectInstance("ds:party.Organization") {
- *         valueInstance(role: "name", value:"OrgName")
- *         valueInstance(role: "address", value:"An Address")
+ *     object(type: "ds:party.Organization") {
+ *         value(role: "name", value:"OrgName")
+ *         value(role: "address", value:"An Address")
  *     }
  * }
  * }
