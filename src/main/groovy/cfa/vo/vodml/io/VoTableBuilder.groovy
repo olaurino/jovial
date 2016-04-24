@@ -1,7 +1,6 @@
 package cfa.vo.vodml.io
 
-import groovy.util.logging.Log
-
+import groovy.util.logging.Slf4j
 /**
  * A groovy builder for VODML Instances to be serialized as VOTable.
  * Currently there is not much VOTable specific, and in the future
@@ -48,7 +47,7 @@ import groovy.util.logging.Log
  *
  */
 
-@Log
+@Slf4j
 class VoTableBuilder extends BuilderSupport {
     private static final String MODEL_PACKAGE = "cfa.vo.vodml.instance"
 
@@ -58,7 +57,7 @@ class VoTableBuilder extends BuilderSupport {
 
     @Override
     protected void setParent(Object parent, Object child) {
-        log.info("setting child $child to parent $parent")
+        log.debug("setting child $child to parent $parent")
         if (parent == child) return
 
         child.parent = parent
@@ -67,7 +66,7 @@ class VoTableBuilder extends BuilderSupport {
         }
 
         if (parent) {
-            log.info("$parent << $child")
+            log.debug("$parent << $child")
             try {
                 parent << child
             } catch (Exception ex) {
@@ -78,30 +77,30 @@ class VoTableBuilder extends BuilderSupport {
         if (child.respondsTo("apply")) {
             child.apply()
         }
-        log.info("DONE setting child $child to parent $parent")
+        log.debug("DONE setting child $child to parent $parent")
     }
 
     @Override
     protected Object createNode(Object name) {
-        log.info("create node with name $name")
+        log.debug("create node with name $name")
         def ret = createNode(name, null, null)
-        log.info("DONE create node with name $name")
+        log.debug("DONE create node with name $name")
         return ret
     }
 
     @Override
     protected Object createNode(Object name, Object value) {
-        log.info("create node with name $name and value $value")
+        log.debug("create node with name $name and value $value")
         def ret = createNode(name, null, value)
-        log.info("DONE create node with name $name and value $value")
+        log.debug("DONE create node with name $name and value $value")
         return ret
     }
 
     @Override
     protected Object createNode(Object name, Map attrs) {
-        log.info("create node with name $name and attrs $attrs")
+        log.debug("create node with name $name and attrs $attrs")
         def ret = createNode(name, attrs, null)
-        log.info("DONE create node with name $name and attrs $attrs")
+        log.debug("DONE create node with name $name and attrs $attrs")
         return ret
     }
 
@@ -129,12 +128,12 @@ class VoTableBuilder extends BuilderSupport {
 
     @Override
     protected void nodeCompleted(Object parent, Object node) {
-        log.info("finishing node $node in parent $parent")
+        log.debug("finishing node $node in parent $parent")
 
         if (node.respondsTo("end")) {
             node.end()
         }
 
-        log.info("DONE")
+        log.debug("DONE")
     }
 }
