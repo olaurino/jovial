@@ -42,9 +42,16 @@ class VoTableBuilderTest {
     void testDatasetInstance() {
         VotableInstance instance = new VoTableBuilder().votable {
             model(spec: modelSpec, vodmlURL: "http://some/where/dataset.vo-dml.xml")
-            object(type: "ds:dataset.Dataset") {
-                value(role:"dataProductType", value:"ds:dataset.DataProductType.CUBE")
-                value(role:"dataProductSubtype", value:"MySubtype")
+            object(type: "ds:experiment.ObsDataset") {
+                value(role: "dataProductType", value: "ds:dataset.DataProductType.CUBE")
+                value(role: "dataProductSubtype", value: "MySubtype")
+                value(role: "calibLevel", value: "0")
+                collection(role: "characterisation") {
+                    object(type: "ds:experiment.Characterisation")
+                }
+                collection(role: "derived") {
+                    object(type: "ds:experiment.Derived")
+                }
                 collection(role: "dataID") {
                     object(type: "ds:dataset.DataID") {
                         value(role: "title", value: "datasetTitle")
@@ -81,8 +88,31 @@ class VoTableBuilderTest {
                         value(role: "version", value: "DR3")
                         value(role: "date", value: "20160422T11:55:30")
                         value(role: "rights", value: "ds:dataset.RightsType.PUBLIC")
+                        collection(role: "contact") {
+                            object(type: "ds:dataset.Contact") {
+                                reference(role: "party", value: "BILL")
+                            }
+                        }
+                        collection(role: "publisher") {
+                            object(type: "ds:dataset.Publisher") {
+                                value(role: "publisherID", value: "ivo://acme.org")
+                                reference(role: "party", value: "ACME")
+                            }
+                        }
+                        collection(role: "reference") {
+                            object(type: "da.dataset.Publication") {
+                                value(role: "refCode", value: "ApJ12345")
+                            }
+                            object(type: "da.dataset.Publication") {
+                                value(role: "refCode", value: "ApJ6789")
+                            }
+                        }
                     }
                 }
+                reference(role: "proposal", value: "PROPOSAL")
+                reference(role: "objsConfig", value: "CONFIG")
+                reference(role: "target", value: "TARGET")
+                reference(role: "coordSys", value: "COORDSYS")
             }
             object(id: "ACME", type: "ds:party.Organization") {
                 value(role: "name", value: "ACME edu")
@@ -103,6 +133,35 @@ class VoTableBuilderTest {
                 value(role: "phone", value: "555-999-5555")
                 value(role: "email", value: "bill@acme.org")
             }
+            object(id: "TARGET", type: "ds:experiment.AstroTarget") {
+                value(role: "name", value: "3C273")
+                value(role: "description", value: "A Quasar")
+                data(role: "position", type: "stc2:coordinate.Position") {
+                    value(role: "coord", value: [187.2792, 2.0525])
+                }
+                value(role: "objectClass", value: "BLAZAR")
+                value(role: "spectralClass", value: "Sy1")
+                value(role: "redshift", value: 0.158)
+                value(role: "varAmpl", value: Double.NaN)
+            }
+            object(id: "CONFIG", type: "ds:experiment.ObsConfig") {
+                value(role: "bandpass", value: "optical")
+                value(role: "datasource", value: "survey")
+                collection(role: "instrument") {
+                    object(type: "ds:experiment.Instrument") {
+                        value(role: "name", value: "ACIS")
+                    }
+                }
+                collection(role: "facility") {
+                    object(type: "ds:experiment.Facility") {
+                        reference(role: "party", value: "ACME")
+                    }
+                }
+            }
+            object(id: "PROPOSAL", type: "ds:experiment.Proposal") {
+                value(role: "identifier", value: "PROPOSAL/756/2014.06")
+            }
+            object(id: "COORDSYS", type: "stc2:coordsystem.AstroCoordSystem")
         }
 
         instance.toXml(System.out)
