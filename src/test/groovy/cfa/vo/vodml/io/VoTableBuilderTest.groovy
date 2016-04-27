@@ -46,7 +46,7 @@ class VoTableBuilderTest {
             object(type: "ds:experiment.ObsDataset") {
                 value(role: "dataProductType", value: "ds:dataset.DataProductType.CUBE")
                 value(role: "dataProductSubtype", value: "MySubtype")
-                value(role: "calibLevel", value: "0")
+                value(role: "calibLevel", value: 0)
                 collection(role: "characterisation") {
                     object(type: "ds:experiment.Characterisation")
                 }
@@ -190,7 +190,7 @@ class VoTableBuilderTest {
 
     public static String preamble(String nested) {
         """<?xml version="1.0" encoding="UTF-8"?>
-           <VOTABLE xmlns="http://www.ivoa.net/xml/VOTable/v1.2"
+           <VOTABLE xmlns="http://www.ivoa.net/xml/VOTable/v1.3-4c"
                       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
               <RESOURCE>
                 <GROUP>
@@ -220,7 +220,7 @@ class VoTableBuilderTest {
 
     public static String datatype() {
         '''<?xml version="1.0" encoding="UTF-8"?>
-           <VOTABLE xmlns="http://www.ivoa.net/xml/VOTable/v1.2"
+           <VOTABLE xmlns="http://www.ivoa.net/xml/VOTable/v1.3-4c"
                       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                       xsi:schemaLocation="http://www.ivoa.net/xml/VOTable/v1.2 http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/xsd/vo-dml-v1.0.xsd">
               <RESOURCE>

@@ -156,7 +156,7 @@ trait DefaultNode implements VoBuilderNode {
 @Canonical
 @EqualsAndHashCode(excludes="resolver")
 class VotableInstance implements DefaultNode, HasObjects, HasData {
-    String ns = "http://www.ivoa.net/xml/VOTable/v1.2"
+    String ns = "http://www.ivoa.net/xml/VOTable/v1.3-4c"
     String prefix = ""
     List<ModelInstance> models = []
 
