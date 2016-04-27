@@ -281,6 +281,7 @@ class DataInstance extends Instance implements HasData, HasReferences, HasValues
                 out << new Vodml(vodmlm)
                 build.call(delegate)
             }
+            mkp.comment("End DataType role: ${role ?: "{No Role}"} type: ${type ?: "{No Type}"}")
         }
     }
 }
@@ -319,6 +320,7 @@ class ObjectInstance extends Instance implements HasValues, HasData, HasReferenc
                     out << it
                 }
             }
+            mkp.comment("End ObjectType role: ${role ?: "{No Role}"} type: ${type ?: "{No Type}"}")
         }
     }
 }
@@ -344,6 +346,7 @@ class CollectionInstance extends Instance implements HasObjects {
     Closure getBuildCallback() {
         def callback = {
             build.call(delegate)
+            mkp.comment("End Collection role: ${role ?: "{No Role}"}")
         }
     }
 }
@@ -359,7 +362,7 @@ class ReferenceInstance extends Instance implements VodmlBuildable {
     Closure getBuildCallback() {
         def elem = {
             if (value != null) {
-                GROUPref(ref: value) {
+                GROUP(ref: value) {
                     out << new Vodml(role: role)
                 }
             }

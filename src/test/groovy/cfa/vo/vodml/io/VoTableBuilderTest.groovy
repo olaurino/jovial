@@ -20,6 +20,7 @@ class VoTableBuilderTest {
     @Before
     void setUp() {
         XMLUnit.setIgnoreWhitespace(true);
+        XMLUnit.setIgnoreComments(true);
         def reader = new VodmlReader()
         modelSpec = reader.read(getClass().getResource("/DatasetMetadata-1.0.vo-dml.xml").openStream())
     }
