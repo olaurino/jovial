@@ -12,7 +12,7 @@ class Controller {
 
     public PresentationModel load(String path) throws FileNotFoundException {
         model = new PresentationModel(new VodmlReader().read(new File(path)))
-        view.model = model
+        view.setProperty("model", model)
         return model
     }
 }
