@@ -156,7 +156,7 @@ trait DefaultNode implements VoBuilderNode {
 @Canonical
 @EqualsAndHashCode(excludes="resolver")
 class VotableInstance implements DefaultNode, HasObjects, HasData {
-    String ns = "http://www.ivoa.net/xml/VOTable/v1.3-4c"
+    String ns = "http://www.ivoa.net/xml/VOTable/v1.4c"
     String prefix = ""
     List<ModelInstance> models = []
 
@@ -473,14 +473,14 @@ class Vodml implements Buildable {
     void build(GroovyObject builder) {
         def elem = {
             VODML() {
-                if (type) {
-                    TYPE() {
-                        out << type
-                    }
-                }
                 if (role) {
                     ROLE() {
                         out << role
+                    }
+                }
+                if (type) {
+                    TYPE() {
+                        out << type
                     }
                 }
              }

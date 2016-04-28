@@ -14,7 +14,9 @@ import org.junit.Test
 class VoTableBuilderTest {
     def writer = new VodmlWriter()
     ByteArrayOutputStream os = new ByteArrayOutputStream()
-    Model modelSpec;
+    Model dsSpec;
+    Model stcSpec;
+    Model charSpec;
     String org = "ds:party.Organization"
 
     @Before
@@ -22,7 +24,8 @@ class VoTableBuilderTest {
         XMLUnit.setIgnoreWhitespace(true);
         XMLUnit.setIgnoreComments(true);
         def reader = new VodmlReader()
-        modelSpec = reader.read(getClass().getResource("/DatasetMetadata-1.0.vo-dml.xml").openStream())
+        dsSpec = reader.read(getClass().getResource("/DatasetMetadata-1.0.vo-dml.xml").openStream())
+        stcSpec = reader.read(new URL("http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/STC2/2016-02-19/VO-DML-STC2.vo-dml.xml").openStream())
     }
 
     @Test
@@ -30,7 +33,7 @@ class VoTableBuilderTest {
         def builder = new VoTableBuilder()
 
         VotableInstance instance = builder.votable {
-            model(spec: modelSpec, vodmlURL: "http://some/where/dataset.vo-dml.xml")
+            model(spec: dsSpec, vodmlURL: "http://some/where/dataset.vo-dml.xml")
         }
 
         instance.toXml(os)
@@ -42,78 +45,121 @@ class VoTableBuilderTest {
     @Test
     void testDatasetInstance() {
         VotableInstance instance = new VoTableBuilder().votable {
-            model(spec: modelSpec, vodmlURL: "http://some/where/dataset.vo-dml.xml")
-            object(type: "ds:experiment.ObsDataset") {
-                value(role: "dataProductType", value: "ds:dataset.DataProductType.CUBE")
-                value(role: "dataProductSubtype", value: "MySubtype")
-                value(role: "calibLevel", value: 0)
-                collection(role: "characterisation") {
-                    object(type: "ds:experiment.Characterisation")
+            model(spec: dsSpec, vodmlURL: "http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/ds/DatasetMetadata-1.0.vo-dml.xml")
+            model(spec: stcSpec, vodmlURL: "http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/STC2/2016-02-19/VO-DML-STC2.vo-dml.xml")
+            object(type: "ds:experiment.Observation") {
+                value(role: "observationID", value:"obsid.2015.73")
+                collection(role: "target") {
+                    object(type: "ds:experiment.AstroTarget") {
+                        value(role: "name", value: "3C273")
+                        value(role: "description", value: "A Quasar")
+                        data(role: "position", type: "stc2:coords.Position") {
+                            value(role: "value", value: [187.2792, 2.0525])
+                        }
+                        value(role: "objectClass", value: "BLAZAR")
+                        value(role: "spectralClass", value: "Sy1")
+                        value(role: "redshift", value: 0.158)
+                        value(role: "varAmpl", value: Double.NaN)
+                    }
                 }
-                collection(role: "derived") {
-                    object(type: "ds:experiment.Derived")
-                }
-                collection(role: "dataID") {
-                    object(type: "ds:dataset.DataID") {
-                        value(role: "title", value: "datasetTitle")
-                        value(role: "datasetID", value: "ivo://some/uri")
-                        value(role: "creatorDID", value: "me://some/other/uri")
-                        value(role: "version", value: "DR3")
-                        value(role: "date", value: "20160422T11:55:30")
-                        value(role: "creationType", value: "ds:dataset.CreationType.ARCHIVAL")
-                        collection(role: "collection") {
-                            object(type: "ds:dataset.Collection") {
-                                value(role: "name", value: "Data Release 3")
+                collection(role: "obsConfig") {
+                    object(type: "ds:experiment.ObsConfig") {
+                        value(role: "bandpass", value: "optical")
+                        value(role: "datasource", value: "survey")
+                        collection(role: "instrument") {
+                            object(type: "ds:experiment.Instrument") {
+                                value(role: "name", value: "ACIS")
                             }
                         }
-                        collection(role: "contributor") {
-                            object(type: "ds:dataset.Contributor") {
-                                value(role: "acknowledgment", value: "Project Manager")
-                                reference(role: "party", value:"BILL")
-                            }
-                            object(type: "ds:dataset.Contributor") {
-                                value(role: "acknowledgment", value: "Bought the donuts!")
-                                reference(role: "party", value:"TOM")
-                            }
-                        }
-                        collection(role: "creator") {
-                            object(type: "ds:dataset.Creator") {
+                        collection(role: "facility") {
+                            object(type: "ds:experiment.Facility") {
                                 reference(role: "party", value: "ACME")
                             }
                         }
                     }
                 }
-                collection(role: "curation") {
-                    object(type: "ds:dataset.Curation") {
-                        value(role: "publisherDID", value: "me://some/other/uri")
-                        value(role: "version", value: "DR3")
-                        value(role: "date", value: "20160422T11:55:30")
-                        value(role: "rights", value: "ds:dataset.RightsType.PUBLIC")
-                        collection(role: "contact") {
-                            object(type: "ds:dataset.Contact") {
-                                reference(role: "party", value: "BILL")
+                collection(role: "proposal") {
+                    object(type: "ds:experiment.Proposal") {
+                        value(role: "identifier", value: "PROPOSAL/756/2014.06")
+                    }
+                }
+                collection(role: "result") {
+                    object(type: "ds:experiment.ObsDataset") {
+                        value(role: "dataProductType", value: "ds:dataset.DataProductType.CUBE")
+                        value(role: "dataProductSubtype", value: "MySubtype")
+                        value(role: "calibLevel", value: 0)
+                        collection(role: "characterisation") {
+                            object(type: "ds:experiment.Characterisation")
+                        }
+                        collection(role: "derived") {
+                            object(type: "ds:experiment.Derived") {
+                                collection(role: "derivedElement") {
+                                    object(type: "ds:experiment.DerivedScalar") {
+                                        value(role: "name", value: "SNR")
+                                        value(role: "value", value: 1.25)
+                                    }
+                                }
                             }
                         }
-                        collection(role: "publisher") {
-                            object(type: "ds:dataset.Publisher") {
-                                value(role: "publisherID", value: "ivo://acme.org")
-                                reference(role: "party", value: "ACME")
+                        collection(role: "dataID") {
+                            object(type: "ds:dataset.DataID") {
+                                value(role: "title", value: "datasetTitle")
+                                value(role: "datasetID", value: "ivo://some/uri")
+                                value(role: "creatorDID", value: "me://some/other/uri")
+                                value(role: "version", value: "DR3")
+                                value(role: "date", value: "20160422T11:55:30")
+                                value(role: "creationType", value: "ds:dataset.CreationType.ARCHIVAL")
+                                collection(role: "collection") {
+                                    object(type: "ds:dataset.Collection") {
+                                        value(role: "name", value: "Data Release 3")
+                                    }
+                                }
+                                collection(role: "contributor") {
+                                    object(type: "ds:dataset.Contributor") {
+                                        value(role: "acknowledgment", value: "Project Manager")
+                                        reference(role: "party", value: "BILL")
+                                    }
+                                    object(type: "ds:dataset.Contributor") {
+                                        value(role: "acknowledgment", value: "Bought the donuts!")
+                                        reference(role: "party", value: "TOM")
+                                    }
+                                }
+                                collection(role: "creator") {
+                                    object(type: "ds:dataset.Creator") {
+                                        reference(role: "party", value: "ACME")
+                                    }
+                                }
                             }
                         }
-                        collection(role: "reference") {
-                            object(type: "da.dataset.Publication") {
-                                value(role: "refCode", value: "ApJ12345")
-                            }
-                            object(type: "da.dataset.Publication") {
-                                value(role: "refCode", value: "ApJ6789")
+                        collection(role: "curation") {
+                            object(type: "ds:dataset.Curation") {
+                                value(role: "publisherDID", value: "me://some/other/uri")
+                                value(role: "version", value: "DR3")
+                                value(role: "releaseDate", value: "20160422T11:55:30")
+                                value(role: "rights", value: "ds:dataset.RightsType.PUBLIC")
+                                collection(role: "contact") {
+                                    object(type: "ds:dataset.Contact") {
+                                        reference(role: "party", value: "BILL")
+                                    }
+                                }
+                                collection(role: "publisher") {
+                                    object(type: "ds:dataset.Publisher") {
+                                        value(role: "publisherID", value: "ivo://acme.org")
+                                        reference(role: "party", value: "ACME")
+                                    }
+                                }
+                                collection(role: "reference") {
+                                    object(type: "ds:dataset.Publication") {
+                                        value(role: "refCode", value: "ApJ12345")
+                                    }
+                                    object(type: "ds:dataset.Publication") {
+                                        value(role: "refCode", value: "ApJ6789")
+                                    }
+                                }
                             }
                         }
                     }
                 }
-                reference(role: "proposal", value: "PROPOSAL")
-                reference(role: "objsConfig", value: "CONFIG")
-                reference(role: "target", value: "TARGET")
-                reference(role: "coordSys", value: "COORDSYS")
             }
             object(id: "ACME", type: "ds:party.Organization") {
                 value(role: "name", value: "ACME edu")
@@ -134,34 +180,6 @@ class VoTableBuilderTest {
                 value(role: "phone", value: "555-999-5555")
                 value(role: "email", value: "bill@acme.org")
             }
-            object(id: "TARGET", type: "ds:experiment.AstroTarget") {
-                value(role: "name", value: "3C273")
-                value(role: "description", value: "A Quasar")
-                data(role: "position", type: "stc2:coordinate.Position") {
-                    value(role: "coord", value: [187.2792, 2.0525])
-                }
-                value(role: "objectClass", value: "BLAZAR")
-                value(role: "spectralClass", value: "Sy1")
-                value(role: "redshift", value: 0.158)
-                value(role: "varAmpl", value: Double.NaN)
-            }
-            object(id: "CONFIG", type: "ds:experiment.ObsConfig") {
-                value(role: "bandpass", value: "optical")
-                value(role: "datasource", value: "survey")
-                collection(role: "instrument") {
-                    object(type: "ds:experiment.Instrument") {
-                        value(role: "name", value: "ACIS")
-                    }
-                }
-                collection(role: "facility") {
-                    object(type: "ds:experiment.Facility") {
-                        reference(role: "party", value: "ACME")
-                    }
-                }
-            }
-            object(id: "PROPOSAL", type: "ds:experiment.Proposal") {
-                value(role: "identifier", value: "PROPOSAL/756/2014.06")
-            }
             object(id: "COORDSYS", type: "stc2:coordsystem.AstroCoordSystem")
         }
 
@@ -171,7 +189,7 @@ class VoTableBuilderTest {
     @Test
     void testObjectType() {
         def instance = new VoTableBuilder().votable {
-            model(spec: modelSpec)
+            model(spec: dsSpec)
             object(type: "$org") {
                 value(role: "name", value:"OrgName")
                 value(role: "address", value:"An Address")
@@ -179,7 +197,7 @@ class VoTableBuilderTest {
         }
 
         def expected = new VotableInstance()
-        expected << new ModelInstance(spec: modelSpec)
+        expected << new ModelInstance(spec: dsSpec)
         def obj = new ObjectInstance(type: "$org")
         obj.attributes << new ValueInstance(role: "ds:party.Party.name", value:"OrgName")
         obj.attributes << new ValueInstance(role: "${org}.address", value:"An Address")
@@ -190,7 +208,7 @@ class VoTableBuilderTest {
 
     public static String preamble(String nested) {
         """<?xml version="1.0" encoding="UTF-8"?>
-           <VOTABLE xmlns="http://www.ivoa.net/xml/VOTable/v1.3-4c"
+           <VOTABLE xmlns="http://www.ivoa.net/xml/VOTable/v1.4c"
                       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
               <RESOURCE>
                 <GROUP>
