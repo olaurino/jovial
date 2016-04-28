@@ -3,6 +3,7 @@ package cfa.vo.vodml
 import cfa.vo.vodml.utils.VodmlRef
 import groovy.beans.Bindable
 import groovy.transform.Canonical
+import groovy.transform.EqualsAndHashCode
 import org.joda.time.DateTime
 
 @Bindable
@@ -13,6 +14,11 @@ abstract class ReferableElement {
 
     public setVodmlid(String ref) {
         vodmlid = new VodmlRef(ref)
+    }
+
+    @Override
+    public String toString() {
+        return name
     }
 }
 
@@ -381,6 +387,7 @@ class Package extends ReferableElement implements Buildable {
 
 @Bindable
 @Canonical
+@EqualsAndHashCode(excludes="lastModified")
 class Model implements Buildable {
     String prefix = "vo-dml"
     String ns = "http://www.ivoa.net/xml/VODML/v1.0"
