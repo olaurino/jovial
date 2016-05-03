@@ -1,5 +1,6 @@
 package cfa.vo.vodml.gui
 
+import cfa.vo.vodml.io.VodmlReader
 import spock.lang.Specification
 
 import static org.junit.Assert.fail
@@ -8,27 +9,21 @@ class ControllerSpec extends Specification {
     private Controller controller
     private String readPath
     private MainView view
+    private PresentationModel expected
 
     void setup() {
         view = Mock(MainView.class)
-        controller = new Controller(view)
+        controller = new Controller()
         readPath = this.class.getResource("/DatasetMetadata-1.0.vo-dml.xml").getFile()
+        expected = new PresentationModel(new VodmlReader().read(new File(readPath)))
     }
 
     def "test load"() {
-        given:
-            PresentationModel expected
-            PresentationModel m
-
         when:
-            expected = controller.load(readPath)
+            PresentationModel actual = controller.load(readPath)
 
         then:
-            1 * view.setProperty(*_) >> { args ->
-                assert args[0] == "model"
-                m = args[1]
-            }
-            assert m == expected
+            assert actual == expected
     }
 
     void testLoadFileNotFound() {

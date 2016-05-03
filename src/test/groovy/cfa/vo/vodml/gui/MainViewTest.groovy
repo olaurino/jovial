@@ -13,16 +13,9 @@ class MainViewTest extends UISpecTestCase {
         setAdapter(new MainClassAdapter(MainView.class))
     }
 
-    void testMain() {
+    void testMainEmpty() {
         mainWindow.titleEquals("VODML Model Builder").check()
-        mainWindow.tree.contentEquals("""
-my_model v1.0
-  Primitive Types
-  Enumerations
-  Data Types
-  Object Types
-  Packages
-""").check()
+        mainWindow.getTextBox("status").textEquals("No Model Selected").check()
     }
 
     void testLoad() {
@@ -31,6 +24,7 @@ my_model v1.0
                 .process(FileChooserHandler.init().select(path))
                 .run()
 
+        mainWindow.getTabGroup("main").tabNamesEquals(["ds v0.x"] as String[]).check()
         mainWindow.tree.contentEquals("""
 ds v0.x
   Primitive Types

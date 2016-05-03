@@ -7,6 +7,7 @@ import groovy.transform.EqualsAndHashCode
 import org.joda.time.DateTime
 
 @Bindable
+@EqualsAndHashCode
 abstract class ReferableElement {
     String name
     VodmlRef vodmlid
@@ -23,6 +24,7 @@ abstract class ReferableElement {
 }
 
 @Bindable
+@EqualsAndHashCode
 class ElementRef implements Buildable {
     VodmlRef vodmlref
 
@@ -41,16 +43,19 @@ class ElementRef implements Buildable {
 }
 
 @Bindable
+@EqualsAndHashCode
 abstract class Type extends ReferableElement {
     ElementRef extends_
     List<Constraint> constraints
 }
 
 @Bindable
+@EqualsAndHashCode
 abstract class ValueType extends Type {
 }
 
 @Bindable
+@EqualsAndHashCode
 class PrimitiveType extends ValueType implements Buildable {
     @Override
     void build(GroovyObject builder) {
@@ -71,6 +76,7 @@ class PrimitiveType extends ValueType implements Buildable {
 }
 
 @Bindable
+@EqualsAndHashCode
 class Enumeration_ extends ValueType implements Buildable {
     List<EnumLiteral> literals
 
@@ -97,6 +103,7 @@ class Enumeration_ extends ValueType implements Buildable {
 }
 
 @Bindable
+@EqualsAndHashCode
 class EnumLiteral extends ReferableElement implements Buildable {
     @Override
     void build(GroovyObject builder) {
@@ -113,6 +120,7 @@ class EnumLiteral extends ReferableElement implements Buildable {
 }
 
 @Bindable
+@EqualsAndHashCode
 class DataType extends ValueType implements Buildable {
     def abstract_ = false
     List<Attribute> attributes
@@ -149,6 +157,7 @@ class DataType extends ValueType implements Buildable {
 }
 
 @Bindable
+@EqualsAndHashCode
 class ObjectType extends Type implements Buildable {
     def abstract_ = false
     List<Attribute> attributes
@@ -191,12 +200,14 @@ class ObjectType extends Type implements Buildable {
 }
 
 @Bindable
+@EqualsAndHashCode
 abstract class Role extends ReferableElement {
     ElementRef dataType
     Multiplicity multiplicity = new Multiplicity()
 }
 
 @Bindable
+@EqualsAndHashCode
 class Attribute extends Role implements Buildable {
     List<SemanticConcept> semanticConcepts
 
@@ -222,6 +233,7 @@ class Attribute extends Role implements Buildable {
 }
 
 @Bindable
+@EqualsAndHashCode
 class SemanticConcept implements Buildable {
     String vocabularyURI
     String topConcept
@@ -246,11 +258,13 @@ class SemanticConcept implements Buildable {
 }
 
 @Bindable
+@EqualsAndHashCode
 abstract class Relation extends Role {
 
 }
 
 @Bindable
+@EqualsAndHashCode
 class Composition extends Relation implements Buildable {
     @Override
     void build(GroovyObject builder) {
@@ -271,6 +285,7 @@ class Composition extends Relation implements Buildable {
 }
 
 @Bindable
+@EqualsAndHashCode
 class Reference extends Relation implements Buildable {
     @Override
     void build(GroovyObject builder) {
@@ -291,6 +306,7 @@ class Reference extends Relation implements Buildable {
 }
 
 @Bindable
+@EqualsAndHashCode
 class Multiplicity implements Buildable {
     Integer minOccurs = 1
     Integer maxOccurs = 1
@@ -309,6 +325,7 @@ class Multiplicity implements Buildable {
 }
 
 @Bindable
+@EqualsAndHashCode
 class Constraint extends ReferableElement implements Buildable {
     @Override
     void build(GroovyObject builder) {
@@ -323,6 +340,7 @@ class Constraint extends ReferableElement implements Buildable {
 }
 
 @Bindable
+@EqualsAndHashCode
 class SubsettedRole extends Constraint {
     ElementRef role
     ElementRef dataType
@@ -349,6 +367,7 @@ class SubsettedRole extends Constraint {
 }
 
 @Bindable
+@EqualsAndHashCode
 class Package extends ReferableElement implements Buildable {
     List<PrimitiveType> primitiveTypes
     List<Enumeration_> enumerations
@@ -451,6 +470,7 @@ class Model implements Buildable {
 }
 
 @Bindable
+@EqualsAndHashCode
 class ModelImport implements Buildable {
     String name
     String version

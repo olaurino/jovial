@@ -1,6 +1,7 @@
 package cfa.vo.vodml.gui
 
 import cfa.vo.vodml.Model
+import groovy.beans.Bindable
 import groovy.transform.Canonical
 import groovy.transform.EqualsAndHashCode
 
@@ -8,6 +9,7 @@ import javax.swing.tree.DefaultTreeModel
 
 @Canonical()
 @EqualsAndHashCode(includes=["modelDelegate",])
+@Bindable
 class PresentationModel {
     boolean dirty
     DefaultTreeModel treeModel

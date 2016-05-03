@@ -3,48 +3,49 @@ package cfa.vo.vodml.gui
 import groovy.swing.SwingBuilder
 
 import javax.swing.*
+import java.awt.*
 
 class MainView {
-    PresentationModel model = new PresentationModel()
     private swing = new SwingBuilder()
     JFileChooser chooser = swing.fileChooser()
-    private controller = new Controller(this)
+    private controller = new Controller()
     private JFrame frame
-    private JTree tree
+    private StatusPanel statusPanel
+    private JTabbedPane tabs
 
     public MainView() {
+        swing.registerBeanFactory("statusPanel", StatusPanel)
+        swing.registerFactory("modelTab", new ModelTabFactory())
+
         swing.edt {
-            frame = frame(title: 'VODML Model Builder', size: [800, 600], locationRelativeTo: null, show: true, defaultCloseOperation: JFrame.EXIT_ON_CLOSE) {
+            lookAndFeel('system')
+            frame = frame(title: 'VODML Model Builder', minimumSize: [800, 600], locationRelativeTo: null,
+                    pack:true, show: true, defaultCloseOperation: JFrame.EXIT_ON_CLOSE,) {
+                borderLayout()
                 menuBar {
                     menu(mnemonic: 'F', text: 'File') {
                         menuItem(actionLoad)
                     }
                 }
-                splitPane(leftComponent: widget(leftPanel()), rightComponent: widget(rightPanel()))
+                tabs = tabbedPane(name: "main")
+                statusPanel = statusPanel(status: "No Model Selected", constraints: BorderLayout.SOUTH)
             }
         }
     }
 
-    public void setModel(PresentationModel model) {
-        this.model = model
-        swing.doLater {
-            tree.setModel(model.treeModel)
+    def void leftShift(PresentationModel model) {
+        String name = model.toString()
+        JComponent tab = swing.modelTab(model)
+        swing.edt {
+            tabs.addTab(name, tab)
         }
     }
 
     public static void main(String[] argv) {
-        new MainView()
-    }
-
-    def leftPanel = {
-        swing.scrollPane(minimumSize: [300, 600]) {
-            tree = tree(model: model.treeModel)
-        }
-    }
-
-    def rightPanel = {
-        swing.panel(size: [700, 600]) {
-
+        MainView view = new MainView()
+        if (argv) {
+            Controller c = new Controller()
+            view << c.load("C:/Users/Omar/IdeaProjects/jovial/src/test/resources/DatasetMetadata-1.0.vo-dml.xml")
         }
     }
 
@@ -59,7 +60,7 @@ class MainView {
     def load = {
         int result = chooser.showOpenDialog(frame)
         if (result == JFileChooser.APPROVE_OPTION) {
-            controller.load(chooser.getSelectedFile().absolutePath)
+            this << controller.load(chooser.getSelectedFile().absolutePath)
         }
     }
 }
