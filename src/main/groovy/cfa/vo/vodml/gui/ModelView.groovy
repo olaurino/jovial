@@ -1,17 +1,24 @@
 package cfa.vo.vodml.gui
 
+import ca.odell.glazedlists.swing.GlazedListsSwing
 import groovy.swing.SwingBuilder
+import org.joda.time.DateTime
 
 import javax.swing.*
 import javax.swing.event.DocumentListener
 import java.awt.*
+import java.util.logging.Logger
 
 import static java.awt.GridBagConstraints.*
 
 class ModelView extends JPanel {
-    private SwingBuilder swing = new SwingBuilder();
+    private SwingBuilder swing = new SwingBuilder()
+    private Logger status = StatusPanel.STATUS_LOGGER
+    PresentationModel model
 
     public ModelView(PresentationModel model) {
+        this.model = model
+
         JPanel panel = swing.panel(border: BorderFactory.createEtchedBorder()) {
             def defaultInsets = [5, 5, 5, 5]
             def labelConstraints = { order ->
@@ -39,15 +46,15 @@ class ModelView extends JPanel {
 
                 // Authors
                 label("Authors:", constraints: gbc(weighty: 1, gridx: 0, gridy: 5, insets: defaultInsets, fill: BOTH, anchor: WEST))
-                panel(constraints: gbc(gridx: 1, gridy: 5, weightx: 1, fill: BOTH, gridwidth: REMAINDER, insets: defaultInsets, anchor: EAST)) {
+                panel(id:"authors", constraints: gbc(gridx: 1, gridy: 5, weightx: 1, fill: BOTH, gridwidth: REMAINDER, insets: defaultInsets, anchor: EAST)) {
                     borderLayout()
                     scrollPane() {
-                        list(listData: model.authors)
+                        list(model: GlazedListsSwing.eventListModelWithThreadProxyList(model.authors))
                     }
                     panel(constraints: BorderLayout.EAST) {
                         vbox {
-                            label(icon: new ImageIcon(getClass().getResource("/icons/list-add.png")))
-                            label(icon: new ImageIcon(getClass().getResource("/icons/list-remove.png")))
+                            button(border: null, action: addAuthorAction, name:"add", icon: new ImageIcon(getClass().getResource("/icons/list-add.png")))
+                            button(border: null, name:"remove", icon: new ImageIcon(getClass().getResource("/icons/list-remove.png")))
                         }
                     }
                 }
@@ -77,10 +84,7 @@ class ModelView extends JPanel {
             }
 
             def updateModel = {
-                println model
-                if (model.description) {
-                    println model.description
-                }
+
             }
             fields.each {
                 it.document.addDocumentListener(
@@ -89,9 +93,51 @@ class ModelView extends JPanel {
                          changedUpdate: updateModel] as DocumentListener)
             }
 
-            bean(model, name: bind { nameField.text })
+            bean(model,
+                    name: bind { nameField.text },
+                    description: bind { descriptionField.text },
+                    version: bind { versionField.text },
+                    title: bind { titleField.text },
+                    lastModified: bind(converter: convertDate) { lastModifiedField.text },
+            )
         }
         layout = new BorderLayout()
         add(panel)
+    }
+
+    private convertDate = {String date ->
+        try {
+            def retVal = new DateTime(date)
+            status.info("Parsed date $date")
+            retVal
+        } catch (Exception ex) {
+            status.warning("Cannot parse date $date")
+        }
+    }
+
+    private addAuthorAction = swing.action(
+            id:			 'actionLoad',
+            closure:     this.&showAddAuthor
+    )
+
+    private showAddAuthor = {
+        swing.edt {
+            dialog(id: "dialog", title:"Add Author", modal:true, locationRelativeTo: MainView.frame, pack: true, show: true) {
+                panel(border: BorderFactory.createEmptyBorder(10,10,10,10)) {
+                    vbox {
+                        hbox {
+                            label("Author: ")
+                            textField(id: "authorField", columns: 30)
+                        }
+                        vstrut(height: 10)
+                        hbox {
+                            button("OK", actionPerformed: {  model.authors.add(authorField.text); dialog.dispose(); })
+                            hstrut(width: 10)
+                            button("Cancel", actionPerformed: { dialog.dispose()})
+                        }
+                    }
+                }
+            }
+        }
     }
 }

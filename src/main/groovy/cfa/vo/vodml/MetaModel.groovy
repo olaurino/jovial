@@ -1,5 +1,7 @@
 package cfa.vo.vodml
 
+import ca.odell.glazedlists.BasicEventList
+import ca.odell.glazedlists.EventList
 import cfa.vo.vodml.utils.VodmlRef
 import groovy.beans.Bindable
 import groovy.transform.Canonical
@@ -415,7 +417,7 @@ class Model implements Buildable {
     String version = "1.0"
     DateTime lastModified = new DateTime()
     String description
-    List<String> authors = []
+    EventList<String> authors = [] as BasicEventList
     List<URI> previousVersions = []
     List<ModelImport> imports = []
     List<PrimitiveType> primitiveTypes = []

@@ -9,17 +9,17 @@ class MainView {
     private swing = new SwingBuilder()
     JFileChooser chooser = swing.fileChooser()
     private controller = new Controller()
-    private JFrame frame
+    static JFrame frame
     private StatusPanel statusPanel
     private JTabbedPane tabs
 
-    public MainView() {
+    private MainView() {
         swing.registerBeanFactory("statusPanel", StatusPanel)
         swing.registerFactory("modelTab", new ModelTabFactory())
 
         swing.edt {
             lookAndFeel('system')
-            frame = frame(title: 'VODML Model Builder', minimumSize: [800, 600], locationRelativeTo: null,
+            frame = frame(id: "root", title: 'VODML Model Builder', minimumSize: [800, 600], locationRelativeTo: null,
                     pack:true, show: true, defaultCloseOperation: JFrame.EXIT_ON_CLOSE,) {
                 borderLayout()
                 menuBar {

@@ -1,5 +1,6 @@
 package cfa.vo.vodml
 
+import ca.odell.glazedlists.EventList
 import cfa.vo.vodml.io.Validator
 import cfa.vo.vodml.io.VodmlWriter
 import org.custommonkey.xmlunit.XMLAssert
@@ -435,7 +436,7 @@ class MetaModelTest {
                 title: "Dataset Metadata",
                 description: "Generic, high-level metadata associated with an IVOA Dataset.",
                 imports: [ ivoa ],
-                authors: [ "Jane Doe", "John Doe" ],
+                authors: [ "Jane Doe", "John Doe" ] as EventList,
                 packages: [ datasetPackage, partyPackage ],
                 enumerations: [ dataProductType, creationType, rightsType ],
                 lastModified: DateTime.parse("2016-04-20T16:44:59.239-04:00")
