@@ -1,6 +1,7 @@
 package cfa.vo.vodml.gui
 
 import org.uispec4j.UISpecTestCase
+import org.uispec4j.assertion.UISpecAssert
 import org.uispec4j.interception.FileChooserHandler
 import org.uispec4j.interception.MainClassAdapter
 import org.uispec4j.interception.WindowInterceptor
@@ -15,7 +16,7 @@ class MainViewTest extends UISpecTestCase {
 
     void testMainEmpty() {
         mainWindow.titleEquals("VODML Model Builder").check()
-        mainWindow.getTextBox("status").textEquals("No Model Selected").check()
+        mainWindow.getTextBox("status").textEquals("WARNING: No Model Selected").check()
     }
 
     void testLoad() {
@@ -24,7 +25,7 @@ class MainViewTest extends UISpecTestCase {
                 .process(FileChooserHandler.init().select(path))
                 .run()
 
-        mainWindow.getTabGroup("main").tabNamesEquals(["ds v0.x"] as String[]).check()
+        UISpecAssert.waitUntil(mainWindow.getTabGroup("main").tabNamesEquals(["ds v0.x"] as String[]), 1000)
         mainWindow.tree.contentEquals("""
 ds v0.x
   Primitive Types

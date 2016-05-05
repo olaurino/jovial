@@ -28,15 +28,16 @@ class MainView {
                     }
                 }
                 tabs = tabbedPane(name: "main")
-                statusPanel = statusPanel(status: "No Model Selected", constraints: BorderLayout.SOUTH)
+                statusPanel = statusPanel(constraints: BorderLayout.SOUTH)
             }
         }
+        StatusPanel.STATUS_LOGGER.warning("No Model Selected")
     }
 
     def void leftShift(PresentationModel model) {
-        String name = model.toString()
-        JComponent tab = swing.modelTab(model)
         swing.edt {
+            String name = model.toString()
+            JComponent tab = swing.modelTab(model)
             tabs.addTab(name, tab)
         }
     }
@@ -60,7 +61,9 @@ class MainView {
     def load = {
         int result = chooser.showOpenDialog(frame)
         if (result == JFileChooser.APPROVE_OPTION) {
-            this << controller.load(chooser.getSelectedFile().absolutePath)
+            swing.doOutside {
+                this << controller.load(chooser.getSelectedFile().absolutePath)
+            }
         }
     }
 }
