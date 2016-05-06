@@ -54,11 +54,13 @@ class ModelView extends JPanel {
                 labelField(0, "name")
                 labelField(1, "title")
                 labelField(2, "version")
-                labelField(3, "description")
-                labelField(4, "lastModified")
-
+                labelField(3, "lastModified")
+                label("Description", constraints: labelConstraints(4))
+                scrollPane(constraints: gbc(weighty:0.6, gridx:1, gridy:4, insets: defaultInsets, fill:BOTH, anchor: WEST)) {
+                    fields << textArea(id: "descriptionField", rows: 20, text: model.description, wrapStyleWord: true, lineWrap: true, autoscrolls: true)
+                }
                 // Authors
-                label("Authors:", constraints: gbc(weighty: 1, gridx: 0, gridy: 5, insets: defaultInsets, fill: BOTH, anchor: WEST))
+                label("Authors:", constraints: gbc(weighty: 0.2, gridx: 0, gridy: 5, insets: defaultInsets, fill: BOTH, anchor: WEST))
                 panel(id:"authors", constraints: gbc(gridx: 1, gridy: 5, weightx: 1, fill: BOTH, gridwidth: REMAINDER, insets: defaultInsets, anchor: EAST)) {
                     borderLayout()
                     scrollPane() {
@@ -73,8 +75,8 @@ class ModelView extends JPanel {
                 }
 
                 // Imports
-                label("Imports:", constraints: gbc(gridx: 0, gridy: 6, weighty: 1, insets: defaultInsets, fill: BOTH, anchor: WEST))
-                panel(id:"imports", constraints: gbc(gridx: 1, gridy: 6, weighty: 1, weightx: 1,
+                label("Imports:", constraints: gbc(gridx: 0, gridy: 6, weighty: 0.2, insets: defaultInsets, fill: BOTH, anchor: WEST))
+                panel(id:"imports", constraints: gbc(gridx: 1, gridy: 6, weighty: 0.2, weightx: 1,
                         fill: BOTH, insets: defaultInsets, anchor: EAST)) {
                     borderLayout()
                     scrollPane() {
