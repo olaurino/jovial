@@ -1,6 +1,6 @@
 package cfa.vo.vodml.io
 
-import cfa.vo.vodml.Model
+import cfa.vo.vodml.metamodel.Model
 import cfa.vo.vodml.instance.ModelInstance
 import cfa.vo.vodml.instance.ObjectInstance
 import cfa.vo.vodml.instance.ValueInstance

@@ -1,6 +1,6 @@
 package cfa.vo.vodml.utils
 
-import cfa.vo.vodml.Model
+import cfa.vo.vodml.metamodel.Model
 import cfa.vo.vodml.io.VodmlReader
 import org.junit.Test
 

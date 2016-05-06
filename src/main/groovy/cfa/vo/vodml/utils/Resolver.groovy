@@ -1,8 +1,8 @@
 package cfa.vo.vodml.utils
 
-import cfa.vo.vodml.Model
-import cfa.vo.vodml.Role
-import cfa.vo.vodml.Type
+import cfa.vo.vodml.metamodel.Model
+import cfa.vo.vodml.metamodel.Role
+import cfa.vo.vodml.metamodel.Type
 
 @Singleton
 class Resolver {

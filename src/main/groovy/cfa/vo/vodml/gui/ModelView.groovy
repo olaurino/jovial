@@ -3,7 +3,7 @@ package cfa.vo.vodml.gui
 import ca.odell.glazedlists.gui.TableFormat
 import ca.odell.glazedlists.swing.AdvancedListSelectionModel
 import ca.odell.glazedlists.swing.GlazedListsSwing
-import cfa.vo.vodml.ModelImport
+import cfa.vo.vodml.metamodel.ModelImport
 import groovy.swing.SwingBuilder
 import org.joda.time.DateTime
 

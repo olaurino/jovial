@@ -1,7 +1,7 @@
 package cfa.vo.vodml.gui
 
 import ca.odell.glazedlists.BasicEventList
-import cfa.vo.vodml.ModelImport
+import cfa.vo.vodml.metamodel.ModelImport
 import org.joda.time.DateTime
 import org.uispec4j.Panel
 import org.uispec4j.UISpec4J

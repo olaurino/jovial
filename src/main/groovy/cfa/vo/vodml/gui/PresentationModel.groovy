@@ -1,6 +1,6 @@
 package cfa.vo.vodml.gui
 
-import cfa.vo.vodml.Model
+import cfa.vo.vodml.metamodel.Model
 import groovy.beans.Bindable
 import groovy.transform.Canonical
 import groovy.transform.EqualsAndHashCode
