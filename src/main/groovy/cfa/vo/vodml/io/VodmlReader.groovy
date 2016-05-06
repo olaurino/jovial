@@ -1,24 +1,9 @@
 package cfa.vo.vodml.io
 
-import cfa.vo.vodml.Attribute
-import cfa.vo.vodml.Composition
-import cfa.vo.vodml.Constraint
-import cfa.vo.vodml.DataType
-import cfa.vo.vodml.ElementRef
-import cfa.vo.vodml.EnumLiteral
-import cfa.vo.vodml.Enumeration_
-import cfa.vo.vodml.Model
-import cfa.vo.vodml.ModelImport
-import cfa.vo.vodml.Multiplicity
-import cfa.vo.vodml.ObjectType
-import cfa.vo.vodml.Package
-import cfa.vo.vodml.PrimitiveType
-import cfa.vo.vodml.Reference
-import cfa.vo.vodml.SemanticConcept
-import cfa.vo.vodml.SubsettedRole
+import ca.odell.glazedlists.BasicEventList
+import cfa.vo.vodml.*
 import groovy.util.slurpersupport.GPathResult
 import org.joda.time.DateTime
-
 
 class VodmlReader {
     private slurper = new XmlSlurper()
@@ -41,13 +26,13 @@ class VodmlReader {
                 lastModified: new DateTime(xml.lastModified.toString()),
                 authors: xml.author?.collect {
                     it.text()
-                },
+                } as BasicEventList,
                 previousVersions: xml.previousVersions?.collect {
                     it.text()
                 },
                 imports: xml.import?.collect {
                     importFrom(it)
-                },
+                } as BasicEventList,
                 packages: xml.package?.collect {
                     packageFrom(it)
                 },
