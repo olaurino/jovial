@@ -6,6 +6,7 @@ import org.joda.time.DateTime
 import org.uispec4j.Panel
 import org.uispec4j.UISpec4J
 import org.uispec4j.Window
+import org.uispec4j.assertion.UISpecAssert
 import org.uispec4j.interception.WindowInterceptor
 import spock.lang.Specification
 
@@ -89,6 +90,24 @@ class ModelViewTest extends Specification {
                  ["someImport", "1.0", "https://ideas", "https://ideas.doc"]
                 ] as String[][])
                 .true
+    }
+
+    def "test remove model imports"() {
+        when:
+        Panel imp = panel.getPanel("imports")
+        imp.table.selectAllRows()
+        imp.getButton("remove").click()
+        then:
+        UISpecAssert.waitUntil(imp.table.isEmpty(), 1000)
+    }
+
+    def "test remove authors"() {
+        when:
+        Panel imp = panel.getPanel("authors")
+        imp.listBox.selectIndices(0,1,2)
+        imp.getButton("remove").click()
+        then:
+        UISpecAssert.waitUntil(imp.listBox.isEmpty(), 1000)
     }
 
     def text = {String name ->

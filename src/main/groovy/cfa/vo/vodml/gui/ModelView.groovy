@@ -1,7 +1,7 @@
 package cfa.vo.vodml.gui
 
 import ca.odell.glazedlists.gui.TableFormat
-import ca.odell.glazedlists.swing.DefaultEventTableModel
+import ca.odell.glazedlists.swing.AdvancedListSelectionModel
 import ca.odell.glazedlists.swing.GlazedListsSwing
 import cfa.vo.vodml.ModelImport
 import groovy.swing.SwingBuilder
@@ -17,6 +17,8 @@ import static java.awt.GridBagConstraints.*
 class ModelView extends JPanel {
     private SwingBuilder swing = new SwingBuilder()
     private Logger status = StatusPanel.STATUS_LOGGER
+    private AdvancedListSelectionModel<ModelImport> importsSelectionModel
+    private AdvancedListSelectionModel<String> authorsSelectionModel
     private defaultInsets = [5, 5, 5, 5]
 
     PresentationModel model
@@ -25,6 +27,18 @@ class ModelView extends JPanel {
         this.model = model
         labelConstraints.delegate = swing
         fieldConstraints.delegate = swing
+
+        authorsSelectionModel = GlazedListsSwing.eventSelectionModelWithThreadProxyList(model.authors)
+        importsSelectionModel = GlazedListsSwing.eventSelectionModelWithThreadProxyList(model.imports)
+        def columnNames = ["name", "version", "url", "documentationURL"]
+        def tableModel = GlazedListsSwing.eventTableModelWithThreadProxyList(model.imports, [
+                getColumnCount: { return 4 },
+                getColumnName: { int index ->
+                    columnNames[index].capitalize()
+                },
+                getColumnValue: { ModelImport object, int index ->
+                    object."${columnNames[index]}"
+                }] as TableFormat)
 
         JPanel panel = swing.panel(border: BorderFactory.createEtchedBorder()) {
             def fields = []
@@ -48,12 +62,12 @@ class ModelView extends JPanel {
                 panel(id:"authors", constraints: gbc(gridx: 1, gridy: 5, weightx: 1, fill: BOTH, gridwidth: REMAINDER, insets: defaultInsets, anchor: EAST)) {
                     borderLayout()
                     scrollPane() {
-                        list(model: GlazedListsSwing.eventListModelWithThreadProxyList(model.authors))
+                        list(selectionModel: authorsSelectionModel, model: GlazedListsSwing.eventListModelWithThreadProxyList(model.authors))
                     }
                     panel(constraints: BorderLayout.EAST) {
                         vbox {
                             button(border: null, action: addAuthorAction, name:"add", icon: new ImageIcon(getClass().getResource("/icons/list-add.png")))
-                            button(border: null, name:"remove", icon: new ImageIcon(getClass().getResource("/icons/list-remove.png")))
+                            button(border: null, action: removeAuthorAction, name:"remove", icon: new ImageIcon(getClass().getResource("/icons/list-remove.png")))
                         }
                     }
                 }
@@ -64,20 +78,12 @@ class ModelView extends JPanel {
                         fill: BOTH, insets: defaultInsets, anchor: EAST)) {
                     borderLayout()
                     scrollPane() {
-                        def columnNames = ["name", "version", "url", "documentationURL"]
-                        table(model: new DefaultEventTableModel<ModelImport>( model.imports, [
-                                getColumnCount: { return 4 },
-                                getColumnName: { int index ->
-                                    columnNames[index].capitalize()
-                                },
-                                getColumnValue: { ModelImport object, int index ->
-                                    object."${columnNames[index]}"
-                                }] as TableFormat))
+                        table(selectionModel: importsSelectionModel, model: tableModel)
                     }
                     panel(constraints: BorderLayout.EAST) {
                         vbox {
                             button(border: null, action: addImportAction, name:"add", icon: new ImageIcon(getClass().getResource("/icons/list-add.png")))
-                            button(border: null, name:"remove", icon: new ImageIcon(getClass().getResource("/icons/list-remove.png")))
+                            button(border: null, action: removeImportAction, name:"remove", icon: new ImageIcon(getClass().getResource("/icons/list-remove.png")))
                         }
                     }
                 }
@@ -131,6 +137,24 @@ class ModelView extends JPanel {
     private addImportAction = swing.action(
             id:			 'addImportAction',
             closure:     this.&showAddImport
+    )
+
+    private removeImportAction = swing.action(
+            id:			 'removeImportAction',
+            closure:     {
+                if (!importsSelectionModel.selectionEmpty) {
+                    model.imports.removeAll(importsSelectionModel.selected)
+                }
+            }
+    )
+
+    private removeAuthorAction = swing.action(
+            id:			 'removeAuthorAction',
+            closure:     {
+                if (!authorsSelectionModel.selectionEmpty) {
+                    model.authors.removeAll(authorsSelectionModel.selected)
+                }
+            }
     )
 
     private showAddAuthor = {

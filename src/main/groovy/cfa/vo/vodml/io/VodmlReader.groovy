@@ -24,15 +24,15 @@ class VodmlReader {
                 title: xml.title,
                 version: xml.version,
                 lastModified: new DateTime(xml.lastModified.toString()),
-                authors: new BasicEventList(xml.author?.collect {
+                authors: xml.author?.collect {
                     it.text()
-                }),
+                } as BasicEventList,
                 previousVersions: xml.previousVersions?.collect {
                     it.text()
                 },
-                imports: new BasicEventList(xml.import?.collect {
+                imports: xml.import?.collect {
                     importFrom(it)
-                }),
+                } as BasicEventList,
                 packages: xml.package?.collect {
                     packageFrom(it)
                 },
