@@ -419,7 +419,7 @@ class Model implements Buildable {
     String description
     EventList<String> authors = [] as BasicEventList
     List<URI> previousVersions = []
-    List<ModelImport> imports = []
+    EventList<ModelImport> imports = [] as BasicEventList
     List<PrimitiveType> primitiveTypes = []
     List<Enumeration_> enumerations = []
     List<DataType> dataTypes = []

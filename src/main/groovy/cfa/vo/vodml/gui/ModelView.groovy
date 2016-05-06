@@ -1,6 +1,9 @@
 package cfa.vo.vodml.gui
 
+import ca.odell.glazedlists.gui.TableFormat
+import ca.odell.glazedlists.swing.DefaultEventTableModel
 import ca.odell.glazedlists.swing.GlazedListsSwing
+import cfa.vo.vodml.ModelImport
 import groovy.swing.SwingBuilder
 import org.joda.time.DateTime
 
@@ -14,20 +17,16 @@ import static java.awt.GridBagConstraints.*
 class ModelView extends JPanel {
     private SwingBuilder swing = new SwingBuilder()
     private Logger status = StatusPanel.STATUS_LOGGER
+    private defaultInsets = [5, 5, 5, 5]
+
     PresentationModel model
 
     public ModelView(PresentationModel model) {
         this.model = model
+        labelConstraints.delegate = swing
+        fieldConstraints.delegate = swing
 
         JPanel panel = swing.panel(border: BorderFactory.createEtchedBorder()) {
-            def defaultInsets = [5, 5, 5, 5]
-            def labelConstraints = { order ->
-                gbc(gridx: 0, gridy: order, anchor: WEST, insets: defaultInsets)
-            }
-            def fieldConstraints = { order ->
-                gbc(gridx: 1, gridy: order, gridwidth: REMAINDER, weightx: 1,
-                        fill: HORIZONTAL, anchor: EAST, insets: defaultInsets)
-            }
             def fields = []
 
             def labelField = { order, name ->
@@ -61,23 +60,24 @@ class ModelView extends JPanel {
 
                 // Imports
                 label("Imports:", constraints: gbc(gridx: 0, gridy: 6, weighty: 1, insets: defaultInsets, fill: BOTH, anchor: WEST))
-                panel(constraints: gbc(gridx: 1, gridy: 6, weighty: 1, weightx: 1,
+                panel(id:"imports", constraints: gbc(gridx: 1, gridy: 6, weighty: 1, weightx: 1,
                         fill: BOTH, insets: defaultInsets, anchor: EAST)) {
                     borderLayout()
                     scrollPane() {
-                        table() {
-                            tableModel(list: model.imports) {
-                                propertyColumn(header: 'Name', propertyName: 'name')
-                                propertyColumn(header: 'Version', propertyName: 'version')
-                                propertyColumn(header: 'URL', propertyName: 'url')
-                                propertyColumn(header: 'DocURL', propertyName: 'documentationURL')
-                            }
-                        }
+                        def columnNames = ["name", "version", "url", "documentationURL"]
+                        table(model: new DefaultEventTableModel<ModelImport>( model.imports, [
+                                getColumnCount: { return 4 },
+                                getColumnName: { int index ->
+                                    columnNames[index].capitalize()
+                                },
+                                getColumnValue: { ModelImport object, int index ->
+                                    object."${columnNames[index]}"
+                                }] as TableFormat))
                     }
                     panel(constraints: BorderLayout.EAST) {
                         vbox {
-                            label(icon: new ImageIcon(getClass().getResource("/icons/list-add.png")))
-                            label(icon: new ImageIcon(getClass().getResource("/icons/list-remove.png")))
+                            button(border: null, action: addImportAction, name:"add", icon: new ImageIcon(getClass().getResource("/icons/list-add.png")))
+                            button(border: null, name:"remove", icon: new ImageIcon(getClass().getResource("/icons/list-remove.png")))
                         }
                     }
                 }
@@ -115,9 +115,22 @@ class ModelView extends JPanel {
         }
     }
 
+    private convertUrl = {String val ->
+        try {
+            new URL(val)
+        } catch (Exception ex) {
+            status.warning("Cannot parse URL $val")
+        }
+    }
+
     private addAuthorAction = swing.action(
-            id:			 'actionLoad',
+            id:			 'addAuthorAction',
             closure:     this.&showAddAuthor
+    )
+
+    private addImportAction = swing.action(
+            id:			 'addImportAction',
+            closure:     this.&showAddImport
     )
 
     private showAddAuthor = {
@@ -139,5 +152,48 @@ class ModelView extends JPanel {
                 }
             }
         }
+    }
+
+    private showAddImport = {
+        swing.edt {
+            ModelImport imp = new ModelImport()
+            dialog(id: "dialog", title:"Add Author", modal:true, locationRelativeTo: MainView.frame, pack: true, show: true) {
+                vbox {
+                    panel(border: BorderFactory.createEmptyBorder(10, 10, 10, 10)) {
+                        gridBagLayout()
+                        label("Name: ", constraints: labelConstraints(0))
+                        textField(id: "impNameField", constraints: fieldConstraints(0), columns: 20)
+                        label("Version: ", constraints: labelConstraints(1))
+                        textField(id: "impVersionField", constraints: fieldConstraints(1), columns: 20)
+                        label("URL: ", constraints: labelConstraints(2))
+                        textField(id: "impUrlField", constraints: fieldConstraints(2), columns: 20)
+                        label("DocURL: ", constraints: labelConstraints(3))
+                        textField(id: "impDocUrlField", constraints: fieldConstraints(3), columns: 20)
+                    }
+                    panel {
+                        hbox {
+                            button("OK", actionPerformed: { model.imports.add(imp); dialog.dispose() })
+                            hstrut(width: 10)
+                            button("Cancel", actionPerformed: { dialog.dispose()})
+                        }
+                    }
+                }
+                bean(imp,
+                        name: bind { impNameField.text },
+                        version: bind { impVersionField.text },
+                        url: bind(converter: convertUrl) { impUrlField.text },
+                        documentationURL: bind(converter: convertUrl) { impDocUrlField.text },
+                )
+            }
+        }
+    }
+
+    def labelConstraints = { order ->
+        gbc(gridx: 0, gridy: order, anchor: WEST, insets: defaultInsets)
+    }
+
+    def fieldConstraints = { order ->
+        gbc(gridx: 1, gridy: order, gridwidth: REMAINDER, weightx: 1,
+                fill: HORIZONTAL, anchor: EAST, insets: defaultInsets)
     }
 }

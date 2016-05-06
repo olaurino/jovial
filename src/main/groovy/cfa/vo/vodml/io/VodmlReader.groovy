@@ -30,9 +30,9 @@ class VodmlReader {
                 previousVersions: xml.previousVersions?.collect {
                     it.text()
                 },
-                imports: xml.import?.collect {
+                imports: new BasicEventList(xml.import?.collect {
                     importFrom(it)
-                },
+                }),
                 packages: xml.package?.collect {
                     packageFrom(it)
                 },

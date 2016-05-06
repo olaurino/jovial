@@ -435,7 +435,7 @@ class MetaModelTest {
                 name: "ds",
                 title: "Dataset Metadata",
                 description: "Generic, high-level metadata associated with an IVOA Dataset.",
-                imports: [ ivoa ],
+                imports: [ ivoa ] as EventList,
                 authors: [ "Jane Doe", "John Doe" ] as EventList,
                 packages: [ datasetPackage, partyPackage ],
                 enumerations: [ dataProductType, creationType, rightsType ],
