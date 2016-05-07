@@ -36,6 +36,21 @@ class VodmlRef {
         return new VodmlRef(prefix, "$reference.$newPart")
     }
 
+    def getProperty(String name) {
+        if (name in this.getProperties().collect{
+            it-> it.key
+        }) {
+            return this.@"$name"
+        }
+        def ref
+        if (!reference) {
+            ref = name
+        } else {
+            ref = "$reference.$name"
+        }
+        return new VodmlRef(prefix, ref)
+    }
+
     @Override
     String toString() {
         def start = prefix ? "$prefix:" : ""

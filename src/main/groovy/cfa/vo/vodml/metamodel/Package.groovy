@@ -13,10 +13,19 @@ class Package extends ReferableElement implements Buildable {
     List<ObjectType> objectTypes = []
     List<Package> packages = []
 
-    void leftShift(DataType dataType) {
-        dataTypes << dataType
-        if (dataType.vodmlid == null) {
-            dataType.vodmlid = this.vodmlid.append(dataType.name)
+    void leftShift(DataType child) {
+        dataTypes << child
+        propagateVodmlid(child)
+    }
+
+    void leftShift(ObjectType child) {
+        objectTypes << child
+        propagateVodmlid(child)
+    }
+
+    private propagateVodmlid(ReferableElement child) {
+        if (child.vodmlid == null) {
+            child.vodmlid = this.vodmlid.append(child.name)
         }
     }
 

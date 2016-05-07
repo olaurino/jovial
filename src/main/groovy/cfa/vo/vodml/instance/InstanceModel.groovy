@@ -172,7 +172,8 @@ class VotableInstance implements DefaultNode, HasObjects, HasData {
      * @param data
      * @return
      */
-    public leftShift(Model data) {resolver << data}
+    public leftShift(Model data) {
+        resolver << data}
 
     @Override
     Closure getBuildCallback() {

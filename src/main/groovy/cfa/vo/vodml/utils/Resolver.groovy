@@ -97,13 +97,21 @@ class Resolver {
     private indexPackage(String prefix, pkg) {
         ["dataTypes", "objectTypes", "primitiveTypes", "enumerations"].each {
             pkg."$it".each { type ->
-                VodmlRef key = new VodmlRef(prefix, type.vodmlid)
+                VodmlRef key
+                if (!type.vodmlid || !type.vodmlid.prefix) {
+                    key = new VodmlRef(prefix, type.vodmlid)
+                } else {
+                    key = type.vodmlid
+                }
                 types[key] = type
 
                 ["attributes", "references", "collections"].each {
                     if (type.hasProperty(it)) {
                         type?."$it".each { role ->
-                            VodmlRef rkey = new VodmlRef(prefix, role.vodmlid)
+                            VodmlRef rkey = role.vodmlid
+                            if (!role.vodmlid.prefix) {
+                                rkey = new VodmlRef(prefix, role.vodmlid)
+                            }
                             roles[rkey] = role
                         }
                     }

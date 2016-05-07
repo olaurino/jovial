@@ -1,18 +1,16 @@
 package cfa.vo.vodml.io
 
 import cfa.vo.vodml.VodmlException
-import cfa.vo.vodml.metamodel.Attribute
-import cfa.vo.vodml.metamodel.DataType
-import cfa.vo.vodml.metamodel.Package
+import cfa.vo.vodml.io.factories.model.PackageFactory
+import cfa.vo.vodml.utils.VodmlRef
 
 class ModelBuilder extends FactoryBuilderSupport {
     private static final String MODEL_PACKAGE = "cfa.vo.vodml.io.factories.model"
 
     public ModelBuilder() {
-        registerBeanFactory("pack", Package)
-        registerBeanFactory("package", Package)
-        registerBeanFactory("dataType", DataType)
-        registerBeanFactory("attribute", Attribute)
+        def packageFactory = new PackageFactory()
+        registerFactory("pack", packageFactory)
+        registerFactory("package", packageFactory)
     }
 
     @Override
@@ -35,6 +33,15 @@ class ModelBuilder extends FactoryBuilderSupport {
             parent << child
         } catch (Exception ex) {
             throw new VodmlException("Cannot attach child $child to parent $parent. Does parent implement leftShift?", ex)
+        }
+    }
+
+    @Override
+    Object getVariable(String name) {
+        try {
+            super.getVariable(name)
+        } catch (MissingPropertyException ignored) {
+            new VodmlRef(name, "")
         }
     }
 }

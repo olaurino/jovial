@@ -3,14 +3,29 @@ package cfa.vo.vodml.metamodel
 import groovy.beans.Bindable
 import groovy.transform.EqualsAndHashCode
 
-
 @Bindable
 @EqualsAndHashCode
 class ObjectType extends Type implements Buildable {
     def abstract_ = false
-    List<Attribute> attributes
-    List<Composition> collections
-    List<Reference> references
+    List<Attribute> attributes = []
+    List<Composition> collections = []
+    List<Reference> references = []
+
+    void leftShift(Reference child) {
+        references << child
+        propagateVodmlid(child)
+    }
+
+    void leftShift(Attribute child) {
+        attributes << child
+        propagateVodmlid(child)
+    }
+
+    private propagateVodmlid(ReferableElement child) {
+        if (child.vodmlid == null) {
+            child.vodmlid = vodmlid.append(child.name)
+        }
+    }
 
     @Override
     void build(GroovyObject builder) {

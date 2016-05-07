@@ -33,10 +33,19 @@ class Model implements Buildable {
         return "$name v$version"
     }
 
-    void leftShift(Package pack) {
-        packages << pack
-        if (pack.vodmlid == null) {
-            pack.vodmlid = new VodmlRef(name, pack.name)
+    void leftShift(Package child) {
+        packages << child
+        propagateVodmlid(child)
+    }
+
+    void leftShift(ObjectType child) {
+        objectTypes << child
+        propagateVodmlid(child)
+    }
+
+    private propagateVodmlid(ReferableElement child) {
+        if (child.vodmlid == null) {
+            child.vodmlid = new VodmlRef(name, child.name)
         }
     }
 
