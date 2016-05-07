@@ -8,8 +8,12 @@ import groovy.transform.EqualsAndHashCode
 @EqualsAndHashCode
 class DataType extends ValueType implements Buildable {
     def abstract_ = false
-    List<Attribute> attributes
-    List<Reference> references
+    List<Attribute> attributes = []
+    List<Reference> references = []
+
+    void leftShift(Attribute attribute) {
+        attributes << attribute
+    }
 
     @Override
     void build(GroovyObject builder) {

@@ -2,11 +2,11 @@ package cfa.vo.vodml.metamodel
 
 import ca.odell.glazedlists.BasicEventList
 import ca.odell.glazedlists.EventList
+import cfa.vo.vodml.utils.VodmlRef
 import groovy.beans.Bindable
 import groovy.transform.Canonical
 import groovy.transform.EqualsAndHashCode
 import org.joda.time.DateTime
-
 
 @Bindable
 @Canonical
@@ -31,6 +31,13 @@ class Model implements Buildable {
     @Override
     String toString() {
         return "$name v$version"
+    }
+
+    void leftShift(Package pack) {
+        packages << pack
+        if (pack.vodmlid == null) {
+            pack.vodmlid = new VodmlRef(name, pack.name)
+        }
     }
 
     @Override

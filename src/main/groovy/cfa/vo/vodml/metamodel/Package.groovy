@@ -7,11 +7,18 @@ import groovy.transform.EqualsAndHashCode
 @Bindable
 @EqualsAndHashCode
 class Package extends ReferableElement implements Buildable {
-    List<PrimitiveType> primitiveTypes
-    List<Enumeration_> enumerations
-    List<DataType> dataTypes
-    List<ObjectType> objectTypes
-    List<Package> packages
+    List<PrimitiveType> primitiveTypes = []
+    List<Enumeration_> enumerations = []
+    List<DataType> dataTypes = []
+    List<ObjectType> objectTypes = []
+    List<Package> packages = []
+
+    void leftShift(DataType dataType) {
+        dataTypes << dataType
+        if (dataType.vodmlid == null) {
+            dataType.vodmlid = this.vodmlid.append(dataType.name)
+        }
+    }
 
     @Override
     void build(GroovyObject builder) {
