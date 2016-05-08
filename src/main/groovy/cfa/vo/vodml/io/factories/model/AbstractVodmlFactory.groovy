@@ -4,7 +4,7 @@ abstract class AbstractVodmlFactory extends AbstractFactory {
     @Override
     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         attributes = fixName(value, attributes)
-        return newInstance(attributes)
+        return newInstance(name, attributes)
     }
 
     protected fixName(value, Map attributes) {
@@ -19,6 +19,6 @@ abstract class AbstractVodmlFactory extends AbstractFactory {
         return attributes
     }
 
-    abstract newInstance(Map attributes)
+    abstract newInstance(String name, Map attributes)
 
 }

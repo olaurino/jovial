@@ -11,8 +11,20 @@ class DataType extends ValueType implements Buildable {
     List<Attribute> attributes = []
     List<Reference> references = []
 
-    void leftShift(Attribute attribute) {
-        attributes << attribute
+    void leftShift(Attribute child) {
+        attributes << child
+        propagateVodmlid(child)
+    }
+
+    void leftShift(Reference child) {
+        references << child
+        propagateVodmlid(child)
+    }
+
+    private propagateVodmlid(ReferableElement child) {
+        if (child.vodmlid == null) {
+            child.vodmlid = vodmlid.append(child.name)
+        }
     }
 
     @Override

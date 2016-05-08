@@ -23,6 +23,11 @@ class Package extends ReferableElement implements Buildable {
         propagateVodmlid(child)
     }
 
+    void leftShift(Enumeration_ child) {
+        enumerations << child
+        propagateVodmlid(child)
+    }
+
     private propagateVodmlid(ReferableElement child) {
         if (child.vodmlid == null) {
             child.vodmlid = this.vodmlid.append(child.name)

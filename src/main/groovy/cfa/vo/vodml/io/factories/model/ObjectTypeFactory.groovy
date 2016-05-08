@@ -6,7 +6,7 @@ import cfa.vo.vodml.metamodel.ObjectType
 class ObjectTypeFactory extends AbstractVodmlFactory {
 
     @Override
-    Object newInstance(Map attributes) throws InstantiationException, IllegalAccessException {
+    Object newInstance(String name, Map attributes) throws InstantiationException, IllegalAccessException {
         def parent = attributes.remove("parent")
         def objectType = attributes as ObjectType
         if (parent) {

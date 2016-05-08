@@ -2,6 +2,7 @@ package cfa.vo.vodml.metamodel
 
 import ca.odell.glazedlists.BasicEventList
 import ca.odell.glazedlists.EventList
+import cfa.vo.vodml.io.factories.model.StringAttribute
 import cfa.vo.vodml.utils.VodmlRef
 import groovy.beans.Bindable
 import groovy.transform.Canonical
@@ -38,14 +39,42 @@ class Model implements Buildable {
         propagateVodmlid(child)
     }
 
+    void leftShift(Enumeration_ child) {
+        enumerations << child
+        propagateVodmlid(child)
+    }
+
+    void leftShift(DateTime child) {
+        this.lastModified = child
+    }
+
+    void leftShift(StringAttribute attr) {
+        switch(attr.name) {
+            case("author"):
+                authors.add(attr.value)
+                break
+            default:
+                this."$attr.name" = attr.value
+        }
+    }
+
     void leftShift(ObjectType child) {
         objectTypes << child
         propagateVodmlid(child)
     }
 
+    void leftShift(DataType child) {
+        dataTypes << child
+        propagateVodmlid(child)
+    }
+
+    void leftShift(ModelImport child) {
+        imports << child
+    }
+
     private propagateVodmlid(ReferableElement child) {
         if (child.vodmlid == null) {
-            child.vodmlid = new VodmlRef(name, child.name)
+            child.vodmlid = new VodmlRef(child.name)
         }
     }
 

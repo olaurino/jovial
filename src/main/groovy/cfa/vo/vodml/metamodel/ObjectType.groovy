@@ -21,6 +21,11 @@ class ObjectType extends Type implements Buildable {
         propagateVodmlid(child)
     }
 
+    void leftShift(Composition child) {
+        collections << child
+        propagateVodmlid(child)
+    }
+
     private propagateVodmlid(ReferableElement child) {
         if (child.vodmlid == null) {
             child.vodmlid = vodmlid.append(child.name)
