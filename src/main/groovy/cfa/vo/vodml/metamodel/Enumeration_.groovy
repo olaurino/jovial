@@ -6,18 +6,12 @@ import groovy.transform.EqualsAndHashCode
 
 @Bindable
 @EqualsAndHashCode
-class Enumeration_ extends ValueType implements Buildable {
+class Enumeration_ extends ValueType implements Buildable, Parent {
     List<EnumLiteral> literals = [] as EventList
 
     void leftShift(EnumLiteral child) {
         literals.add(child)
         propagateVodmlid(child)
-    }
-
-    private propagateVodmlid(ReferableElement child) {
-        if (child.vodmlid == null) {
-            child.vodmlid = this.vodmlid.append(child.name)
-        }
     }
 
     @Override

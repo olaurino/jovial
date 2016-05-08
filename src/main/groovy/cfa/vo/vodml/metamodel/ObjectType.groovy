@@ -1,35 +1,17 @@
 package cfa.vo.vodml.metamodel
 
+import ca.odell.glazedlists.BasicEventList
 import groovy.beans.Bindable
 import groovy.transform.EqualsAndHashCode
 
 @Bindable
 @EqualsAndHashCode
-class ObjectType extends Type implements Buildable {
-    def abstract_ = false
-    List<Attribute> attributes = []
-    List<Composition> collections = []
-    List<Reference> references = []
-
-    void leftShift(Reference child) {
-        references << child
-        propagateVodmlid(child)
-    }
-
-    void leftShift(Attribute child) {
-        attributes << child
-        propagateVodmlid(child)
-    }
+class ObjectType extends Type implements Buildable, Parent, DataTypeLike {
+    List<Composition> collections = [] as BasicEventList
 
     void leftShift(Composition child) {
         collections << child
         propagateVodmlid(child)
-    }
-
-    private propagateVodmlid(ReferableElement child) {
-        if (child.vodmlid == null) {
-            child.vodmlid = vodmlid.append(child.name)
-        }
     }
 
     @Override

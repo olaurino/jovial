@@ -6,33 +6,7 @@ import groovy.transform.EqualsAndHashCode
 
 @Bindable
 @EqualsAndHashCode
-class Package extends ReferableElement implements Buildable {
-    List<PrimitiveType> primitiveTypes = []
-    List<Enumeration_> enumerations = []
-    List<DataType> dataTypes = []
-    List<ObjectType> objectTypes = []
-    List<Package> packages = []
-
-    void leftShift(DataType child) {
-        dataTypes << child
-        propagateVodmlid(child)
-    }
-
-    void leftShift(ObjectType child) {
-        objectTypes << child
-        propagateVodmlid(child)
-    }
-
-    void leftShift(Enumeration_ child) {
-        enumerations << child
-        propagateVodmlid(child)
-    }
-
-    private propagateVodmlid(ReferableElement child) {
-        if (child.vodmlid == null) {
-            child.vodmlid = this.vodmlid.append(child.name)
-        }
-    }
+class Package extends ReferableElement implements Buildable, PackageLike {
 
     @Override
     void build(GroovyObject builder) {

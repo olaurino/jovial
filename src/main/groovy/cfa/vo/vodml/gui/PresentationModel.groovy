@@ -1,27 +1,24 @@
 package cfa.vo.vodml.gui
 
 import cfa.vo.vodml.metamodel.Model
+import cfa.vo.vodml.metamodel.PackageLike
 import groovy.beans.Bindable
-import groovy.transform.Canonical
 import groovy.transform.EqualsAndHashCode
 
 import javax.swing.tree.DefaultTreeModel
 
-@Canonical()
-@EqualsAndHashCode(includes=["modelDelegate",])
+@EqualsAndHashCode(excludes=["dirty",])
 @Bindable
-class PresentationModel {
+class PresentationModel extends Model {
     boolean dirty
-    DefaultTreeModel treeModel
     private static ObjectGraphBuilder ogb = new ObjectGraphBuilder()
-    @Delegate Model modelDelegate
 
     public PresentationModel() {
         this(new Model())
     }
 
     public PresentationModel(Model model) {
-        this.modelDelegate = model
+        decorate(model)
         ogb.classNameResolver = { name ->
             "javax.swing.tree.DefaultMutableTreeNode"
         }
@@ -32,17 +29,23 @@ class PresentationModel {
 
     public DefaultTreeModel getTreeModel() {
         def root = ogb.node(userObject: this) {
-            renderPackage(thisObject)
+            renderPackage(this)
         }
         return new DefaultTreeModel(root)
     }
 
-    @Override
-    public String toString() {
-        return modelDelegate.toString()
+    // Hack because Traits do not support AST trasformations, so @Delegate won't work.
+    // Falling back on decorate constructor instead
+    private decorate(Model model) {
+        def properties = model.properties
+        properties.remove("class")
+        properties.remove("propertyChangeListeners")
+        properties.each {
+            this."$it.key" = it.value
+        }
     }
 
-    private renderPackage(obj) {
+    private renderPackage(PackageLike obj) {
         def c = {
             node(userObject: "Primitive Types") {
                 obj.primitiveTypes.each { ot ->

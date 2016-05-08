@@ -12,7 +12,7 @@ import org.joda.time.DateTime
 @Bindable
 @Canonical
 @EqualsAndHashCode(excludes = "lastModified")
-class Model implements Buildable {
+class Model implements Buildable, PackageLike {
     String prefix = "vo-dml"
     String ns = "http://www.ivoa.net/xml/VODML/v1.0"
     String name = "my_model"
@@ -23,25 +23,10 @@ class Model implements Buildable {
     EventList<String> authors = [] as BasicEventList
     List<URI> previousVersions = []
     EventList<ModelImport> imports = [] as BasicEventList
-    List<PrimitiveType> primitiveTypes = []
-    List<Enumeration_> enumerations = []
-    List<DataType> dataTypes = []
-    List<ObjectType> objectTypes = []
-    List<Package> packages = []
 
     @Override
     String toString() {
         return "$name v$version"
-    }
-
-    void leftShift(Package child) {
-        packages << child
-        propagateVodmlid(child)
-    }
-
-    void leftShift(Enumeration_ child) {
-        enumerations << child
-        propagateVodmlid(child)
     }
 
     void leftShift(DateTime child) {
@@ -58,21 +43,11 @@ class Model implements Buildable {
         }
     }
 
-    void leftShift(ObjectType child) {
-        objectTypes << child
-        propagateVodmlid(child)
-    }
-
-    void leftShift(DataType child) {
-        dataTypes << child
-        propagateVodmlid(child)
-    }
-
     void leftShift(ModelImport child) {
         imports << child
     }
 
-    private propagateVodmlid(ReferableElement child) {
+    def propagateVodmlid(ReferableElement child) {
         if (child.vodmlid == null) {
             child.vodmlid = new VodmlRef(child.name)
         }
