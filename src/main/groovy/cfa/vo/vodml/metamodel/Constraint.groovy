@@ -6,7 +6,9 @@ import groovy.transform.EqualsAndHashCode
 
 @Bindable
 @EqualsAndHashCode
-class Constraint extends ReferableElement implements Buildable {
+class Constraint implements Buildable {
+    String description
+
     @Override
     void build(GroovyObject builder) {
         def elem = {

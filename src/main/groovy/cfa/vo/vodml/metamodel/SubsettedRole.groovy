@@ -15,7 +15,10 @@ class SubsettedRole extends Constraint {
     void build(GroovyObject builder) {
         def elem = {
             constraint("xsi:type": "vo-dml:SubsettedRole") {
-                role() {
+                if (this.description) {
+                    "description"(this.description)
+                }
+                "role"() {
                     out << this.role
                 }
                 datatype {

@@ -1,13 +1,8 @@
 package cfa.vo.vodml.io
 
 import cfa.vo.vodml.VodmlException
-import cfa.vo.vodml.io.factories.model.BeanFactory
-import cfa.vo.vodml.io.factories.model.DateTimeFactory
-import cfa.vo.vodml.io.factories.model.ModelImportFactory
-import cfa.vo.vodml.io.factories.model.SimpleStringFactory
-import cfa.vo.vodml.metamodel.Package
-import cfa.vo.vodml.metamodel.EnumLiteral
-import cfa.vo.vodml.metamodel.Enumeration_
+import cfa.vo.vodml.io.factories.model.*
+import cfa.vo.vodml.metamodel.*
 import cfa.vo.vodml.utils.VodmlRef
 
 class ModelBuilder extends FactoryBuilderSupport {
@@ -17,16 +12,20 @@ class ModelBuilder extends FactoryBuilderSupport {
         def packageFactory = new BeanFactory(Package)
         def importFactory = new ModelImportFactory()
         def simpleStringFactory = new SimpleStringFactory()
+        registerFactory("primitiveType", new TypeFactory(PrimitiveType))
+        registerFactory("dataType", new TypeFactory(DataType))
+        registerFactory("objectType", new TypeFactory(ObjectType))
         registerFactory("pack", packageFactory)
         registerFactory("package", packageFactory)
         registerFactory("include", importFactory)
         registerFactory("import", importFactory)
+        registerFactory("lastModified", new DateTimeFactory())
+        registerFactory("enumeration", new TypeFactory(Enumeration_))
+        registerFactory("literal", new BeanFactory(EnumLiteral))
+        registerFactory("subsets", new SubsettedRoleFactory())
         ["title", "description", "author"].each {
             registerFactory(it, simpleStringFactory)
         }
-        registerFactory("lastModified", new DateTimeFactory())
-        registerFactory("enumeration", new BeanFactory(Enumeration_))
-        registerFactory("literal", new BeanFactory(EnumLiteral))
     }
 
     @Override

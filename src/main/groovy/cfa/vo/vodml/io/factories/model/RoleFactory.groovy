@@ -21,7 +21,7 @@ abstract class RoleFactory extends AbstractVodmlFactory {
                     max = Integer.valueOf(tokens[1])
                 }
                 attributes.multiplicity = [minOccurs: min, maxOccurs: max] as Multiplicity
-            } catch (Exception | ArrayIndexOutOfBoundsException ex) {
+            } catch (Exception ex) {
                 throw new VodmlException(error(), ex)
             }
         }

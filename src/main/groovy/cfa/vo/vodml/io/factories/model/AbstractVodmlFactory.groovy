@@ -1,24 +1,26 @@
 package cfa.vo.vodml.io.factories.model
 
 abstract class AbstractVodmlFactory extends AbstractFactory {
+    protected String defaultAttributeName = "name"
+
     @Override
     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         attributes = fixName(value, attributes)
         return newInstance(name, attributes)
     }
 
+    abstract newInstance(String name, Map attributes)
+
     protected fixName(value, Map attributes) {
-        if (!("name" in attributes) && value) {
+        if (!(defaultAttributeName in attributes) && value) {
             try {
-                attributes.name = value
+                attributes[defaultAttributeName] = value
             } catch (UnsupportedOperationException ignored) {
                 attributes = [:]
-                attributes.name = value
+                attributes[defaultAttributeName] = value
             }
         }
         return attributes
     }
-
-    abstract newInstance(String name, Map attributes)
 
 }

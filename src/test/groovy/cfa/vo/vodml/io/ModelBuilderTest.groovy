@@ -231,6 +231,142 @@ Illegal multiplicity expression. Please use '<minOccurs>..<maxOccurs>', where:
 """
     }
 
+    def "test constraints and subsetted roles"() {
+        given: "The simplest model with (hopefully) all combinations of constraints and subsettings"
+        Model model = builder.model("test") {
+            primitiveType("PrimType", description: "A base primitive type")
+            primitiveType("DerivedPrimType", description: "A derived primitive type", extends: test.PrimType) {
+                constraint("must be less than 20")
+            }
+            dataType("BaseDataType", description: "A base data type") {
+                attribute("anAttribute", dataType: test.PrimType)
+            }
+            dataType("DerivedDataType", description: "A derived data type", extends: test.BaseDataType) {
+                constraint("must be a particular thing")
+                subsets(role: test.BaseDataType.anAttribute, dataType: test.DerivedPrimType)
+            }
+            objectType("BaseObjectType", description: "A base object type") {
+                attribute("anAttribute", dataType: test.BaseDataType)
+                attribute("anEnumeration", dataType: test.BaseEnum)
+            }
+            objectType("DerivedObjectType", description: "A derived object type", extends: test.BaseObjectType) {
+                constraint("must be another particular thing")
+                subsets(role: test.BaseObjectType.anAttribute, dataType: test.DerivedDataType)
+                subsets(role: test.BaseObjectType.anEnumeration, dataType: test.DerivedEnum)
+            }
+            enumeration("BaseEnum", description: "A base enumeration") {
+                literal("A")
+                literal("B")
+                literal("C")
+                literal("D")
+            }
+            enumeration("DerivedEnum", description: "A derived enumeration", extends: test.BaseEnum) {
+                literal("B")
+                literal("C")
+            }
+            pack("aPackage") {
+                primitiveType("PrimType", description: "A base primitive type")
+                primitiveType("DerivedPrimType", description: "A derived primitive type", extends: test.aPackage.PrimType) {
+                    constraint(description: "must be less than 20")
+                }
+                dataType("BaseDataType", description: "A base data type") {
+                    attribute("anAttribute", dataType: test.aPackage.PrimType)
+                }
+                dataType("DerivedDataType", description: "A derived data type", extends: test.aPackage.BaseDataType) {
+                    constraint(description: "must be a particular thing")
+                    subsets(role: test.aPackage.BaseDataType.anAttribute, dataType: test.aPackage.DerivedPrimType)
+                }
+                objectType("BaseObjectType", description: "A base object type") {
+                    attribute("anAttribute", dataType: test.aPackage.BaseDataType)
+                    attribute("anEnumeration", dataType: test.aPackage.BaseEnum)
+                }
+                objectType("DerivedObjectType", description: "A derived object type", extends: test.aPackage.BaseObjectType) {
+                    constraint("must be another particular thing")
+                    subsets(role: test.aPackage.BaseObjectType.anAttribute, dataType: test.aPackage.DerivedDataType)
+                    subsets(role: test.aPackage.BaseObjectType.anEnumeration, dataType: test.aPackage.DerivedEnum)
+                }
+                enumeration("BaseEnum", description: "A base enumeration") {
+                    literal("A")
+                    literal("B")
+                    literal("C")
+                    literal("D")
+                }
+                enumeration("DerivedEnum", description: "A derived enumeration", extends: test.aPackage.BaseEnum) {
+                    literal("B")
+                    literal("C")
+                }
+            }
+        }
+        expect: "model looks what it should look like"
+        model.primitiveTypes[0].name == "PrimType"
+        model.primitiveTypes[0].description == "A base primitive type"
+        model.primitiveTypes[0].vodmlid == new VodmlRef("PrimType")
+        model.primitiveTypes[1].name == "DerivedPrimType"
+        model.primitiveTypes[1].description == "A derived primitive type"
+        model.primitiveTypes[1].vodmlid == new VodmlRef("DerivedPrimType")
+        model.primitiveTypes[1].extends_ == [vodmlref: new VodmlRef("test:PrimType")] as ElementRef
+        model.primitiveTypes[1].constraints[0].description == "must be less than 20"
+        model.dataTypes[0].name == "BaseDataType"
+        model.dataTypes[0].description == "A base data type"
+        model.dataTypes[0].vodmlid == new VodmlRef("BaseDataType")
+        model.dataTypes[1].name == "DerivedDataType"
+        model.dataTypes[1].description == "A derived data type"
+        model.dataTypes[1].vodmlid == new VodmlRef("DerivedDataType")
+        model.dataTypes[1].extends_ == [vodmlref: new VodmlRef("test:BaseDataType")] as ElementRef
+        model.dataTypes[1].constraints[0].description == "must be a particular thing"
+        model.dataTypes[1].constraints[1].description == null
+        model.dataTypes[1].constraints[1].role == [vodmlref: new VodmlRef("test:BaseDataType.anAttribute")] as ElementRef
+        model.dataTypes[1].constraints[1].dataType == [vodmlref: new VodmlRef("test:DerivedPrimType")] as ElementRef
+        model.objectTypes[0].name == "BaseObjectType"
+        model.objectTypes[0].description == "A base object type"
+        model.objectTypes[0].vodmlid == new VodmlRef("BaseObjectType")
+        model.objectTypes[1].name == "DerivedObjectType"
+        model.objectTypes[1].description == "A derived object type"
+        model.objectTypes[1].vodmlid == new VodmlRef("DerivedObjectType")
+        model.objectTypes[1].extends_ == [vodmlref: new VodmlRef("test:BaseObjectType")] as ElementRef
+        model.objectTypes[1].constraints[0].description == "must be another particular thing"
+        model.objectTypes[1].constraints[1].description == null
+        model.objectTypes[1].constraints[1].role == [vodmlref: new VodmlRef("test:BaseObjectType.anAttribute")] as ElementRef
+        model.objectTypes[1].constraints[1].dataType == [vodmlref: new VodmlRef("test:DerivedDataType")] as ElementRef
+        model.objectTypes[1].constraints[2].description == null
+        model.objectTypes[1].constraints[2].role == [vodmlref: new VodmlRef("test:BaseObjectType.anEnumeration")] as ElementRef
+        model.objectTypes[1].constraints[2].dataType == [vodmlref: new VodmlRef("test:DerivedEnum")] as ElementRef
+        model.packages[0].name == "aPackage"
+        model.packages[0].primitiveTypes[0].name == "PrimType"
+        model.packages[0].primitiveTypes[0].description == "A base primitive type"
+        model.packages[0].primitiveTypes[0].vodmlid == new VodmlRef("aPackage.PrimType")
+        model.packages[0].primitiveTypes[1].name == "DerivedPrimType"
+        model.packages[0].primitiveTypes[1].description == "A derived primitive type"
+        model.packages[0].primitiveTypes[1].vodmlid == new VodmlRef("aPackage.DerivedPrimType")
+        model.packages[0].primitiveTypes[1].extends_ == [vodmlref: new VodmlRef("test:aPackage.PrimType")] as ElementRef
+        model.packages[0].primitiveTypes[1].constraints[0].description == "must be less than 20"
+        model.packages[0].dataTypes[0].name == "BaseDataType"
+        model.packages[0].dataTypes[0].description == "A base data type"
+        model.packages[0].dataTypes[0].vodmlid == new VodmlRef("aPackage.BaseDataType")
+        model.packages[0].dataTypes[1].name == "DerivedDataType"
+        model.packages[0].dataTypes[1].description == "A derived data type"
+        model.packages[0].dataTypes[1].vodmlid == new VodmlRef("aPackage.DerivedDataType")
+        model.packages[0].dataTypes[1].extends_ == [vodmlref: new VodmlRef("test:aPackage.BaseDataType")] as ElementRef
+        model.packages[0].dataTypes[1].constraints[0].description == "must be a particular thing"
+        model.packages[0].dataTypes[1].constraints[1].description == null
+        model.packages[0].dataTypes[1].constraints[1].role == [vodmlref: new VodmlRef("test:aPackage.BaseDataType.anAttribute")] as ElementRef
+        model.packages[0].dataTypes[1].constraints[1].dataType == [vodmlref: new VodmlRef("test:aPackage.DerivedPrimType")] as ElementRef
+        model.packages[0].objectTypes[0].name == "BaseObjectType"
+        model.packages[0].objectTypes[0].description == "A base object type"
+        model.packages[0].objectTypes[0].vodmlid == new VodmlRef("aPackage.BaseObjectType")
+        model.packages[0].objectTypes[1].name == "DerivedObjectType"
+        model.packages[0].objectTypes[1].description == "A derived object type"
+        model.packages[0].objectTypes[1].vodmlid == new VodmlRef("aPackage.DerivedObjectType")
+        model.packages[0].objectTypes[1].extends_ == [vodmlref: new VodmlRef("test:aPackage.BaseObjectType")] as ElementRef
+        model.packages[0].objectTypes[1].constraints[0].description == "must be another particular thing"
+        model.packages[0].objectTypes[1].constraints[1].description == null
+        model.packages[0].objectTypes[1].constraints[1].role == [vodmlref: new VodmlRef("test:aPackage.BaseObjectType.anAttribute")] as ElementRef
+        model.packages[0].objectTypes[1].constraints[1].dataType == [vodmlref: new VodmlRef("test:aPackage.DerivedDataType")] as ElementRef
+        model.packages[0].objectTypes[1].constraints[2].description == null
+        model.packages[0].objectTypes[1].constraints[2].role == [vodmlref: new VodmlRef("test:aPackage.BaseObjectType.anEnumeration")] as ElementRef
+        model.packages[0].objectTypes[1].constraints[2].dataType == [vodmlref: new VodmlRef("test:aPackage.DerivedEnum")] as ElementRef
+    }
+
     def "full model (as in MetaModelTest but with DSL)"() {
         given: "I/O infrastructure"
         def writer = new VodmlWriter()
@@ -244,31 +380,31 @@ Illegal multiplicity expression. Please use '<minOccurs>..<maxOccurs>', where:
             author("John Doe")
             author("Jane Doe")
             include("ivoa", version:"1.0", url: "https://some/url")
-            enumeration("DataProductType") {
-                literal("CUBE", description: "Data Cube")
-                literal("IMAGE", description: "Image")
-                literal("PHOTOMETRY", description: "Photometry")
-                literal("SPECTRUM", description: "Spectrum")
-                literal("TIMESERIES", description: "Time Series")
-                literal("SED", description: "Spectral Energy Distribution")
-                literal("VISIBILITY", description: "Visibility")
-                literal("EVENT", description: "Event List")
-                literal("CATALOG", description: "Catalog")
-            }
-            enumeration("CreationType") {
-                literal("ARCHIVAL", description: "Archival")
-                literal("CUTOUT", description: "Cutout")
-                literal("FILTERED", description: "Filtered")
-                literal("MOSAIC", description: "Mosaic")
-                literal("SPECTRAL_EXTRACTION", description: "Spectral Extraction")
-                literal("CATALOG_EXTRACTION", description: "Catalog Extraction")
-            }
-            enumeration("RightsType") {
-                literal("PUBLIC", description: "Public Access")
-                literal("PROPRIETARY", description: "Proprietary Access")
-                literal("SECURE", description: "Secure Access")
-            }
             pack("dataset") {
+                enumeration("DataProductType") {
+                    literal("CUBE", description: "Data Cube")
+                    literal("IMAGE", description: "Image")
+                    literal("PHOTOMETRY", description: "Photometry")
+                    literal("SPECTRUM", description: "Spectrum")
+                    literal("TIMESERIES", description: "Time Series")
+                    literal("SED", description: "Spectral Energy Distribution")
+                    literal("VISIBILITY", description: "Visibility")
+                    literal("EVENT", description: "Event List")
+                    literal("CATALOG", description: "Catalog")
+                }
+                enumeration("CreationType") {
+                    literal("ARCHIVAL", description: "Archival")
+                    literal("CUTOUT", description: "Cutout")
+                    literal("FILTERED", description: "Filtered")
+                    literal("MOSAIC", description: "Mosaic")
+                    literal("SPECTRAL_EXTRACTION", description: "Spectral Extraction")
+                    literal("CATALOG_EXTRACTION", description: "Catalog Extraction")
+                }
+                enumeration("RightsType") {
+                    literal("PUBLIC", description: "Public Access")
+                    literal("PROPRIETARY", description: "Proprietary Access")
+                    literal("SECURE", description: "Secure Access")
+                }
                 dataType("Collection") {
                     attribute("name", dataType: ivoa.string)
                 }

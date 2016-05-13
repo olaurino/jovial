@@ -3,23 +3,11 @@ package cfa.vo.vodml
 import ca.odell.glazedlists.EventList
 import cfa.vo.vodml.io.Validator
 import cfa.vo.vodml.io.VodmlWriter
-import cfa.vo.vodml.metamodel.Attribute
-import cfa.vo.vodml.metamodel.Composition
-import cfa.vo.vodml.metamodel.DataType
-import cfa.vo.vodml.metamodel.ElementRef
-import cfa.vo.vodml.metamodel.EnumLiteral
-import cfa.vo.vodml.metamodel.Enumeration_
-import cfa.vo.vodml.metamodel.Model
-import cfa.vo.vodml.metamodel.ModelImport
-import cfa.vo.vodml.metamodel.Multiplicity
-import cfa.vo.vodml.metamodel.ObjectType
-import cfa.vo.vodml.metamodel.Package
-import cfa.vo.vodml.metamodel.Reference
+import cfa.vo.vodml.metamodel.*
 import org.custommonkey.xmlunit.XMLAssert
 import org.custommonkey.xmlunit.XMLUnit
 import org.joda.time.DateTime
 import org.junit.Test
-
 
 class MetaModelTest {
     Model model
@@ -31,7 +19,7 @@ class MetaModelTest {
         ByteArrayOutputStream os = new ByteArrayOutputStream()
         writer.write(model, os)
         String out = os.toString("UTF-8")
-        XMLAssert.assertXMLEqual(out, expected)
+        XMLAssert.assertXMLEqual(expected, out)
         assert new Validator().validate(new ByteArrayInputStream(out.bytes))
     }
 
@@ -330,6 +318,18 @@ class MetaModelTest {
                 ]
         )
 
+        ObjectType facility = new ObjectType(
+                name: "Facility",
+                vodmlid: "Facility",
+                extends_: new ElementRef(vodmlref: "ds:party.Role"),
+                constraints: [
+                        new SubsettedRole (
+                                role: new ElementRef(vodmlref: "ds:party.Role.party"),
+                                dataType: new ElementRef(vodmlref: "ds:party.Organization")
+                        )
+                ]
+        )
+
         Package partyPackage = new Package(
                 name: "party",
                 vodmlid: "party",
@@ -451,7 +451,8 @@ class MetaModelTest {
                 authors: [ "Jane Doe", "John Doe" ] as EventList,
                 packages: [ datasetPackage, partyPackage ],
                 enumerations: [ dataProductType, creationType, rightsType ],
-                lastModified: DateTime.parse("2016-04-20T16:44:59.239-04:00")
+                lastModified: DateTime.parse("2016-04-20T16:44:59.239-04:00"),
+                objectTypes: [facility, ]
         )
 
         return getClass().getResource("/dataset.vo-dml.xml").text
