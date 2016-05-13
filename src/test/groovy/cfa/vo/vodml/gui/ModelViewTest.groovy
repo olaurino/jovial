@@ -21,8 +21,8 @@ class ModelViewTest extends Specification {
         title: "Test Model", lastModified: new DateTime("2016-02-14T10:30"),
         authors: ["Titius", "Caius", "Sempronius"] as BasicEventList,
         imports: [
-                new ModelImport(name: "model1", version: "1.1", url: new URL("http://some"), documentationURL: new URL("http://some.doc")),
-                new ModelImport(name: "model2", version: "2.1", url: new URL("http://other"), documentationURL: new URL("http://other.doc")),
+                new ModelImport(name: "model1", version: "1.1", url: new URI("http://some"), documentationURL: new URI("http://some.doc")),
+                new ModelImport(name: "model2", version: "2.1", url: new URI("http://other"), documentationURL: new URI("http://other.doc")),
         ] as BasicEventList
         ] as PresentationModel
         view = new ModelView(model)

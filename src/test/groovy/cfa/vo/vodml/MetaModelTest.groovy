@@ -439,8 +439,8 @@ class MetaModelTest {
         ModelImport ivoa = new ModelImport(
                 name: "ivoa",
                 version: "1.0",
-                url: new URL("http://some/url"),
-                documentationURL: new URL("http://someother/url)")
+                url: new URI("http://some/url"),
+                documentationURL: new URI("http://someother/url)")
         )
 
         model = new Model(

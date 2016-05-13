@@ -125,9 +125,9 @@ class ModelView extends JPanel {
 
     private convertUrl = {String val ->
         try {
-            new URL(val)
+            new URI(val)
         } catch (Exception ex) {
-            status.warning("Cannot parse URL $val")
+            status.warning("Cannot parse URI $val")
         }
     }
 

@@ -146,18 +146,18 @@ class ModelBuilderTest extends Specification {
     def "test imports"() {
         when:
         Model model = builder.model("test") {
-            include("ivoa", version:"1.0", url: "https://some/url", documentationURL: new URL("http://some/doc"))
+            include("ivoa", version:"1.0", url: "https://some/url", documentationURL: new URI("http://some/doc"))
             "import"("stc", version:"2.0", url: "https://stc/model", documentationURL: "https://stc/doc")
         }
         then:
         model.imports[0].name == "ivoa"
         model.imports[0].version == "1.0"
-        model.imports[0].url == new URL("https://some/url")
-        model.imports[0].documentationURL == new URL("http://some/doc")
+        model.imports[0].url == new URI("https://some/url")
+        model.imports[0].documentationURL == new URI("http://some/doc")
         model.imports[1].name == "stc"
         model.imports[1].version == "2.0"
-        model.imports[1].url == new URL("https://stc/model")
-        model.imports[1].documentationURL == new URL("https://stc/doc")
+        model.imports[1].url == new URI("https://stc/model")
+        model.imports[1].documentationURL == new URI("https://stc/doc")
     }
 
     def "test enumerations"() {

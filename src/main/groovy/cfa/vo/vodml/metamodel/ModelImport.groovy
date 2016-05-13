@@ -8,8 +8,8 @@ import groovy.transform.EqualsAndHashCode
 class ModelImport implements Buildable {
     String name
     String version
-    URL url
-    URL documentationURL
+    URI url
+    URI documentationURL
 
     @Override
     void build(GroovyObject builder) {

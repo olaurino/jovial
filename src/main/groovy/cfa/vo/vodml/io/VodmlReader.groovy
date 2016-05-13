@@ -70,8 +70,8 @@ class VodmlReader {
         new ModelImport(
                 name: xml.name,
                 version: xml.version,
-                url: new URL(xml.url.text()),
-                documentationURL: new URL(xml.documentationURL.text())
+                url: new URI(xml.url.text()),
+                documentationURL: new URI(xml.documentationURL.text())
         )
     }
 
