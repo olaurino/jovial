@@ -13,11 +13,15 @@ standards, in particular the Virtual Observatory Data Modeling Language (VODML).
   * A Java/Groovy API for reading and writing standard data model descriptors.
   * A streamlined Domain Specific Language for defining data models and serialize them as standard descriptors.
   * A Domain Specific Language for expressing instances of data model types.
+  * A graphical tool for browsing and creating data models.
   
 The library tries to abstract and simplify the definition of models and their instances as much as possible.
 
+Please note that while this can already serve as one of the reference implementations for VODML, from a production
+standpoint this project is still work in progress.
+
 ## Examples
-The following Groovy code:
+The following Groovy code convert a DSL description of a simple data model into its standardized VODML/XML description.
 
 ```groovy
 import cfa.vo.vodml.metamodel.Model
