@@ -199,6 +199,14 @@
         <profile>
             <!-- https://github.com/UISpec4J/UISpec4J/issues/19 -->
             <id>ci-headless</id>
+            <activation>
+                <!-- activeByDefault would be overridden by the other profiles -->
+                <!-- so we use an undefined propery -->
+                <!-- to disable the profile use -Dno-ci-headless or -P !ci-headless -->
+                <property>
+                    <name>!no-ci-headless</name>
+                </property>
+            </activation>
             <dependencies>
                 <dependency>
                     <groupId>net.java.openjdk.cacio</groupId>
