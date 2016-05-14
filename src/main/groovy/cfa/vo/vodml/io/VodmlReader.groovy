@@ -51,6 +51,7 @@ import cfa.vo.vodml.metamodel.SemanticConcept
 import cfa.vo.vodml.metamodel.SubsettedRole
 import groovy.util.slurpersupport.GPathResult
 import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
 
 class VodmlReader {
     private slurper = new XmlSlurper()
@@ -70,7 +71,7 @@ class VodmlReader {
                 description: xml.description,
                 title: xml.title,
                 version: xml.version,
-                lastModified: new DateTime(xml.lastModified.toString()),
+                lastModified: new DateTime(xml.lastModified.toString()).withZone(DateTimeZone.UTC),
                 authors: xml.author?.collect {
                     it.text()
                 } as BasicEventList,

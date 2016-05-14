@@ -38,6 +38,7 @@ import cfa.vo.vodml.metamodel.Model;
 import org.custommonkey.xmlunit.XMLAssert;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -55,7 +56,7 @@ public class VodmlWriterTest {
         model.setTitle("Some Title");
         model.setDescription("Some Description");
         model.setVersion("1.0-SNAPSHOT");
-        model.setLastModified(new DateTime("2016-04-16T10:16:50.000Z"));
+        model.setLastModified(new DateTime("2016-04-16T10:16:50.000Z").withZone(DateTimeZone.UTC));
         model.getAuthors().add("John Doe");
 
         writer = new VodmlWriter();

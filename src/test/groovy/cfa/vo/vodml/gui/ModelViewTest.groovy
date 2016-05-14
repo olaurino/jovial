@@ -35,6 +35,7 @@ package cfa.vo.vodml.gui
 import ca.odell.glazedlists.BasicEventList
 import cfa.vo.vodml.metamodel.ModelImport
 import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
 import org.uispec4j.Panel
 import org.uispec4j.UISpec4J
 import org.uispec4j.Window
@@ -50,7 +51,7 @@ class ModelViewTest extends Specification {
     def setup() {
         UISpec4J.init()
         model = [name: "test", version: "1.0", description: "A description",
-        title: "Test Model", lastModified: new DateTime("2016-02-14T10:30Z"),
+        title: "Test Model", lastModified: new DateTime("2016-02-14T10:30Z").withZone(DateTimeZone.UTC),
         authors: ["Titius", "Caius", "Sempronius"] as BasicEventList,
         imports: [
                 new ModelImport(name: "model1", version: "1.1", url: new URI("http://some"), documentationURL: new URI("http://some.doc")),
@@ -68,7 +69,8 @@ class ModelViewTest extends Specification {
         text("descriptionField") == "A description"
         text("versionField") == "1.0"
         text("titleField") == "Test Model"
-        text("lastModifiedField") == "2016-02-14T10:30:00.000Z"
+        text("lastModifiedField") == new DateTime("2016-02-14T10:30:00.000Z")
+                .withZone(DateTimeZone.UTC).toString()
         panel.listBox.contentEquals("Titius", "Caius", "Sempronius").check()
         panel.table.contentEquals(
                 ["name", "version", "url", "documentationurl"] as String[],
