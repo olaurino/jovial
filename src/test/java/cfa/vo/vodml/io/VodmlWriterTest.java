@@ -55,7 +55,7 @@ public class VodmlWriterTest {
         model.setTitle("Some Title");
         model.setDescription("Some Description");
         model.setVersion("1.0-SNAPSHOT");
-        model.setLastModified(new DateTime("2016-04-16T10:16:50.000-04:00"));
+        model.setLastModified(new DateTime("2016-04-16T10:16:50.000Z"));
         model.getAuthors().add("John Doe");
 
         writer = new VodmlWriter();
@@ -78,7 +78,7 @@ public class VodmlWriterTest {
                 "    <name>something</name>\n" +
                 "    <title>Some Title</title>\n" +
                 "    <version>1.0-SNAPSHOT</version>\n" +
-                "    <lastModified>2016-04-16T10:16:50.000-04:00</lastModified>\n" +
+                "    <lastModified>2016-04-16T10:16:50.000Z</lastModified>\n" +
                 "    <author>John Doe</author>\n" +
                 "    <description>Some Description</description>\n" +
                 "  </vo-dml:model>";

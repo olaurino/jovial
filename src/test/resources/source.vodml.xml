@@ -7,7 +7,7 @@
         It has some sample relationships etc to be used in documentation etc.</description>
     <title>Sample VO-DML data model.</title>
     <version>1.0</version>
-    <lastModified>2015-10-09T11:40:28.000-04:00</lastModified>
+    <lastModified>2015-10-09T11:40:28.000Z</lastModified>
     <import>
         <name>ivoa</name>
         <version>1.0</version>
