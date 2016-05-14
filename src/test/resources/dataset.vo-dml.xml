@@ -118,6 +118,22 @@
             <description/>
         </literal>
     </enumeration>
+    <objectType>
+        <vodml-id>Facility</vodml-id>
+        <name>Facility</name>
+        <description/>
+        <extends>
+            <vodml-ref>ds:party.Role</vodml-ref>
+        </extends>
+        <constraint xsi:type="vo-dml:SubsettedRole">
+            <role>
+                <vodml-ref>ds:party.Role.party</vodml-ref>
+            </role>
+            <datatype>
+                <vodml-ref>ds:party.Organization</vodml-ref>
+            </datatype>
+        </constraint>
+    </objectType>
     <package>
         <vodml-id>dataset</vodml-id>
         <name>dataset</name>

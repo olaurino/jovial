@@ -3,7 +3,7 @@ package cfa.vo.vodml.gui
 import ca.odell.glazedlists.gui.TableFormat
 import ca.odell.glazedlists.swing.AdvancedListSelectionModel
 import ca.odell.glazedlists.swing.GlazedListsSwing
-import cfa.vo.vodml.ModelImport
+import cfa.vo.vodml.metamodel.ModelImport
 import groovy.swing.SwingBuilder
 import org.joda.time.DateTime
 
@@ -125,9 +125,9 @@ class ModelView extends JPanel {
 
     private convertUrl = {String val ->
         try {
-            new URL(val)
+            new URI(val)
         } catch (Exception ex) {
-            status.warning("Cannot parse URL $val")
+            status.warning("Cannot parse URI $val")
         }
     }
 

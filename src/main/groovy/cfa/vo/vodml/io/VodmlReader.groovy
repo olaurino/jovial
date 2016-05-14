@@ -1,7 +1,22 @@
 package cfa.vo.vodml.io
 
 import ca.odell.glazedlists.BasicEventList
-import cfa.vo.vodml.*
+import cfa.vo.vodml.metamodel.Attribute
+import cfa.vo.vodml.metamodel.Composition
+import cfa.vo.vodml.metamodel.Constraint
+import cfa.vo.vodml.metamodel.DataType
+import cfa.vo.vodml.metamodel.ElementRef
+import cfa.vo.vodml.metamodel.EnumLiteral
+import cfa.vo.vodml.metamodel.Enumeration_
+import cfa.vo.vodml.metamodel.Model
+import cfa.vo.vodml.metamodel.ModelImport
+import cfa.vo.vodml.metamodel.Multiplicity
+import cfa.vo.vodml.metamodel.ObjectType
+import cfa.vo.vodml.metamodel.Package
+import cfa.vo.vodml.metamodel.PrimitiveType
+import cfa.vo.vodml.metamodel.Reference
+import cfa.vo.vodml.metamodel.SemanticConcept
+import cfa.vo.vodml.metamodel.SubsettedRole
 import groovy.util.slurpersupport.GPathResult
 import org.joda.time.DateTime
 
@@ -55,8 +70,8 @@ class VodmlReader {
         new ModelImport(
                 name: xml.name,
                 version: xml.version,
-                url: new URL(xml.url.text()),
-                documentationURL: new URL(xml.documentationURL.text())
+                url: new URI(xml.url.text()),
+                documentationURL: new URI(xml.documentationURL.text())
         )
     }
 

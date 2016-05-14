@@ -1,6 +1,6 @@
 package cfa.vo.vodml.instance
 
-import cfa.vo.vodml.Model
+import cfa.vo.vodml.metamodel.Model
 import cfa.vo.vodml.io.VoTableBuilder
 import cfa.vo.vodml.io.VodmlWriter
 import cfa.vo.vodml.utils.Resolver
@@ -172,7 +172,8 @@ class VotableInstance implements DefaultNode, HasObjects, HasData {
      * @param data
      * @return
      */
-    public leftShift(Model data) {resolver << data}
+    public leftShift(Model data) {
+        resolver << data}
 
     @Override
     Closure getBuildCallback() {

@@ -62,4 +62,24 @@ class VodmlRefTest {
     void testToStringNoPrefix() {
         assert "bar" == new VodmlRef("bar").toString()
     }
+
+    @Test
+    void testGetProperty() {
+        def ref = new VodmlRef("pre", "")
+        assert ref.something == new VodmlRef("pre:something")
+
+        // check calls are idempotent
+        assert ref.something == ref.something
+        assert "pre:something"  == ref.something.toString()
+
+        // test chains
+        assert ref.something.else == new VodmlRef("pre:something.else")
+
+        // test usual properties still work
+        assert ref.prefix == "pre"
+        assert ref.reference == ""
+        assert ref.something.prefix == "pre"
+        assert ref.something.reference == "something"
+
+    }
 }

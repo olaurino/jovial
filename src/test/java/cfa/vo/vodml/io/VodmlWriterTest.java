@@ -1,6 +1,6 @@
 package cfa.vo.vodml.io;
 
-import cfa.vo.vodml.Model;
+import cfa.vo.vodml.metamodel.Model;
 import org.custommonkey.xmlunit.XMLAssert;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.joda.time.DateTime;
