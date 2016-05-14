@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/olaurino/jovial.svg?branch=master)](https://travis-ci.org/olaurino/jovial)
 [![Build status](https://ci.appveyor.com/api/projects/status/f2e9k6may71a9w3h/branch/master?svg=true)](https://ci.appveyor.com/project/olaurino/jovial/branch/master)
+[![Coverage Status](https://coveralls.io/repos/github/olaurino/jovial/badge.svg?branch=master)](https://coveralls.io/github/olaurino/jovial?branch=master)
 
 # Jovial
 ### A modeling toolset for the Virtual Observatory
@@ -18,7 +19,7 @@ The library tries to abstract and simplify the definition of models and their in
 ## Examples
 The following Groovy code:
 
-<code groovy>
+```groovy
 import cfa.vo.vodml.metamodel.Model
 import cfa.vo.vodml.io.VodmlWriter
 import cfa.vo.vodml.io.ModelBuilder
@@ -77,11 +78,11 @@ Model model = new ModelBuilder().model("ds") {
         }
 
 new VodmlWriter().write(model, System.out)
-</code>
+```
 
 produces the following XML document:
 
-<code xml>
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <vo-dml:model xmlns:vo-dml="http://www.ivoa.net/xml/VODML/v1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ivoa.net/xml/VODML/v1.0 http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/xsd/vo-dml-v1.0.xsd">
   <name>ds</name>
@@ -331,4 +332,4 @@ produces the following XML document:
     </objectType>
   </package>
 </vo-dml:model>
-</code>
+```
