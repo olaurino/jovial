@@ -32,38 +32,48 @@
  */
 package cfa.vo.vodml.gui
 
-import cfa.vo.vodml.gui.tree.PresentationModelTreeModel
-import cfa.vo.vodml.metamodel.Model
-import groovy.beans.Bindable
-import groovy.transform.EqualsAndHashCode
+import org.uispec4j.Panel
+import org.uispec4j.assertion.UISpecAssert
 
-@EqualsAndHashCode(excludes=["dirty", "treeModel"])
-@Bindable
-class PresentationModel extends Model {
-    boolean dirty
-    PresentationModelTreeModel treeModel
+class ModelTabSpec extends GuiTestCase {
 
-    public PresentationModel() {
-        this(new Model())
+    def "tree root name is bound to model name"() {
+        given:
+        def modelTab = new ModelTab(new PresentationModel())
+        Panel panel = new Panel(modelTab)
+
+        when: "The model name is changed from the GUI"
+        panel.getTextBox("nameField").text = "changed"
+
+        then: "The tree root element changes accordingly"
+        UISpecAssert.waitUntil(panel.tree.contentEquals("""
+changed v1.0
+  Primitive Types
+  Enumerations
+  Data Types
+  Object Types
+  Packages
+
+"""), 1000)
     }
 
-    public PresentationModel(Model model) {
-        decorate(model)
-        initTree()
-    }
+    def "tree root name is bound to model version"() {
+        given:
+        def modelTab = new ModelTab(new PresentationModel())
+        Panel panel = new Panel(modelTab)
 
-    private initTree() {
-        treeModel = new PresentationModelTreeModel(this)
-    }
+        when: "The model name is changed from the GUI"
+        panel.getTextBox("versionField").text = "73.4"
 
-    // Hack because Traits do not support AST trasformations, so @Delegate won't work.
-    // Falling back on decorate constructor instead
-    private decorate(Model model) {
-        def properties = model.properties
-        properties.remove("class")
-        properties.remove("propertyChangeListeners")
-        properties.each {
-            this."$it.key" = it.value
-        }
+        then: "The tree root element changes accordingly"
+        UISpecAssert.waitUntil(panel.tree.contentEquals("""
+my_model v73.4
+  Primitive Types
+  Enumerations
+  Data Types
+  Object Types
+  Packages
+
+"""), 1000)
     }
 }

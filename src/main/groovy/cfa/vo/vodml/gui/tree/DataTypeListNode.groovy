@@ -30,40 +30,12 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  * #L%
  */
-package cfa.vo.vodml.gui
+package cfa.vo.vodml.gui.tree
 
-import cfa.vo.vodml.gui.tree.PresentationModelTreeModel
-import cfa.vo.vodml.metamodel.Model
-import groovy.beans.Bindable
-import groovy.transform.EqualsAndHashCode
+import cfa.vo.vodml.metamodel.DataType
 
-@EqualsAndHashCode(excludes=["dirty", "treeModel"])
-@Bindable
-class PresentationModel extends Model {
-    boolean dirty
-    PresentationModelTreeModel treeModel
-
-    public PresentationModel() {
-        this(new Model())
-    }
-
-    public PresentationModel(Model model) {
-        decorate(model)
-        initTree()
-    }
-
-    private initTree() {
-        treeModel = new PresentationModelTreeModel(this)
-    }
-
-    // Hack because Traits do not support AST trasformations, so @Delegate won't work.
-    // Falling back on decorate constructor instead
-    private decorate(Model model) {
-        def properties = model.properties
-        properties.remove("class")
-        properties.remove("propertyChangeListeners")
-        properties.each {
-            this."$it.key" = it.value
-        }
+class DataTypeListNode extends ListTreeNode<DataType> {
+    DataTypeListNode(List<DataType> userObject, Object parent) {
+        super("Data Types", userObject, parent)
     }
 }

@@ -36,9 +36,6 @@ import cfa.vo.vodml.io.VodmlReader
 import org.junit.Before
 import org.junit.Test
 
-import javax.swing.tree.DefaultMutableTreeNode
-import javax.swing.tree.DefaultTreeModel
-
 class ModelTest {
     private PresentationModel model
 
@@ -49,12 +46,12 @@ class ModelTest {
 
     @Test
     void testGetTreeModel() {
-        DefaultTreeModel tree = model.treeModel
-        DefaultMutableTreeNode root = tree.getRoot()
-        assert root.getUserObject() == model
-        assert root.getLastChild().getUserObject() == "Packages"
+        def treeModel = model.treeModel
+        def root = treeModel.getRoot()
+        assert root.userObject == model
+        assert root.getChildAt(4).toString() == "Packages"
         (0..2).each {
-            assert root.lastChild.getChildAt(it).userObject.name == model.packages.get(it).name
+            assert root.getChildAt(4).getChildAt(it).userObject.name == model.packages.get(it).name
         }
     }
 }

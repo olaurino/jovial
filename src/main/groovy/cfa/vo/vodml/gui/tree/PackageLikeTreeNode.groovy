@@ -30,40 +30,64 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  * #L%
  */
-package cfa.vo.vodml.gui
+package cfa.vo.vodml.gui.tree
 
-import cfa.vo.vodml.gui.tree.PresentationModelTreeModel
-import cfa.vo.vodml.metamodel.Model
-import groovy.beans.Bindable
-import groovy.transform.EqualsAndHashCode
+import cfa.vo.vodml.metamodel.PackageLike
 
-@EqualsAndHashCode(excludes=["dirty", "treeModel"])
-@Bindable
-class PresentationModel extends Model {
-    boolean dirty
-    PresentationModelTreeModel treeModel
+import javax.swing.tree.TreeNode
 
-    public PresentationModel() {
-        this(new Model())
+
+class PackageLikeTreeNode implements TreeNode {
+    PackageLike userObject
+    def children = []
+    def parent
+
+    public PackageLikeTreeNode(PackageLike userObject) {
+        this.userObject = userObject
+        children << new PrimitiveTypeListNode(userObject.primitiveTypes, this)
+        children << new EnumerationListNode(userObject.enumerations, this)
+        children << new DataTypeListNode(userObject.dataTypes, this)
+        children << new ObjectTypeListNode(userObject.objectTypes, this)
+        children << new PackageListNode(userObject.packages, this)
     }
 
-    public PresentationModel(Model model) {
-        decorate(model)
-        initTree()
+    @Override
+    TreeNode getChildAt(int childIndex) {
+        return children[childIndex]
     }
 
-    private initTree() {
-        treeModel = new PresentationModelTreeModel(this)
+    @Override
+    int getChildCount() {
+        return children.size()
     }
 
-    // Hack because Traits do not support AST trasformations, so @Delegate won't work.
-    // Falling back on decorate constructor instead
-    private decorate(Model model) {
-        def properties = model.properties
-        properties.remove("class")
-        properties.remove("propertyChangeListeners")
-        properties.each {
-            this."$it.key" = it.value
-        }
+    @Override
+    TreeNode getParent() {
+        return parent
+    }
+
+    @Override
+    int getIndex(TreeNode node) {
+        return children.indexOf(node)
+    }
+
+    @Override
+    boolean getAllowsChildren() {
+        return true
+    }
+
+    @Override
+    boolean isLeaf() {
+        return false
+    }
+
+    @Override
+    Enumeration children() {
+        throw new UnsupportedOperationException()
+    }
+
+    @Override
+    String toString() {
+        userObject.name
     }
 }

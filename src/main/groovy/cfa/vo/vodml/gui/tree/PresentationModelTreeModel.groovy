@@ -30,40 +30,67 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  * #L%
  */
-package cfa.vo.vodml.gui
+package cfa.vo.vodml.gui.tree
 
-import cfa.vo.vodml.gui.tree.PresentationModelTreeModel
-import cfa.vo.vodml.metamodel.Model
-import groovy.beans.Bindable
-import groovy.transform.EqualsAndHashCode
+import cfa.vo.vodml.gui.PresentationModel
 
-@EqualsAndHashCode(excludes=["dirty", "treeModel"])
-@Bindable
-class PresentationModel extends Model {
-    boolean dirty
-    PresentationModelTreeModel treeModel
+import javax.swing.event.TreeModelEvent
+import javax.swing.event.TreeModelListener
+import javax.swing.tree.TreeModel
+import javax.swing.tree.TreePath
 
-    public PresentationModel() {
-        this(new Model())
-    }
+class PresentationModelTreeModel implements TreeModel {
+    private List<TreeModelListener> listeners = new ArrayList<>()
+    ModelTreeNode model
 
-    public PresentationModel(Model model) {
-        decorate(model)
-        initTree()
-    }
-
-    private initTree() {
-        treeModel = new PresentationModelTreeModel(this)
-    }
-
-    // Hack because Traits do not support AST trasformations, so @Delegate won't work.
-    // Falling back on decorate constructor instead
-    private decorate(Model model) {
-        def properties = model.properties
-        properties.remove("class")
-        properties.remove("propertyChangeListeners")
-        properties.each {
-            this."$it.key" = it.value
+    public PresentationModelTreeModel(PresentationModel model) {
+        this.model = new ModelTreeNode(model)
+        model.propertyChange = {
+            listeners.each {
+                it.treeStructureChanged(new TreeModelEvent(model, new TreePath(model)))
+            }
         }
+    }
+
+    @Override
+    Object getRoot() {
+        return model
+    }
+
+    @Override
+    Object getChild(Object parent, int index) {
+        parent.getChildAt(index)
+    }
+
+    @Override
+    int getChildCount(Object parent) {
+        return parent.getChildCount()
+    }
+
+    @Override
+    boolean isLeaf(Object node) {
+        node.isLeaf()
+    }
+
+    @Override
+    void valueForPathChanged(TreePath path, Object newValue) {
+        listeners.each {
+            it.treeNodesChanged(new TreeModelEvent(newValue, path))
+        }
+    }
+
+    @Override
+    int getIndexOfChild(Object parent, Object child) {
+        return parent.getIndex(child)
+    }
+
+    @Override
+    void addTreeModelListener(TreeModelListener l) {
+        listeners.add(l)
+    }
+
+    @Override
+    void removeTreeModelListener(TreeModelListener l) {
+        listeners.remove(l)
     }
 }

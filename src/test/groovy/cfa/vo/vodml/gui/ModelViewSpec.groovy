@@ -37,19 +37,16 @@ import cfa.vo.vodml.metamodel.ModelImport
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.uispec4j.Panel
-import org.uispec4j.UISpec4J
 import org.uispec4j.Window
 import org.uispec4j.assertion.UISpecAssert
 import org.uispec4j.interception.WindowInterceptor
-import spock.lang.Specification
 
-class ModelViewTest extends Specification {
+class ModelViewSpec extends GuiTestCase {
     private PresentationModel model
     private ModelView view
     private Panel panel
 
     def setup() {
-        UISpec4J.init()
         model = [name: "test", version: "1.0", description: "A description",
         title: "Test Model", lastModified: new DateTime("2016-02-14T10:30Z").withZone(DateTimeZone.UTC),
         authors: ["Titius", "Caius", "Sempronius"] as BasicEventList,

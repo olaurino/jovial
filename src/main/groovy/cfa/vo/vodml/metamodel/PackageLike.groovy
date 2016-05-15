@@ -35,6 +35,7 @@ package cfa.vo.vodml.metamodel
 import ca.odell.glazedlists.BasicEventList
 
 trait PackageLike extends Parent {
+    String name
     List<PrimitiveType> primitiveTypes = [] as BasicEventList
     List<Enumeration_> enumerations = [] as BasicEventList
     List<DataType> dataTypes = [] as BasicEventList

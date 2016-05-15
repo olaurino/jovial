@@ -30,40 +30,57 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  * #L%
  */
-package cfa.vo.vodml.gui
+package cfa.vo.vodml.gui.tree
 
-import cfa.vo.vodml.gui.tree.PresentationModelTreeModel
-import cfa.vo.vodml.metamodel.Model
-import groovy.beans.Bindable
-import groovy.transform.EqualsAndHashCode
+import javax.swing.tree.DefaultMutableTreeNode
+import javax.swing.tree.TreeNode
 
-@EqualsAndHashCode(excludes=["dirty", "treeModel"])
-@Bindable
-class PresentationModel extends Model {
-    boolean dirty
-    PresentationModelTreeModel treeModel
+class ListTreeNode<T> implements TreeNode {
+    String name
+    def parent
+    List<T> userObject
 
-    public PresentationModel() {
-        this(new Model())
+    public ListTreeNode(String name, List<T> userObject, parent) {
+        this.userObject = userObject
+        this.name = name
+        this.parent = parent
     }
 
-    public PresentationModel(Model model) {
-        decorate(model)
-        initTree()
+    public String toString() {
+        return name
     }
 
-    private initTree() {
-        treeModel = new PresentationModelTreeModel(this)
+    TreeNode getChildAt(int childIndex) {
+        return new DefaultMutableTreeNode(userObject.get(childIndex))
     }
 
-    // Hack because Traits do not support AST trasformations, so @Delegate won't work.
-    // Falling back on decorate constructor instead
-    private decorate(Model model) {
-        def properties = model.properties
-        properties.remove("class")
-        properties.remove("propertyChangeListeners")
-        properties.each {
-            this."$it.key" = it.value
-        }
+    @Override
+    int getChildCount() {
+        return userObject.size()
+    }
+
+    @Override
+    TreeNode getParent() {
+        return parent
+    }
+
+    @Override
+    int getIndex(TreeNode node) {
+        return userObject.indexOf(node.userObject)
+    }
+
+    @Override
+    boolean getAllowsChildren() {
+        return true
+    }
+
+    @Override
+    boolean isLeaf() {
+        return true
+    }
+
+    @Override
+    Enumeration children() {
+        throw new UnsupportedOperationException()
     }
 }

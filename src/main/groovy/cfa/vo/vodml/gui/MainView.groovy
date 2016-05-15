@@ -37,6 +37,9 @@ import groovy.swing.SwingBuilder
 import javax.swing.*
 import java.awt.*
 
+/**
+ * Main GUI Application class. It sets up the main frame for the application.
+ */
 class MainView {
     private swing = new SwingBuilder()
     JFileChooser chooser = swing.fileChooser()
@@ -66,14 +69,30 @@ class MainView {
         StatusPanel.STATUS_LOGGER.warning("No Model Selected")
     }
 
+    /**
+     * Overload left shift operator for opening models into the GUI
+     *
+     * @param model The model to be open.
+     */
     def void leftShift(PresentationModel model) {
         swing.edt {
             String name = model.toString()
-            JComponent tab = swing.modelTab(model)
+            ModelTab tab = swing.modelTab(model)
             tabs.addTab(name, tab)
+            model.propertyChange = {
+                swing.edt {
+                    def i = tabs.getSelectedIndex()
+                    tabs.setTitleAt(i, model.toString())
+                }
+            }
         }
     }
 
+    /**
+     * Main function.
+     * @param argv If any arguments are passed to the command line, a test URL will be opened automatically.
+     *      At this time the location of the test file is not portable.
+     */
     public static void main(String[] argv) {
         MainView view = new MainView()
         if (argv) {

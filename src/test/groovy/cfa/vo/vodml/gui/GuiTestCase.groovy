@@ -32,38 +32,12 @@
  */
 package cfa.vo.vodml.gui
 
-import cfa.vo.vodml.gui.tree.PresentationModelTreeModel
-import cfa.vo.vodml.metamodel.Model
-import groovy.beans.Bindable
-import groovy.transform.EqualsAndHashCode
+import org.uispec4j.UISpec4J
+import spock.lang.Specification
 
-@EqualsAndHashCode(excludes=["dirty", "treeModel"])
-@Bindable
-class PresentationModel extends Model {
-    boolean dirty
-    PresentationModelTreeModel treeModel
 
-    public PresentationModel() {
-        this(new Model())
-    }
-
-    public PresentationModel(Model model) {
-        decorate(model)
-        initTree()
-    }
-
-    private initTree() {
-        treeModel = new PresentationModelTreeModel(this)
-    }
-
-    // Hack because Traits do not support AST trasformations, so @Delegate won't work.
-    // Falling back on decorate constructor instead
-    private decorate(Model model) {
-        def properties = model.properties
-        properties.remove("class")
-        properties.remove("propertyChangeListeners")
-        properties.each {
-            this."$it.key" = it.value
-        }
+class GuiTestCase extends Specification {
+    static {
+        UISpec4J.init()
     }
 }

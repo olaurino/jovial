@@ -33,6 +33,7 @@
 package cfa.vo.vodml.gui
 
 import org.uispec4j.UISpecTestCase
+import org.uispec4j.assertion.Assertion
 import org.uispec4j.assertion.UISpecAssert
 import org.uispec4j.interception.FileChooserHandler
 import org.uispec4j.interception.MainClassAdapter
@@ -51,13 +52,16 @@ class MainViewTest extends UISpecTestCase {
         mainWindow.getTextBox("status").textEquals("WARNING: No Model Selected").check()
     }
 
-    void testLoad() {
-        WindowInterceptor
-                .init(mainWindow.menuBar.getMenu("File").getSubMenu("Load...").triggerClick())
-                .process(FileChooserHandler.init().select(path))
-                .run()
+    void testTabNameBinding() {
+        loadTestFile()
 
-        UISpecAssert.waitUntil(mainWindow.getTabGroup("main").tabNamesEquals(["ds v0.x"] as String[]), 1000)
+        mainWindow.getTextBox("nameField").text = "changed"
+        UISpecAssert.waitUntil({"changed v1.0" == mainWindow.tabGroup.awtComponent.getTitleAt(0)} as Assertion, 1000)
+    }
+
+    void testLoad() {
+        loadTestFile()
+
         mainWindow.tree.contentEquals("""
 ds v0.x
   Primitive Types
@@ -116,5 +120,14 @@ ds v0.x
       Packages
 
 """).check()
+    }
+
+    private loadTestFile() {
+        WindowInterceptor
+                .init(mainWindow.menuBar.getMenu("File").getSubMenu("Load...").triggerClick())
+                .process(FileChooserHandler.init().select(path))
+                .run()
+
+        UISpecAssert.waitUntil(mainWindow.getTabGroup("main").tabNamesEquals(["ds v0.x"] as String[]), 5000)
     }
 }
