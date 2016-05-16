@@ -52,7 +52,7 @@ class PackageLikeTreeNode implements TreeNode {
     }
 
     def listChanged() {
-        parent.listChanged()
+        parent.listChanged()x
     }
 
     @Override
