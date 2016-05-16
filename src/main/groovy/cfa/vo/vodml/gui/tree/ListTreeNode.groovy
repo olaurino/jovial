@@ -76,7 +76,7 @@ class ListTreeNode<T> implements TreeNode {
 
     @Override
     boolean isLeaf() {
-        return true
+        return userObject.isEmpty()
     }
 
     @Override

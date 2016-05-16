@@ -36,7 +36,6 @@ import cfa.vo.vodml.metamodel.PackageLike
 
 import javax.swing.tree.TreeNode
 
-
 class PackageLikeTreeNode implements TreeNode {
     PackageLike userObject
     def children = []

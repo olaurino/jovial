@@ -67,4 +67,8 @@ class Package extends ReferableElement implements Buildable, PackageLike {
         package_.delegate = builder
         package_()
     }
+
+    String toString() {
+        return name
+    }
 }
