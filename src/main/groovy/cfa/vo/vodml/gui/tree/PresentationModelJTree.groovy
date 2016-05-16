@@ -1,3 +1,17 @@
+package cfa.vo.vodml.gui.tree
+
+import javax.swing.*
+import javax.swing.tree.TreeSelectionModel
+
+class PresentationModelJTree extends JTree {
+    public PresentationModelJTree() {
+        selectionModel.selectionMode = TreeSelectionModel.SINGLE_TREE_SELECTION
+    }
+
+    void repaint() {
+        super.repaint()
+        for (int i = 0;
+
 /*
  * #%L
  * jovial
@@ -30,30 +44,8 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  * #L%
  */
-package cfa.vo.vodml.gui
-
-import cfa.vo.vodml.gui.tree.PresentationModelJTree
-import groovy.swing.SwingBuilder
-
-import javax.swing.*
-import java.awt.BorderLayout
-
-class ModelTab extends JPanel {
-    private SwingBuilder swing = new SwingBuilder()
-    PresentationModel model
-
-    public ModelTab(PresentationModel model) {
-        swing.registerBeanFactory("tree", PresentationModelJTree)
-        this.model = model
-        JPanel panel = swing.panel() {
-            borderLayout()
-            splitPane(
-                    leftComponent: scrollPane(minimumSize: [300, 600]) {
-                        tree(model: model.treeModel)
-                    },
-                    rightComponent: new ModelView(model))
+i < getRowCount(); i++) {
+            expandRow(i);
         }
-        layout = new BorderLayout()
-        add(panel, BorderLayout.CENTER)
     }
 }

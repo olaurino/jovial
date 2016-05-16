@@ -32,16 +32,21 @@
  */
 package cfa.vo.vodml.gui.tree
 
+import ca.odell.glazedlists.EventList
+
 import javax.swing.tree.DefaultMutableTreeNode
 import javax.swing.tree.TreeNode
 
 class ListTreeNode<T> implements TreeNode {
     String name
     def parent
-    List<T> userObject
+    EventList<T> userObject
 
-    public ListTreeNode(String name, List<T> userObject, parent) {
+    public ListTreeNode(String name, EventList<T> userObject, parent) {
         this.userObject = userObject
+        userObject.addListEventListener {
+            if(parent) parent.listChanged()
+        }
         this.name = name
         this.parent = parent
     }

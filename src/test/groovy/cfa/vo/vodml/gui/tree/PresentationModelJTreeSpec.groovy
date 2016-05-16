@@ -30,30 +30,55 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  * #L%
  */
-package cfa.vo.vodml.gui
+package cfa.vo.vodml.gui.tree
 
-import cfa.vo.vodml.gui.tree.PresentationModelJTree
+import cfa.vo.vodml.gui.GuiTestCase
+import cfa.vo.vodml.gui.PresentationModel
+import cfa.vo.vodml.metamodel.Model
+import cfa.vo.vodml.metamodel.Package
 import groovy.swing.SwingBuilder
+import org.uispec4j.Panel
 
 import javax.swing.*
-import java.awt.BorderLayout
 
-class ModelTab extends JPanel {
-    private SwingBuilder swing = new SwingBuilder()
-    PresentationModel model
+class PresentationModelJTreeSpec extends GuiTestCase {
+    private Panel panel
+    private PresentationModel pModel
 
-    public ModelTab(PresentationModel model) {
+    def setup() {
+        def swing = new SwingBuilder()
         swing.registerBeanFactory("tree", PresentationModelJTree)
-        this.model = model
-        JPanel panel = swing.panel() {
-            borderLayout()
-            splitPane(
-                    leftComponent: scrollPane(minimumSize: [300, 600]) {
-                        tree(model: model.treeModel)
-                    },
-                    rightComponent: new ModelView(model))
+        Model model = new Model()
+        pModel = new PresentationModel(model)
+        PresentationModelTreeModel treeModel = new PresentationModelTreeModel(pModel)
+        JScrollPane jPanel
+        PresentationModelJTree jTree
+
+        swing.edt {
+            jPanel = scrollPane() {
+                jTree = tree(model: treeModel, showsRootHandles: true)
+            }
         }
-        layout = new BorderLayout()
-        add(panel, BorderLayout.CENTER)
+        panel = new Panel(jPanel)
+    }
+
+    def "test single selection"() {
+        when:
+        panel.tree.select(["Primitive Types", "Enumerations"] as String[])
+
+        then:
+        panel.tree.selectionEquals(["Primitive Types",] as String[]).check()
+    }
+
+    def "test tree is restored to previous state after structure change"() {
+        given:
+        pModel.packages.add(new Package(name: "aPackage"))
+        panel.tree.expandAll()
+
+        when:
+        pModel.packages.add(new Package(name: "anotherPackage"))
+
+        then:
+        panel.tree.pathIsExpanded("Packages").check()
     }
 }

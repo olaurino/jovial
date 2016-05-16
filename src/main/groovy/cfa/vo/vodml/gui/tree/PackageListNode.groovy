@@ -32,18 +32,23 @@
  */
 package cfa.vo.vodml.gui.tree
 
+import ca.odell.glazedlists.EventList
 import cfa.vo.vodml.metamodel.PackageLike
 
 import javax.swing.tree.TreeNode
 
 class PackageListNode extends ListTreeNode<PackageLike> {
+    def nodes = [:]
 
-    PackageListNode(List<PackageLike> userObject, Object parent) {
+    PackageListNode(EventList<PackageLike> userObject, Object parent) {
         super("Packages", userObject, parent)
     }
 
     @Override
     TreeNode getChildAt(int childIndex) {
-        return new PackageLikeTreeNode(userObject.get(childIndex))
+        if (!nodes[childIndex]) {
+            nodes[childIndex] = new PackageLikeTreeNode(userObject.get(childIndex), parent)
+        }
+        return nodes[childIndex]
     }
 }

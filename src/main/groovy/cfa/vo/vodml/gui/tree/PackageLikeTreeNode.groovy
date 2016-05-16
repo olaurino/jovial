@@ -41,13 +41,18 @@ class PackageLikeTreeNode implements TreeNode {
     def children = []
     def parent
 
-    public PackageLikeTreeNode(PackageLike userObject) {
+    public PackageLikeTreeNode(PackageLike userObject, parent) {
+        this.parent = parent
         this.userObject = userObject
         children << new PrimitiveTypeListNode(userObject.primitiveTypes, this)
         children << new EnumerationListNode(userObject.enumerations, this)
         children << new DataTypeListNode(userObject.dataTypes, this)
         children << new ObjectTypeListNode(userObject.objectTypes, this)
         children << new PackageListNode(userObject.packages, this)
+    }
+
+    def listChanged() {
+        parent.listChanged()
     }
 
     @Override

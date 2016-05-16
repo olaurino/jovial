@@ -36,8 +36,8 @@ import cfa.vo.vodml.metamodel.PackageLike
 
 
 class ModelTreeNode extends PackageLikeTreeNode {
-    ModelTreeNode(PackageLike userObject) {
-        super(userObject)
+    ModelTreeNode(PackageLike userObject, parent) {
+        super(userObject, parent)
     }
 
     @Override

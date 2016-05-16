@@ -45,14 +45,18 @@ class PresentationModelTreeModel implements TreeModel {
     ModelTreeNode model
 
     public PresentationModelTreeModel(PresentationModel model) {
-        this.model = new ModelTreeNode(model)
+        this.model = new ModelTreeNode(model, this)
         model.propertyChange = { e ->
             if (e.propertyName in simpleAttrs) {
-                listeners*.treeNodesChanged(new TreeModelEvent(this.model, new TreePath([this.model,])))
+                listeners*.treeNodesChanged(new TreeModelEvent(this.model, new TreePath(this.model)))
             } else {
-                listeners*.treeStructureChanged(new TreeModelEvent(this.model, new TreePath(this.model)))
+                listChanged()
             }
         }
+    }
+
+    def listChanged() {
+        listeners*.treeStructureChanged(new TreeModelEvent(this.model, new TreePath(this.model)))
     }
 
     @Override
