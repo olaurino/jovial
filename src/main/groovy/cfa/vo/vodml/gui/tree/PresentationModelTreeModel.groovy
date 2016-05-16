@@ -40,14 +40,17 @@ import javax.swing.tree.TreeModel
 import javax.swing.tree.TreePath
 
 class PresentationModelTreeModel implements TreeModel {
+    private final simpleAttrs = ["name", "version", "authors", "imports", "description", "title", "lastModified"]
     private List<TreeModelListener> listeners = new ArrayList<>()
     ModelTreeNode model
 
     public PresentationModelTreeModel(PresentationModel model) {
         this.model = new ModelTreeNode(model)
-        model.propertyChange = {
-            listeners.each {
-                it.treeStructureChanged(new TreeModelEvent(model, new TreePath(model)))
+        model.propertyChange = { e ->
+            if (e.propertyName in simpleAttrs) {
+                listeners*.treeNodesChanged(new TreeModelEvent(this.model, new TreePath([this.model,])))
+            } else {
+                listeners*.treeStructureChanged(new TreeModelEvent(this.model, new TreePath(this.model)))
             }
         }
     }
