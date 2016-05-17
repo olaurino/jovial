@@ -51,6 +51,12 @@ class PackageLikeTreeNode implements TreeNode {
         children << new PackageListNode(userObject.packages, this)
     }
 
+    def menuItems = { swing ->
+        children.each {
+            swing.menuItem(label: "Add ${it.name}")
+        }
+    }
+
     def listChanged() {
         parent.listChanged()x
     }

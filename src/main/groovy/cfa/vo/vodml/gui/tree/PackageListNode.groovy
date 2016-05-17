@@ -41,7 +41,7 @@ class PackageListNode extends ListTreeNode<PackageLike> {
     def nodes = [:]
 
     PackageListNode(EventList<PackageLike> userObject, Object parent) {
-        super("Packages", userObject, parent)
+        super("Package", userObject, parent)
     }
 
     @Override

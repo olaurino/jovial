@@ -32,10 +32,11 @@
  */
 package cfa.vo.vodml.gui.tree
 
+import ca.odell.glazedlists.EventList
 import cfa.vo.vodml.metamodel.PrimitiveType
 
 class PrimitiveTypeListNode extends ListTreeNode<PrimitiveType> {
-    PrimitiveTypeListNode(List<PrimitiveType> userObject, Object parent) {
-        super("Primitive Types", userObject, parent)
+    PrimitiveTypeListNode(EventList<PrimitiveType> userObject, Object parent) {
+        super("Primitive Type", userObject, parent)
     }
 }

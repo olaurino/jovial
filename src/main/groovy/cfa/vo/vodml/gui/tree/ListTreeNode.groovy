@@ -52,11 +52,15 @@ class ListTreeNode<T> implements TreeNode {
     }
 
     public String toString() {
-        return name
+        return "${name}s"
     }
 
     TreeNode getChildAt(int childIndex) {
         return new DefaultMutableTreeNode(userObject.get(childIndex))
+    }
+
+    def menuItems = { swing ->
+        swing.menuItem(label: "Add ${name}")
     }
 
     @Override

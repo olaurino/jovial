@@ -37,12 +37,13 @@ import cfa.vo.vodml.gui.PresentationModel
 import cfa.vo.vodml.metamodel.Model
 import cfa.vo.vodml.metamodel.Package
 import groovy.swing.SwingBuilder
-import org.uispec4j.Panel
-
-import javax.swing.*
+import org.uispec4j.Trigger
+import org.uispec4j.Window
+import org.uispec4j.interception.PopupMenuInterceptor
+import org.uispec4j.interception.WindowInterceptor
 
 class PresentationModelJTreeSpec extends GuiTestCase {
-    private Panel panel
+    private Window window
     private PresentationModel pModel
 
     def setup() {
@@ -51,34 +52,68 @@ class PresentationModelJTreeSpec extends GuiTestCase {
         Model model = new Model()
         pModel = new PresentationModel(model)
         PresentationModelTreeModel treeModel = new PresentationModelTreeModel(pModel)
-        JScrollPane jPanel
-        PresentationModelJTree jTree
 
-        swing.edt {
-            jPanel = scrollPane() {
-                jTree = tree(model: treeModel, showsRootHandles: true)
-            }
-        }
-        panel = new Panel(jPanel)
+        WindowInterceptor
+                .init({
+                    swing.edt {
+                        frame(show:true, pack:true) {
+                            scrollPane() {
+                                tree(model: treeModel, showsRootHandles: false)
+                            }
+                        }
+                    }
+                })
+                .process({w-> window = w; return Trigger.DO_NOTHING})
+                .run()
     }
 
     def "test single selection"() {
         when:
-        panel.tree.select(["Primitive Types", "Enumerations"] as String[])
+        window.tree.select(["Primitive Types", "Enumerations"] as String[])
 
         then:
-        panel.tree.selectionEquals(["Primitive Types",] as String[]).check()
+        window.tree.selectionEquals(["Primitive Types",] as String[]).check()
     }
 
     def "test tree is restored to previous state after structure change"() {
         given:
         pModel.packages.add(new Package(name: "aPackage"))
-        panel.tree.expandAll()
+        window.tree.expandAll()
 
         when:
         pModel.packages.add(new Package(name: "anotherPackage"))
 
         then:
-        panel.tree.pathIsExpanded("Packages").check()
+        window.tree.pathIsExpanded("Packages").check()
+    }
+
+    def "test packageList popup menu"(String name) {
+        expect:
+        PopupMenuInterceptor
+                .run(window.tree.triggerRightClick("${name}s"))
+                .contentEquals(
+                    ["Add $name"] as String[])
+                .check()
+        where:
+        name  | _
+        "Package" | _
+        "Primitive Type" | _
+        "Enumeration" | _
+        "Data Type" | _
+        "Object Type" | _
+    }
+
+    def "test packageLike popup menu"() {
+        given:
+        pModel.packages.add(new Package(name: "aPackage"))
+
+        expect:
+        PopupMenuInterceptor
+                .run(window.tree.triggerRightClick("Packages/aPackage"))
+                .contentEquals(
+                ["Primitive Type", "Enumeration", "Data Type", "Object Type", "Package"].collect {
+                    "Add $it"
+                } as String[])
+                .check()
     }
 }

@@ -32,10 +32,11 @@
  */
 package cfa.vo.vodml.gui.tree
 
+import ca.odell.glazedlists.EventList
 import cfa.vo.vodml.metamodel.DataType
 
 class DataTypeListNode extends ListTreeNode<DataType> {
-    DataTypeListNode(List<DataType> userObject, Object parent) {
-        super("Data Types", userObject, parent)
+    DataTypeListNode(EventList<DataType> userObject, Object parent) {
+        super("Data Type", userObject, parent)
     }
 }

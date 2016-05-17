@@ -94,6 +94,9 @@ class MainView {
      *      At this time the location of the test file is not portable.
      */
     public static void main(String[] argv) {
+        Icon empty = new TreeIcon();
+        UIManager.put("Tree.collapsedIcon", empty);
+        UIManager.put("Tree.expandedIcon", empty);
         MainView view = new MainView()
         if (argv) {
             Controller c = new Controller()
@@ -115,6 +118,22 @@ class MainView {
             swing.doOutside {
                 this << controller.load(chooser.getSelectedFile().absolutePath)
             }
+        }
+    }
+
+    static class TreeIcon implements Icon {
+
+        private static int SIZE = 0;
+
+        public int getIconWidth() {
+            return SIZE;
+        }
+
+        public int getIconHeight() {
+            return SIZE;
+        }
+
+        public void paintIcon(Component c, Graphics g, int x, int y) {
         }
     }
 }

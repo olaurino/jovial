@@ -32,11 +32,12 @@
  */
 package cfa.vo.vodml.gui.tree
 
+import ca.odell.glazedlists.EventList
 import cfa.vo.vodml.metamodel.Enumeration_
 
 
 class EnumerationListNode extends ListTreeNode<Enumeration_> {
-    EnumerationListNode(List<Enumeration_> userObject, Object parent) {
-        super("Enumerations", userObject, parent)
+    EnumerationListNode(EventList<Enumeration_> userObject, Object parent) {
+        super("Enumeration", userObject, parent)
     }
 }
