@@ -1,5 +1,4 @@
 job1:
-  image: maven:3-jdk-7
   script: "mvn install -B"
   tags:
   - windows
