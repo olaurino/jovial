@@ -1,10 +1,10 @@
 job1:
+  script: "mvn install -B"
   tags:
   - windows
+
 job2:
   image: maven:3-jdk-7
+  script: "mvn install -B"
   tags:
   - linux
-
-build:
-  script: "mvn install -B"
