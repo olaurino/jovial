@@ -33,11 +33,21 @@
 package cfa.vo.vodml.gui
 
 import org.uispec4j.UISpec4J
+import org.uispec4j.interception.toolkit.UISpecDisplay
 import spock.lang.Specification
 
 
 class GuiTestCase extends Specification {
     static {
         UISpec4J.init()
+    }
+
+    public setup() {
+        UISpecDisplay.instance().reset()
+    }
+
+    public teardown() {
+        UISpecDisplay.instance().rethrowIfNeeded()
+        UISpecDisplay.instance().reset()
     }
 }
