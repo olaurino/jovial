@@ -32,10 +32,14 @@
  */
 package cfa.vo.vodml.instance
 
+import cfa.vo.vodml.utils.TestResolver
+import cfa.vo.vodml.utils.VodmlRef
 import org.junit.Test
 
 
 class ValueInstanceTest {
+    private TestResolver resolver = new TestResolver()
+
     @Test
     public void testString() {
         assert [datatype: "char", arraysize: '6'] == ValueInstance.infer("string")
@@ -47,5 +51,11 @@ class ValueInstanceTest {
         assert [datatype: "int", arraysize: '2'] == ValueInstance.infer([1, 2])
         assert [datatype: "float", arraysize: '3'] == ValueInstance.infer([1.0, 1.1, 1.2].toArray())
         assert [datatype: "float", arraysize: '3'] == ValueInstance.infer([1.0, 1.1, 1.2] as Set)
+    }
+
+    @Test
+    public void testType() {
+        ValueInstance instance = new ValueInstance(role: new VodmlRef("ds:party.Party.name"))
+        assert new VodmlRef("ivoa:string") == instance.type
     }
 }

@@ -51,6 +51,7 @@ class VoTableBuilderTest {
 
     Model stcSpec;
     Model charSpec;
+    Model ivoaSpec;
     String org = "ds:party.Organization"
 
     @Before
@@ -59,7 +60,9 @@ class VoTableBuilderTest {
         XMLUnit.setIgnoreComments(true);
         def reader = new VodmlReader()
         dsSpec = reader.read(getClass().getResource("/DatasetMetadata-1.0.vo-dml.xml").openStream())
-        stcSpec = reader.read(new URL("http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/STC2/2016-02-19/VO-DML-STC2.vo-dml.xml").openStream())
+        ivoaSpec = reader.read(getClass().getResource("/ivoa.vo-dml.xml").openStream())
+        charSpec = reader.read(getClass().getResource("/char.vo-dml.xml").openStream())
+        stcSpec = reader.read(getClass().getResource("/stc2.vo-dml.xml").openStream())
     }
 
     @Test
@@ -80,7 +83,9 @@ class VoTableBuilderTest {
     void testDatasetInstance() {
         VotableInstance instance = new VoTableBuilder().votable {
             model(spec: dsSpec, vodmlURL: "http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/ds/DatasetMetadata-1.0.vo-dml.xml")
-            model(spec: stcSpec, vodmlURL: "http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/STC2/2016-02-19/VO-DML-STC2.vo-dml.xml")
+            model(spec: stcSpec, vodmlURL: "https://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/STC2/prototype/STCPrototype-2.0.vo-dml.xml")
+            model(spec: charSpec, vodmlURL: "http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/characterization/Characterization.vo-dml.xml")
+            model(spec: ivoaSpec, vodmlURL: "https://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/ivoa/IVOA.vo-dml.xml")
             object(type: "ds:experiment.Observation") {
                 value(role: "observationID", value:"obsid.2015.73")
                 collection(role: "target") {
@@ -197,20 +202,20 @@ class VoTableBuilderTest {
             }
             object(id: "ACME", type: "ds:party.Organization") {
                 value(role: "name", value: "ACME edu")
-                value(role: "address", value: "Colorado Blvd")
+                value(role: "address", value: "565 N Clinton Drive, Milwaukee, WI")
                 value(role: "phone", value: "555-012-3456")
                 value(role: "email", value: "helpdesk@acme.org")
                 value(role: "logo", value: "http://acme.org/stunning.png")
             }
             object(id: "BILL", type: "ds:party.Individual") {
                 value(role: "name", value: "William E. Coyote")
-                value(role: "address", value: "Colorado Blvd")
+                value(role: "address", value: "565 N Clinton Drive, Milwaukee, WI")
                 value(role: "phone", value: "555-654-3210")
                 value(role: "email", value: "bill@acme.org")
             }
             object(id: "TOM", type: "ds:party.Individual") {
                 value(role: "name", value: "Tom Ray")
-                value(role: "address", value: "Colorado Blvd")
+                value(role: "address", value: "565 N Clinton Drive, Milwaukee, WI")
                 value(role: "phone", value: "555-999-5555")
                 value(role: "email", value: "bill@acme.org")
             }
@@ -254,7 +259,7 @@ class VoTableBuilderTest {
                         <ROLE>vo-dml:Model.name</ROLE>
                       </VODML>
                   </PARAM>
-                  <PARAM name="version" datatype="char" arraysize="3" value="0.x">
+                  <PARAM name="version" datatype="char" arraysize="3" value="1.0">
                       <VODML>
                         <ROLE>vo-dml:Model.version</ROLE>
                       </VODML>

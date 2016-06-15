@@ -38,6 +38,7 @@ import cfa.vo.vodml.io.VodmlWriter
 import cfa.vo.vodml.utils.Resolver
 import cfa.vo.vodml.utils.VoBuilderNode
 import cfa.vo.vodml.utils.VodmlRef
+import com.sun.org.apache.xpath.internal.operations.Equals
 import groovy.transform.Canonical
 import groovy.transform.EqualsAndHashCode
 import groovy.util.logging.Log
@@ -252,7 +253,7 @@ abstract class Instance implements DefaultNode {
      * @param ref
      */
     void setType(String ref) {
-        type = new VodmlRef(ref)
+        this.@type = new VodmlRef(ref)
     }
 
     /**
@@ -417,10 +418,17 @@ class ValueInstance extends Instance implements VodmlBuildable {
         def elem = {
             if (value != null) {
                 PARAM(paramAttrs()) {
-                    out << new Vodml(role: role)
+                    out << new Vodml(role: role, type: type)
                 }
             }
         }
+    }
+
+    public VodmlRef getType() {
+        if (super.type) {
+            return super.type
+        }
+        return resolver.resolveTypeOfRole(super.role)?.vodmlref ?: null
     }
 
     private String stripRole() {

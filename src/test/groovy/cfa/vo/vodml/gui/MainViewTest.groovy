@@ -63,7 +63,7 @@ class MainViewTest extends UISpecTestCase {
         loadTestFile()
 
         mainWindow.tree.contentEquals("""
-ds v0.x
+ds v1.0
   Primitive Types
   Enumerations
   Data Types
@@ -128,6 +128,6 @@ ds v0.x
                 .process(FileChooserHandler.init().select(path))
                 .run()
 
-        UISpecAssert.waitUntil(mainWindow.getTabGroup("main").tabNamesEquals(["ds v0.x"] as String[]), 5000)
+        UISpecAssert.waitUntil(mainWindow.getTabGroup("main").tabNamesEquals(["ds v1.0"] as String[]), 5000)
     }
 }
