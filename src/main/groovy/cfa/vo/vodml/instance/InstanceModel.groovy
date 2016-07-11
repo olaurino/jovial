@@ -58,7 +58,7 @@ import groovy.util.logging.Log
  * default implementation of the {@link VodmlBuildable#build(groovy.lang.GroovyObject)} method.
  */
 trait VodmlBuildable implements Buildable {
-    Set<String> toBuild = []
+    Set<String> toBuild = [] as Set
 
     /**
      * Add a field name to the set of field names to be built by this buildable instance
@@ -240,7 +240,6 @@ class VotableInstance implements DefaultNode, HasObjects, HasData {
  * When setting a role for this instance, one can use both the full qualified {@link VodmlRef} or just the
  * role's name. The name will we resolved to the fully qualified {@link VodmlRef}.
  */
-@Canonical(excludes=["resolver", "attrs", "parent"])
 abstract class Instance implements DefaultNode {
     String id
     def parent
@@ -253,7 +252,14 @@ abstract class Instance implements DefaultNode {
      * @param ref
      */
     void setType(String ref) {
-        this.@type = new VodmlRef(ref)
+        type = new VodmlRef(ref)
+    }
+
+    public VodmlRef getType() {
+        if (this.@type) {
+            return this.@type
+        }
+        return resolver.resolveTypeOfRole(this.@role)?.vodmlref ?: null
     }
 
     /**
@@ -285,13 +291,20 @@ abstract class Instance implements DefaultNode {
     public void end() {
 
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || !(o instanceof Instance)) {
+            return false
+        }
+        return this.attrs == o.attrs
+    }
 }
 
 /**
  * Class for DataType instances. These instances can contain other DataType instances as well as
  * References to ObjectTypes and primitive types.
  */
-@Canonical
 class DataInstance extends Instance implements HasData, HasReferences, HasValues {
 
     @Override
@@ -422,13 +435,6 @@ class ValueInstance extends Instance implements VodmlBuildable {
                 }
             }
         }
-    }
-
-    public VodmlRef getType() {
-        if (super.type) {
-            return super.type
-        }
-        return resolver.resolveTypeOfRole(super.role)?.vodmlref ?: null
     }
 
     private String stripRole() {

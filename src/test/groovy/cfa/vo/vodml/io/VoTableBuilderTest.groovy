@@ -92,8 +92,11 @@ class VoTableBuilderTest {
                     object(type: "ds:experiment.AstroTarget") {
                         value(role: "name", value: "3C273")
                         value(role: "description", value: "A Quasar")
-                        data(role: "position", type: "stc2:coords.Position") {
-                            value(role: "value", value: [187.2792, 2.0525])
+                        data(role: "position") {
+                            data(role: "coord", type: "stc:stctypes.RealDoublet") {
+                                value(role: "d1", value: 187.2792)
+                                value(role: "d2", value: 2.0525)
+                            }
                         }
                         value(role: "objectClass", value: "BLAZAR")
                         value(role: "spectralClass", value: "Sy1")
@@ -219,7 +222,7 @@ class VoTableBuilderTest {
                 value(role: "phone", value: "555-999-5555")
                 value(role: "email", value: "bill@acme.org")
             }
-            object(id: "COORDSYS", type: "stc2:coordsystem.AstroCoordSystem")
+            object(id: "COORDSYS", type: "stc:coordsystem.AstroCoordSystem")
         }
 
         instance.toXml(System.out)
