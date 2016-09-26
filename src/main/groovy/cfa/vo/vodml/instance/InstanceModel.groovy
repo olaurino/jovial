@@ -477,6 +477,7 @@ class ValueInstance extends Instance implements VodmlBuildable {
  * as well as the URL the model spec will be available at and a documentation URL for the model.
  */
 @Log
+@EqualsAndHashCode
 class ModelInstance extends Instance implements VodmlBuildable {
     private final VODML_PREF = "vodml-map"
     String identifier
