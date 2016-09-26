@@ -249,29 +249,26 @@ class VoTableBuilderTest {
 
     public static String preamble(String nested) {
         """<?xml version="1.0" encoding="UTF-8"?>
-           <VOTABLE xmlns="http://www.ivoa.net/xml/VOTable/v1.4c"
+           <VOTABLE xmlns="http://www.ivoa.net/xml/VOTable/v1.3_vodml"
                       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+              <GROUP>
+                <VODML>
+                  <TYPE>vodml-map:Model</TYPE>
+                </VODML>
+                <PARAM name="url" datatype="char" arraysize="36" value="http://some/where/dataset.vo-dml.xml">
+                    <VODML>
+                      <ROLE>vodml-map:Model.url</ROLE>
+                      <TYPE>ivoa:anyURI</TYPE>
+                    </VODML>
+                </PARAM>
+                <PARAM name="name" datatype="char" arraysize="2" value="ds">
+                    <VODML>
+                      <ROLE>vodml-map:Model.name</ROLE>
+                      <TYPE>ivoa:string</TYPE>
+                    </VODML>
+                </PARAM>
+              </GROUP>
               <RESOURCE>
-                <GROUP>
-                  <VODML>
-                    <TYPE>vo-dml:Model</TYPE>
-                  </VODML>
-                  <PARAM name="name" datatype="char" arraysize="2" value="ds">
-                      <VODML>
-                        <ROLE>vo-dml:Model.name</ROLE>
-                      </VODML>
-                  </PARAM>
-                  <PARAM name="version" datatype="char" arraysize="3" value="1.0">
-                      <VODML>
-                        <ROLE>vo-dml:Model.version</ROLE>
-                      </VODML>
-                  </PARAM>
-                  <PARAM name="url" datatype="char" arraysize="36" value="http://some/where/dataset.vo-dml.xml">
-                      <VODML>
-                        <ROLE>vo-dml:Model.url</ROLE>
-                      </VODML>
-                  </PARAM>
-                </GROUP>
                 ${nested}
               </RESOURCE>
            </VOTABLE>"""

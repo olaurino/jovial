@@ -455,7 +455,7 @@ class ValueInstance extends Instance implements VodmlBuildable {
         }
         else if(value in String) { // Simple case, it's a string
             dt = "char"
-            ars = "*"
+            ars = value.length().toString()
         } else if (value in Number) { // or it's a number
             dt = [Integer.class, int.class].any {it.isAssignableFrom(value.class)} ? "int" : "float"
             ars = "1"
