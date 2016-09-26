@@ -19,10 +19,15 @@
 .Version 1.3: MT: Added BINARY2 element
 .Version 1.3: MT: Further relaxed LINK content-role type to token
 -->
+<!--
+.Version 1.3_vodml: GL uploaded as proposal for adding VO-DML annotation to VOTable.
+                       VODML/TYPE has maxOccurs=unbounded as suggested by Mark Taylor.
+                       VODML/OPTION is added to map OPTION values to either EnumLiterals or SKOS concepts.
+-->
 <xs:schema
         xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
-        xmlns="http://www.ivoa.net/xml/VOTable/v1.4c"
-        targetNamespace="http://www.ivoa.net/xml/VOTable/v1.4c"
+        xmlns="http://www.ivoa.net/xml/VOTable/v1.3_vodml"
+        targetNamespace="http://www.ivoa.net/xml/VOTable/v1.3_vodml"
 >
     <xs:annotation><xs:documentation>
         VOTable is meant to serialize tabular documents in the
@@ -585,22 +590,50 @@
             <xs:documentation>
                 The valid format of a reference to a VO-DML element. (Used to be 'UTYPE').
                 MUST have a prefix that elsewhere in the VOTable is defined to correspond to a VO-DML model defining the referenced element.
-                See "mapping document", https://volute.googlecode.com/svn/trunk/projects/dm/vo-dml/doc/UTYPEs-WD-v1.0.pdf.
+                See "mapping document", https://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/doc/MappingDMtoVOTable-v1.0-201607xx.docx.
                 Suffix, separated from the prefix by a ':', MUST correspond to the vodml-id of the referenced element in the VO-DML/XML representation
                 of that model.
             </xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
-            <xs:pattern value="[\w_-]+:[\w_\-/\./*]+" />
+            <xs:pattern value="[\w_\-]+:[\w_\-/\./*]+" />
         </xs:restriction>
     </xs:simpleType>
 
+    <xs:complexType name="VODMLOptionMapping">
+        <xs:annotation>
+            <xs:documentation>
+                Allows one to map particular values defined in a VALUES/OPTION list to enumeration literals
+                in the VO-DML model or to a concept in a SKOS vocabulary.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="OPTION" type="xs:string" minOccurs="1" maxOccurs="1" >
+                <xs:annotation>
+                    <xs:documentation>
+                        The VOTable OPTION value that is being maped to enum literal or semantic concept.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:choice>
+                <xs:element name="LITERAL" type="VODMLReference" minOccurs="1" maxOccurs="1" />
+                <xs:element name="SEMANTICCONCEPT" type="xs:string" minOccurs="1" maxOccurs="1" >
+                    <xs:annotation>
+                        <xs:documentation>
+                            TBD anyURI as an identifier of concepts made sense for SKOS vocabularies. How about general semantic vocabularies?
+                            I.e. is it ok for the type be xs:string iso xs:anyURI?
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
     <!--
     Proposal 4b: elements for role, type and for alternative types
      -->
     <xs:complexType name="VODMLAnnotation">
         <xs:sequence>
-            <xs:element name="ROLE" type="VODMLReference" minOccurs="0">
+            <xs:element name="ROLE" type="VODMLReference" minOccurs="0" maxOccurs="1">
                 <xs:annotation>
                     <xs:documentation>
                         MUST be provided on annotations of FIELDref and PARAMref and, if contained in a VO-DML annotated GROUP or PARAM.
@@ -608,14 +641,22 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="TYPE" type="VODMLReference" minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="TYPE" type="VODMLReference" minOccurs="0" maxOccurs="1">
                 <xs:annotation>
                     <xs:documentation>
-                        If TYPE elements are available, which they MUST if annotating GROUP elements, one of them MUST
-                        identify th exact VO-DML Type of the element.
-                        Whether additional elements are allowed is define in the mapping document.
-                        If so, these additional elements MUST indicate types up the inheritance hierarchy of that type.
-                        Q: should we make minOccurs=1?
+                        MUST reference the exact VO-DML type of the instance represented by the container of the annotation element.
+                        Q: should we make minOccurs="1"? A: no, but add sentences on what SHOULD/MAY/MUST be done in text.
+                        MUST: if no ROLE or if structured type. Also Reference serializations MUST have TYPE?
+                        SHOULD: primitive types
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="OPTIONMAPPING" type="VODMLOptionMapping" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        Allows one to map OPTION values in VOTABLE to either EnumLiterals in data model (if TYPE identifies VO-DML/ Enumeration),
+                        or SKOSConcept in external SKOS vocabulary (if ROLE is a VO-DML/Attribute containing a skosconcept declaration).
+                        NB: IF the datatype of the ROLE is an Enumeration, and there is NO optionmapping it implies that the values ARE the enum literals, or the concepts.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -642,7 +683,7 @@
             <xs:attribute name="version">
                 <xs:simpleType>
                     <xs:restriction base="xs:NMTOKEN">
-                        <xs:enumeration value="1.3"/>
+                        <xs:enumeration value="1.3_vodml"/>
                     </xs:restriction>
                 </xs:simpleType>
             </xs:attribute>
