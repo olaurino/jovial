@@ -30,32 +30,23 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  * #L%
  */
-package cfa.vo.vodml.instance
+package cfa.vo.vodml.utils
 
-import cfa.vo.vodml.utils.TestResolver
-import cfa.vo.vodml.utils.VodmlRef
-import org.junit.Test
+import cfa.vo.vodml.io.VodmlReader
+import cfa.vo.vodml.metamodel.Model
 
+class TestResolver {
+    @Delegate static Resolver resolver
 
-class ValueInstanceTest {
-    private TestResolver resolver = new TestResolver()
+    public TestResolver() {
+        if (!resolver) {
+            resolver = Resolver.instance
+            def reader = new VodmlReader()
 
-    @Test
-    public void testString() {
-        assert [datatype: "char", arraysize: '6'] == ValueInstance.infer("string")
-        assert [datatype: "char", arraysize: '5'] == ValueInstance.infer("sting")
-        assert [datatype: "int", arraysize: '1'] == ValueInstance.infer(35)
-        assert [datatype: "float", arraysize: '1'] == ValueInstance.infer(3.5)
-        assert [datatype: "float", arraysize: '1'] == ValueInstance.infer(1.0)
-        assert [datatype: "float", arraysize: '3'] == ValueInstance.infer([1.0, 1.1, 1.2])
-        assert [datatype: "int", arraysize: '2'] == ValueInstance.infer([1, 2])
-        assert [datatype: "float", arraysize: '3'] == ValueInstance.infer([1.0, 1.1, 1.2].toArray())
-        assert [datatype: "float", arraysize: '3'] == ValueInstance.infer([1.0, 1.1, 1.2] as Set)
-    }
-
-    @Test
-    public void testType() {
-        ValueInstance instance = new ValueInstance(role: new VodmlRef("ds:party.Party.name"))
-        assert new VodmlRef("ivoa:string") == instance.type
+            ["/DatasetMetadata-1.0.vo-dml.xml", "/ivoa.vo-dml.xml", "/char.vo-dml.xml"].each {
+                Model modelSpec = reader.read(getClass().getResource(it).openStream())
+                resolver << modelSpec
+            }
+        }
     }
 }

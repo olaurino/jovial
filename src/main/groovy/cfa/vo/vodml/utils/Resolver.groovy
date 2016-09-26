@@ -32,6 +32,7 @@
  */
 package cfa.vo.vodml.utils
 
+import cfa.vo.vodml.metamodel.ElementRef
 import cfa.vo.vodml.metamodel.Model
 import cfa.vo.vodml.metamodel.Role
 import cfa.vo.vodml.metamodel.Type
@@ -54,6 +55,10 @@ class Resolver {
 
     public Role resolveRole(VodmlRef ref) {
         roles[ref]
+    }
+
+    public ElementRef resolveTypeOfRole(VodmlRef roleRef) {
+        return roles[roleRef]?.dataType ?: null
     }
 
     public VodmlRef resolveAttribute(VodmlRef typeRef, String attributeName) {
