@@ -479,7 +479,7 @@ class ValueInstance extends Instance implements VodmlBuildable {
 @Log
 @EqualsAndHashCode
 class ModelInstance extends Instance implements VodmlBuildable {
-    private final VODML_PREF = "vodml-map"
+    public static final VODML_PREF = "vodml-map"
     String identifier
     String vodmlURL
     String documentationURL
