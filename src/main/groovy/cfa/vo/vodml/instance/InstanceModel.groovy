@@ -189,7 +189,7 @@ trait DefaultNode implements VoBuilderNode {
 @Canonical
 @EqualsAndHashCode(excludes="resolver")
 class VotableInstance implements DefaultNode, HasObjects, HasData {
-    String ns = "http://www.ivoa.net/xml/VOTable/v1.4c"
+    String ns = "http://www.ivoa.net/xml/VOTable/v1.3_vodml"
     String prefix = ""
     List<ModelInstance> models = []
 
@@ -212,10 +212,10 @@ class VotableInstance implements DefaultNode, HasObjects, HasData {
     Closure getBuildCallback() {
         def callback = {
             VOTABLE() {
+                models.each {
+                    out << it
+                }
                 RESOURCE() {
-                    models.each {
-                        out << it
-                    }
                     build.call(delegate)
                 }
             }
@@ -455,7 +455,7 @@ class ValueInstance extends Instance implements VodmlBuildable {
         }
         else if(value in String) { // Simple case, it's a string
             dt = "char"
-            ars = value.length().toString()
+            ars = "*"
         } else if (value in Number) { // or it's a number
             dt = [Integer.class, int.class].any {it.isAssignableFrom(value.class)} ? "int" : "float"
             ars = "1"
@@ -478,6 +478,8 @@ class ValueInstance extends Instance implements VodmlBuildable {
  */
 @Log
 class ModelInstance extends Instance implements VodmlBuildable {
+    private final VODML_PREF = "vodml-map"
+    String identifier
     String vodmlURL
     String documentationURL
     Model spec
@@ -497,11 +499,13 @@ class ModelInstance extends Instance implements VodmlBuildable {
 
     @Override
     Closure getBuildCallback() {
-        def object = new VoTableBuilder().object(type: "vo-dml:Model") {
-            value(role: "vo-dml:Model.name", value:spec.name)
-            value(role: "vo-dml:Model.version", value: spec.version)
-            value(role: "vo-dml:Model.url", value: vodmlURL)
-            value(role: "vo-dml:Model.documentationURL", value: documentationURL)
+        def object = new VoTableBuilder().object(type: "$VODML_PREF:Model") {
+            value(role: "$VODML_PREF:Model.url", type: "ivoa:anyURI", value: vodmlURL)
+            if(identifier) {
+                value(role: "$VODML_PREF:Model.identifier", type:"ivoa:anyURI", value:identifier)
+            }
+            value(role: "$VODML_PREF:Model.name", type:"ivoa:string", value:spec.name)
+            value(role: "$VODML_PREF:Model.documentationURL", type: "ivoa:anyURI", value: documentationURL)
         }
         def elem = {
             out << object
