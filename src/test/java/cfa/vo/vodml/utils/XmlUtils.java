@@ -32,22 +32,36 @@
  */
 package cfa.vo.vodml.utils;
 
+import org.apache.commons.lang3.StringUtils;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.xmlunit.builder.DiffBuilder;
-import org.xmlunit.diff.Diff;
+import org.xmlunit.diff.*;
 import org.xmlunit.util.Predicate;
 
 public class XmlUtils {
 
-    public static boolean testXml(String control, String actual) {
+    public static void testXml(String control, String actual) {
         Diff diff = baseBuilder(control, actual).build();
-        return doTest(diff);
+        doTest(diff);
     }
 
-    private static boolean doTest(Diff diff) {
+    public static void testVodmlInstanceXml(String control, String actual) {
+        ElementSelector selector = ElementSelectors.conditionalBuilder()
+                .whenElementIsNamed("model")
+                .thenUse(new ModelMatcher()).build();
+
+        Diff diff = baseBuilder(control, actual)
+                .withNodeMatcher(new DefaultNodeMatcher(selector, ElementSelectors.Default))
+                .build();
+
+        doTest(diff);
+    }
+
+    private static void doTest(Diff diff) {
         if (diff.hasDifferences()) {
             throw new AssertionError(diff.toString());
         }
-        return true;
     }
 
     private static DiffBuilder baseBuilder(String control, String actual) {
@@ -56,12 +70,43 @@ public class XmlUtils {
                 .checkForSimilar()
                 .ignoreWhitespace()
                 .ignoreComments()
-                .withNodeFilter(new Predicate<org.w3c.dom.Node>(){
+                .withNodeFilter(new Predicate<Node>(){
                     @Override
                     public boolean test(org.w3c.dom.Node node) {
                         return !"lastModified".equals(node.getNodeName());
                     }
                 })
                 .normalizeWhitespace();
+    }
+
+    public static class ModelMatcher implements ElementSelector {
+
+        @Override
+        public boolean canBeCompared(Element control, Element test) {
+
+            String controlVodmlURL = control.getElementsByTagName("vodmlURL").item(0).getTextContent();
+            String controlPrefix = control.getElementsByTagName("vodmlrefPrefix").item(0).getTextContent();
+
+            Node controlIdentifierNode = control.getElementsByTagName("identifier").item(0);
+            String controlIdentifier = null;
+            if (controlIdentifierNode != null) {
+                controlIdentifier = controlIdentifierNode.getTextContent();
+            }
+
+
+            String testVodmlURL = test.getElementsByTagName("vodmlURL").item(0).getTextContent();
+            String testPrefix = test.getElementsByTagName("vodmlrefPrefix").item(0).getTextContent();
+
+
+            Node testIdentifierNode = test.getElementsByTagName("identifier").item(0);
+            String testIdentifier = null;
+            if (testIdentifierNode != null) {
+                testIdentifier = testIdentifierNode.getTextContent();
+            }
+
+            return StringUtils.equals(controlVodmlURL, testVodmlURL) &&
+                    StringUtils.equals(controlPrefix, testPrefix) &&
+                    StringUtils.equals(controlIdentifier, testIdentifier);
+        }
     }
 }

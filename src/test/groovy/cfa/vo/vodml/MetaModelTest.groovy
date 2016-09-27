@@ -1,21 +1,3 @@
-package cfa.vo.vodml
-
-import ca.odell.glazedlists.BasicEventList
-import ca.odell.glazedlists.EventList
-import cfa.vo.vodml.io.Validator
-import cfa.vo.vodml.io.VodmlWriter
-import cfa.vo.vodml.metamodel.*
-import cfa.vo.vodml.utils.XmlUtils
-import org.joda.time.DateTime
-import org.junit.Test
-
-class MetaModelTest {
-    Model model
-
-    @Test
-    void testSerialization() {
-        String expected = setUpModel();
-
 /*
  * #%L
  * jovial
@@ -48,6 +30,23 @@ class MetaModelTest {
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  * #L%
  */
+package cfa.vo.vodml
+
+import ca.odell.glazedlists.BasicEventList
+import ca.odell.glazedlists.EventList
+import cfa.vo.vodml.io.Validator
+import cfa.vo.vodml.io.VodmlWriter
+import cfa.vo.vodml.utils.XmlUtils
+import cfa.vo.vodml.metamodel.*
+import org.joda.time.DateTime
+import org.junit.Test
+
+class MetaModelTest {
+    Model model
+
+    @Test
+    void testSerialization() {
+        String expected = setUpModel();
 
         def writer = new VodmlWriter()
         ByteArrayOutputStream os = new ByteArrayOutputStream()

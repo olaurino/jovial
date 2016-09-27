@@ -191,7 +191,7 @@ trait DefaultNode implements VoBuilderNode {
 class VotableInstance implements DefaultNode, HasObjects, HasData {
     String ns = "http://www.ivoa.net/xml/VOTable/v1.3_vodml"
     String prefix = ""
-    List<ModelInstance> models = []
+    Set<ModelInstance> models = []
 
     /**
      * Overload left shift operator for adding ModelInstances to this votable
@@ -477,12 +477,13 @@ class ValueInstance extends Instance implements VodmlBuildable {
  * as well as the URL the model spec will be available at and a documentation URL for the model.
  */
 @Log
-@EqualsAndHashCode
+@EqualsAndHashCode(excludes='spec')
 class ModelInstance extends Instance implements VodmlBuildable {
     public static final VODML_PREF = "vodml-map"
-    String identifier
-    String vodmlURL
-    String documentationURL
+    String name = ""
+    String identifier = ""
+    String vodmlURL = ""
+    String documentationURL = ""
     Model spec
 
     /**
@@ -506,11 +507,18 @@ class ModelInstance extends Instance implements VodmlBuildable {
                 value(role: "$VODML_PREF:Model.identifier", type:"ivoa:anyURI", value:identifier)
             }
             value(role: "$VODML_PREF:Model.name", type:"ivoa:string", value:spec.name)
-            value(role: "$VODML_PREF:Model.documentationURL", type: "ivoa:anyURI", value: documentationURL)
+            if(documentationURL) {
+                value(role: "$VODML_PREF:Model.documentationURL", type: "ivoa:anyURI", value: documentationURL)
+            }
         }
         def elem = {
             out << object
         }
+    }
+
+    public void setSpec(Model spec) {
+        name = spec.name
+        this.spec = spec
     }
 }
 
