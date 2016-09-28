@@ -79,8 +79,8 @@ class VotableInstanceReaderSpec extends Specification {
 
     def "test1.votable.xml"() {
         given: "test1 standard instance and votable representation"
-        def standard = getExampleText("/examples/test1.votable.xml.vo-dml.xml")
-        def votable = getExampleText("/examples/test1.votable.xml")
+        def standard = getExampleText("/mapping-examples/test1.votable.xml.vo-dml.xml")
+        def votable = getExampleText("/mapping-examples/test1.votable.xml")
         def dslInstance = test1Instance
 
         when: "instances are parsed"
