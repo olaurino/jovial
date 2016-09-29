@@ -33,26 +33,49 @@
 package cfa.vo.vodml.io.instance
 
 import cfa.vo.vodml.instance.ModelInstance
+import cfa.vo.vodml.instance.ObjectInstance
 import cfa.vo.vodml.instance.VotableInstance
 import groovy.util.slurpersupport.GPathResult
 
 class VotableReader extends AbstractXmlReader {
+    private static cfa.vo.vodml.io.VodmlReader modelReader = new cfa.vo.vodml.io.VodmlReader()
 
     @Override
     VotableInstance read(GPathResult xml) {
         def instance = new VotableInstance()
         for (GPathResult modelXml in xml.GROUP) {
-            def model = new ModelInstance()
-            model.name = getParamWithRoleValue(modelXml, "Model.name")
-            model.identifier = getParamWithRoleValue(modelXml, "Model.identifier")
-            model.vodmlURL = getParamWithRoleValue(modelXml, "Model.url")
-            model.documentationURL = getParamWithRoleValue(modelXml, "Model.documentationURL")
-            instance << model
+            instance << model(modelXml)
+        }
+        for (GPathResult objectXml in xml.RESOURCE.collect{ it.depthFirst().findAll{
+            it.name() == "GROUP" &&
+                    it.VODML.TYPE.text() &&
+                    !it.VODML.ROLE.text() // Root instances
+        }}.flatten()) {
+            instance << object(objectXml)
         }
         return instance
     }
 
     private static String getParamWithRoleValue(xml, role) {
         return xml.PARAM.find{ it.VODML.ROLE.text() == "${ModelInstance.VODML_PREF}:$role" }.@value
+    }
+
+    private static ModelInstance model(xml) {
+        def model = new ModelInstance()
+        model.name = getParamWithRoleValue(xml, "Model.name")
+        model.identifier = getParamWithRoleValue(xml, "Model.identifier")
+        model.vodmlURL = getParamWithRoleValue(xml, "Model.url")
+        model.documentationURL = getParamWithRoleValue(xml, "Model.documentationURL")
+        return model
+    }
+
+    private static ObjectInstance object(xml) {
+        def obj = new ObjectInstance()
+        obj.type = xml.VODML.TYPE.text()
+        def role = xml.VODML.ROLE.text()
+        if (role) {
+            obj.role = role
+        }
+        return obj
     }
 }

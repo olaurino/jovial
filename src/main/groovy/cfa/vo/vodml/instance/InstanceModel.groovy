@@ -187,11 +187,10 @@ trait DefaultNode implements VoBuilderNode {
  * It is important to provide model specifications (see {@link ModelInstance}).
  */
 @Canonical
-@EqualsAndHashCode(excludes="resolver")
 class VotableInstance implements DefaultNode, HasObjects, HasData {
     String ns = "http://www.ivoa.net/xml/VOTable/v1.3_vodml"
     String prefix = ""
-    Set<ModelInstance> models = []
+    List<ModelInstance> models = []
 
     /**
      * Overload left shift operator for adding ModelInstances to this votable
@@ -229,6 +228,22 @@ class VotableInstance implements DefaultNode, HasObjects, HasData {
     public toXml(OutputStream os) {
         VodmlWriter write = new VodmlWriter()
         write.write(this, os)
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (! (o instanceof VotableInstance)) {
+            return false
+        }
+        def other = (VotableInstance) o
+        def ourModels = new HashSet(models)
+        def theirModels = new HashSet(other.models)
+        def ourObjects = new HashSet(objectTypes)
+        def theirObjects = new HashSet(other.objectTypes)
+        def ourDataObjects = new HashSet(dataTypes)
+        def theirDataObjects = new HashSet(other.dataTypes)
+        return ourModels.equals(theirModels) && ourObjects.equals(theirObjects) &&
+                ourDataObjects.equals(theirDataObjects)
     }
 }
 

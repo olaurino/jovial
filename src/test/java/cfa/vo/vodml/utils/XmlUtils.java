@@ -53,6 +53,7 @@ public class XmlUtils {
 
         Diff diff = baseBuilder(control, actual)
                 .withNodeMatcher(new DefaultNodeMatcher(selector, ElementSelectors.Default))
+                .withNodeFilter(new ModelNodeFilter())
                 .build();
 
         doTest(diff);
@@ -77,6 +78,14 @@ public class XmlUtils {
                     }
                 })
                 .normalizeWhitespace();
+    }
+
+    public static class ModelNodeFilter implements Predicate<Node> {
+
+        @Override
+        public boolean test(Node node) {
+            return !node.getNodeName().equals("identifier");
+        }
     }
 
     public static class ModelMatcher implements ElementSelector {

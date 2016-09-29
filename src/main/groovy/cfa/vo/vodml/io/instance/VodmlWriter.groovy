@@ -33,7 +33,9 @@
 package cfa.vo.vodml.io.instance
 
 import cfa.vo.vodml.instance.ModelInstance
+import cfa.vo.vodml.instance.ObjectInstance
 import cfa.vo.vodml.instance.VotableInstance
+import cfa.vo.vodml.utils.Resolver
 import groovy.xml.MarkupBuilder
 
 class VodmlWriter implements InstanceWriter {
@@ -43,13 +45,34 @@ class VodmlWriter implements InstanceWriter {
         def xml = new MarkupBuilder(new OutputStreamWriter(os))
         xml.mkp.xmlDeclaration(version: '1.0', encoding: "utf-8")
         xml."vodmli:instance"('xmlns:vodmli': 'http://volute.g-vo.org/dm/vo-dml-instance/v0.x') {
-            for (ModelInstance m : instance.models) {
+            for (ModelInstance m in instance.models) {
                 model() {
                     vodmlURL(m.vodmlURL)
                     vodmlrefPrefix(m.name)
                     if (m.identifier) {
                         identifier(m.identifier)
                     }
+                }
+            }
+            for (ObjectInstance obj in instance.objectTypes) {
+                this.objectSer(delegate, obj, "object")
+            }
+        }
+    }
+
+    def objectSer = { del, obj, tag ->
+        delegate = del
+        "$tag"(vodmlRef: obj.type) {
+            for (attr in obj.attributes) {
+                def name = Resolver.instance.resolveRole(attr.role).name
+                attribute(vodmlRef: attr.role, name: name) {
+                    primitiveValue(vodmlRef: attr.type, attr.value)
+                }
+            }
+            for (attr in obj.dataTypes) {
+                def name = Resolver.instance.resolveRole(attr.role).name
+                attribute(vodmlRef: attr.role, name: name) {
+                    objectSer(del, attr, "dataObject")
                 }
             }
         }

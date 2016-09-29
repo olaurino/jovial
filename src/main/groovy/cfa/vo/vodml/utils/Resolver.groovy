@@ -58,7 +58,11 @@ class Resolver {
     }
 
     public ElementRef resolveTypeOfRole(VodmlRef roleRef) {
-        return roles[roleRef]?.dataType ?: null
+        def result = roles[roleRef]?.dataType
+        if (!result) {
+            throw new IllegalArgumentException("No such role: $roleRef")
+        }
+        return result
     }
 
     public VodmlRef resolveAttribute(VodmlRef typeRef, String attributeName) {

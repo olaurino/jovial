@@ -32,8 +32,8 @@
  */
 package cfa.vo.vodml.io.instance
 
-import cfa.vo.vodml.instance.ModelInstance
-import cfa.vo.vodml.instance.VotableInstance
+import cfa.vo.vodml.instance.*
+import cfa.vo.vodml.utils.Resolver
 import groovy.util.slurpersupport.GPathResult
 
 class VodmlReader extends AbstractXmlReader {
@@ -41,13 +41,55 @@ class VodmlReader extends AbstractXmlReader {
     VotableInstance read(GPathResult xml) {
         def instance = new VotableInstance()
         for (GPathResult modelXml in xml.model) {
-            def model = new ModelInstance()
-            model.name = modelXml.vodmlrefPrefix?.text()
-            model.identifier = modelXml.identifier?.text()
-            model.vodmlURL = modelXml.vodmlURL?.text()
-            model.documentationURL = modelXml.documentationURL?.text()
-            instance << model
+            instance << model(modelXml)
+        }
+        for (GPathResult objectXml in xml.object) {
+            instance << object(objectXml)
         }
         return instance
+    }
+
+    private static model(GPathResult xml) {
+        def model = new ModelInstance()
+        model.name = xml.vodmlrefPrefix?.text()
+        model.identifier = xml.identifier?.text()
+        model.vodmlURL = xml.vodmlURL?.text()
+        model.documentationURL = xml.documentationURL?.text()
+        return model
+    }
+
+    private static object(GPathResult xml) {
+        def object = new ObjectInstance()
+        object.type = xml.@vodmlRef
+        for (GPathResult attrXml in xml.attribute) {
+            def child = attrXml.children()[0]
+            def attrTag = child.name()
+            if (attrTag == "primitiveValue") {
+                object << attribute(attrXml)
+            } else if (attrTag == "dataObject") {
+                def data = dataObject(child)
+                data.role = attrXml.@vodmlRef
+                object << data
+            }
+        }
+        return object
+    }
+
+    private static dataObject(GPathResult xml) {
+        def object = new DataInstance()
+        object.type = xml.@vodmlRef
+        for (GPathResult attrXml in xml.attribute) {
+            object << attribute(attrXml)
+        }
+        return object
+    }
+
+    private static attribute(GPathResult xml) {
+        def attr = new ValueInstance()
+        attr.role = xml.@vodmlRef
+        GPathResult valueNode = xml.children()[0]
+        attr.value = valueNode.text()
+        attr.type = Resolver.instance.resolveTypeOfRole(attr.role).vodmlref
+        return attr
     }
 }
