@@ -32,6 +32,8 @@
  */
 package cfa.vo.vodml.io
 
+import cfa.vo.vodml.instance.DataModelInstance
+import cfa.vo.vodml.instance.ModelImportInstance
 import groovy.util.logging.Slf4j
 /**
  * A groovy builder for VODML Instances to be serialized as VOTable.
@@ -84,7 +86,13 @@ class VoTableBuilder extends BuilderSupport {
     private static final String MODEL_PACKAGE = "cfa.vo.vodml.instance"
 
     private static final Map SUPPORTED_MODELS = [build: ArrayList,].withDefault {
-        Class.forName("${MODEL_PACKAGE}.${it.capitalize()}Instance")
+        if ("votable" == it.toLowerCase()) {
+            return DataModelInstance.class
+        }
+        if ("model" == it.toLowerCase()) {
+            return ModelImportInstance.class
+        }
+        return Class.forName("${MODEL_PACKAGE}.${it.capitalize()}Instance")
     }
 
     @Override

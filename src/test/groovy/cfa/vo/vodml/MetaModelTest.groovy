@@ -35,7 +35,7 @@ package cfa.vo.vodml
 import ca.odell.glazedlists.BasicEventList
 import ca.odell.glazedlists.EventList
 import cfa.vo.vodml.io.Validator
-import cfa.vo.vodml.io.VodmlWriter
+import cfa.vo.vodml.io.ModelWriter
 import cfa.vo.vodml.utils.XmlUtils
 import cfa.vo.vodml.metamodel.*
 import org.joda.time.DateTime
@@ -48,7 +48,7 @@ class MetaModelTest {
     void testSerialization() {
         String expected = setUpModel();
 
-        def writer = new VodmlWriter()
+        def writer = new ModelWriter()
         ByteArrayOutputStream os = new ByteArrayOutputStream()
         writer.write(model, os)
         String out = os.toString("UTF-8")

@@ -43,7 +43,7 @@ import java.io.ByteArrayOutputStream;
 
 public class VodmlWriterTest {
     private Model model;
-    private VodmlWriter writer;
+    private ModelWriter writer;
     private String expected;
 
     @Before
@@ -56,7 +56,7 @@ public class VodmlWriterTest {
         model.setLastModified(new DateTime("2016-04-16T10:16:50.000Z").withZone(DateTimeZone.UTC));
         model.getAuthors().add("John Doe");
 
-        writer = new VodmlWriter();
+        writer = new ModelWriter();
         expected = makeString();
     }
 

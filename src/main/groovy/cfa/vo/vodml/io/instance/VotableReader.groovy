@@ -32,17 +32,17 @@
  */
 package cfa.vo.vodml.io.instance
 
-import cfa.vo.vodml.instance.ModelInstance
+import cfa.vo.vodml.instance.ModelImportInstance
 import cfa.vo.vodml.instance.ObjectInstance
-import cfa.vo.vodml.instance.VotableInstance
+import cfa.vo.vodml.instance.DataModelInstance
 import groovy.util.slurpersupport.GPathResult
 
 class VotableReader extends AbstractXmlReader {
     private static cfa.vo.vodml.io.VodmlReader modelReader = new cfa.vo.vodml.io.VodmlReader()
 
     @Override
-    VotableInstance read(GPathResult xml) {
-        def instance = new VotableInstance()
+    DataModelInstance read(GPathResult xml) {
+        def instance = new DataModelInstance()
         for (GPathResult modelXml in xml.GROUP) {
             instance << model(modelXml)
         }
@@ -57,11 +57,11 @@ class VotableReader extends AbstractXmlReader {
     }
 
     private static String getParamWithRoleValue(xml, role) {
-        return xml.PARAM.find{ it.VODML.ROLE.text() == "${ModelInstance.VODML_PREF}:$role" }.@value
+        return xml.PARAM.find{ it.VODML.ROLE.text() == "${VotableWriter.VODML_PREF}:$role" }.@value
     }
 
-    private static ModelInstance model(xml) {
-        def model = new ModelInstance()
+    private static ModelImportInstance model(xml) {
+        def model = new ModelImportInstance()
         model.name = getParamWithRoleValue(xml, "Model.name")
         model.identifier = getParamWithRoleValue(xml, "Model.identifier")
         model.vodmlURL = getParamWithRoleValue(xml, "Model.url")

@@ -38,8 +38,8 @@ import groovy.util.slurpersupport.GPathResult
 
 class VodmlReader extends AbstractXmlReader {
     @Override
-    VotableInstance read(GPathResult xml) {
-        def instance = new VotableInstance()
+    DataModelInstance read(GPathResult xml) {
+        def instance = new DataModelInstance()
         for (GPathResult modelXml in xml.model) {
             instance << model(modelXml)
         }
@@ -50,7 +50,7 @@ class VodmlReader extends AbstractXmlReader {
     }
 
     private static model(GPathResult xml) {
-        def model = new ModelInstance()
+        def model = new ModelImportInstance()
         model.name = xml.vodmlrefPrefix?.text()
         model.identifier = xml.identifier?.text()
         model.vodmlURL = xml.vodmlURL?.text()

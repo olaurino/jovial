@@ -32,18 +32,19 @@
  */
 package cfa.vo.vodml.io
 
+import cfa.vo.vodml.io.instance.VotableWriter
 import cfa.vo.vodml.metamodel.Model
-import cfa.vo.vodml.instance.ModelInstance
+import cfa.vo.vodml.instance.ModelImportInstance
 import cfa.vo.vodml.instance.ObjectInstance
 import cfa.vo.vodml.instance.ValueInstance
-import cfa.vo.vodml.instance.VotableInstance
+import cfa.vo.vodml.instance.DataModelInstance
 import cfa.vo.vodml.utils.XmlUtils
 import org.junit.Before
 import org.junit.Test
 
 
 class VoTableBuilderTest {
-    def writer = new VodmlWriter()
+    def writer = new VotableWriter()
     ByteArrayOutputStream os = new ByteArrayOutputStream()
     Model dsSpec;
 
@@ -65,19 +66,110 @@ class VoTableBuilderTest {
     void testPreamble() {
         def builder = new VoTableBuilder()
 
-        VotableInstance instance = builder.votable {
+        DataModelInstance instance = builder.votable {
             model(spec: dsSpec, vodmlURL: "http://some/where/dataset.vo-dml.xml")
         }
 
-        instance.toXml(os)
+        writer.write(instance, os)
         String actual = os.toString("UTF-8")
         String expected = preamble("")
         XmlUtils.testXml(expected, actual)
     }
 
     @Test
+    void testTarget() {
+        DataModelInstance instance = new VoTableBuilder().votable {
+            model(spec: stcSpec, vodmlURL: "https://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/STC2/prototype/STCPrototype-2.0.vo-dml.xml")
+            model(spec: dsSpec, vodmlURL: "http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/ds/DatasetMetadata-1.0.vo-dml.xml")
+            object(type: "ds:experiment.AstroTarget") {
+                value(role: "name", value: "3C273")
+                value(role: "description", value: "A Quasar")
+                data(role: "position") {
+                    data(role: "coord", type: "stc:stctypes.RealDoublet") {
+                        value(role: "d1", value: 187.2792)
+                        value(role: "d2", value: 2.0525)
+                    }
+                }
+                value(role: "objectClass", value: "BLAZAR")
+                value(role: "spectralClass", value: "Sy1")
+                value(role: "redshift", value: 0.158)
+                value(role: "varAmpl", value: Double.NaN)
+            }
+        }
+
+        def votable = """<?xml version="1.0" encoding="UTF-8"?>
+<VOTABLE xmlns="http://www.ivoa.net/xml/VOTable/v1.3_vodml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <GROUP>
+    <VODML>
+      <TYPE>vodml-map:Model</TYPE>
+    </VODML>
+    <PARAM datatype="char" arraysize="92" name="url" value="http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/ds/DatasetMetadata-1.0.vo-dml.xml">
+      <VODML>
+        <ROLE>vodml-map:Model.url</ROLE>
+        <TYPE>ivoa:anyURI</TYPE>
+      </VODML>
+    </PARAM>
+    <PARAM datatype="char" arraysize="2" name="name" value="ds">
+      <VODML>
+        <ROLE>vodml-map:Model.name</ROLE>
+        <TYPE>ivoa:string</TYPE>
+      </VODML>
+    </PARAM>
+  </GROUP>
+  <!--End ObjectType role: {No Role} type: vodml-map:Model-->
+  <RESOURCE>
+    <GROUP>
+      <VODML>
+        <TYPE>ds:experiment.AstroTarget</TYPE>
+      </VODML>
+      <PARAM datatype="char" arraysize="5" name="name" value="3C273">
+        <VODML>
+          <ROLE>ds:experiment.BaseTarget.name</ROLE>
+          <TYPE>ivoa:string</TYPE>
+        </VODML>
+      </PARAM>
+      <PARAM datatype="char" arraysize="8" name="description" value="A Quasar">
+        <VODML>
+          <ROLE>ds:experiment.BaseTarget.description</ROLE>
+          <TYPE>ivoa:string</TYPE>
+        </VODML>
+      </PARAM>
+      <PARAM datatype="char" arraysize="6" name="objectClass" value="BLAZAR">
+        <VODML>
+          <ROLE>ds:experiment.AstroTarget.objectClass</ROLE>
+          <TYPE>ivoa:string</TYPE>
+        </VODML>
+      </PARAM>
+      <PARAM datatype="char" arraysize="3" name="spectralClass" value="Sy1">
+        <VODML>
+          <ROLE>ds:experiment.AstroTarget.spectralClass</ROLE>
+          <TYPE>ivoa:string</TYPE>
+        </VODML>
+      </PARAM>
+      <PARAM datatype="float" arraysize="1" name="redshift" value="0.158">
+        <VODML>
+          <ROLE>ds:experiment.AstroTarget.redshift</ROLE>
+          <TYPE>ivoa:real</TYPE>
+        </VODML>
+      </PARAM>
+      <PARAM datatype="float" arraysize="1" name="varAmpl" value="NaN">
+        <VODML>
+          <ROLE>ds:experiment.AstroTarget.varAmpl</ROLE>
+          <TYPE>ivoa:real</TYPE>
+        </VODML>
+      </PARAM>
+    </GROUP>
+    <!--End ObjectType role: {No Role} type: ds:experiment.AstroTarget-->
+  </RESOURCE>
+</VOTABLE>
+"""
+
+        writer.write(instance, System.out)
+    }
+
+    @Test
     void testDatasetInstance() {
-        VotableInstance instance = new VoTableBuilder().votable {
+        DataModelInstance instance = new VoTableBuilder().votable {
             model(spec: dsSpec, vodmlURL: "http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/ds/DatasetMetadata-1.0.vo-dml.xml")
             model(spec: stcSpec, vodmlURL: "https://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/STC2/prototype/STCPrototype-2.0.vo-dml.xml")
             model(spec: charSpec, vodmlURL: "http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/characterization/Characterization.vo-dml.xml")
@@ -221,7 +313,7 @@ class VoTableBuilderTest {
             object(id: "COORDSYS", type: "stc:coordsystem.AstroCoordSystem")
         }
 
-        instance.toXml(System.out)
+        writer.write(instance, System.out)
     }
 
     @Test
@@ -234,8 +326,8 @@ class VoTableBuilderTest {
             }
         }
 
-        def expected = new VotableInstance()
-        expected << new ModelInstance(spec: dsSpec)
+        def expected = new DataModelInstance()
+        expected << new ModelImportInstance(spec: dsSpec)
         def obj = new ObjectInstance(type: "$org")
         obj.attributes << new ValueInstance(role: "ds:party.Party.name", value:"OrgName")
         obj.attributes << new ValueInstance(role: "${org}.address", value:"An Address")

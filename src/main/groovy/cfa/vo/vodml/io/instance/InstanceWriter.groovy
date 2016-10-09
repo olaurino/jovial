@@ -32,8 +32,8 @@
  */
 package cfa.vo.vodml.io.instance
 
-import cfa.vo.vodml.instance.VotableInstance
+import cfa.vo.vodml.instance.DataModelInstance
 
 public interface InstanceWriter {
-    void write(VotableInstance instance, OutputStream os)
+    void write(DataModelInstance instance, OutputStream os)
 }

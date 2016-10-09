@@ -34,6 +34,7 @@ package cfa.vo.vodml.metamodel
 
 import ca.odell.glazedlists.BasicEventList
 import ca.odell.glazedlists.EventList
+import cfa.vo.vodml.io.ModelWriter
 import cfa.vo.vodml.io.factories.model.StringAttribute
 import cfa.vo.vodml.utils.VodmlRef
 import groovy.beans.Bindable
@@ -45,8 +46,6 @@ import org.joda.time.DateTime
 @Canonical
 @EqualsAndHashCode(excludes = "lastModified")
 class Model implements Buildable, PackageLike {
-    String prefix = "vo-dml"
-    String ns = "http://www.ivoa.net/xml/VODML/v1.0"
     String name = "my_model"
     String title = "My Model"
     String version = "1.0"
@@ -88,7 +87,7 @@ class Model implements Buildable, PackageLike {
     @Override
     void build(GroovyObject builder) {
         def model = {
-            "vo-dml:model"("xsi:schemaLocation": "${this.ns} http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/xsd/vo-dml-v1.0.xsd") {
+            "vo-dml:model"("xsi:schemaLocation": "${ModelWriter.NS} http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/xsd/vo-dml-v1.0.xsd") {
                 name(this.name)
                 description(this.description)
                 title(this.title)

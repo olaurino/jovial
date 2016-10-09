@@ -32,15 +32,15 @@
  */
 package cfa.vo.vodml.io.instance
 
-import cfa.vo.vodml.instance.VotableInstance
+import cfa.vo.vodml.instance.DataModelInstance
 import groovy.util.slurpersupport.GPathResult
 
 public abstract class AbstractXmlReader implements InstanceReader {
 
-    abstract VotableInstance read(GPathResult xml)
+    abstract DataModelInstance read(GPathResult xml)
 
     @Override
-    VotableInstance read(String xmlString) {
+    DataModelInstance read(String xmlString) {
         return read(new XmlSlurper().parseText(xmlString))
     }
 }

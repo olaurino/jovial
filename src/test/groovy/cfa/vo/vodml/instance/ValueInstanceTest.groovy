@@ -36,21 +36,22 @@ import cfa.vo.vodml.utils.TestResolver
 import cfa.vo.vodml.utils.VodmlRef
 import org.junit.Test
 
+import static cfa.vo.vodml.io.instance.VotableWriter.infer
 
 class ValueInstanceTest {
     private TestResolver resolver = new TestResolver()
 
     @Test
     public void testString() {
-        assert [datatype: "char", arraysize: '6'] == ValueInstance.infer("string")
-        assert [datatype: "char", arraysize: '5'] == ValueInstance.infer("sting")
-        assert [datatype: "int", arraysize: '1'] == ValueInstance.infer(35)
-        assert [datatype: "float", arraysize: '1'] == ValueInstance.infer(3.5)
-        assert [datatype: "float", arraysize: '1'] == ValueInstance.infer(1.0)
-        assert [datatype: "float", arraysize: '3'] == ValueInstance.infer([1.0, 1.1, 1.2])
-        assert [datatype: "int", arraysize: '2'] == ValueInstance.infer([1, 2])
-        assert [datatype: "float", arraysize: '3'] == ValueInstance.infer([1.0, 1.1, 1.2].toArray())
-        assert [datatype: "float", arraysize: '3'] == ValueInstance.infer([1.0, 1.1, 1.2] as Set)
+        assert [datatype: "char", arraysize: '6'] == infer("string")
+        assert [datatype: "char", arraysize: '5'] == infer("sting")
+        assert [datatype: "int", arraysize: '1'] == infer(35)
+        assert [datatype: "float", arraysize: '1'] == infer(3.5)
+        assert [datatype: "float", arraysize: '1'] == infer(1.0)
+        assert [datatype: "float", arraysize: '3'] == infer([1.0, 1.1, 1.2])
+        assert [datatype: "int", arraysize: '2'] == infer([1, 2])
+        assert [datatype: "float", arraysize: '3'] == infer([1.0, 1.1, 1.2].toArray())
+        assert [datatype: "float", arraysize: '3'] == infer([1.0, 1.1, 1.2] as Set)
     }
 
     @Test

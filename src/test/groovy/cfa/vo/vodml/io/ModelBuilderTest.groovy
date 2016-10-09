@@ -399,7 +399,7 @@ Illegal multiplicity expression. Please use '<minOccurs>..<maxOccurs>', where:
 
     def "full model (as in MetaModelTest but with DSL)"() {
         given: "I/O infrastructure"
-        def writer = new VodmlWriter()
+        def writer = new ModelWriter()
         def os = new ByteArrayOutputStream()
         and: "full model"
         Model model = builder.model("ds") {

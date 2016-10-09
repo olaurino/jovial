@@ -49,7 +49,7 @@ class DataInstanceTest extends Specification {
 
     def "test position"() {
         given:
-        VotableInstance instance = new VoTableBuilder().votable {
+        DataModelInstance instance = new VoTableBuilder().votable {
             model(spec: stcSpec, vodmlURL: "https://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/STC2/prototype/STCPrototype-2.0.vo-dml.xml")
             model(spec: ivoaSpec, vodmlURL: "https://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/ivoa/IVOA.vo-dml.xml")
             object(type: "ds:experiment.AstroTarget") {

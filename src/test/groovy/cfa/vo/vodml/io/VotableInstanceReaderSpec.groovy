@@ -32,7 +32,7 @@
  */
 package cfa.vo.vodml.io
 
-import cfa.vo.vodml.instance.VotableInstance
+import cfa.vo.vodml.instance.DataModelInstance
 import cfa.vo.vodml.io.instance.InstanceFactory
 import cfa.vo.vodml.io.instance.InstanceReader
 import cfa.vo.vodml.io.instance.InstanceWriter
@@ -62,8 +62,8 @@ class VotableInstanceReaderSpec extends Specification {
 
     def "Models are different"() {
         given: "two votables with different model declarations"
-        VotableInstance one = votableInstanceReader.read(modelOne)
-        VotableInstance two = votableInstanceReader.read(modelTwo)
+        DataModelInstance one = votableInstanceReader.read(modelOne)
+        DataModelInstance two = votableInstanceReader.read(modelTwo)
 
         expect: "they are not the same instance"
         !one.equals(two)
@@ -71,8 +71,8 @@ class VotableInstanceReaderSpec extends Specification {
 
     def "Model are the same, one with arraysize *"() {
         given: "two votables with same model declarations but * in arraysize"
-        VotableInstance one = votableInstanceReader.read(modelOne)
-        VotableInstance two = votableInstanceReader.read(modelOneStar)
+        DataModelInstance one = votableInstanceReader.read(modelOne)
+        DataModelInstance two = votableInstanceReader.read(modelOneStar)
 
         expect: "they are the same instance"
         one.equals(two)
@@ -87,7 +87,7 @@ class VotableInstanceReaderSpec extends Specification {
 
         when: "instances are parsed"
 //        VotableInstance votableInstance = votableInstanceReader.read(votable)
-        VotableInstance standardInstance = vodmlInstanceReader.read(standard)
+        DataModelInstance standardInstance = vodmlInstanceReader.read(standard)
 
         and: "instances are serialized to vodmli"
         def baos = new ByteArrayOutputStream()

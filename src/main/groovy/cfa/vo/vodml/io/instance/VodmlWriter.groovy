@@ -32,20 +32,20 @@
  */
 package cfa.vo.vodml.io.instance
 
-import cfa.vo.vodml.instance.ModelInstance
+import cfa.vo.vodml.instance.ModelImportInstance
 import cfa.vo.vodml.instance.ObjectInstance
-import cfa.vo.vodml.instance.VotableInstance
+import cfa.vo.vodml.instance.DataModelInstance
 import cfa.vo.vodml.utils.Resolver
 import groovy.xml.MarkupBuilder
 
 class VodmlWriter implements InstanceWriter {
 
     @Override
-    void write(VotableInstance instance, OutputStream os) {
+    void write(DataModelInstance instance, OutputStream os) {
         def xml = new MarkupBuilder(new OutputStreamWriter(os))
         xml.mkp.xmlDeclaration(version: '1.0', encoding: "utf-8")
         xml."vodmli:instance"('xmlns:vodmli': 'http://volute.g-vo.org/dm/vo-dml-instance/v0.x') {
-            for (ModelInstance m in instance.models) {
+            for (ModelImportInstance m in instance.models) {
                 model() {
                     vodmlURL(m.vodmlURL)
                     vodmlrefPrefix(m.name)
