@@ -29,7 +29,7 @@
       </xsd:documentation>
     </xsd:annotation>
     <xsd:restriction base="xsd:string">
-    <xsd:pattern value="([a-zA-Z0-9/:._-])+(['+']{1}([a-zA-Z0-9/:.])+)*"></xsd:pattern>
+    <xsd:pattern value="([a-zA-Z0-9/:._-])+(['+']{1}([a-zA-Z0-9/:.])+)*"/>
     </xsd:restriction>
   </xsd:simpleType>
   
@@ -144,7 +144,7 @@
         </xsd:annotation>
       </xsd:element>
     </xsd:sequence>
-    <xsd:attribute name="vomdmlRef" type="VODMLREF" use="required"/>
+    <xsd:attribute name="vodmlRef" type="VODMLREF" use="required"/>
     <xsd:attribute name="name" type="xsd:string" use="required"/>
   </xsd:complexType>
 

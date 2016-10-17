@@ -54,6 +54,9 @@ class InstanceFactory {
             case "votable":
                 result = new VotableWriter()
                 break
+            case "votablealt":
+                result = new AltVotableWriter()
+                break
             case "vodml":
                 result = new VodmlWriter()
                 break

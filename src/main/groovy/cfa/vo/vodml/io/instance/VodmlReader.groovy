@@ -72,6 +72,9 @@ class VodmlReader extends AbstractXmlReader {
                 object << data
             }
         }
+        for (GPathResult collectionXml in xml.collection) {
+            object << collection(collectionXml)
+        }
         return object
     }
 
@@ -91,5 +94,16 @@ class VodmlReader extends AbstractXmlReader {
         attr.value = valueNode.text()
         attr.type = Resolver.instance.resolveTypeOfRole(attr.role).vodmlref
         return attr
+    }
+
+    private static collection(GPathResult xml) {
+        def collection = new CollectionInstance()
+        collection.role = xml.@vodmlRef
+
+        for (GPathResult instance in xml.object) {
+            collection << object(instance)
+        }
+
+        return collection
     }
 }

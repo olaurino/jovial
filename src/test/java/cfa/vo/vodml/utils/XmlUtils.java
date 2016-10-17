@@ -36,7 +36,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xmlunit.builder.DiffBuilder;
-import org.xmlunit.diff.*;
+import org.xmlunit.diff.DefaultNodeMatcher;
+import org.xmlunit.diff.Diff;
+import org.xmlunit.diff.ElementSelector;
+import org.xmlunit.diff.ElementSelectors;
 import org.xmlunit.util.Predicate;
 
 public class XmlUtils {
@@ -57,6 +60,10 @@ public class XmlUtils {
                 .build();
 
         doTest(diff);
+    }
+
+    public static void assertVotableAltEqual(String standardVODMLI, String altVotable) {
+        throw new AssertionError("not Implemented");
     }
 
     private static void doTest(Diff diff) {
@@ -93,6 +100,9 @@ public class XmlUtils {
         @Override
         public boolean canBeCompared(Element control, Element test) {
 
+            if (!"model".equals(test.getLocalName())) {
+                return false;
+            }
             String controlVodmlURL = control.getElementsByTagName("vodmlURL").item(0).getTextContent();
             String controlPrefix = control.getElementsByTagName("vodmlrefPrefix").item(0).getTextContent();
 

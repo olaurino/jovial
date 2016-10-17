@@ -75,6 +75,16 @@ class VodmlWriter implements InstanceWriter {
                     objectSer(del, attr, "dataObject")
                 }
             }
+            if (obj.hasProperty("collections")) {
+                for (col in obj.collections) {
+                    def name = Resolver.instance.resolveRole(col.role).name
+                    collection(vodmlRef: col.role, name: name) {
+                        for (instance in col.objectTypes) {
+                            objectSer(del, instance, "object")
+                        }
+                    }
+                }
+            }
         }
     }
 }

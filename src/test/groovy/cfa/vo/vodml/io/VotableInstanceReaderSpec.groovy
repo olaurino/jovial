@@ -52,6 +52,7 @@ class VotableInstanceReaderSpec extends Specification {
     InstanceReader votableInstanceReader = InstanceFactory.readerFor("votable")
     InstanceReader vodmlInstanceReader = InstanceFactory.readerFor("vodml")
     InstanceWriter vodmlInstanceWriter = InstanceFactory.writerFor("vodml")
+    InstanceWriter votableAltInstanceWriter = InstanceFactory.writerFor("votableAlt")
 
     def setupSpec() {
         def reader = new VodmlReader()
@@ -82,18 +83,15 @@ class VotableInstanceReaderSpec extends Specification {
     def "test mapping with /mapping-examples/#name .votable.xml"(name) {
         given: "$name standard instance and votable representation"
         def standard = getExampleText("/mapping-examples/${name}.votable.xml.vo-dml.xml")
-//        def votable = getExampleText("/mapping-examples/${name}.votable.xml")
         def dslInstance = this."${name}Instance"
 
         when: "instances are parsed"
-//        VotableInstance votableInstance = votableInstanceReader.read(votable)
         DataModelInstance standardInstance = vodmlInstanceReader.read(standard)
 
         and: "instances are serialized to vodmli"
         def baos = new ByteArrayOutputStream()
         def encoding = "UTF-8"
-//        vodmlInstanceWriter.write(votableInstance, baos)
-//        def serializedVotableInstance = baos.toString(encoding)
+        votableAltInstanceWriter.write(dslInstance, System.out)
         baos.reset()
         vodmlInstanceWriter.write(dslInstance, baos)
         def serializedDslInstance = baos.toString(encoding)
@@ -102,17 +100,11 @@ class VotableInstanceReaderSpec extends Specification {
         def serializedStandardInstance = baos.toString(encoding)
         baos.close()
 
-//        then: "internal representation of votable and standard is the same"
-//        votableInstance.equals(standardInstance)
-//
-//        and: "internal representation of votable and dsl is the same"
-//        votableInstance.equals(dslInstance)
-
         then: "standard representation round-tripping"
         XmlUtils.testVodmlInstanceXml(standard, serializedStandardInstance)
 
-//        and: "standard representation of votable instance is equal to standard"
-//        XmlUtils.testVodmlInstanceXml(standard, serializedVotableInstance)
+//        and: "standard representation of votableAlt instance is equal to standard"
+//        XmlUtils.assertVotableAltEqual(standard, serializedAltVotableInstance)
 
         and: "standard representation of dsl instance is equal to standard"
         XmlUtils.testVodmlInstanceXml(standard, serializedDslInstance)
@@ -121,6 +113,7 @@ class VotableInstanceReaderSpec extends Specification {
         name         | _
         "test1"      | _
         "test2"      | _
+        "test3"      | _
     }
 
     def test1Instance = new VoTableBuilder().votable {
@@ -147,6 +140,33 @@ class VotableInstanceReaderSpec extends Specification {
             data(role: "spectralLocation") {
                 value(role: "unit", value: "nm")
                 value(role: "value", value: 1662.0)
+            }
+        }
+    }
+
+    def test3Instance = new VoTableBuilder().votable {
+        model(spec: vodmlSpec, vodmlURL: getExampleURL(vodmlURL))
+        model(spec: ivoaSpec, vodmlURL: getExampleURL(ivoaURL))
+        model(spec: photSpec, vodmlURL: getExampleURL(filterURL), identifier: "ivo://ivoa.org/dm/sample/Filter/1.9")
+        object(type: "filter:PhotometricSystem") {
+            value(role: "description", value: "The 2MASS phtometric system, consisting of 3 bands")
+            collection(role: "filter:PhotometricSystem.photometryFilter") {
+                object() {
+                    value(role: "name", value: "J")
+                    value(role: "bandName", value: "2mass:J")
+                    data(role: "spectralLocation") {
+                        value(role: "unit", value: "nm")
+                        value(role: "value", value: 1235.0)
+                    }
+                }
+                object() {
+                    value(role: "name", value: "H")
+                    value(role: "bandName", value: "2mass:H")
+                    data(role: "spectralLocation") {
+                        value(role: "unit", value: "nm")
+                        value(role: "value", value: 1662.0)
+                    }
+                }
             }
         }
     }
