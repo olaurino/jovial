@@ -17,6 +17,11 @@ class AltVotableWriter extends AbstractMarkupInstanceWriter {
                         out << buildObject(it, delegate, false)
                     }
                 }
+                RESOURCE(id: "tables") {
+                    instance.tables.each {
+                        out << buildTable(it, delegate)
+                    }
+                }
             }
         }
         elem.delegate = builder
@@ -38,30 +43,35 @@ class AltVotableWriter extends AbstractMarkupInstanceWriter {
         elem()
     }
 
-    void buildObject(objectInstance, builder, slot=true) {
-        def elem = {
-            INSTANCE(type:objectInstance.type.toString()) {
+    void buildObject(objectInstance, builder, slot="slot") {
+        def elem = { tagname = "INSTANCE" ->
+            "$tagname"(type:objectInstance.type.toString(), id: objectInstance.id) {
                 objectInstance.attributes.each {
                     out << buildValue(it, builder)
                 }
                 objectInstance.dataTypes.each {
-                    out << buildObject(it, builder, true)
+                    out << buildObject(it, builder, "slot")
                 }
-//                objectInstance.references.each {
-//                    out << buildReference(it, builder)
-//                }
+                objectInstance.references.each {
+                    REFERENCE(role: it.role, it.value)
+                }
                 if (objectInstance.hasProperty("collections")) {
                     objectInstance.collections.each {
                         out << buildCollection(it, builder)
                     }
                 }
+                objectInstance.columns.each {
+                    COLUMN(role: it.role, ref: it.value)
+                }
             }
         }
         def wrapper = {
-            if (slot) {
+            if ("slot".equals(slot)) {
                 SLOT(role:objectInstance.role.toString()) {
-                    elem()
+                    elem("INSTANCE")
                 }
+            } else if ("template".equals(slot)) {
+                elem("TEMPLATE")
             } else {
                 elem()
             }
@@ -83,6 +93,16 @@ class AltVotableWriter extends AbstractMarkupInstanceWriter {
         elem()
     }
 
+    void buildTable(TableInstance tableInstance, builder) {
+        def elem = {
+            for (instance in tableInstance.objectTypes) {
+              out << buildObject(instance, builder, "template")
+            }
+        }
+        elem.delegate = builder
+        elem()
+    }
+
     void buildValue(ValueInstance valueInstance, builder) {
         def elem = {
             VALUE(valueInstance.value, type: valueInstance.type.toString(), role: valueInstance.role)
@@ -90,24 +110,6 @@ class AltVotableWriter extends AbstractMarkupInstanceWriter {
         elem.delegate = builder
         elem()
     }
-
-//    void buildData(DataInstance dataInstance, builder) {
-//        def elem = {
-//            INSTANCE(type:dataInstance.type.toString(), role:dataInstance.role.toString()) {
-//                dataInstance.attributes.each {
-//                    out << buildValue(it, builder)
-//                }
-//                dataInstance.dataTypes.each {
-//                    out << buildData(it, builder)
-//                }
-////                objectInstance.references.each {
-////                    out << buildReference(it, builder)
-////                }
-//            }
-//        }
-//        elem.delegate = builder
-//        elem()
-//    }
 
     @Override
     String getNameSpace() {

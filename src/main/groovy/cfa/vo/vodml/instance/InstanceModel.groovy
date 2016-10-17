@@ -57,6 +57,21 @@ class HasObjects {
 }
 
 @EqualsAndHashCode
+class HasColumns {
+    Set<ColumnInstance> columns = []
+
+    /**
+     * Overloads the left shift operator for adding object type instances to build.
+     * It also makes sure the set of buildable strings is updated.
+     *
+     * @param data the ObjectType instance to be added.
+     */
+    public leftShift(ColumnInstance data) {
+        columns << data
+    }
+}
+
+@EqualsAndHashCode
 class HasData {
     List<DataInstance> dataTypes = []
 
@@ -102,6 +117,21 @@ class HasReferences {
     }
 }
 
+@EqualsAndHashCode
+class HasTables {
+    List<TableInstance> tables = []
+
+    /**
+     * Overloads the left shift operator for adding references to build.
+     * It also makes sure the set of buildable strings is updated.
+     *
+     * @param data the Reference instance to be added
+     */
+    public leftShift(TableInstance data) {
+        tables << data
+    }
+}
+
 /**
  * This class provides default implementations to the methods needed by any {@link VoBuilderNode}.
  * It also injects the singleton instance of the {@link Resolver}.
@@ -122,6 +152,7 @@ class DataModelInstance extends DefaultNode {
     List<ModelImportInstance> models = []
     @Delegate HasObjects hasObjects = new HasObjects()
     @Delegate HasData hasData = new HasData()
+    @Delegate HasTables hasTables = new HasTables()
 
     /**
      * Overload left shift operator for adding ModelInstances to this votable
@@ -232,6 +263,7 @@ class DataInstance extends Instance {
     @Delegate HasData hasData = new HasData()
     @Delegate HasReferences hasReferences = new HasReferences()
     @Delegate HasValues hasValues = new HasValues()
+    @Delegate HasColumns hasColumns = new HasColumns()
 }
 
 /**
@@ -243,6 +275,7 @@ class ObjectInstance extends Instance {
     @Delegate HasData hasData = new HasData()
     @Delegate HasReferences hasReferences = new HasReferences()
     @Delegate HasValues hasValues = new HasValues()
+    @Delegate HasColumns hasColumns = new HasColumns()
     List<CollectionInstance> collections = []
 
     public leftShift(CollectionInstance object) {collections << object}
@@ -263,8 +296,18 @@ class CollectionInstance extends Instance {
      */
     public leftShift(ObjectInstance object) {
         hasObjects.leftShift(object)
-        object.role = role
+        if (object.hasProperty("role") && role != null) {
+            object.role = role
+        }
     }
+}
+
+/**
+ * Tables are undistinguishable from Collections, but they must be serialized differently
+ */
+@Canonical
+class TableInstance extends CollectionInstance {
+
 }
 
 /**
@@ -272,6 +315,14 @@ class CollectionInstance extends Instance {
  */
 @Canonical
 class ReferenceInstance extends Instance {
+    String value
+}
+
+/**
+ * Columns are basically references, although differently serialized.
+ */
+@Canonical
+class ColumnInstance extends Instance {
     String value
 }
 

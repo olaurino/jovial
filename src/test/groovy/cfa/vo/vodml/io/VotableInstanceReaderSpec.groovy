@@ -44,10 +44,12 @@ class VotableInstanceReaderSpec extends Specification {
     static private ivoaSpec
     static private vodmlSpec
     static private photSpec
+    static private sampleSpec
 
     private final static ivoaURL = "http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/ivoa/IVOA.vo-dml.xml"
     private final static vodmlURL = "http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/vodml-map/vodml-map.vo-dml.xml"
     private final static filterURL = "http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/sample/filter/Filter.vo-dml.xml"
+    private final static sampleURL = "http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/sample/sample/Sample.vo-dml.xml"
 
     InstanceReader votableInstanceReader = InstanceFactory.readerFor("votable")
     InstanceReader vodmlInstanceReader = InstanceFactory.readerFor("vodml")
@@ -59,6 +61,7 @@ class VotableInstanceReaderSpec extends Specification {
         ivoaSpec = reader.read(getStream(ivoaURL))
         vodmlSpec = reader.read(getStream(vodmlURL))
         photSpec = reader.read(getStream(filterURL))
+        sampleSpec = reader.read(getStream(sampleURL))
     }
 
     def "Models are different"() {
@@ -114,6 +117,7 @@ class VotableInstanceReaderSpec extends Specification {
         "test1"      | _
         "test2"      | _
         "test3"      | _
+        "test4"      | _
     }
 
     def test1Instance = new VoTableBuilder().votable {
@@ -166,6 +170,35 @@ class VotableInstanceReaderSpec extends Specification {
                         value(role: "unit", value: "nm")
                         value(role: "value", value: 1662.0)
                     }
+                }
+            }
+        }
+    }
+
+    def test4Instance = new VoTableBuilder().votable {
+        model(spec: vodmlSpec, vodmlURL: getExampleURL(vodmlURL))
+        model(spec: ivoaSpec, vodmlURL: getExampleURL(ivoaURL))
+        model(spec: photSpec, vodmlURL: getExampleURL(filterURL), identifier: "ivo://ivoa.org/dm/sample/Filter/1.9")
+        model(spec: sampleSpec, vodmlURL: getExampleURL(sampleURL))
+        object(type: "sample:catalog.SkyCoordinateFrame", id:"_icrs") {
+            value(role: "name", value: "ICRS")
+        }
+        object(type: "filter:PhotometryFilter") {
+            value(role: "name", value: "2mass:J")
+        }
+        object(type: "filter:PhotometryFilter") {
+            value(role: "name", value: "2mass:H")
+        }
+        object(type: "filter:PhotometryFilter") {
+            value(role: "name", value: "2mass:K")
+        }
+        table() {
+            object(type: "sample:catalog.Source") {
+                column(role: "name", value: "_designation")
+                data(role: "position", type: "sample:catalog.SkyCoordinate") {
+                    column(role: "longitude", value: "_ra")
+                    column(role: "latitude", value: "_dec")
+                    reference(role: "frame", value: "_icrs")
                 }
             }
         }
