@@ -176,4 +176,8 @@ class VoTableBuilder extends BuilderSupport {
 
         log.debug("DONE")
     }
+
+    def script = { cl ->
+        this.votable(cl)
+    }
 }

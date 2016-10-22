@@ -1,7 +1,6 @@
 package cfa.vo.vodml.io.instance
 
 import cfa.vo.vodml.instance.DataModelInstance
-import groovy.xml.StreamingMarkupBuilder
 import groovy.xml.XmlUtil
 
 abstract class AbstractMarkupInstanceWriter implements InstanceWriter {
@@ -11,7 +10,7 @@ abstract class AbstractMarkupInstanceWriter implements InstanceWriter {
     void write(DataModelInstance instance, OutputStream os) {
         this.instance = instance
         def writer = new OutputStreamWriter(os)
-        def builder = new StreamingMarkupBuilder().bind {
+        def builder = getMarkupBuilder().bind {
             mkp.xmlDeclaration()
             mkp.declareNamespace("${this.prefix}": this.nameSpace, xsi: "http://www.w3.org/2001/XMLSchema-instance")
             out << build(instance, delegate)
@@ -24,4 +23,6 @@ abstract class AbstractMarkupInstanceWriter implements InstanceWriter {
     abstract String getNameSpace()
 
     abstract String getPrefix()
+
+    abstract getMarkupBuilder()
 }

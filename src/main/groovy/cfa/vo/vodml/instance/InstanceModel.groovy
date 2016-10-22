@@ -32,6 +32,7 @@
  */
 package cfa.vo.vodml.instance
 
+import cfa.vo.vodml.io.VodmlReader
 import cfa.vo.vodml.metamodel.Model
 import cfa.vo.vodml.utils.Resolver
 import cfa.vo.vodml.utils.VoBuilderNode
@@ -39,7 +40,6 @@ import cfa.vo.vodml.utils.VodmlRef
 import groovy.transform.Canonical
 import groovy.transform.EqualsAndHashCode
 import groovy.util.logging.Log
-
 
 @EqualsAndHashCode
 class HasObjects {
@@ -324,6 +324,8 @@ class ReferenceInstance extends Instance {
 @Canonical
 class ColumnInstance extends Instance {
     String value
+    Boolean pk
+    String fk
 }
 
 /**
@@ -365,5 +367,11 @@ class ModelImportInstance extends Instance {
     public void setSpec(Model spec) {
         name = spec.name
         this.spec = spec
+    }
+
+    @Override
+    public void apply() {
+        super.apply()
+        setSpec(new VodmlReader().read(new URL(vodmlURL).openStream()))
     }
 }

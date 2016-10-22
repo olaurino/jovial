@@ -1,6 +1,8 @@
 package cfa.vo.vodml.io.instance
 
 import cfa.vo.vodml.instance.*
+import groovy.xml.MarkupBuilder
+import groovy.xml.StreamingMarkupBuilder
 
 class AltVotableWriter extends AbstractMarkupInstanceWriter {
     @Override
@@ -60,8 +62,10 @@ class AltVotableWriter extends AbstractMarkupInstanceWriter {
                         out << buildCollection(it, builder)
                     }
                 }
-                objectInstance.columns.each {
-                    COLUMN(role: it.role, ref: it.value)
+                objectInstance.columns.each { column ->
+                    SLOT(role: column.role) {
+                        COLUMN(pk: column.pk, fk: column.fk, column.value)
+                    }
                 }
             }
         }
@@ -83,9 +87,11 @@ class AltVotableWriter extends AbstractMarkupInstanceWriter {
 
     void buildCollection(CollectionInstance collectionInstance, builder) {
         def elem = {
-            SLOT(collection:true, role:collectionInstance.role.toString()) {
-                for (instance in collectionInstance.objectTypes) {
-                    out << buildObject(instance, builder, false)
+            SLOT(role:collectionInstance.role.toString()) {
+                COLLECTION() {
+                    for (instance in collectionInstance.objectTypes) {
+                        out << buildObject(instance, builder, false)
+                    }
                 }
             }
         }
@@ -119,5 +125,10 @@ class AltVotableWriter extends AbstractMarkupInstanceWriter {
     @Override
     String getPrefix() {
         return ""
+    }
+
+    @Override
+    MarkupBuilder getMarkupBuilder() {
+        return new StreamingMarkupBuilder()
     }
 }

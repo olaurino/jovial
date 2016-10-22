@@ -45,11 +45,13 @@ class VotableInstanceReaderSpec extends Specification {
     static private vodmlSpec
     static private photSpec
     static private sampleSpec
+    static private associationSpec
 
     private final static ivoaURL = "http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/ivoa/IVOA.vo-dml.xml"
     private final static vodmlURL = "http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/vodml-map/vodml-map.vo-dml.xml"
     private final static filterURL = "http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/sample/filter/Filter.vo-dml.xml"
     private final static sampleURL = "http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/sample/sample/Sample.vo-dml.xml"
+    private final static associationURL = "http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/sample/Association/Association.vo-dml.xml"
 
     InstanceReader votableInstanceReader = InstanceFactory.readerFor("votable")
     InstanceReader vodmlInstanceReader = InstanceFactory.readerFor("vodml")
@@ -62,6 +64,7 @@ class VotableInstanceReaderSpec extends Specification {
         vodmlSpec = reader.read(getStream(vodmlURL))
         photSpec = reader.read(getStream(filterURL))
         sampleSpec = reader.read(getStream(sampleURL))
+        associationSpec = reader.read(getStream(associationURL))
     }
 
     def "Models are different"() {
@@ -114,10 +117,11 @@ class VotableInstanceReaderSpec extends Specification {
 
         where:
         name         | _
-        "test1"      | _
-        "test2"      | _
-        "test3"      | _
-        "test4"      | _
+//        "test1"      | _
+//        "test2"      | _
+//        "test3"      | _
+//        "test4"      | _
+        "test5"      | _
     }
 
     def test1Instance = new VoTableBuilder().votable {
@@ -200,6 +204,24 @@ class VotableInstanceReaderSpec extends Specification {
                     column(role: "latitude", value: "_dec")
                     reference(role: "frame", value: "_icrs")
                 }
+            }
+        }
+    }
+
+    def test5Instance = new VoTableBuilder().votable {
+        model(spec: vodmlSpec, vodmlURL: getExampleURL(vodmlURL))
+        model(spec: ivoaSpec, vodmlURL: getExampleURL(ivoaURL))
+        model(spec: associationSpec, vodmlURL: getExampleURL(associationURL))
+        table() {
+            object(type: "Association:base.Flight", id: "FLIGHT") {
+                column(role: "Number", value: "_FLIGHT_ID", pk: true)
+                column(role: "Destination", value: "_DEST")
+            }
+        }
+        table() {
+            object(type: "Association:base.Passenger") {
+                column(role: "FullName", value: "_NAME")
+                column(role: "SerialNumber", value: "_SERIAL", fk: "FLIGHT")
             }
         }
     }

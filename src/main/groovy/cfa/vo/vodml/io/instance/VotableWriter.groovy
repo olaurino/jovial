@@ -36,11 +36,13 @@ import cfa.vo.vodml.instance.*
 import cfa.vo.vodml.io.VoTableBuilder
 import cfa.vo.vodml.utils.Resolver
 import cfa.vo.vodml.utils.VodmlRef
+import groovy.xml.StreamingMarkupBuilder
 
 class VotableWriter extends AbstractMarkupInstanceWriter {
     public static final VODML_PREF = "vodml-map"
     String nameSpace = "http://www.ivoa.net/xml/VOTable/v1.3_vodml"
     String prefix = ""
+    def markupBuilder = new StreamingMarkupBuilder()
 
     void build(DataModelInstance instance, builder) {
         def elem = {
