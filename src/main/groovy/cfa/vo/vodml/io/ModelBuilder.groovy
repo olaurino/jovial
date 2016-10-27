@@ -91,4 +91,8 @@ class ModelBuilder extends FactoryBuilderSupport {
             new VodmlRef(name, "")
         }
     }
+
+    def script = { lhm, cl ->
+        this.model(lhm, cl)
+    }
 }

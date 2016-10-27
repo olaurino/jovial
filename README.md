@@ -20,6 +20,76 @@ The library tries to abstract and simplify the definition of models and their in
 Please note that while this can already serve as one of the reference implementations for VODML, from a production
 standpoint this project is still work in progress.
 
+## Modeling How-To
+**NOTE**: This is still pretty much Work-In-Progress. Help is appreciated, also if it's in the form
+of an issue report.
+
+### Requirements
+In order to build Jovial Maven 3 and Java SDK 7 or 8 are required.
+
+### Build
+
+To build the *jar* file:
+
+```
+$ mvn package
+```
+
+The above command will also run all the units and integration tests.
+
+A very simple command line interface allows users to provide an input file with a DSL description of the
+model and get the equivalent VODML-XML file printed to the standard output, e.g.
+
+```
+$ cat test.vodml
+import org.joda.time.DateTime
+
+model("myModel") {
+    author "John Doe"
+    title "My Model"
+    lastModified DateTime.now().toString()
+    pack "myPackage", {
+        dataType "myDataType", {
+            attribute "anAttribute", description: "A description", dataType: ivoa.string
+        }
+    }
+}
+
+$ java -jar target/jovial-1.0-SNAPSHOT-jar-with-dependencies.jar test.vodml
+<?xml version="1.0" encoding="UTF-8"?><vo-dml:model xmlns:vo-dml="http://www.ivoa.net/xml/VODML/v1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ivoa.net/xml/VODML/v1.0 http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/xsd/vo-dml-v1.0.xsd">
+  <name>myModel</name>
+  <description/>
+  <title>My Model</title>
+  <author>John Doe</author>
+  <version>1.0</version>
+  <lastModified>2016-10-28T09:55:11.106-04:00</lastModified>
+  <package>
+    <vodml-id>myPackage</vodml-id>
+    <name>myPackage</name>
+    <description/>
+    <dataType>
+      <vodml-id>myPackage.myDataType</vodml-id>
+      <name>myDataType</name>
+      <description/>
+      <attribute>
+        <vodml-id>myPackage.myDataType.anAttribute</vodml-id>
+        <name>anAttribute</name>
+        <description>A description</description>
+        <datatype>
+          <vodml-ref>ivoa:string</vodml-ref>
+        </datatype>
+        <multiplicity>
+          <minOccurs>1</minOccurs>
+          <maxOccurs>1</maxOccurs>
+        </multiplicity>
+      </attribute>
+    </dataType>
+  </package>
+</vo-dml:model>
+```
+
+The above code also shows how to include arbitrary code to generate content.
+
 ## Examples
 The following Groovy code convert a DSL description of a simple data model into its standardized VODML/XML description.
 
