@@ -98,7 +98,7 @@ class VoTableBuilderTest {
         }
 
         def votable = """<?xml version="1.0" encoding="UTF-8"?>
-<VOTABLE xmlns="http://www.ivoa.net/xml/VOTable/v1.3_vodml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<VOTABLE xmlns="http://www.ivoa.net/xml/VOTable/v1.4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <GROUP>
     <VODML>
       <TYPE>vodml-map:Model</TYPE>
@@ -338,34 +338,19 @@ class VoTableBuilderTest {
 
     public static String preamble(String nested) {
         """<?xml version="1.0" encoding="UTF-8"?>
-           <VOTABLE xmlns="http://www.ivoa.net/xml/VOTable/v1.3_vodml"
-                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-              <GROUP>
-                <VODML>
-                  <TYPE>vodml-map:Model</TYPE>
-                </VODML>
-                <PARAM name="url" datatype="char" arraysize="36" value="http://some/where/dataset.vo-dml.xml">
-                    <VODML>
-                      <ROLE>vodml-map:Model.url</ROLE>
-                      <TYPE>ivoa:anyURI</TYPE>
-                    </VODML>
-                </PARAM>
-                <PARAM name="name" datatype="char" arraysize="2" value="ds">
-                    <VODML>
-                      <ROLE>vodml-map:Model.name</ROLE>
-                      <TYPE>ivoa:string</TYPE>
-                    </VODML>
-                </PARAM>
-              </GROUP>
-              <RESOURCE>
-                ${nested}
-              </RESOURCE>
-           </VOTABLE>"""
+<VOTABLE xmlns="http://www.ivoa.net/xml/VOTable/v1.4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <VODML>
+    <MODEL name="ds" url="http://some/where/dataset.vo-dml.xml"/>
+    <GLOBALS/>
+    <TEMPLATES/>
+  </VODML>
+</VOTABLE>
+"""
     }
 
     public static String datatype() {
         '''<?xml version="1.0" encoding="UTF-8"?>
-           <VOTABLE xmlns="http://www.ivoa.net/xml/VOTable/v1.3-4c"
+           <VOTABLE xmlns="http://www.ivoa.net/xml/VOTable/v1.4"
                       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                       xsi:schemaLocation="http://www.ivoa.net/xml/VOTable/v1.2 http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/xsd/vo-dml-v1.0.xsd">
               <RESOURCE>

@@ -38,8 +38,9 @@ import cfa.vo.vodml.metamodel.ElementRef
 import cfa.vo.vodml.metamodel.Model
 import cfa.vo.vodml.metamodel.Multiplicity
 import cfa.vo.vodml.utils.VodmlRef
+import spock.lang.Specification
 
-class ModelBuilderTest {
+class ModelBuilderSpec extends Specification {
     def builder = new ModelBuilder()
 
     def "test no factory"() {

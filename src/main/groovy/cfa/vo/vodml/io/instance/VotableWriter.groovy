@@ -2,7 +2,7 @@
  * #%L
  * jovial
  * %%
- * Copyright (C) 2016 Smithsonian Astrophysical Observatory
+ * Copyright (C) 2016 - 2017 Smithsonian Astrophysical Observatory
  * %%
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
@@ -33,26 +33,26 @@
 package cfa.vo.vodml.io.instance
 
 import cfa.vo.vodml.instance.*
-import cfa.vo.vodml.io.VoTableBuilder
-import cfa.vo.vodml.utils.Resolver
-import cfa.vo.vodml.utils.VodmlRef
 import groovy.xml.StreamingMarkupBuilder
 
 class VotableWriter extends AbstractMarkupInstanceWriter {
-    public static final VODML_PREF = "vodml-map"
-    String nameSpace = "http://www.ivoa.net/xml/VOTable/v1.3_vodml"
-    String prefix = ""
-    def markupBuilder = new StreamingMarkupBuilder()
-
-    void build(DataModelInstance instance, builder) {
+    @Override
+    void build(DataModelInstance instance, Object builder) {
         def elem = {
             VOTABLE() {
-                instance.models.each {
-                    out << buildModel(it, delegate)
-                }
-                RESOURCE() {
-                    instance.objectTypes.each {
-                        out << buildObject(it, delegate)
+                VODML() {
+                    instance.models.each {
+                        out << buildModel(it, delegate)
+                    }
+                    GLOBALS() {
+                        instance.objectTypes.each {
+                            out << buildObject(it, delegate, false)
+                        }
+                    }
+                    TEMPLATES() {
+                        instance.tables.each {
+                            out << buildTable(it, delegate)
+                        }
                     }
                 }
             }
@@ -61,189 +61,105 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
         elem()
     }
 
-    void buildObject(ObjectInstance objectInstance, builder) {
+    void buildModel(ModelImportInstance modelImportInstance, builder) {
         def elem = {
-            def m = [:]
-            if (objectInstance.id) {
-                m.ID = objectInstance.id
+            def attrs = [
+                    name: modelImportInstance.name,
+                    url : modelImportInstance.vodmlURL,
+            ]
+            if (modelImportInstance.identifier) {
+                attrs['identifier'] = modelImportInstance.identifier
             }
+            MODEL(attrs)
+        }
+        elem.delegate = builder
+        elem()
+    }
 
-            def vodmlm = [:]
-
-            if (objectInstance.role) {
-                vodmlm.role = objectInstance.role
-            }
-
-            if (objectInstance.type) {
-                vodmlm.type = objectInstance.type
-            }
-            GROUP(m) {
-                out << new Vodml(vodmlm)
+    void buildObject(objectInstance, builder, slot="slot") {
+        def elem = { tagname = "INSTANCE" ->
+            "$tagname"(dmtype:objectInstance.type.toString(), id: objectInstance.id) {
                 objectInstance.attributes.each {
-                    out << buildliteral(it, builder)
+                    out << buildValue(it, builder)
                 }
-                objectInstance.dataTypes.each {
-                    out << buildData(it, builder)
-                }
+//                objectInstance.dataTypes.each {
+//                    out << buildObject(it, builder, "slot")
+//                }
                 objectInstance.references.each {
-                    out << buildReference(it, builder)
+                    REFERENCE(dmrole: it.role, it.value)
                 }
-                objectInstance.collections.each {
-                    out << buildCollection(it, builder)
+                if (objectInstance.hasProperty("collections")) {
+                    objectInstance.collections.each {
+                        out << buildCollection(it, builder)
+                    }
+                }
+                objectInstance.columns.each { column ->
+                    ATTRIBUTE(dmrole: column.role) {
+                        COLUMN(ref: column.value)
+                    }
                 }
             }
-            mkp.comment(
-                    "End ObjectType role: ${objectInstance.role ?: "{No Role}"} type: ${objectInstance.type ?: "{No Type}"}")
         }
+        def wrapper = {
+            if ("slot".equals(slot)) {
+                ATTRIBUTE(dmrole:objectInstance.role.toString()) {
+                    elem("INSTANCE")
+                }
+            } else if ("template".equals(slot)) {
+                elem("TEMPLATE")
+            } else {
+                elem()
+            }
+        }
+        wrapper.delegate = builder
         elem.delegate = builder
-        elem()
-    }
-
-    void buildModel(ModelImportInstance modelInstance, builder) {
-        def object = new VoTableBuilder().object(type: "$VODML_PREF:Model") {
-            literal(role: "$VODML_PREF:Model.url", type: "ivoa:anyURI", value: modelInstance.vodmlURL)
-            if(modelInstance.identifier) {
-                literal(role: "$VODML_PREF:Model.identifier", type:"ivoa:anyURI", value:modelInstance.identifier)
-            }
-            literal(role: "$VODML_PREF:Model.name", type:"ivoa:string", value:modelInstance.spec.name)
-            if(modelInstance.documentationURL) {
-                literal(role: "$VODML_PREF:Model.documentationURL", type: "ivoa:anyURI",
-                        value: modelInstance.documentationURL)
-            }
-        }
-        def elem = {
-            out << buildObject(object, builder)
-        }
-        elem.delegate = builder
-        elem()
-    }
-
-    void buildData(AttributeInstance dataInstance, builder) {
-        def elem = {
-            def m = [:]
-            if (dataInstance.id) {
-                m.ID = dataInstance.id
-            }
-
-            def vodmlm = [:]
-
-            if (dataInstance.role) {
-                vodmlm.role = dataInstance.role
-            }
-
-            if (dataInstance.type) {
-                vodmlm.type = dataInstance.type
-            }
-            GROUP(m) {
-                out << new Vodml(vodmlm)
-                dataInstance.attributes.each {
-                    out << buildliteral(it, builder)
-                }
-                dataInstance.dataTypes.each {
-                    out << buildData(it, builder)
-                }
-                dataInstance.references.each {
-                    out << buildReference(it, builder)
-                }
-            }
-            mkp.comment(
-                    "End DataType role: ${dataInstance.role ?: "{No Role}"} type: ${dataInstance.type ?: "{No Type}"}")
-        }
-        elem.delegate = builder
-        elem()
+        wrapper()
     }
 
     void buildCollection(CompositionInstance collectionInstance, builder) {
         def elem = {
-            collectionInstance.objectTypes.each {
-                out << buildObject(it, delegate)
-                mkp.comment("End Collection role: ${collectionInstance.role ?: "{No Role}"}")
+            COMPOSITION(dmrole:collectionInstance.role.toString()) {
+                for (instance in collectionInstance.objectTypes) {
+                    out << buildObject(instance, builder, false)
+                }
             }
         }
         elem.delegate = builder
         elem()
     }
 
-    void buildReference(ReferenceInstance referenceInstance, builder) {
+    void buildTable(TableInstance tableInstance, builder) {
         def elem = {
-            if (referenceInstance.value != null) {
-                GROUP(ref: referenceInstance.value) {
-                    out << new Vodml(role: referenceInstance.role)
-                }
+            for (instance in tableInstance.objectTypes) {
+              out << buildObject(instance, builder, "")
             }
         }
         elem.delegate = builder
         elem()
     }
 
-    void buildliteral(LiteralInstance valueInstance, builder) {
+    void buildValue(LiteralInstance valueInstance, builder) {
         def elem = {
-            if (valueInstance.value != null) {
-                PARAM(paramAttrs(valueInstance)) {
-                    out << new Vodml(role: valueInstance.role, type: valueInstance.type)
-                }
+            ATTRIBUTE(dmrole: valueInstance.role) {
+                LITERAL(valueInstance.value, dmtype: valueInstance.type.toString())
             }
         }
         elem.delegate = builder
         elem()
     }
 
-    private static String stripRole(LiteralInstance instance) {
-        instance.role.reference.split("\\.")[-1] ?: "none"
+    @Override
+    String getNameSpace() {
+        return "http://www.ivoa.net/xml/VOTable/v1.4"
     }
 
-    private static Map paramAttrs(LiteralInstance instance) {
-        String name = Resolver.instance.resolveRole(instance.role)?.name ?: stripRole(instance)
-        Map datatype = infer(instance.value)
-        datatype << [name:name, value:instance.value]
+    @Override
+    String getPrefix() {
+        return ""
     }
 
-    static Map infer(value) {
-        def dt = "char"
-        def ars = "*"
-        if(value in String) { // Simple case, it's a string
-            dt = "char"
-            ars = value.length().toString()
-        } else if (value in Number) { // or it's a number
-            dt = [Integer.class, int.class].any {it.isAssignableFrom(value.class)} ? "int" : "float"
-            ars = "1"
-        } else if ([Collection, Object[]].any {it.isAssignableFrom(value.class)}) { // it's an array
-            dt = infer(value[0]).datatype
-            if (value.hasProperty("length")) {
-                ars = value.length.toString()
-            } else if (value.respondsTo("size")) {
-                ars = value.size().toString()
-            }
-        }
-
-        [datatype: dt, arraysize: ars]
-    }
-
-    /**
-     * Class implementing the VODML element and its serialization.
-     */
-    class Vodml implements Buildable {
-        VodmlRef type
-        VodmlRef role
-
-        @Override
-        void build(GroovyObject builder) {
-            def elem = {
-                VODML() {
-                    if (role) {
-                        ROLE() {
-                            out << role
-                        }
-                    }
-                    if (type) {
-                        TYPE() {
-                            out << type
-                        }
-                    }
-                }
-            }
-            elem.delegate = builder
-            elem()
-        }
+    @Override
+    StreamingMarkupBuilder getMarkupBuilder() {
+        return new StreamingMarkupBuilder()
     }
 }

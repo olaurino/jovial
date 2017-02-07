@@ -32,7 +32,7 @@
  */
 package cfa.vo.vodml.io
 
-import cfa.vo.vodml.io.instance.AltVotableWriter
+import cfa.vo.vodml.io.instance.VotableWriter
 
 public class Main {
     public static void main(String[] args) {
@@ -61,7 +61,7 @@ public class Main {
             def binding = new Binding(votable: builder.&script)
             def shell = new GroovyShell(Main.class.classLoader, binding)
             model = shell.evaluate modelString
-            writer = new AltVotableWriter()
+            writer = new VotableWriter()
         } else {
             def modelString = new File(filename).text
             def builder = new ModelBuilder()
