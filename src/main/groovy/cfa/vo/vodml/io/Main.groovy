@@ -33,7 +33,6 @@
 package cfa.vo.vodml.io
 
 import cfa.vo.vodml.io.instance.AltVotableWriter
-import cfa.vo.vodml.io.instance.VodmlWriter
 
 public class Main {
     public static void main(String[] args) {
@@ -69,7 +68,7 @@ public class Main {
             def binding = new Binding(model: builder.&script)
             def shell = new GroovyShell(Main.class.classLoader, binding)
             model = shell.evaluate modelString
-            writer = new VodmlWriter()
+            writer = new ModelWriter()
         }
 
         writer.write(model, System.out)

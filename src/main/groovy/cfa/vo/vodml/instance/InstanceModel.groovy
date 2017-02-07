@@ -265,6 +265,7 @@ class AttributeInstance extends Instance {
     @Delegate HasReferences hasReferences = new HasReferences()
     @Delegate HasValues hasValues = new HasValues()
     @Delegate HasColumns hasColumns = new HasColumns()
+    @Delegate HasAttributes hasAttributes = new HasAttributes()
 }
 
 /**
@@ -379,6 +380,5 @@ class ModelImportInstance extends Instance {
     @Override
     public void apply() {
         super.apply()
-        setSpec(new VodmlReader().read(new URL(vodmlURL).openStream()))
     }
 }

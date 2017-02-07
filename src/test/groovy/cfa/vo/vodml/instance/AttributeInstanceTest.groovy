@@ -52,19 +52,19 @@ class AttributeInstanceTest extends Specification {
         DataModelInstance instance = new VoTableBuilder().votable {
             model(spec: stcSpec, vodmlURL: "https://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/STC2/prototype/STCPrototype-2.0.vo-dml.xml")
             model(spec: ivoaSpec, vodmlURL: "https://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/ivoa/IVOA.vo-dml.xml")
-            object(type: "ds:experiment.AstroTarget") {
-                value(role: "name", value: "3C273")
-                value(role: "description", value: "A Quasar")
-                data(role: "position", type: "stc:coords.Position") {
-                    data(role: "coord", type: "stc:stctypes.RealDoublet") {
-                        value(role: "d1", value: 187.2792)
-                        value(role: "d2", value: 2.0525)
+            instance(type: "ds:experiment.AstroTarget") {
+                literal(role: "name", value: "3C273")
+                literal(role: "description", value: "A Quasar")
+                attribute(role: "position", type: "stc:coords.Position") {
+                    attribute(role: "coord", type: "stc:stctypes.RealDoublet") {
+                        literal(role: "d1", value: 187.2792)
+                        literal(role: "d2", value: 2.0525)
                     }
                 }
-                value(role: "objectClass", value: "BLAZAR")
-                value(role: "spectralClass", value: "Sy1")
-                value(role: "redshift", value: 0.158)
-                value(role: "varAmpl", value: Double.NaN)
+                literal(role: "objectClass", value: "BLAZAR")
+                literal(role: "spectralClass", value: "Sy1")
+                literal(role: "redshift", value: 0.158)
+                literal(role: "varAmpl", value: Double.NaN)
             }
         }
 

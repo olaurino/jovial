@@ -117,10 +117,10 @@ class VotableInstanceReaderSpec extends Specification {
 
         where:
         name         | _
-//        "test1"      | _
-//        "test2"      | _
-//        "test3"      | _
-//        "test4"      | _
+        "test1"      | _
+        "test2"      | _
+        "test3"      | _
+        "test4"      | _
         "test5"      | _
     }
 
@@ -134,20 +134,22 @@ class VotableInstanceReaderSpec extends Specification {
         model(spec: vodmlSpec, vodmlURL: getExampleURL(vodmlURL))
         model(spec: ivoaSpec, vodmlURL: getExampleURL(ivoaURL))
         model(spec: photSpec, vodmlURL: getExampleURL(filterURL), identifier: "ivo://ivoa.org/dm/sample/Filter/1.9")
-        object(type: "filter:PhotometryFilter") {
-            value(role: "name", value: "J")
-            value(role: "bandName", value: "2mass:J")
-            data(role: "spectralLocation") {
-                value(role: "unit", value: "nm")
-                value(role: "value", value: 1235.0)
+        instance(type: "filter:PhotometryFilter") {
+            literal(role: "name", value: "J")
+            literal(role: "bandName", value: "2mass:J")
+            attribute(role: "spectralLocation") {
+                instance() {
+                    literal(role: "unit", value: "nm")
+                    literal(role: "value", value: 1235.0)
+                }
             }
         }
-        object(type: "filter:PhotometryFilter") {
-            value(role: "name", value: "H")
-            value(role: "bandName", value: "2mass:H")
-            data(role: "spectralLocation") {
-                value(role: "unit", value: "nm")
-                value(role: "value", value: 1662.0)
+        instance(type: "filter:PhotometryFilter") {
+            literal(role: "name", value: "H")
+            literal(role: "bandName", value: "2mass:H")
+            attribute(role: "spectralLocation") {
+                literal(role: "unit", value: "nm")
+                literal(role: "value", value: 1662.0)
             }
         }
     }
@@ -156,23 +158,23 @@ class VotableInstanceReaderSpec extends Specification {
         model(spec: vodmlSpec, vodmlURL: getExampleURL(vodmlURL))
         model(spec: ivoaSpec, vodmlURL: getExampleURL(ivoaURL))
         model(spec: photSpec, vodmlURL: getExampleURL(filterURL), identifier: "ivo://ivoa.org/dm/sample/Filter/1.9")
-        object(type: "filter:PhotometricSystem") {
-            value(role: "description", value: "The 2MASS phtometric system, consisting of 3 bands")
-            collection(role: "filter:PhotometricSystem.photometryFilter") {
-                object() {
-                    value(role: "name", value: "J")
-                    value(role: "bandName", value: "2mass:J")
-                    data(role: "spectralLocation") {
-                        value(role: "unit", value: "nm")
-                        value(role: "value", value: 1235.0)
+        instance(type: "filter:PhotometricSystem") {
+            literal(role: "description", value: "The 2MASS phtometric system, consisting of 3 bands")
+            composition(role: "filter:PhotometricSystem.photometryFilter") {
+                instance() {
+                    literal(role: "name", value: "J")
+                    literal(role: "bandName", value: "2mass:J")
+                    attribute(role: "spectralLocation") {
+                        literal(role: "unit", value: "nm")
+                        literal(role: "value", value: 1235.0)
                     }
                 }
-                object() {
-                    value(role: "name", value: "H")
-                    value(role: "bandName", value: "2mass:H")
-                    data(role: "spectralLocation") {
-                        value(role: "unit", value: "nm")
-                        value(role: "value", value: 1662.0)
+                instance() {
+                    literal(role: "name", value: "H")
+                    literal(role: "bandName", value: "2mass:H")
+                    attribute (role: "spectralLocation") {
+                        literal(role: "unit", value: "nm")
+                        literal(role: "value", value: 1662.0)
                     }
                 }
             }
@@ -184,22 +186,22 @@ class VotableInstanceReaderSpec extends Specification {
         model(spec: ivoaSpec, vodmlURL: getExampleURL(ivoaURL))
         model(spec: photSpec, vodmlURL: getExampleURL(filterURL), identifier: "ivo://ivoa.org/dm/sample/Filter/1.9")
         model(spec: sampleSpec, vodmlURL: getExampleURL(sampleURL))
-        object(type: "sample:catalog.SkyCoordinateFrame", id:"_icrs") {
-            value(role: "name", value: "ICRS")
+        instance(type: "sample:catalog.SkyCoordinateFrame", id:"_icrs") {
+            literal(role: "name", value: "ICRS")
         }
-        object(type: "filter:PhotometryFilter") {
-            value(role: "name", value: "2mass:J")
+        instance(type: "filter:PhotometryFilter") {
+            literal(role: "name", value: "2mass:J")
         }
-        object(type: "filter:PhotometryFilter") {
-            value(role: "name", value: "2mass:H")
+        instance(type: "filter:PhotometryFilter") {
+            literal(role: "name", value: "2mass:H")
         }
-        object(type: "filter:PhotometryFilter") {
-            value(role: "name", value: "2mass:K")
+        instance(type: "filter:PhotometryFilter") {
+            literal(role: "name", value: "2mass:K")
         }
         table() {
-            object(type: "sample:catalog.Source") {
+            instance(type: "sample:catalog.Source") {
                 column(role: "name", value: "_designation")
-                data(role: "position", type: "sample:catalog.SkyCoordinate") {
+                attribute(role: "position", type: "sample:catalog.SkyCoordinate") {
                     column(role: "longitude", value: "_ra")
                     column(role: "latitude", value: "_dec")
                     reference(role: "frame", value: "_icrs")
@@ -213,15 +215,15 @@ class VotableInstanceReaderSpec extends Specification {
         model(spec: ivoaSpec, vodmlURL: getExampleURL(ivoaURL))
         model(spec: associationSpec, vodmlURL: getExampleURL(associationURL))
         table() {
-            object(type: "Association:base.Flight", id: "FLIGHT") {
-                column(role: "Number", value: "_FLIGHT_ID", pk: true)
+            instance(type: "Association:base.Flight", id: "FLIGHT") {
+                column(role: "Number", value: "_FLIGHT_ID")
                 column(role: "Destination", value: "_DEST")
             }
         }
         table() {
-            object(type: "Association:base.Passenger") {
+            instance(type: "Association:base.Passenger") {
                 column(role: "FullName", value: "_NAME")
-                column(role: "SerialNumber", value: "_SERIAL", fk: "FLIGHT")
+                column(role: "SerialNumber", value: "_SERIAL")
             }
         }
     }

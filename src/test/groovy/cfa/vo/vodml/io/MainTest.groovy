@@ -56,7 +56,7 @@ class MainTest extends Specification {
         when: "main is called"
         Main.main(args)
         then: "a model is printed to standard output"
-        assert XmlUtils.testXml(basicModel, outContent.toString())
+        XmlUtils.testXml(basicModel, outContent.toString())
     }
 
     def basicModel = """<?xml version="1.0" encoding="UTF-8"?>

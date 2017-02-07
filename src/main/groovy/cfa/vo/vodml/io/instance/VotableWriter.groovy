@@ -80,7 +80,7 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
             GROUP(m) {
                 out << new Vodml(vodmlm)
                 objectInstance.attributes.each {
-                    out << buildValue(it, builder)
+                    out << buildliteral(it, builder)
                 }
                 objectInstance.dataTypes.each {
                     out << buildData(it, builder)
@@ -101,13 +101,13 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
 
     void buildModel(ModelImportInstance modelInstance, builder) {
         def object = new VoTableBuilder().object(type: "$VODML_PREF:Model") {
-            value(role: "$VODML_PREF:Model.url", type: "ivoa:anyURI", value: modelInstance.vodmlURL)
+            literal(role: "$VODML_PREF:Model.url", type: "ivoa:anyURI", value: modelInstance.vodmlURL)
             if(modelInstance.identifier) {
-                value(role: "$VODML_PREF:Model.identifier", type:"ivoa:anyURI", value:modelInstance.identifier)
+                literal(role: "$VODML_PREF:Model.identifier", type:"ivoa:anyURI", value:modelInstance.identifier)
             }
-            value(role: "$VODML_PREF:Model.name", type:"ivoa:string", value:modelInstance.spec.name)
+            literal(role: "$VODML_PREF:Model.name", type:"ivoa:string", value:modelInstance.spec.name)
             if(modelInstance.documentationURL) {
-                value(role: "$VODML_PREF:Model.documentationURL", type: "ivoa:anyURI",
+                literal(role: "$VODML_PREF:Model.documentationURL", type: "ivoa:anyURI",
                         value: modelInstance.documentationURL)
             }
         }
@@ -137,7 +137,7 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
             GROUP(m) {
                 out << new Vodml(vodmlm)
                 dataInstance.attributes.each {
-                    out << buildValue(it, builder)
+                    out << buildliteral(it, builder)
                 }
                 dataInstance.dataTypes.each {
                     out << buildData(it, builder)
@@ -176,7 +176,7 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
         elem()
     }
 
-    void buildValue(LiteralInstance valueInstance, builder) {
+    void buildliteral(LiteralInstance valueInstance, builder) {
         def elem = {
             if (valueInstance.value != null) {
                 PARAM(paramAttrs(valueInstance)) {

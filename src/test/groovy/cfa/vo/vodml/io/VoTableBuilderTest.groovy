@@ -81,19 +81,19 @@ class VoTableBuilderTest {
         DataModelInstance instance = new VoTableBuilder().votable {
             model(spec: stcSpec, vodmlURL: "https://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/STC2/prototype/STCPrototype-2.0.vo-dml.xml")
             model(spec: dsSpec, vodmlURL: "http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/ds/DatasetMetadata-1.0.vo-dml.xml")
-            object(type: "ds:experiment.AstroTarget") {
-                value(role: "name", value: "3C273")
-                value(role: "description", value: "A Quasar")
-                data(role: "position") {
-                    data(role: "coord", type: "stc:stctypes.RealDoublet") {
-                        value(role: "d1", value: 187.2792)
-                        value(role: "d2", value: 2.0525)
+            instance(type: "ds:experiment.AstroTarget") {
+                literal(role: "name", value: "3C273")
+                literal(role: "description", value: "A Quasar")
+                attribute(role: "position") {
+                    attribute(role: "coord", type: "stc:stctypes.RealDoublet") {
+                        literal(role: "d1", value: 187.2792)
+                        literal(role: "d2", value: 2.0525)
                     }
                 }
-                value(role: "objectClass", value: "BLAZAR")
-                value(role: "spectralClass", value: "Sy1")
-                value(role: "redshift", value: 0.158)
-                value(role: "varAmpl", value: Double.NaN)
+                literal(role: "objectClass", value: "BLAZAR")
+                literal(role: "spectralClass", value: "Sy1")
+                literal(role: "redshift", value: 0.158)
+                literal(role: "varAmpl", value: Double.NaN)
             }
         }
 
@@ -174,116 +174,116 @@ class VoTableBuilderTest {
             model(spec: stcSpec, vodmlURL: "https://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/STC2/prototype/STCPrototype-2.0.vo-dml.xml")
             model(spec: charSpec, vodmlURL: "http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/characterization/Characterization.vo-dml.xml")
             model(spec: ivoaSpec, vodmlURL: "https://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/ivoa/IVOA.vo-dml.xml")
-            object(type: "ds:experiment.Observation") {
-                value(role: "observationID", value:"obsid.2015.73")
-                collection(role: "target") {
-                    object(type: "ds:experiment.AstroTarget") {
-                        value(role: "name", value: "3C273")
-                        value(role: "description", value: "A Quasar")
-                        data(role: "position") {
-                            data(role: "coord", type: "stc:stctypes.RealDoublet") {
-                                value(role: "d1", value: 187.2792)
-                                value(role: "d2", value: 2.0525)
+            instance(type: "ds:experiment.Observation") {
+                literal(role: "observationID", value:"obsid.2015.73")
+                composition(role: "target") {
+                    instance(type: "ds:experiment.AstroTarget") {
+                        literal(role: "name", value: "3C273")
+                        literal(role: "description", value: "A Quasar")
+                        attribute(role: "position") {
+                            attribute(role: "coord", type: "stc:stctypes.RealDoublet") {
+                                literal(role: "d1", value: 187.2792)
+                                literal(role: "d2", value: 2.0525)
                             }
                         }
-                        value(role: "objectClass", value: "BLAZAR")
-                        value(role: "spectralClass", value: "Sy1")
-                        value(role: "redshift", value: 0.158)
-                        value(role: "varAmpl", value: Double.NaN)
+                        literal(role: "objectClass", value: "BLAZAR")
+                        literal(role: "spectralClass", value: "Sy1")
+                        literal(role: "redshift", value: 0.158)
+                        literal(role: "varAmpl", value: Double.NaN)
                     }
                 }
-                collection(role: "obsConfig") {
-                    object(type: "ds:experiment.ObsConfig") {
-                        value(role: "bandpass", value: "optical")
-                        value(role: "datasource", value: "survey")
-                        collection(role: "instrument") {
-                            object(type: "ds:experiment.Instrument") {
-                                value(role: "name", value: "ACIS")
+                composition(role: "obsConfig") {
+                    instance(type: "ds:experiment.ObsConfig") {
+                        literal(role: "bandpass", value: "optical")
+                        literal(role: "datasource", value: "survey")
+                        composition(role: "instrument") {
+                            instance(type: "ds:experiment.Instrument") {
+                                literal(role: "name", value: "ACIS")
                             }
                         }
-                        collection(role: "facility") {
-                            object(type: "ds:experiment.Facility") {
+                        composition(role: "facility") {
+                            instance(type: "ds:experiment.Facility") {
                                 reference(role: "party", value: "ACME")
                             }
                         }
                     }
                 }
-                collection(role: "proposal") {
-                    object(type: "ds:experiment.Proposal") {
-                        value(role: "identifier", value: "PROPOSAL/756/2014.06")
+                composition(role: "proposal") {
+                    instance(type: "ds:experiment.Proposal") {
+                        literal(role: "identifier", value: "PROPOSAL/756/2014.06")
                     }
                 }
-                collection(role: "result") {
-                    object(type: "ds:experiment.ObsDataset") {
-                        value(role: "dataProductType", value: "ds:dataset.DataProductType.CUBE")
-                        value(role: "dataProductSubtype", value: "MySubtype")
-                        value(role: "calibLevel", value: 0)
-                        collection(role: "characterisation") {
-                            object(type: "ds:experiment.Characterisation")
+                composition(role: "result") {
+                    instance(type: "ds:experiment.ObsDataset") {
+                        literal(role: "dataProductType", value: "ds:dataset.DataProductType.CUBE")
+                        literal(role: "dataProductSubtype", value: "MySubtype")
+                        literal(role: "calibLevel", value: 0)
+                        composition(role: "characterisation") {
+                            instance(type: "ds:experiment.Characterisation")
                         }
-                        collection(role: "derived") {
-                            object(type: "ds:experiment.Derived") {
-                                collection(role: "derivedElement") {
-                                    object(type: "ds:experiment.DerivedScalar") {
-                                        value(role: "name", value: "SNR")
-                                        value(role: "value", value: 1.25)
+                        composition(role: "derived") {
+                            instance(type: "ds:experiment.Derived") {
+                                composition(role: "derivedElement") {
+                                    instance(type: "ds:experiment.DerivedScalar") {
+                                        literal(role: "name", value: "SNR")
+                                        literal(role: "value", value: 1.25)
                                     }
                                 }
                             }
                         }
-                        collection(role: "dataID") {
-                            object(type: "ds:dataset.DataID") {
-                                value(role: "title", value: "datasetTitle")
-                                value(role: "datasetID", value: "ivo://some/uri")
-                                value(role: "creatorDID", value: "me://some/other/uri")
-                                value(role: "version", value: "DR3")
-                                value(role: "date", value: "20160422T11:55:30")
-                                value(role: "creationType", value: "ds:dataset.CreationType.ARCHIVAL")
-                                collection(role: "collection") {
-                                    object(type: "ds:dataset.Collection") {
-                                        value(role: "name", value: "Data Release 3")
+                        composition(role: "dataID") {
+                            instance(type: "ds:dataset.DataID") {
+                                literal(role: "title", value: "datasetTitle")
+                                literal(role: "datasetID", value: "ivo://some/uri")
+                                literal(role: "creatorDID", value: "me://some/other/uri")
+                                literal(role: "version", value: "DR3")
+                                literal(role: "date", value: "20160422T11:55:30")
+                                literal(role: "creationType", value: "ds:dataset.CreationType.ARCHIVAL")
+                                composition(role: "collection") {
+                                    instance(type: "ds:dataset.Collection") {
+                                        literal(role: "name", value: "Data Release 3")
                                     }
                                 }
-                                collection(role: "contributor") {
-                                    object(type: "ds:dataset.Contributor") {
-                                        value(role: "acknowledgment", value: "Project Manager")
+                                composition(role: "contributor") {
+                                    instance(type: "ds:dataset.Contributor") {
+                                        literal(role: "acknowledgment", value: "Project Manager")
                                         reference(role: "party", value: "BILL")
                                     }
-                                    object(type: "ds:dataset.Contributor") {
-                                        value(role: "acknowledgment", value: "Bought the donuts!")
+                                    instance(type: "ds:dataset.Contributor") {
+                                        literal(role: "acknowledgment", value: "Bought the donuts!")
                                         reference(role: "party", value: "TOM")
                                     }
                                 }
-                                collection(role: "creator") {
-                                    object(type: "ds:dataset.Creator") {
+                                composition(role: "creator") {
+                                    instance(type: "ds:dataset.Creator") {
                                         reference(role: "party", value: "ACME")
                                     }
                                 }
                             }
                         }
-                        collection(role: "curation") {
-                            object(type: "ds:dataset.Curation") {
-                                value(role: "publisherDID", value: "me://some/other/uri")
-                                value(role: "version", value: "DR3")
-                                value(role: "releaseDate", value: "20160422T11:55:30")
-                                value(role: "rights", value: "ds:dataset.RightsType.PUBLIC")
-                                collection(role: "contact") {
-                                    object(type: "ds:dataset.Contact") {
+                        composition(role: "curation") {
+                            instance(type: "ds:dataset.Curation") {
+                                literal(role: "publisherDID", value: "me://some/other/uri")
+                                literal(role: "version", value: "DR3")
+                                literal(role: "releaseDate", value: "20160422T11:55:30")
+                                literal(role: "rights", value: "ds:dataset.RightsType.PUBLIC")
+                                composition(role: "contact") {
+                                    instance(type: "ds:dataset.Contact") {
                                         reference(role: "party", value: "BILL")
                                     }
                                 }
-                                collection(role: "publisher") {
-                                    object(type: "ds:dataset.Publisher") {
-                                        value(role: "publisherID", value: "ivo://acme.org")
+                                composition(role: "publisher") {
+                                    instance(type: "ds:dataset.Publisher") {
+                                        literal(role: "publisherID", value: "ivo://acme.org")
                                         reference(role: "party", value: "ACME")
                                     }
                                 }
-                                collection(role: "reference") {
-                                    object(type: "ds:dataset.Publication") {
-                                        value(role: "refCode", value: "ApJ12345")
+                                composition(role: "reference") {
+                                    instance(type: "ds:dataset.Publication") {
+                                        literal(role: "refCode", value: "ApJ12345")
                                     }
-                                    object(type: "ds:dataset.Publication") {
-                                        value(role: "refCode", value: "ApJ6789")
+                                    instance(type: "ds:dataset.Publication") {
+                                        literal(role: "refCode", value: "ApJ6789")
                                     }
                                 }
                             }
@@ -291,26 +291,26 @@ class VoTableBuilderTest {
                     }
                 }
             }
-            object(id: "ACME", type: "ds:party.Organization") {
-                value(role: "name", value: "ACME edu")
-                value(role: "address", value: "565 N Clinton Drive, Milwaukee, WI")
-                value(role: "phone", value: "555-012-3456")
-                value(role: "email", value: "helpdesk@acme.org")
-                value(role: "logo", value: "http://acme.org/stunning.png")
+            instance(id: "ACME", type: "ds:party.Organization") {
+                literal(role: "name", value: "ACME edu")
+                literal(role: "address", value: "565 N Clinton Drive, Milwaukee, WI")
+                literal(role: "phone", value: "555-012-3456")
+                literal(role: "email", value: "helpdesk@acme.org")
+                literal(role: "logo", value: "http://acme.org/stunning.png")
             }
-            object(id: "BILL", type: "ds:party.Individual") {
-                value(role: "name", value: "William E. Coyote")
-                value(role: "address", value: "565 N Clinton Drive, Milwaukee, WI")
-                value(role: "phone", value: "555-654-3210")
-                value(role: "email", value: "bill@acme.org")
+            instance(id: "BILL", type: "ds:party.Individual") {
+                literal(role: "name", value: "William E. Coyote")
+                literal(role: "address", value: "565 N Clinton Drive, Milwaukee, WI")
+                literal(role: "phone", value: "555-654-3210")
+                literal(role: "email", value: "bill@acme.org")
             }
-            object(id: "TOM", type: "ds:party.Individual") {
-                value(role: "name", value: "Tom Ray")
-                value(role: "address", value: "565 N Clinton Drive, Milwaukee, WI")
-                value(role: "phone", value: "555-999-5555")
-                value(role: "email", value: "bill@acme.org")
+            instance(id: "TOM", type: "ds:party.Individual") {
+                literal(role: "name", value: "Tom Ray")
+                literal(role: "address", value: "565 N Clinton Drive, Milwaukee, WI")
+                literal(role: "phone", value: "555-999-5555")
+                literal(role: "email", value: "bill@acme.org")
             }
-            object(id: "COORDSYS", type: "stc:coordsystem.AstroCoordSystem")
+            instance(id: "COORDSYS", type: "stc:coordsystem.AstroCoordSystem")
         }
 
         writer.write(instance, System.out)
@@ -320,9 +320,9 @@ class VoTableBuilderTest {
     void testObjectType() {
         def instance = new VoTableBuilder().votable {
             model(spec: dsSpec)
-            object(type: "$org") {
-                value(role: "name", value:"OrgName")
-                value(role: "address", value:"An Address")
+            instance(type: "$org") {
+                literal(role: "name", value:"OrgName")
+                literal(role: "address", value:"An Address")
             }
         }
 
