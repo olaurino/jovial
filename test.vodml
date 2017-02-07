@@ -1,10 +1,10 @@
 import cfa.vo.vodml.io.VodmlReader
 
 def reader = new VodmlReader()
-dsSpec = reader.read(new URL("$resources/DatasetMetadata-1.0.vo-dml.xml").openStream())
-ivoaSpec = reader.read(new URL("$resources/ivoa.vo-dml.xml").openStream())
-charSpec = reader.read(new URL("$resources/char.vo-dml.xml").openStream())
-stcSpec = reader.read(new URL("$resources/stc2.vo-dml.xml").openStream())
+dsSpec = reader.read(getClass().getResource("/DatasetMetadata-1.0.vo-dml.xml").openStream())
+ivoaSpec = reader.read(getClass().getResource("/ivoa.vo-dml.xml").openStream())
+charSpec = reader.read(getClass().getResource("/char.vo-dml.xml").openStream())
+stcSpec = reader.read(getClass().getResource("/stc2.vo-dml.xml").openStream())
 
 votable {
     model(spec: dsSpec, vodmlURL: "$resources/DatasetMetadata-1.0.vo-dml.xml")

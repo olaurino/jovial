@@ -37,32 +37,39 @@ import cfa.vo.vodml.io.instance.VodmlWriter
 
 public class Main {
     public static void main(String[] args) {
-        def cli = new CliBuilder()
+        def cli = new CliBuilder(usage: "jovial -[mih] input-file")
 
-        cli.i('input file')
-        cli.t('input type')
+        cli.with {
+            h longOpt: 'help', 'Show usage information'
+            m longOpt: 'model', 'convert a model. This is the default'
+            i longOpt: 'instance', 'convert an instance'
+        }
 
         def options = cli.parse(args)
-        assert options
+
+        if (!options || options.h || !options.arguments().size()) {
+            cli.usage()
+            return
+        }
 
         def writer
         def model
+        def filename = options.arguments().get(0)
 
-        if ('model' == options.t) {
-            def modelString = new File(args[0]).text
+        if (options.i) {
+            def modelString = new File(filename).text
+            def builder = new VoTableBuilder()
+            def binding = new Binding(votable: builder.&script)
+            def shell = new GroovyShell(Main.class.classLoader, binding)
+            model = shell.evaluate modelString
+            writer = new AltVotableWriter()
+        } else {
+            def modelString = new File(filename).text
             def builder = new ModelBuilder()
             def binding = new Binding(model: builder.&script)
             def shell = new GroovyShell(Main.class.classLoader, binding)
             model = shell.evaluate modelString
             writer = new VodmlWriter()
-        } else {
-
-            def modelString = new File(args[0]).text
-            def builder = new VoTableBuilder()
-            def binding = new Binding(votable: builder.&script, resources: getClass().getResource("/").toString())
-            def shell = new GroovyShell(Main.class.classLoader, binding)
-            model = shell.evaluate modelString
-            writer = new AltVotableWriter()
         }
 
         writer.write(model, System.out)
