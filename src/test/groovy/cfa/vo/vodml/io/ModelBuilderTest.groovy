@@ -38,7 +38,6 @@ import cfa.vo.vodml.metamodel.ElementRef
 import cfa.vo.vodml.metamodel.Model
 import cfa.vo.vodml.metamodel.Multiplicity
 import cfa.vo.vodml.utils.VodmlRef
-import org.custommonkey.xmlunit.XMLUnit
 import spock.lang.Specification
 
 class ModelBuilderTest extends Specification {
@@ -403,7 +402,6 @@ Illegal multiplicity expression. Please use '<minOccurs>..<maxOccurs>', where:
         given: "I/O infrastructure"
         def writer = new VodmlWriter()
         def os = new ByteArrayOutputStream()
-        XMLUnit.ignoreWhitespace = true
         and: "full model"
         Model model = builder.model("ds") {
             title("Dataset Metadata")

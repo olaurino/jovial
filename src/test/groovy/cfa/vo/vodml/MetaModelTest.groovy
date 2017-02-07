@@ -5,8 +5,7 @@ import ca.odell.glazedlists.EventList
 import cfa.vo.vodml.io.Validator
 import cfa.vo.vodml.io.VodmlWriter
 import cfa.vo.vodml.metamodel.*
-import org.custommonkey.xmlunit.XMLAssert
-import org.custommonkey.xmlunit.XMLUnit
+import cfa.vo.vodml.utils.XmlUtils
 import org.joda.time.DateTime
 import org.junit.Test
 
@@ -54,13 +53,11 @@ class MetaModelTest {
         ByteArrayOutputStream os = new ByteArrayOutputStream()
         writer.write(model, os)
         String out = os.toString("UTF-8")
-        XMLAssert.assertXMLEqual(expected, out)
+        XmlUtils.testXml(expected, out)
         assert new Validator().validate(new ByteArrayInputStream(out.bytes))
     }
 
     String setUpModel() {
-        XMLUnit.ignoreWhitespace = true
-
         ObjectType role = new ObjectType(
                 name: "Role",
                 vodmlid: "party.Role",

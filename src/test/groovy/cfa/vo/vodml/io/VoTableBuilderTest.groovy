@@ -6,18 +6,18 @@
  * %%
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
- *
+ * 
  * 1. Redistributions of source code must retain the above copyright notice, this
  *    list of conditions and the following disclaimer.
- *
+ * 
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- *
+ * 
  * 3. Neither the name of the Smithsonian Astrophysical Observatory nor the names of its contributors
  *    may be used to endorse or promote products derived from this software without
  *    specific prior written permission.
- *
+ * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
@@ -37,8 +37,7 @@ import cfa.vo.vodml.instance.ModelInstance
 import cfa.vo.vodml.instance.ObjectInstance
 import cfa.vo.vodml.instance.ValueInstance
 import cfa.vo.vodml.instance.VotableInstance
-import org.custommonkey.xmlunit.XMLAssert
-import org.custommonkey.xmlunit.XMLUnit
+import cfa.vo.vodml.utils.XmlUtils
 import org.junit.Before
 import org.junit.Test
 
@@ -55,8 +54,6 @@ class VoTableBuilderTest {
 
     @Before
     void setUp() {
-        XMLUnit.setIgnoreWhitespace(true);
-        XMLUnit.setIgnoreComments(true);
         def reader = new VodmlReader()
         dsSpec = reader.read(getClass().getResource("/DatasetMetadata-1.0.vo-dml.xml").openStream())
         ivoaSpec = reader.read(getClass().getResource("/ivoa.vo-dml.xml").openStream())
@@ -75,7 +72,7 @@ class VoTableBuilderTest {
         instance.toXml(os)
         String actual = os.toString("UTF-8")
         String expected = preamble("")
-        XMLAssert.assertXMLEqual(expected, actual)
+        XmlUtils.testXml(expected, actual)
     }
 
     @Test

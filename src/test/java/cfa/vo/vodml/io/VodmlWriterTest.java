@@ -1,5 +1,3 @@
-package cfa.vo.vodml.io;
-
 /*
  * #%L
  * jovial
@@ -32,11 +30,10 @@ package cfa.vo.vodml.io;
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  * #L%
  */
-
+package cfa.vo.vodml.io;
 
 import cfa.vo.vodml.metamodel.Model;
-import org.custommonkey.xmlunit.XMLAssert;
-import org.custommonkey.xmlunit.XMLUnit;
+import cfa.vo.vodml.utils.XmlUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.Before;
@@ -61,8 +58,6 @@ public class VodmlWriterTest {
 
         writer = new VodmlWriter();
         expected = makeString();
-
-        XMLUnit.setIgnoreWhitespace(true);
     }
 
     @Test
@@ -70,18 +65,18 @@ public class VodmlWriterTest {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         writer.write(model, os);
         String out = os.toString("UTF-8");
-        XMLAssert.assertXMLEqual(expected, out);
+        XmlUtils.testXml(expected, out);
     }
 
     private String makeString() {
         return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                 "  <vo-dml:model xmlns:vo-dml=\"http://www.ivoa.net/xml/VODML/v1.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.ivoa.net/xml/VODML/v1.0 http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/xsd/vo-dml-v1.0.xsd\">\n" +
                 "    <name>something</name>\n" +
+                "    <description>Some Description</description>\n" +
                 "    <title>Some Title</title>\n" +
+                "    <author>John Doe</author>\n" +
                 "    <version>1.0-SNAPSHOT</version>\n" +
                 "    <lastModified>2016-04-16T10:16:50.000Z</lastModified>\n" +
-                "    <author>John Doe</author>\n" +
-                "    <description>Some Description</description>\n" +
                 "  </vo-dml:model>";
     }
 }
