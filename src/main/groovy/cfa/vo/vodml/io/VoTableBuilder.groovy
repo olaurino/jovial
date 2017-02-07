@@ -34,6 +34,7 @@ package cfa.vo.vodml.io
 
 import cfa.vo.vodml.instance.DataModelInstance
 import cfa.vo.vodml.instance.ModelImportInstance
+import cfa.vo.vodml.instance.ObjectInstance
 import groovy.util.logging.Slf4j
 /**
  * A groovy builder for VODML Instances to be serialized as VOTable.
@@ -91,6 +92,9 @@ class VoTableBuilder extends BuilderSupport {
         }
         if ("model" == it.toLowerCase()) {
             return ModelImportInstance.class
+        }
+        if ("instance" == it.toLowerCase()) {
+            return ObjectInstance.class
         }
         return Class.forName("${MODEL_PACKAGE}.${it.capitalize()}Instance")
     }

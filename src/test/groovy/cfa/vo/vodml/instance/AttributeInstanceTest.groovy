@@ -37,7 +37,7 @@ import cfa.vo.vodml.io.VodmlReader
 import cfa.vo.vodml.metamodel.Model
 import spock.lang.Specification
 
-class DataInstanceTest extends Specification {
+class AttributeInstanceTest extends Specification {
     Model stcSpec
     Model ivoaSpec
 
@@ -75,8 +75,8 @@ class DataInstanceTest extends Specification {
 
     def "test inequality"() {
         given:
-        def i1 = new DataInstance(attrs: [:])
-        def i2 = new DataInstance(attrs: [type: "foo:bar"])
+        def i1 = new AttributeInstance(attrs: [:])
+        def i2 = new AttributeInstance(attrs: [type: "foo:bar"])
 
         expect:
         i1 != i2

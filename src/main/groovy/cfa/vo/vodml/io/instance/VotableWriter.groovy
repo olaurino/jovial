@@ -118,7 +118,7 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
         elem()
     }
 
-    void buildData(DataInstance dataInstance, builder) {
+    void buildData(AttributeInstance dataInstance, builder) {
         def elem = {
             def m = [:]
             if (dataInstance.id) {
@@ -153,7 +153,7 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
         elem()
     }
 
-    void buildCollection(CollectionInstance collectionInstance, builder) {
+    void buildCollection(CompositionInstance collectionInstance, builder) {
         def elem = {
             collectionInstance.objectTypes.each {
                 out << buildObject(it, delegate)
@@ -176,7 +176,7 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
         elem()
     }
 
-    void buildValue(ValueInstance valueInstance, builder) {
+    void buildValue(LiteralInstance valueInstance, builder) {
         def elem = {
             if (valueInstance.value != null) {
                 PARAM(paramAttrs(valueInstance)) {
@@ -188,11 +188,11 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
         elem()
     }
 
-    private static String stripRole(ValueInstance instance) {
+    private static String stripRole(LiteralInstance instance) {
         instance.role.reference.split("\\.")[-1] ?: "none"
     }
 
-    private static Map paramAttrs(ValueInstance instance) {
+    private static Map paramAttrs(LiteralInstance instance) {
         String name = Resolver.instance.resolveRole(instance.role)?.name ?: stripRole(instance)
         Map datatype = infer(instance.value)
         datatype << [name:name, value:instance.value]

@@ -36,7 +36,7 @@ import cfa.vo.vodml.io.instance.VotableWriter
 import cfa.vo.vodml.metamodel.Model
 import cfa.vo.vodml.instance.ModelImportInstance
 import cfa.vo.vodml.instance.ObjectInstance
-import cfa.vo.vodml.instance.ValueInstance
+import cfa.vo.vodml.instance.LiteralInstance
 import cfa.vo.vodml.instance.DataModelInstance
 import cfa.vo.vodml.utils.XmlUtils
 import org.junit.Before
@@ -329,8 +329,8 @@ class VoTableBuilderTest {
         def expected = new DataModelInstance()
         expected << new ModelImportInstance(spec: dsSpec)
         def obj = new ObjectInstance(type: "$org")
-        obj.attributes << new ValueInstance(role: "ds:party.Party.name", value:"OrgName")
-        obj.attributes << new ValueInstance(role: "${org}.address", value:"An Address")
+        obj.attributes << new LiteralInstance(role: "ds:party.Party.name", value:"OrgName")
+        obj.attributes << new LiteralInstance(role: "${org}.address", value:"An Address")
         expected.objectTypes << obj
 
         assert instance == expected

@@ -56,7 +56,7 @@ class ValueInstanceTest {
 
     @Test
     public void testType() {
-        ValueInstance instance = new ValueInstance(role: new VodmlRef("ds:party.Party.name"))
+        LiteralInstance instance = new LiteralInstance(role: new VodmlRef("ds:party.Party.name"))
         assert new VodmlRef("ivoa:string") == instance.type
     }
 }

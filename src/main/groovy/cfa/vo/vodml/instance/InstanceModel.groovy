@@ -33,6 +33,7 @@
 package cfa.vo.vodml.instance
 
 import cfa.vo.vodml.io.VodmlReader
+import cfa.vo.vodml.metamodel.Composition
 import cfa.vo.vodml.metamodel.Model
 import cfa.vo.vodml.utils.Resolver
 import cfa.vo.vodml.utils.VoBuilderNode
@@ -72,8 +73,8 @@ class HasColumns {
 }
 
 @EqualsAndHashCode
-class HasData {
-    List<DataInstance> dataTypes = []
+class HasAttributes {
+    List<AttributeInstance> dataTypes = []
 
     /**
      * Overloads the left shift operator for adding data type instances to build.
@@ -81,14 +82,14 @@ class HasData {
      *
      * @param data the DataType instance to be added
      */
-    public leftShift(DataInstance data) {
+    public leftShift(AttributeInstance data) {
         dataTypes << data
     }
 }
 
 @EqualsAndHashCode
 class HasValues {
-    List<ValueInstance> attributes = []
+    List<LiteralInstance> attributes = []
 
     /**
      * Overloads the left shift operator for adding primitive type instances to build.
@@ -97,7 +98,7 @@ class HasValues {
      *
      * @param data the PrimitiveType instance to be added
      */
-    public leftShift(ValueInstance data) {
+    public leftShift(LiteralInstance data) {
         attributes << data
     }
 }
@@ -151,7 +152,7 @@ class DefaultNode implements VoBuilderNode {
 class DataModelInstance extends DefaultNode {
     List<ModelImportInstance> models = []
     @Delegate HasObjects hasObjects = new HasObjects()
-    @Delegate HasData hasData = new HasData()
+    @Delegate HasAttributes hasData = new HasAttributes()
     @Delegate HasTables hasTables = new HasTables()
 
     /**
@@ -259,8 +260,8 @@ abstract class Instance extends DefaultNode {
  * Class for DataType instances. These instances can contain other DataType instances as well as
  * References to ObjectTypes and primitive types.
  */
-class DataInstance extends Instance {
-    @Delegate HasData hasData = new HasData()
+class AttributeInstance extends Instance {
+    @Delegate HasObjects hasObjects = new HasObjects()
     @Delegate HasReferences hasReferences = new HasReferences()
     @Delegate HasValues hasValues = new HasValues()
     @Delegate HasColumns hasColumns = new HasColumns()
@@ -272,21 +273,22 @@ class DataInstance extends Instance {
  */
 @Canonical
 class ObjectInstance extends Instance {
-    @Delegate HasData hasData = new HasData()
+    @Delegate HasAttributes hasObjects = new HasAttributes()
     @Delegate HasReferences hasReferences = new HasReferences()
     @Delegate HasValues hasValues = new HasValues()
     @Delegate HasColumns hasColumns = new HasColumns()
-    List<CollectionInstance> collections = []
+    List<CompositionInstance> collections = []
 
-    public leftShift(CollectionInstance object) {collections << object}
+    public leftShift(CompositionInstance object) {collections << object}
 }
 
 /**
  * Class implementing instances of Composition relationship. This is simply a container of ObjectTypes.
  */
 @Canonical
-class CollectionInstance extends Instance {
+class CompositionInstance extends Instance {
     @Delegate HasObjects hasObjects = new HasObjects()
+    Integer maxOccurs = -1;
 
     /**
      * Override the {@link HasObjects} trait's left shift operator to propagate the role
@@ -300,13 +302,20 @@ class CollectionInstance extends Instance {
             object.role = role
         }
     }
+
+    @Override
+    public void setRole(String ref) {
+        super.setRole(ref)
+        Composition comp = resolver.resolveRole(super.role)
+        this.maxOccurs = comp.multiplicity.maxOccurs
+    }
 }
 
 /**
  * Tables are undistinguishable from Collections, but they must be serialized differently
  */
 @Canonical
-class TableInstance extends CollectionInstance {
+class TableInstance extends CompositionInstance {
 
 }
 
@@ -324,8 +333,6 @@ class ReferenceInstance extends Instance {
 @Canonical
 class ColumnInstance extends Instance {
     String value
-    Boolean pk
-    String fk
 }
 
 /**
@@ -334,7 +341,7 @@ class ColumnInstance extends Instance {
  * The class attempts to infer the datatype of the value being passed.
  */
 @Canonical(includes=["type","role"])
-class ValueInstance extends Instance {
+class LiteralInstance extends Instance {
     def value
 }
 

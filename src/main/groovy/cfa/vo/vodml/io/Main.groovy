@@ -32,14 +32,39 @@
  */
 package cfa.vo.vodml.io
 
+import cfa.vo.vodml.io.instance.AltVotableWriter
+import cfa.vo.vodml.io.instance.VodmlWriter
+
 public class Main {
     public static void main(String[] args) {
-        def modelString = new File(args[0]).text
-        def builder = new ModelBuilder()
-        def binding = new Binding(model: builder.&script)
-        def shell = new GroovyShell(Main.class.classLoader, binding)
-        def model = shell.evaluate modelString
-        def writer = new VodmlWriter()
+        def cli = new CliBuilder()
+
+        cli.i('input file')
+        cli.t('input type')
+
+        def options = cli.parse(args)
+        assert options
+
+        def writer
+        def model
+
+        if ('model' == options.t) {
+            def modelString = new File(args[0]).text
+            def builder = new ModelBuilder()
+            def binding = new Binding(model: builder.&script)
+            def shell = new GroovyShell(Main.class.classLoader, binding)
+            model = shell.evaluate modelString
+            writer = new VodmlWriter()
+        } else {
+
+            def modelString = new File(args[0]).text
+            def builder = new VoTableBuilder()
+            def binding = new Binding(votable: builder.&script, resources: getClass().getResource("/").toString())
+            def shell = new GroovyShell(Main.class.classLoader, binding)
+            model = shell.evaluate modelString
+            writer = new AltVotableWriter()
+        }
+
         writer.write(model, System.out)
     }
 }

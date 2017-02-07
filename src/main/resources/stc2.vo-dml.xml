@@ -1,0 +1,3970 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vo-dml:model xmlns:vo-dml="http://www.ivoa.net/xml/VODML/v1.0">
+    <name>stc</name>
+    <description>
+        TODO : Missing description : please, update your UML model asap.
+    </description>
+    <title>STC2 Prototype model</title>
+    <author>Mark Cresitello-Dittmar, Arnold Rots</author>
+    <version>2.0</version>
+    <previousVersion>0.x</previousVersion>
+    <!--<lastModified>2016-05-31T16:22:12</lastModified>-->
+    <import>
+        <name>ivoa</name>
+        <url>http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/ivoa/IVOA.vo-dml.xml</url>
+        <documentationURL>http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/ivoa/IVOA.html</documentationURL>
+    </import>
+
+    <package>
+        <vodml-id>stctypes</vodml-id>
+        <name>stctypes</name>
+        <description>
+            TODO : Missing description : please, update your UML model asap.
+        </description>
+        <enumeration>
+            <vodml-id>stctypes.PolarizationType</vodml-id>
+            <name>PolarizationType</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <literal>
+                <vodml-id>stctypes.PolarizationType.STOKES</vodml-id>
+                <name>STOKES</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.PolarizationType.CIRCULAR</vodml-id>
+                <name>CIRCULAR</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.PolarizationType.LINEAR</vodml-id>
+                <name>LINEAR</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.PolarizationType.VECTOR</vodml-id>
+                <name>VECTOR</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+        </enumeration>
+
+        <enumeration>
+            <vodml-id>stctypes.PolStokes</vodml-id>
+            <name>PolStokes</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <literal>
+                <vodml-id>stctypes.PolStokes.I</vodml-id>
+                <name>I</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.PolStokes.Q</vodml-id>
+                <name>Q</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.PolStokes.U</vodml-id>
+                <name>U</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.PolStokes.V</vodml-id>
+                <name>V</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+        </enumeration>
+
+        <enumeration>
+            <vodml-id>stctypes.TimeScale</vodml-id>
+            <name>TimeScale</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <literal>
+                <vodml-id>stctypes.TimeScale.TT</vodml-id>
+                <name>TT</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.TimeScale.ET</vodml-id>
+                <name>ET</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.TimeScale.TDB</vodml-id>
+                <name>TDB</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.TimeScale.TCG</vodml-id>
+                <name>TCG</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.TimeScale.TCB</vodml-id>
+                <name>TCB</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.TimeScale.TAI</vodml-id>
+                <name>TAI</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.TimeScale.UTC</vodml-id>
+                <name>UTC</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.TimeScale.LST</vodml-id>
+                <name>LST</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.TimeScale.LOCAL</vodml-id>
+                <name>LOCAL</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+        </enumeration>
+
+        <enumeration>
+            <vodml-id>stctypes.PolCircular</vodml-id>
+            <name>PolCircular</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <literal>
+                <vodml-id>stctypes.PolCircular.RR</vodml-id>
+                <name>RR</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.PolCircular.LL</vodml-id>
+                <name>LL</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.PolCircular.RL</vodml-id>
+                <name>RL</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.PolCircular.LR</vodml-id>
+                <name>LR</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+        </enumeration>
+
+        <enumeration>
+            <vodml-id>stctypes.StdSpaceRefFrame</vodml-id>
+            <name>StdSpaceRefFrame</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.ICRS</vodml-id>
+                <name>ICRS</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.FK4</vodml-id>
+                <name>FK4</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.FK5</vodml-id>
+                <name>FK5</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.ECLIPTIC</vodml-id>
+                <name>ECLIPTIC</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.GALACTIC_I</vodml-id>
+                <name>GALACTIC_I</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.GALACTIC_II</vodml-id>
+                <name>GALACTIC_II</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.SUPER_GALACTIC</vodml-id>
+                <name>SUPER_GALACTIC</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.AZ_EL</vodml-id>
+                <name>AZ_EL</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.BODY</vodml-id>
+                <name>BODY</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.GEO_C</vodml-id>
+                <name>GEO_C</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.GEO_D</vodml-id>
+                <name>GEO_D</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.MAG</vodml-id>
+                <name>MAG</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.GSE</vodml-id>
+                <name>GSE</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.GSM</vodml-id>
+                <name>GSM</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.SM</vodml-id>
+                <name>SM</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.HGC</vodml-id>
+                <name>HGC</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.HEE</vodml-id>
+                <name>HEE</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.HEEQ</vodml-id>
+                <name>HEEQ</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.HCI</vodml-id>
+                <name>HCI</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.HCD</vodml-id>
+                <name>HCD</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.MERCURY_C</vodml-id>
+                <name>MERCURY_C</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.VENUS_C</vodml-id>
+                <name>VENUS_C</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.LUNA_C</vodml-id>
+                <name>LUNA_C</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.MARS_C</vodml-id>
+                <name>MARS_C</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.JUPITER_C_III</vodml-id>
+                <name>JUPITER_C_III</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.SATURN_C_III</vodml-id>
+                <name>SATURN_C_III</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.URANUS_C_III</vodml-id>
+                <name>URANUS_C_III</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.NEPTUNE_C_III</vodml-id>
+                <name>NEPTUNE_C_III</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.PLUTO_C</vodml-id>
+                <name>PLUTO_C</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.MERCURY_G</vodml-id>
+                <name>MERCURY_G</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.VENUS_G</vodml-id>
+                <name>VENUS_G</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.LUNA_G</vodml-id>
+                <name>LUNA_G</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.MARS_G</vodml-id>
+                <name>MARS_G</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.JUPITER_G_III</vodml-id>
+                <name>JUPITER_G_III</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.SATURN_G_III</vodml-id>
+                <name>SATURN_G_III</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.URANUS_G_III</vodml-id>
+                <name>URANUS_G_III</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.NEPTUNE_G_III</vodml-id>
+                <name>NEPTUNE_G_III</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.PLUTO_G</vodml-id>
+                <name>PLUTO_G</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.UNKNOWN</vodml-id>
+                <name>UNKNOWN</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdSpaceRefFrame.CUSTOM</vodml-id>
+                <name>CUSTOM</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+        </enumeration>
+
+        <enumeration>
+            <vodml-id>stctypes.DopplerDefinition</vodml-id>
+            <name>DopplerDefinition</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <literal>
+                <vodml-id>stctypes.DopplerDefinition.optical</vodml-id>
+                <name>optical</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.DopplerDefinition.radio</vodml-id>
+                <name>radio</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.DopplerDefinition.relativistic</vodml-id>
+                <name>relativistic</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.DopplerDefinition.redshift</vodml-id>
+                <name>redshift</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+        </enumeration>
+
+        <enumeration>
+            <vodml-id>stctypes.PolLinear</vodml-id>
+            <name>PolLinear</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <literal>
+                <vodml-id>stctypes.PolLinear.XX</vodml-id>
+                <name>XX</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.PolLinear.YY</vodml-id>
+                <name>YY</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.PolLinear.XY</vodml-id>
+                <name>XY</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.PolLinear.YX</vodml-id>
+                <name>YX</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+        </enumeration>
+
+        <enumeration>
+            <vodml-id>stctypes.CoordFlavor</vodml-id>
+            <name>CoordFlavor</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <literal>
+                <vodml-id>stctypes.CoordFlavor.spherical</vodml-id>
+                <name>spherical</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.CoordFlavor.cartesian</vodml-id>
+                <name>cartesian</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.CoordFlavor.polar</vodml-id>
+                <name>polar</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.CoordFlavor.cylindrical</vodml-id>
+                <name>cylindrical</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.CoordFlavor.unitsphere</vodml-id>
+                <name>unitsphere</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.CoordFlavor.healpix</vodml-id>
+                <name>healpix</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.CoordFlavor.string</vodml-id>
+                <name>string</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.CoordFlavor.polarization</vodml-id>
+                <name>polarization</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+        </enumeration>
+
+        <enumeration>
+            <vodml-id>stctypes.EpochType</vodml-id>
+            <name>EpochType</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <literal>
+                <vodml-id>stctypes.EpochType.J</vodml-id>
+                <name>J</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.EpochType.B</vodml-id>
+                <name>B</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+        </enumeration>
+
+        <enumeration>
+            <vodml-id>stctypes.Handedness</vodml-id>
+            <name>Handedness</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <literal>
+                <vodml-id>stctypes.Handedness.left</vodml-id>
+                <name>left</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.Handedness.right</vodml-id>
+                <name>right</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+        </enumeration>
+
+        <enumeration>
+            <vodml-id>stctypes.StdRefPosition</vodml-id>
+            <name>StdRefPosition</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <literal>
+                <vodml-id>stctypes.StdRefPosition.TOPOCENTER</vodml-id>
+                <name>TOPOCENTER</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdRefPosition.BARYCENTER</vodml-id>
+                <name>BARYCENTER</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdRefPosition.HELIOCENTER</vodml-id>
+                <name>HELIOCENTER</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdRefPosition.GEOCENTER</vodml-id>
+                <name>GEOCENTER</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdRefPosition.GALACTIC_CENTER</vodml-id>
+                <name>GALACTIC_CENTER</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdRefPosition.LOCAL_GROUP_CENTER</vodml-id>
+                <name>LOCAL_GROUP_CENTER</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdRefPosition.MOON</vodml-id>
+                <name>MOON</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdRefPosition.EMBARYCENTER</vodml-id>
+                <name>EMBARYCENTER</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdRefPosition.MERCURY</vodml-id>
+                <name>MERCURY</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdRefPosition.VENUS</vodml-id>
+                <name>VENUS</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdRefPosition.MARS</vodml-id>
+                <name>MARS</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdRefPosition.JUPITER</vodml-id>
+                <name>JUPITER</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdRefPosition.SATURN</vodml-id>
+                <name>SATURN</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdRefPosition.URANUS</vodml-id>
+                <name>URANUS</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdRefPosition.NEPTUNE</vodml-id>
+                <name>NEPTUNE</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdRefPosition.PLUTO</vodml-id>
+                <name>PLUTO</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdRefPosition.RELOCATABLE</vodml-id>
+                <name>RELOCATABLE</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdRefPosition.LSR</vodml-id>
+                <name>LSR</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdRefPosition.LSRK</vodml-id>
+                <name>LSRK</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdRefPosition.LSRD</vodml-id>
+                <name>LSRD</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdRefPosition.UNKNOWN</vodml-id>
+                <name>UNKNOWN</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.StdRefPosition.CUSTOM</vodml-id>
+                <name>CUSTOM</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+        </enumeration>
+
+        <enumeration>
+            <vodml-id>stctypes.PolVector</vodml-id>
+            <name>PolVector</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <literal>
+                <vodml-id>stctypes.PolVector.I</vodml-id>
+                <name>I</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.PolVector.PF</vodml-id>
+                <name>PF</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.PolVector.PP</vodml-id>
+                <name>PP</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.PolVector.PA</vodml-id>
+                <name>PA</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+        </enumeration>
+
+        <enumeration>
+            <vodml-id>stctypes.Projection</vodml-id>
+            <name>Projection</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <literal>
+                <vodml-id>stctypes.Projection.LOG</vodml-id>
+                <name>LOG</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.Projection.TAN</vodml-id>
+                <name>TAN</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.Projection.SIN</vodml-id>
+                <name>SIN</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.Projection.STG</vodml-id>
+                <name>STG</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.Projection.ARC</vodml-id>
+                <name>ARC</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.Projection.ZEA</vodml-id>
+                <name>ZEA</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.Projection.AIR</vodml-id>
+                <name>AIR</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.Projection.CEA</vodml-id>
+                <name>CEA</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.Projection.CAR</vodml-id>
+                <name>CAR</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.Projection.MER</vodml-id>
+                <name>MER</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.Projection.SFL</vodml-id>
+                <name>SFL</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.Projection.PAR</vodml-id>
+                <name>PAR</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.Projection.MOL</vodml-id>
+                <name>MOL</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.Projection.AIT</vodml-id>
+                <name>AIT</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.Projection.COE</vodml-id>
+                <name>COE</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.Projection.COD</vodml-id>
+                <name>COD</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.Projection.COO</vodml-id>
+                <name>COO</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.Projection.BON</vodml-id>
+                <name>BON</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.Projection.PCO</vodml-id>
+                <name>PCO</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.Projection.TSC</vodml-id>
+                <name>TSC</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.Projection.CSC</vodml-id>
+                <name>CSC</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+            <literal>
+                <vodml-id>stctypes.Projection.QSC</vodml-id>
+                <name>QSC</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+            </literal>
+        </enumeration>
+
+        <dataType>
+            <vodml-id>stctypes.Epoch</vodml-id>
+            <name>Epoch</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <attribute>
+                <vodml-id>stctypes.Epoch.type</vodml-id>
+                <name>type</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.EpochType</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>stctypes.Epoch.year</vodml-id>
+                <name>year</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:decimal</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </dataType>
+
+        <dataType abstract="true">
+            <vodml-id>stctypes.Matrix</vodml-id>
+            <name>Matrix</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+        </dataType>
+
+        <dataType>
+            <vodml-id>stctypes.Matrix2x2</vodml-id>
+            <name>Matrix2x2</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:stctypes.Matrix</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>stctypes.Matrix2x2.m11</vodml-id>
+                <name>m11</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:real</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>stctypes.Matrix2x2.m12</vodml-id>
+                <name>m12</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:real</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>stctypes.Matrix2x2.m21</vodml-id>
+                <name>m21</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:real</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>stctypes.Matrix2x2.m22</vodml-id>
+                <name>m22</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:real</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </dataType>
+
+        <dataType>
+            <vodml-id>stctypes.Matrix3x3</vodml-id>
+            <name>Matrix3x3</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:stctypes.Matrix</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>stctypes.Matrix3x3.m11</vodml-id>
+                <name>m11</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:real</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>stctypes.Matrix3x3.m12</vodml-id>
+                <name>m12</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:real</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>stctypes.Matrix3x3.m13</vodml-id>
+                <name>m13</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:real</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>stctypes.Matrix3x3.m21</vodml-id>
+                <name>m21</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:real</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>stctypes.Matrix3x3.m22</vodml-id>
+                <name>m22</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:real</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>stctypes.Matrix3x3.m23</vodml-id>
+                <name>m23</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:real</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>stctypes.Matrix3x3.m31</vodml-id>
+                <name>m31</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:real</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>stctypes.Matrix3x3.m32</vodml-id>
+                <name>m32</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:real</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>stctypes.Matrix3x3.m33</vodml-id>
+                <name>m33</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:real</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </dataType>
+
+        <dataType abstract="true">
+            <vodml-id>stctypes.QuantityVector</vodml-id>
+            <name>QuantityVector</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+        </dataType>
+
+        <dataType>
+            <vodml-id>stctypes.RealScalar</vodml-id>
+            <name>RealScalar</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:stctypes.QuantityVector</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>stctypes.RealScalar.d1</vodml-id>
+                <name>d1</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:quantity.RealQuantity</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </dataType>
+
+        <dataType>
+            <vodml-id>stctypes.RealDoublet</vodml-id>
+            <name>RealDoublet</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:stctypes.QuantityVector</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>stctypes.RealDoublet.d1</vodml-id>
+                <name>d1</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:quantity.RealQuantity</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>stctypes.RealDoublet.d2</vodml-id>
+                <name>d2</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:quantity.RealQuantity</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </dataType>
+
+        <dataType>
+            <vodml-id>stctypes.RealTriplet</vodml-id>
+            <name>RealTriplet</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:stctypes.QuantityVector</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>stctypes.RealTriplet.d1</vodml-id>
+                <name>d1</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:quantity.RealQuantity</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>stctypes.RealTriplet.d2</vodml-id>
+                <name>d2</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:quantity.RealQuantity</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>stctypes.RealTriplet.d3</vodml-id>
+                <name>d3</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:quantity.RealQuantity</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </dataType>
+
+        <dataType abstract="true">
+            <vodml-id>stctypes.TimeStamp</vodml-id>
+            <name>TimeStamp</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+        </dataType>
+
+        <dataType>
+            <vodml-id>stctypes.ISOtime</vodml-id>
+            <name>ISOtime</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:stctypes.TimeStamp</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>stctypes.ISOtime.time</vodml-id>
+                <name>time</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:datetime</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </dataType>
+
+        <dataType>
+            <vodml-id>stctypes.JD</vodml-id>
+            <name>JD</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:stctypes.TimeStamp</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>stctypes.JD.time</vodml-id>
+                <name>time</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:real</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </dataType>
+
+        <dataType>
+            <vodml-id>stctypes.MJD</vodml-id>
+            <name>MJD</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:stctypes.TimeStamp</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>stctypes.MJD.time</vodml-id>
+                <name>time</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:real</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </dataType>
+
+        <dataType>
+            <vodml-id>stctypes.TimeOffset</vodml-id>
+            <name>TimeOffset</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:stctypes.TimeStamp</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>stctypes.TimeOffset.offset</vodml-id>
+                <name>offset</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:real</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </dataType>
+
+        <dataType abstract="true">
+            <vodml-id>stctypes.MultiStruct</vodml-id>
+            <name>MultiStruct</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <attribute>
+                <vodml-id>stctypes.MultiStruct.flavor</vodml-id>
+                <name>flavor</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:string</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>stctypes.MultiStruct.ndim</vodml-id>
+                <name>ndim</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:nonnegativeInteger</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </dataType>
+
+        <dataType>
+            <vodml-id>stctypes.Symmetrical</vodml-id>
+            <name>Symmetrical</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:stctypes.MultiStruct</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>stctypes.Symmetrical.radius</vodml-id>
+                <name>radius</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:quantity.RealQuantity</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </dataType>
+
+        <dataType>
+            <vodml-id>stctypes.Asymmetrical</vodml-id>
+            <name>Asymmetrical</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:stctypes.MultiStruct</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>stctypes.Asymmetrical.plus</vodml-id>
+                <name>plus</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:quantity.RealQuantity</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>stctypes.Asymmetrical.minus</vodml-id>
+                <name>minus</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:quantity.RealQuantity</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </dataType>
+
+        <dataType>
+            <vodml-id>stctypes.Bounds</vodml-id>
+            <name>Bounds</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:stctypes.MultiStruct</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>stctypes.Bounds.loLimit</vodml-id>
+                <name>loLimit</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.QuantityVector</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>stctypes.Bounds.hiLimit</vodml-id>
+                <name>hiLimit</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.QuantityVector</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </dataType>
+
+        <dataType>
+            <vodml-id>stctypes.Box</vodml-id>
+            <name>Box</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:stctypes.MultiStruct</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>stctypes.Box.boxSize</vodml-id>
+                <name>boxSize</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.QuantityVector</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </dataType>
+
+        <dataType>
+            <vodml-id>stctypes.Ellipse</vodml-id>
+            <name>Ellipse</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:stctypes.MultiStruct</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>stctypes.Ellipse.semiAxes</vodml-id>
+                <name>semiAxes</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.QuantityVector</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>stctypes.Ellipse.positionAngles</vodml-id>
+                <name>positionAngles</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.QuantityVector</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </dataType>
+
+        <dataType>
+            <vodml-id>stctypes.MSMatrix</vodml-id>
+            <name>MSMatrix</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:stctypes.MultiStruct</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>stctypes.MSMatrix.matrix</vodml-id>
+                <name>matrix</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.Matrix</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </dataType>
+
+    </package>
+
+
+
+    <package>
+        <vodml-id>frametransforms</vodml-id>
+        <name>frametransforms</name>
+        <description>
+            TODO : Missing description : please, update your UML model asap.
+        </description>
+        <objectType>
+            <vodml-id>frametransforms.TPolarization</vodml-id>
+            <name>TPolarization</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:frametransforms.TLookup</vodml-ref>
+            </extends>
+            <collection>
+                <vodml-id>frametransforms.TPolarization.entry</vodml-id>
+                <name>entry</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:frametransforms.TPolarizationEntry</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>-1</maxOccurs>
+                </multiplicity>
+            </collection>
+        </objectType>
+
+        <objectType>
+            <vodml-id>frametransforms.TPolStokes</vodml-id>
+            <name>TPolStokes</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:frametransforms.TPolarizationEntry</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>frametransforms.TPolStokes.nativeValue</vodml-id>
+                <name>nativeValue</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:integer</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>frametransforms.TPolStokes.polType</vodml-id>
+                <name>polType</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.PolStokes</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </objectType>
+
+        <objectType>
+            <vodml-id>frametransforms.TPolLinear</vodml-id>
+            <name>TPolLinear</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:frametransforms.TPolarizationEntry</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>frametransforms.TPolLinear.nativeValue</vodml-id>
+                <name>nativeValue</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:integer</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>frametransforms.TPolLinear.polType</vodml-id>
+                <name>polType</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.PolLinear</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </objectType>
+
+        <objectType>
+            <vodml-id>frametransforms.TPolCircular</vodml-id>
+            <name>TPolCircular</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:frametransforms.TPolarizationEntry</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>frametransforms.TPolCircular.nativeValue</vodml-id>
+                <name>nativeValue</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:integer</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>frametransforms.TPolCircular.polType</vodml-id>
+                <name>polType</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.PolCircular</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </objectType>
+
+        <objectType>
+            <vodml-id>frametransforms.TPolVector</vodml-id>
+            <name>TPolVector</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:frametransforms.TPolarizationEntry</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>frametransforms.TPolVector.nativeValue</vodml-id>
+                <name>nativeValue</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:integer</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>frametransforms.TPolVector.polType</vodml-id>
+                <name>polType</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.PolVector</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </objectType>
+
+        <objectType>
+            <vodml-id>frametransforms.TUnit</vodml-id>
+            <name>TUnit</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:frametransforms.Transform</vodml-ref>
+            </extends>
+        </objectType>
+
+        <objectType>
+            <vodml-id>frametransforms.TShift1D</vodml-id>
+            <name>TShift1D</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:frametransforms.Transform</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>frametransforms.TShift1D.shift</vodml-id>
+                <name>shift</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:real</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </objectType>
+
+        <objectType>
+            <vodml-id>frametransforms.TShift2D</vodml-id>
+            <name>TShift2D</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:frametransforms.Transform</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>frametransforms.TShift2D.shift</vodml-id>
+                <name>shift</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:real</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>2</minOccurs>
+                    <maxOccurs>2</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </objectType>
+
+        <objectType>
+            <vodml-id>frametransforms.TScale1D</vodml-id>
+            <name>TScale1D</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:frametransforms.Transform</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>frametransforms.TScale1D.factor</vodml-id>
+                <name>factor</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:real</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </objectType>
+
+        <objectType>
+            <vodml-id>frametransforms.TScale2D</vodml-id>
+            <name>TScale2D</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:frametransforms.Transform</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>frametransforms.TScale2D.factor</vodml-id>
+                <name>factor</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:real</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>2</minOccurs>
+                    <maxOccurs>2</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </objectType>
+
+        <objectType>
+            <vodml-id>frametransforms.TRotate2D</vodml-id>
+            <name>TRotate2D</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:frametransforms.Transform</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>frametransforms.TRotate2D.angle</vodml-id>
+                <name>angle</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:real</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </objectType>
+
+        <objectType>
+            <vodml-id>frametransforms.TMatrix</vodml-id>
+            <name>TMatrix</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:frametransforms.Transform</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>frametransforms.TMatrix.matrix</vodml-id>
+                <name>matrix</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.Matrix</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </objectType>
+
+        <objectType>
+            <vodml-id>frametransforms.TPolynomial</vodml-id>
+            <name>TPolynomial</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:frametransforms.Transform</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>frametransforms.TPolynomial.order</vodml-id>
+                <name>order</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:nonnegativeInteger</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <collection>
+                <vodml-id>frametransforms.TPolynomial.term</vodml-id>
+                <name>term</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:frametransforms.TPolyCoeff</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>-1</maxOccurs>
+                </multiplicity>
+            </collection>
+        </objectType>
+
+        <objectType>
+            <vodml-id>frametransforms.TProjection1D</vodml-id>
+            <name>TProjection1D</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:frametransforms.Transform</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>frametransforms.TProjection1D.algorithm</vodml-id>
+                <name>algorithm</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.Projection</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>frametransforms.TProjection1D.nativeRefValue</vodml-id>
+                <name>nativeRefValue</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:real</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>frametransforms.TProjection1D.targetRefValue</vodml-id>
+                <name>targetRefValue</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:real</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </objectType>
+
+        <objectType abstract="true">
+            <vodml-id>frametransforms.TLookup</vodml-id>
+            <name>TLookup</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:frametransforms.Transform</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>frametransforms.TLookup.nvals</vodml-id>
+                <name>nvals</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:nonnegativeInteger</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </objectType>
+
+        <objectType>
+            <vodml-id>frametransforms.TLookupMap</vodml-id>
+            <name>TLookupMap</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:frametransforms.TLookup</vodml-ref>
+            </extends>
+            <collection>
+                <vodml-id>frametransforms.TLookupMap.entry</vodml-id>
+                <name>entry</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:frametransforms.TLookupEntry</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>-1</maxOccurs>
+                </multiplicity>
+            </collection>
+        </objectType>
+
+        <objectType abstract="true">
+            <vodml-id>frametransforms.TLookupEntry</vodml-id>
+            <name>TLookupEntry</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+        </objectType>
+
+        <objectType>
+            <vodml-id>frametransforms.TLookupEntry1D</vodml-id>
+            <name>TLookupEntry1D</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:frametransforms.TLookupEntry</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>frametransforms.TLookupEntry1D.nativeValue</vodml-id>
+                <name>nativeValue</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:real</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>frametransforms.TLookupEntry1D.targetValue</vodml-id>
+                <name>targetValue</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:real</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </objectType>
+
+        <objectType>
+            <vodml-id>frametransforms.TLookupEntry2D</vodml-id>
+            <name>TLookupEntry2D</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:frametransforms.TLookupEntry</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>frametransforms.TLookupEntry2D.nativeValue</vodml-id>
+                <name>nativeValue</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:real</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>2</minOccurs>
+                    <maxOccurs>2</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>frametransforms.TLookupEntry2D.targetValue</vodml-id>
+                <name>targetValue</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:real</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>2</minOccurs>
+                    <maxOccurs>2</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </objectType>
+
+        <objectType abstract="true">
+            <vodml-id>frametransforms.TPolarizationEntry</vodml-id>
+            <name>TPolarizationEntry</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+        </objectType>
+
+        <objectType>
+            <vodml-id>frametransforms.TPolyCoeff</vodml-id>
+            <name>TPolyCoeff</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <attribute>
+                <vodml-id>frametransforms.TPolyCoeff.coeff</vodml-id>
+                <name>coeff</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:real</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>frametransforms.TPolyCoeff.power</vodml-id>
+                <name>power</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:real</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </objectType>
+
+        <objectType abstract="true">
+            <vodml-id>frametransforms.Transform</vodml-id>
+            <name>Transform</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+        </objectType>
+
+        <objectType>
+            <vodml-id>frametransforms.Mappings</vodml-id>
+            <name>Mappings</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <reference>
+                <vodml-id>frametransforms.Mappings.transforms</vodml-id>
+                <name>transforms</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:frametransforms.FrameTransform</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>-1</maxOccurs>
+                </multiplicity>
+            </reference>
+        </objectType>
+
+        <objectType>
+            <vodml-id>frametransforms.FrameTransform</vodml-id>
+            <name>FrameTransform</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <collection>
+                <vodml-id>frametransforms.FrameTransform.operation</vodml-id>
+                <name>operation</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:frametransforms.Transform</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>-1</maxOccurs>
+                </multiplicity>
+            </collection>
+            <reference>
+                <vodml-id>frametransforms.FrameTransform.targetFrame</vodml-id>
+                <name>targetFrame</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:coordsystem.CoordFrame</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </reference>
+        </objectType>
+
+        <objectType>
+            <vodml-id>frametransforms.TProjection2D</vodml-id>
+            <name>TProjection2D</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:frametransforms.Transform</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>frametransforms.TProjection2D.algorithm</vodml-id>
+                <name>algorithm</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.Projection</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>frametransforms.TProjection2D.nativeRefValue</vodml-id>
+                <name>nativeRefValue</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:real</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>2</minOccurs>
+                    <maxOccurs>2</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>frametransforms.TProjection2D.targetRefValue</vodml-id>
+                <name>targetRefValue</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:real</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>2</minOccurs>
+                    <maxOccurs>2</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </objectType>
+
+    </package>
+
+
+
+    <package>
+        <vodml-id>pixel</vodml-id>
+        <name>pixel</name>
+        <description>
+            TODO : Missing description : please, update your UML model asap.
+        </description>
+        <dataType>
+            <vodml-id>pixel.PixelCoordinate</vodml-id>
+            <name>PixelCoordinate</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <attribute>
+                <vodml-id>pixel.PixelCoordinate.coordinateDomain</vodml-id>
+                <name>coordinateDomain</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:string</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>pixel.PixelCoordinate.naxes</vodml-id>
+                <name>naxes</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:nonnegativeInteger</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>pixel.PixelCoordinate.coord</vodml-id>
+                <name>coord</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.QuantityVector</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <reference>
+                <vodml-id>pixel.PixelCoordinate.frame</vodml-id>
+                <name>frame</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:pixel.PixelCoordSystem</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </reference>
+            <reference>
+                <vodml-id>pixel.PixelCoordinate.coordSys</vodml-id>
+                <name>coordSys</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:pixel.PixelCoordSystem</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </reference>
+        </dataType>
+
+        <objectType>
+            <vodml-id>pixel.PixelCoordSystem</vodml-id>
+            <name>PixelCoordSystem</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <attribute>
+                <vodml-id>pixel.PixelCoordSystem.handedness</vodml-id>
+                <name>handedness</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.Handedness</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <collection>
+                <vodml-id>pixel.PixelCoordSystem.pixelFrame</vodml-id>
+                <name>pixelFrame</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:pixel.PixelFrame</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>-1</maxOccurs>
+                </multiplicity>
+            </collection>
+            <collection>
+                <vodml-id>pixel.PixelCoordSystem.pixelSpace</vodml-id>
+                <name>pixelSpace</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:pixel.PixelSpace</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </collection>
+        </objectType>
+
+        <objectType>
+            <vodml-id>pixel.PixelFrame</vodml-id>
+            <name>PixelFrame</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:coordsystem.CoordFrame</vodml-ref>
+            </extends>
+            <constraint>
+                <description>mapping:FrameTransform[1..*]</description>
+            </constraint>
+            <attribute>
+                <vodml-id>pixel.PixelFrame.nativeAxis1</vodml-id>
+                <name>nativeAxis1</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:nonnegativeInteger</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>pixel.PixelFrame.nativeAxis2</vodml-id>
+                <name>nativeAxis2</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:nonnegativeInteger</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>pixel.PixelFrame.nativeAxis3</vodml-id>
+                <name>nativeAxis3</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:nonnegativeInteger</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </objectType>
+
+        <objectType>
+            <vodml-id>pixel.PixelSpace</vodml-id>
+            <name>PixelSpace</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <constraint>
+                <description>pixelAxes.count = self.naxes</description>
+            </constraint>
+            <attribute>
+                <vodml-id>pixel.PixelSpace.naxes</vodml-id>
+                <name>naxes</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:nonnegativeInteger</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <collection>
+                <vodml-id>pixel.PixelSpace.pixelAxes</vodml-id>
+                <name>pixelAxes</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:pixel.PixelAxis</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>-1</maxOccurs>
+                </multiplicity>
+            </collection>
+        </objectType>
+
+        <objectType>
+            <vodml-id>pixel.PixelAxis</vodml-id>
+            <name>PixelAxis</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <attribute>
+                <vodml-id>pixel.PixelAxis.axisno</vodml-id>
+                <name>axisno</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:nonnegativeInteger</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>pixel.PixelAxis.length</vodml-id>
+                <name>length</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:nonnegativeInteger</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </objectType>
+
+    </package>
+
+
+
+    <package>
+        <vodml-id>coords</vodml-id>
+        <name>coords</name>
+        <description>
+            TODO : Missing description : please, update your UML model asap.
+        </description>
+        <dataType abstract="true">
+            <vodml-id>coords.Coordinate</vodml-id>
+            <name>Coordinate</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <attribute>
+                <vodml-id>coords.Coordinate.coordinateDomain</vodml-id>
+                <name>coordinateDomain</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:string</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <reference>
+                <vodml-id>coords.Coordinate.frame</vodml-id>
+                <name>frame</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:coordsystem.CoordFrame</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </reference>
+        </dataType>
+
+        <dataType>
+            <vodml-id>coords.Redshift</vodml-id>
+            <name>Redshift</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:coords.GenericRedshiftCoord</vodml-ref>
+            </extends>
+            <constraint>
+                <description>coordinateDomain="z"</description>
+            </constraint>
+        </dataType>
+
+        <dataType>
+            <vodml-id>coords.Circular</vodml-id>
+            <name>Circular</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:coords.PolarizationCoord</vodml-ref>
+            </extends>
+            <constraint>
+                <description>coordinateDomain="PolCircular"</description>
+            </constraint>
+            <attribute>
+                <vodml-id>coords.Circular.coord</vodml-id>
+                <name>coord</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.PolCircular</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </dataType>
+
+        <dataType>
+            <vodml-id>coords.Stokes</vodml-id>
+            <name>Stokes</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:coords.PolarizationCoord</vodml-ref>
+            </extends>
+            <constraint>
+                <description>coordinateDomain="PolStokes"</description>
+            </constraint>
+            <attribute>
+                <vodml-id>coords.Stokes.coord</vodml-id>
+                <name>coord</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.PolStokes</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </dataType>
+
+        <dataType>
+            <vodml-id>coords.Vector</vodml-id>
+            <name>Vector</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:coords.PolarizationCoord</vodml-ref>
+            </extends>
+            <constraint>
+                <description>coordinateDomain="PolVector"</description>
+            </constraint>
+            <attribute>
+                <vodml-id>coords.Vector.coord</vodml-id>
+                <name>coord</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.PolVector</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </dataType>
+
+        <dataType abstract="true">
+            <vodml-id>coords.PolarizationCoord</vodml-id>
+            <name>PolarizationCoord</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:coords.Coordinate</vodml-ref>
+            </extends>
+            <constraint>
+                <description>coordinateDomain="polarization"</description>
+            </constraint>
+            <constraint>
+                <description>frame:PolarizationFrame</description>
+            </constraint>
+        </dataType>
+
+        <dataType>
+            <vodml-id>coords.Linear</vodml-id>
+            <name>Linear</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:coords.PolarizationCoord</vodml-ref>
+            </extends>
+            <constraint>
+                <description>coordinateDomain="PolLinear"</description>
+            </constraint>
+            <attribute>
+                <vodml-id>coords.Linear.coord</vodml-id>
+                <name>coord</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.PolLinear</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </dataType>
+
+        <dataType abstract="true">
+            <vodml-id>coords.GenericRedshiftCoord</vodml-id>
+            <name>GenericRedshiftCoord</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:coords.Coordinate</vodml-ref>
+            </extends>
+            <constraint>
+                <description>frame:RedshiftFrame</description>
+            </constraint>
+            <constraint>
+                <description>coordinatDomain="redshift"</description>
+            </constraint>
+            <attribute>
+                <vodml-id>coords.GenericRedshiftCoord.coord</vodml-id>
+                <name>coord</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:quantity.RealQuantity</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>coords.GenericRedshiftCoord.statError</vodml-id>
+                <name>statError</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.MultiStruct</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>coords.GenericRedshiftCoord.sysError</vodml-id>
+                <name>sysError</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.MultiStruct</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>coords.GenericRedshiftCoord.ranError</vodml-id>
+                <name>ranError</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.MultiStruct</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>coords.GenericRedshiftCoord.resolution</vodml-id>
+                <name>resolution</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.MultiStruct</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </dataType>
+
+        <dataType>
+            <vodml-id>coords.DopplerVelocity</vodml-id>
+            <name>DopplerVelocity</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:coords.GenericRedshiftCoord</vodml-ref>
+            </extends>
+            <constraint>
+                <description>coordinateDomain="doppler"</description>
+            </constraint>
+        </dataType>
+
+        <dataType>
+            <vodml-id>coords.Wavelength</vodml-id>
+            <name>Wavelength</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:coords.SpectralCoord</vodml-ref>
+            </extends>
+            <constraint>
+                <description>coordinateDomain="wavelength"</description>
+            </constraint>
+        </dataType>
+
+        <dataType>
+            <vodml-id>coords.Energy</vodml-id>
+            <name>Energy</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:coords.SpectralCoord</vodml-ref>
+            </extends>
+            <constraint>
+                <description>coordinateDomain="energy"</description>
+            </constraint>
+        </dataType>
+
+        <dataType>
+            <vodml-id>coords.Frequency</vodml-id>
+            <name>Frequency</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:coords.SpectralCoord</vodml-ref>
+            </extends>
+            <constraint>
+                <description>coordinateDomain="frequency"</description>
+            </constraint>
+        </dataType>
+
+        <dataType abstract="true">
+            <vodml-id>coords.SpectralCoord</vodml-id>
+            <name>SpectralCoord</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:coords.Coordinate</vodml-ref>
+            </extends>
+            <constraint>
+                <description>frame:SpectralFrame</description>
+            </constraint>
+            <constraint>
+                <description>coordinateDomain="spectral"</description>
+            </constraint>
+            <attribute>
+                <vodml-id>coords.SpectralCoord.coord</vodml-id>
+                <name>coord</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:quantity.RealQuantity</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>coords.SpectralCoord.statError</vodml-id>
+                <name>statError</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.MultiStruct</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>coords.SpectralCoord.sysError</vodml-id>
+                <name>sysError</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.MultiStruct</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>coords.SpectralCoord.ranError</vodml-id>
+                <name>ranError</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.MultiStruct</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>coords.SpectralCoord.resolution</vodml-id>
+                <name>resolution</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.MultiStruct</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </dataType>
+
+        <dataType>
+            <vodml-id>coords.Velocity</vodml-id>
+            <name>Velocity</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:coords.SpatialCoord</vodml-ref>
+            </extends>
+            <constraint>
+                <description>coordinateDomain="velocity"</description>
+            </constraint>
+        </dataType>
+
+        <dataType abstract="true">
+            <vodml-id>coords.SpatialCoord</vodml-id>
+            <name>SpatialCoord</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:coords.Coordinate</vodml-ref>
+            </extends>
+            <constraint>
+                <description>frame:SpaceFrame</description>
+            </constraint>
+            <constraint>
+                <description>coordinateDomain="spatial"</description>
+            </constraint>
+            <attribute>
+                <vodml-id>coords.SpatialCoord.ndim</vodml-id>
+                <name>ndim</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:nonnegativeInteger</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>coords.SpatialCoord.coord</vodml-id>
+                <name>coord</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.QuantityVector</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>coords.SpatialCoord.epoch</vodml-id>
+                <name>epoch</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.Epoch</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>coords.SpatialCoord.statError</vodml-id>
+                <name>statError</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.MultiStruct</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>coords.SpatialCoord.sysError</vodml-id>
+                <name>sysError</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.MultiStruct</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>coords.SpatialCoord.ranError</vodml-id>
+                <name>ranError</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.MultiStruct</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>coords.SpatialCoord.resolution</vodml-id>
+                <name>resolution</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.MultiStruct</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </dataType>
+
+        <dataType>
+            <vodml-id>coords.Position</vodml-id>
+            <name>Position</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:coords.SpatialCoord</vodml-ref>
+            </extends>
+            <constraint>
+                <description>coordinateDomain="position"</description>
+            </constraint>
+        </dataType>
+
+        <dataType>
+            <vodml-id>coords.Time</vodml-id>
+            <name>Time</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:coords.Coordinate</vodml-ref>
+            </extends>
+            <constraint>
+                <description>frame:TimeFrame</description>
+            </constraint>
+            <constraint>
+                <description>coordinateDomain="time"</description>
+            </constraint>
+            <attribute>
+                <vodml-id>coords.Time.coord</vodml-id>
+                <name>coord</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.TimeStamp</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>coords.Time.statError</vodml-id>
+                <name>statError</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.MultiStruct</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>coords.Time.sysError</vodml-id>
+                <name>sysError</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.MultiStruct</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>coords.Time.ranError</vodml-id>
+                <name>ranError</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.MultiStruct</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>coords.Time.resolution</vodml-id>
+                <name>resolution</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.MultiStruct</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </dataType>
+
+        <dataType>
+            <vodml-id>coords.GenericCoord</vodml-id>
+            <name>GenericCoord</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:coords.Coordinate</vodml-ref>
+            </extends>
+            <constraint>
+                <description>frame:GenericCoordFrame</description>
+            </constraint>
+            <constraint>
+                <description>coordinateDomain="genericCoord"</description>
+            </constraint>
+            <attribute>
+                <vodml-id>coords.GenericCoord.coord</vodml-id>
+                <name>coord</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:quantity.RealQuantity</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>coords.GenericCoord.statError</vodml-id>
+                <name>statError</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.MultiStruct</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>coords.GenericCoord.sysError</vodml-id>
+                <name>sysError</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.MultiStruct</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>coords.GenericCoord.ranError</vodml-id>
+                <name>ranError</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.MultiStruct</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>coords.GenericCoord.resolution</vodml-id>
+                <name>resolution</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.MultiStruct</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </dataType>
+
+    </package>
+
+
+
+    <package>
+        <vodml-id>coordsystem</vodml-id>
+        <name>coordsystem</name>
+        <description>
+            TODO : Missing description : please, update your UML model asap.
+        </description>
+        <dataType abstract="true">
+            <vodml-id>coordsystem.SpaceRefPosition</vodml-id>
+            <name>SpaceRefPosition</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+        </dataType>
+
+        <dataType>
+            <vodml-id>coordsystem.StdSpaceRefPos</vodml-id>
+            <name>StdSpaceRefPos</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:coordsystem.SpaceRefPosition</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>coordsystem.StdSpaceRefPos.location</vodml-id>
+                <name>location</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.StdRefPosition</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </dataType>
+
+        <dataType>
+            <vodml-id>coordsystem.CustomSpaceRefPos</vodml-id>
+            <name>CustomSpaceRefPos</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:coordsystem.SpaceRefPosition</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>coordsystem.CustomSpaceRefPos.location</vodml-id>
+                <name>location</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:coords.Position</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </dataType>
+
+        <objectType>
+            <vodml-id>coordsystem.PolarizationFrame</vodml-id>
+            <name>PolarizationFrame</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:coordsystem.CoordFrame</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>coordsystem.PolarizationFrame.polType</vodml-id>
+                <name>polType</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.PolarizationType</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </objectType>
+
+        <objectType>
+            <vodml-id>coordsystem.SpectralFrame</vodml-id>
+            <name>SpectralFrame</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:coordsystem.SpectralLikeFrame</vodml-ref>
+            </extends>
+        </objectType>
+
+        <objectType>
+            <vodml-id>coordsystem.CoordSys</vodml-id>
+            <name>CoordSys</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <reference>
+                <vodml-id>coordsystem.CoordSys.genericFrame</vodml-id>
+                <name>genericFrame</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:coordsystem.GenericFrame</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>-1</maxOccurs>
+                </multiplicity>
+            </reference>
+        </objectType>
+
+        <objectType>
+            <vodml-id>coordsystem.SpaceFrame</vodml-id>
+            <name>SpaceFrame</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:coordsystem.CoordFrame</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>coordsystem.SpaceFrame.spaceRefFrame</vodml-id>
+                <name>spaceRefFrame</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.StdSpaceRefFrame</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>coordsystem.SpaceFrame.refPosition</vodml-id>
+                <name>refPosition</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:coordsystem.SpaceRefPosition</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>coordsystem.SpaceFrame.equinox</vodml-id>
+                <name>equinox</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.Epoch</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>coordsystem.SpaceFrame.flavor</vodml-id>
+                <name>flavor</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.CoordFlavor</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </objectType>
+
+        <objectType>
+            <vodml-id>coordsystem.RedshiftFrame</vodml-id>
+            <name>RedshiftFrame</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:coordsystem.SpectralLikeFrame</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>coordsystem.RedshiftFrame.dopplerDefinition</vodml-id>
+                <name>dopplerDefinition</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.DopplerDefinition</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </objectType>
+
+        <objectType>
+            <vodml-id>coordsystem.GenericFrame</vodml-id>
+            <name>GenericFrame</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:coordsystem.CoordFrame</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>coordsystem.GenericFrame.handedness</vodml-id>
+                <name>handedness</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.Handedness</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>coordsystem.GenericFrame.naxes</vodml-id>
+                <name>naxes</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:nonnegativeInteger</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>coordsystem.GenericFrame.flavor</vodml-id>
+                <name>flavor</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.CoordFlavor</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </objectType>
+
+        <objectType abstract="true">
+            <vodml-id>coordsystem.SpectralLikeFrame</vodml-id>
+            <name>SpectralLikeFrame</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:coordsystem.CoordFrame</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>coordsystem.SpectralLikeFrame.refPosition</vodml-id>
+                <name>refPosition</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.StdRefPosition</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </objectType>
+
+        <objectType>
+            <vodml-id>coordsystem.AstroCoordSystem</vodml-id>
+            <name>AstroCoordSystem</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:coordsystem.CoordSys</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>coordsystem.AstroCoordSystem.planetaryEphemeris</vodml-id>
+                <name>planetaryEphemeris</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:string</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <reference>
+                <vodml-id>coordsystem.AstroCoordSystem.spaceFrame</vodml-id>
+                <name>spaceFrame</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:coordsystem.SpaceFrame</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </reference>
+            <reference>
+                <vodml-id>coordsystem.AstroCoordSystem.timeFrame</vodml-id>
+                <name>timeFrame</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:coordsystem.TimeFrame</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </reference>
+            <reference>
+                <vodml-id>coordsystem.AstroCoordSystem.spectralFrame</vodml-id>
+                <name>spectralFrame</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:coordsystem.SpectralFrame</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </reference>
+            <reference>
+                <vodml-id>coordsystem.AstroCoordSystem.redshiftFrame</vodml-id>
+                <name>redshiftFrame</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:coordsystem.RedshiftFrame</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </reference>
+            <reference>
+                <vodml-id>coordsystem.AstroCoordSystem.polarizationFrame</vodml-id>
+                <name>polarizationFrame</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:coordsystem.PolarizationFrame</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </reference>
+        </objectType>
+
+        <objectType>
+            <vodml-id>coordsystem.TimeFrame</vodml-id>
+            <name>TimeFrame</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>stc:coordsystem.CoordFrame</vodml-ref>
+            </extends>
+            <attribute>
+                <vodml-id>coordsystem.TimeFrame.timeScale</vodml-id>
+                <name>timeScale</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.TimeScale</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>coordsystem.TimeFrame.refPosition</vodml-id>
+                <name>refPosition</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:coordsystem.SpaceRefPosition</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>coordsystem.TimeFrame.refDirection</vodml-id>
+                <name>refDirection</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:coords.Position</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>coordsystem.TimeFrame.time0</vodml-id>
+                <name>time0</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:stctypes.TimeStamp</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+        </objectType>
+
+        <objectType abstract="true">
+            <vodml-id>coordsystem.CoordFrame</vodml-id>
+            <name>CoordFrame</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <collection>
+                <vodml-id>coordsystem.CoordFrame.mapping</vodml-id>
+                <name>mapping</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>stc:frametransforms.FrameTransform</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>-1</maxOccurs>
+                </multiplicity>
+            </collection>
+        </objectType>
+
+    </package>
+
+</vo-dml:model>

@@ -1,0 +1,168 @@
+import cfa.vo.vodml.io.VodmlReader
+
+def reader = new VodmlReader()
+dsSpec = reader.read(new URL("$resources/DatasetMetadata-1.0.vo-dml.xml").openStream())
+ivoaSpec = reader.read(new URL("$resources/ivoa.vo-dml.xml").openStream())
+charSpec = reader.read(new URL("$resources/char.vo-dml.xml").openStream())
+stcSpec = reader.read(new URL("$resources/stc2.vo-dml.xml").openStream())
+
+votable {
+    model(spec: dsSpec, vodmlURL: "$resources/DatasetMetadata-1.0.vo-dml.xml")
+    model(spec: stcSpec, vodmlURL: "$resources/stc2.vo-dml.xml")
+    model(spec: charSpec, vodmlURL: "$resources/char.vo-dml.xml")
+    model(spec: ivoaSpec, vodmlURL: "$resources/ivoa.vo-dml.xml")
+    instance(type: "ds:experiment.Observation") {
+        literal(role: "observationID", value: "obsid.2015.73")
+        composition(role: "target") {
+            instance(type: "ds:experiment.AstroTarget") {
+                literal(role: "name", value: "3C273")
+                literal(role: "description", value: "A Quasar")
+                attribute(role: "position") {
+                    instance(role: "coord", type: "stc:stctypes.RealDoublet") {
+                        literal(role: "d1", value: 187.2792)
+                        literal(role: "d2", value: 2.0525)
+                    }
+                }
+                literal(role: "objectClass", value: "BLAZAR")
+                literal(role: "spectralClass", value: "Sy1")
+                literal(role: "redshift", value: 0.158)
+                literal(role: "varAmpl", value: Double.NaN)
+            }
+        }
+        composition(role: "obsConfig") {
+            instance(type: "ds:experiment.ObsConfig") {
+                literal(role: "bandpass", value: "optical")
+                literal(role: "datasource", value: "survey")
+                composition(role: "instrument") {
+                    instance(type: "ds:experiment.Instrument") {
+                        literal(role: "name", value: "ACIS")
+                    }
+                }
+                composition(role: "facility") {
+                    instance(type: "ds:experiment.Facility") {
+                        reference(role: "party", value: "ACME")
+                    }
+                }
+            }
+        }
+        composition(role: "proposal") {
+            instance(type: "ds:experiment.Proposal") {
+                literal(role: "identifier", value: "PROPOSAL/756/2014.06")
+            }
+        }
+        composition(role: "result") {
+            instance(type: "ds:experiment.ObsDataset") {
+                literal(role: "dataProductType", value: "ds:dataset.DataProductType.CUBE")
+                literal(role: "dataProductSubtype", value: "MySubtype")
+                literal(role: "calibLevel", value: 0)
+                composition(role: "characterisation") {
+                    instance(type: "ds:experiment.Characterisation")
+                }
+                composition(role: "derived") {
+                    instance(type: "ds:experiment.Derived") {
+                        composition(role: "derivedElement") {
+                            instance(type: "ds:experiment.DerivedScalar") {
+                                literal(role: "name", value: "SNR")
+                                literal(role: "value", value: 1.25)
+                            }
+                        }
+                    }
+                }
+                composition(role: "dataID") {
+                    instance(type: "ds:dataset.DataID") {
+                        literal(role: "title", value: "datasetTitle")
+                        literal(role: "datasetID", value: "ivo://some/uri")
+                        literal(role: "creatorDID", value: "me://some/other/uri")
+                        literal(role: "version", value: "DR3")
+                        literal(role: "date", value: "20160422T11:55:30")
+                        literal(role: "creationType", value: "ds:dataset.CreationType.ARCHIVAL")
+                        composition(role: "collection") {
+                            instance(type: "ds:dataset.Collection") {
+                                literal(role: "name", value: "Data Release 3")
+                            }
+                        }
+                        composition(role: "contributor") {
+                            instance(type: "ds:dataset.Contributor") {
+                                literal(role: "acknowledgment", value: "Project Manager")
+                                reference(role: "party", value: "BILL")
+                            }
+                            instance(type: "ds:dataset.Contributor") {
+                                literal(role: "acknowledgment", value: "Bought the donuts!")
+                                reference(role: "party", value: "TOM")
+                            }
+                        }
+                        composition(role: "creator") {
+                            instance(type: "ds:dataset.Creator") {
+                                reference(role: "party", value: "ACME")
+                            }
+                        }
+                    }
+                }
+                composition(role: "curation") {
+                    instance(type: "ds:dataset.Curation") {
+                        literal(role: "publisherDID", value: "me://some/other/uri")
+                        literal(role: "version", value: "DR3")
+                        literal(role: "releaseDate", value: "20160422T11:55:30")
+                        literal(role: "rights", value: "ds:dataset.RightsType.PUBLIC")
+                        composition(role: "contact") {
+                            instance(type: "ds:dataset.Contact") {
+                                reference(role: "party", value: "BILL")
+                            }
+                        }
+                        composition(role: "publisher") {
+                            instance(type: "ds:dataset.Publisher") {
+                                literal(role: "publisherID", value: "ivo://acme.org")
+                                reference(role: "party", value: "ACME")
+                            }
+                        }
+                        composition(role: "reference") {
+                            instance(type: "ds:dataset.Publication") {
+                                literal(role: "refCode", value: "ApJ12345")
+                            }
+                            instance(type: "ds:dataset.Publication") {
+                                literal(role: "refCode", value: "ApJ6789")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    instance(id: "ACME", type: "ds:party.Organization") {
+        literal(role: "name", value: "ACME edu")
+        literal(role: "address", value: "565 N Clinton Drive, Milwaukee, WI")
+        literal(role: "phone", value: "555-012-3456")
+        literal(role: "email", value: "helpdesk@acme.org")
+        literal(role: "logo", value: "http://acme.org/stunning.png")
+    }
+    instance(id: "BILL", type: "ds:party.Individual") {
+        literal(role: "name", value: "William E. Coyote")
+        literal(role: "address", value: "565 N Clinton Drive, Milwaukee, WI")
+        literal(role: "phone", value: "555-654-3210")
+        literal(role: "email", value: "bill@acme.org")
+    }
+    instance(id: "TOM", type: "ds:party.Individual") {
+        literal(role: "name", value: "Tom Ray")
+        literal(role: "address", value: "565 N Clinton Drive, Milwaukee, WI")
+        literal(role: "phone", value: "555-999-5555")
+        literal(role: "email", value: "bill@acme.org")
+    }
+    instance(id: "COORDSYS", type: "stc:coordsystem.AstroCoordSystem") {}
+
+    table() {
+        instance(type: "ds:experiment.Observation") {
+            column(role: "observationID", value: "OBSID")
+            composition(role: "obsConfig") {
+                instance() {
+                    column(role: "bandpass", value: "BANDPASS")
+                    column(role: "datasource", value: "DATASOURCE")
+                    composition(role: "facility") {
+                        instance() {
+                            reference(role: "party", value: "ACME")
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
