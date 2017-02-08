@@ -1,4 +1,3 @@
-
 <?xml version="1.0" encoding="UTF-8"?>
 <vo-dml:model xmlns:vo-dml="http://www.ivoa.net/xml/VODML/v1.0"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -182,7 +181,7 @@
                 <maxOccurs>1</maxOccurs>
             </multiplicity>
         </attribute>
-        <collection>
+        <composition>
             <vodml-id>MagnitudeSystem.source</vodml-id>
             <name>source</name>
             <description>
@@ -195,7 +194,7 @@
                 <minOccurs>0</minOccurs>
                 <maxOccurs>-1</maxOccurs>
             </multiplicity>
-        </collection>
+        </composition>
     </objectType>
 
     <objectType>
@@ -204,7 +203,7 @@
         <description>
             TODO : Missing description : please, update your UML model asap.
         </description>
-        <collection>
+        <composition>
             <vodml-id>PhotCal.zeroPoint</vodml-id>
             <name>zeroPoint</name>
             <description>
@@ -217,8 +216,8 @@
                 <minOccurs>1</minOccurs>
                 <maxOccurs>1</maxOccurs>
             </multiplicity>
-        </collection>
-        <collection>
+        </composition>
+        <composition>
             <vodml-id>PhotCal.magnitudeSystem</vodml-id>
             <name>magnitudeSystem</name>
             <description>
@@ -231,7 +230,7 @@
                 <minOccurs>1</minOccurs>
                 <maxOccurs>1</maxOccurs>
             </multiplicity>
-        </collection>
+        </composition>
         <reference>
             <vodml-id>PhotCal.photometryFilter</vodml-id>
             <name>photometryFilter</name>
@@ -278,7 +277,7 @@
                 <maxOccurs>1</maxOccurs>
             </multiplicity>
         </attribute>
-        <collection>
+        <composition>
             <vodml-id>PhotometricSystem.photometryFilter</vodml-id>
             <name>photometryFilter</name>
             <description>
@@ -291,7 +290,7 @@
                 <minOccurs>1</minOccurs>
                 <maxOccurs>-1</maxOccurs>
             </multiplicity>
-        </collection>
+        </composition>
     </objectType>
 
     <objectType>
@@ -421,7 +420,7 @@
                 <maxOccurs>1</maxOccurs>
             </multiplicity>
         </attribute>
-        <collection>
+        <composition>
             <vodml-id>PhotometryFilter.transmissionPoint</vodml-id>
             <name>transmissionPoint</name>
             <description>
@@ -434,8 +433,8 @@
                 <minOccurs>0</minOccurs>
                 <maxOccurs>-1</maxOccurs>
             </multiplicity>
-        </collection>
-        <collection>
+        </composition>
+        <composition>
             <vodml-id>PhotometryFilter.access</vodml-id>
             <name>access</name>
             <description>
@@ -448,7 +447,7 @@
                 <minOccurs>0</minOccurs>
                 <maxOccurs>1</maxOccurs>
             </multiplicity>
-        </collection>
+        </composition>
     </objectType>
 
     <objectType>
