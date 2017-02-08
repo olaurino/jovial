@@ -89,8 +89,8 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
                     REFERENCE(dmrole: it.role, it.value)
                 }
                 if (objectInstance.hasProperty("compositions")) {
-                    objectInstance.collections.each {
-                        out << buildCollection(it, builder)
+                    objectInstance.compositions.each {
+                        out << buildComposition(it, builder)
                     }
                 }
                 objectInstance.columns.each { column ->
@@ -116,10 +116,10 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
         wrapper()
     }
 
-    void buildCollection(CompositionInstance collectionInstance, builder) {
+    void buildComposition(CompositionInstance compositionInstance, builder) {
         def elem = {
-            COMPOSITION(dmrole:collectionInstance.role.toString()) {
-                for (instance in collectionInstance.objectTypes) {
+            COMPOSITION(dmrole:compositionInstance.role.toString()) {
+                for (instance in compositionInstance.objectTypes) {
                     out << buildObject(instance, builder, false)
                 }
             }
