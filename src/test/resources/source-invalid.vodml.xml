@@ -544,7 +544,7 @@
                     <maxOccurs>1</maxOccurs>
                 </multiplicity>
             </attribute>
-            <collection>
+            <composition>
                 <vodml-id>source.Source.luminosity</vodml-id>
                 <name>luminosity</name>
                 <description>
@@ -557,7 +557,7 @@
                     <minOccurs>0</minOccurs>
                     <maxOccurs>-1</maxOccurs>
                 </multiplicity>
-            </collection>
+            </composition>
         </objectType>
 
         <objectType>

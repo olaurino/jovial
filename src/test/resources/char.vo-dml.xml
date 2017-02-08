@@ -1,722 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<vo-dml:model xmlns:vo-dml="http://volute.googlecode.com/dm/vo-dml/v0.9"
-              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:schemaLocation="http://volute.googlecode.com/dm/vo-dml/v0.9 https://volute.googlecode.com/svn/trunk/projects/dm/vo-dml/xsd/vo-dml.xsd">
-    <vodml-id>char</vodml-id>
-    <name>Characterization Data Model ala VO-URP</name>
+<vo-dml:model xmlns:vo-dml="http://www.ivoa.net/xml/VODML/v1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ivoa.net/xml/VODML/v1.0 http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/xsd/vo-dml-v1.0.xsd">
+    <name>char</name>
     <description>This is the data model for describing teh Characterization of observational data sets in the IVOA.</description>
-    <objectType abstract="true">
-        <vodml-id>CharCoordinateType</vodml-id>
-        <name>CharCoordinateType</name>
-        <description>A coordinate type to define n-D bounding boxes. To be overridden by any of the following possible substitution elements.</description>
-        <attribute>
-            <vodml-id>CharCoordinateType.Name</vodml-id>
-            <name>Name</name>
-            <description>
-                TODO : Missing description : please, update your UML model asap.
-            </description>
-            <datatype>
-                <utype>ivoa:string</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>1</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </attribute>
-    </objectType>
+    <title>Characterization Data Model ala VO-URP</title>
+    <version>0.5</version>
+    <lastModified>2018-02-08T10:37:35</lastModified>
+    <import>
+        <name>stc</name>
+        <url>http://volute.googlecode.com/svn/trunk/projects/dm/vo-dml/models/stc/STC.vo-dml.xml</url>
+        <documentationURL>http://volute.googlecode.com/svn/trunk/projects/dm/vo-dml/models/stc/STC.html</documentationURL>
+    </import>
+    <import>
+        <name>ivoa</name>
+        <url>https://volute.googlecode.com/svn/trunk/projects/dm/vo-dml/models/ivoa/IVOA.vo-dml.xml</url>
+        <documentationURL>http://volute.googlecode.com/svn/trunk/projects/dm/vo-dml/models/ivoa/IVOA.html</documentationURL>
+    </import>
 
-    <objectType>
-        <vodml-id>ResolutionType</vodml-id>
-        <name>ResolutionType</name>
+    <enumeration>
+        <vodml-id>CalibrationStatus</vodml-id>
+        <name>CalibrationStatus</name>
         <description>
             TODO : Missing description : please, update your UML model asap.
         </description>
-        <attribute>
-            <vodml-id>ResolutionType.unit</vodml-id>
-            <name>unit</name>
+        <literal>
+            <vodml-id>CalibrationStatus.CALIBRATED</vodml-id>
+            <name>CALIBRATED</name>
             <description>
                 TODO : Missing description : please, update your UML model asap.
             </description>
-            <datatype>
-                <utype>ivoa:string</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>0</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </attribute>
-        <attribute>
-            <vodml-id>ResolutionType.resolutionRefVal</vodml-id>
-            <name>resolutionRefVal</name>
+        </literal>
+        <literal>
+            <vodml-id>CalibrationStatus.UNCALIBRATED</vodml-id>
+            <name>UNCALIBRATED</name>
             <description>
                 TODO : Missing description : please, update your UML model asap.
             </description>
-            <datatype>
-                <utype>char:ResolutionRefValType</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>1</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </attribute>
-        <attribute>
-            <vodml-id>ResolutionType.resolutionBounds</vodml-id>
-            <name>resolutionBounds</name>
+        </literal>
+        <literal>
+            <vodml-id>CalibrationStatus.RELATIVE</vodml-id>
+            <name>RELATIVE</name>
             <description>
                 TODO : Missing description : please, update your UML model asap.
             </description>
-            <datatype>
-                <utype>char:ResolutionBoundsType</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>0</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </attribute>
-        <attribute>
-            <vodml-id>ResolutionType.resolutionSupport</vodml-id>
-            <name>resolutionSupport</name>
+        </literal>
+        <literal>
+            <vodml-id>CalibrationStatus.NORMALIZED</vodml-id>
+            <name>NORMALIZED</name>
             <description>
                 TODO : Missing description : please, update your UML model asap.
             </description>
-            <datatype>
-                <utype>char:ResolutionSupportType</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>0</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </attribute>
-        <attribute>
-            <vodml-id>ResolutionType.resolutionVariability</vodml-id>
-            <name>resolutionVariability</name>
-            <description>
-                TODO : Missing description : please, update your UML model asap.
-            </description>
-            <datatype>
-                <utype>char:ResolutionVariabilityType</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>0</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </attribute>
-        <reference>
-            <vodml-id>ResolutionType.coordSystem</vodml-id>
-            <name>coordSystem</name>
-            <description>
-                TODO : Missing description : please, update your UML model asap.
-            </description>
-            <datatype>
-                <utype>stc:astroCoordSystemType</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>0</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </reference>
-    </objectType>
-
-    <objectType>
-        <vodml-id>ComponentAxis</vodml-id>
-        <name>ComponentAxis</name>
-        <description>INtrouced tom model aggregation of 1D axes to build a custom composite axis type.</description>
-        <reference>
-            <vodml-id>ComponentAxis.axis</vodml-id>
-            <name>axis</name>
-            <description>
-                TODO : Missing description : please, update your UML model asap.
-            </description>
-            <datatype>
-                <utype>char:Custom1DCharacterisationAxis</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>1</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </reference>
-    </objectType>
-
-    <objectType>
-        <vodml-id>SamplingPrecisionType</vodml-id>
-        <name>SamplingPrecisionType</name>
-        <description>
-            TODO : Missing description : please, update your UML model asap.
-        </description>
-        <attribute>
-            <vodml-id>SamplingPrecisionType.unit</vodml-id>
-            <name>unit</name>
-            <description>
-                TODO : Missing description : please, update your UML model asap.
-            </description>
-            <datatype>
-                <utype>ivoa:string</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>0</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </attribute>
-        <attribute>
-            <vodml-id>SamplingPrecisionType.samplingPrecisionRefVal</vodml-id>
-            <name>samplingPrecisionRefVal</name>
-            <description>
-                TODO : Missing description : please, update your UML model asap.
-            </description>
-            <datatype>
-                <utype>char:SamplingPrecisionRefValType</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>1</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </attribute>
-        <attribute>
-            <vodml-id>SamplingPrecisionType.samplingPrecisionBounds</vodml-id>
-            <name>samplingPrecisionBounds</name>
-            <description>
-                TODO : Missing description : please, update your UML model asap.
-            </description>
-            <datatype>
-                <utype>char:SamplingPrecisionBoundsType</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>0</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </attribute>
-        <attribute>
-            <vodml-id>SamplingPrecisionType.samplingPrecisionSupport</vodml-id>
-            <name>samplingPrecisionSupport</name>
-            <description>
-                TODO : Missing description : please, update your UML model asap.
-            </description>
-            <datatype>
-                <utype>char:SamplingPrecisionSupportType</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>0</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </attribute>
-        <attribute>
-            <vodml-id>SamplingPrecisionType.samplingPrecisionVariability</vodml-id>
-            <name>samplingPrecisionVariability</name>
-            <description>
-                TODO : Missing description : please, update your UML model asap.
-            </description>
-            <datatype>
-                <utype>char:SamplingPrecisionVariability</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>0</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </attribute>
-        <reference>
-            <vodml-id>SamplingPrecisionType.coordSystem</vodml-id>
-            <name>coordSystem</name>
-            <description>
-                TODO : Missing description : please, update your UML model asap.
-            </description>
-            <datatype>
-                <utype>stc:astroCoordSystemType</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>0</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </reference>
-    </objectType>
-
-    <objectType>
-        <vodml-id>CoverageType</vodml-id>
-        <name>CoverageType</name>
-        <description>How the observation is spanned along this axis</description>
-        <attribute>
-            <vodml-id>CoverageType.unit</vodml-id>
-            <name>unit</name>
-            <description>
-                TODO : Missing description : please, update your UML model asap.
-            </description>
-            <datatype>
-                <utype>ivoa:string</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>0</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </attribute>
-        <attribute>
-            <vodml-id>CoverageType.location</vodml-id>
-            <name>location</name>
-            <description>Typical value on one axis</description>
-            <datatype>
-                <utype>char:LocationType</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>1</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </attribute>
-        <attribute>
-            <vodml-id>CoverageType.bounds</vodml-id>
-            <name>bounds</name>
-            <description>the limits of the observation on this axis</description>
-            <datatype>
-                <utype>char:BoundsType</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>0</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </attribute>
-        <attribute>
-            <vodml-id>CoverageType.support</vodml-id>
-            <name>support</name>
-            <description>describes the area where measurements are effectively present and interpretable </description>
-            <datatype>
-                <utype>char:SupportType</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>0</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </attribute>
-        <attribute>
-            <vodml-id>CoverageType.sensitivity</vodml-id>
-            <name>sensitivity</name>
-            <description>encodes the variability of response along the axis </description>
-            <datatype>
-                <utype>char:SensitivityType</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>0</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </attribute>
-        <reference>
-            <vodml-id>CoverageType.coordsystem</vodml-id>
-            <name>coordsystem</name>
-            <description>redefinition of coordsystem</description>
-            <datatype>
-                <utype>stc:astroCoordSystemType</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>0</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </reference>
-    </objectType>
-
-    <objectType>
-        <vodml-id>AccuracyType</vodml-id>
-        <name>AccuracyType</name>
-        <description>
-            TODO : Missing description : please, update your UML model asap.
-        </description>
-        <attribute>
-            <vodml-id>AccuracyType.quality</vodml-id>
-            <name>quality</name>
-            <description>A combination of flags attesting the data quality. Type: String</description>
-            <datatype>
-                <utype>ivoa:string</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>0</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </attribute>
-        <attribute>
-            <vodml-id>AccuracyType.statError</vodml-id>
-            <name>statError</name>
-            <description>
-                TODO : Missing description : please, update your UML model asap.
-            </description>
-            <datatype>
-                <utype>char:StatErrorType</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>0</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </attribute>
-        <attribute>
-            <vodml-id>AccuracyType.sysError</vodml-id>
-            <name>sysError</name>
-            <description>
-                TODO : Missing description : please, update your UML model asap.
-            </description>
-            <datatype>
-                <utype>char:SysErrorType</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>0</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </attribute>
-        <attribute>
-            <vodml-id>AccuracyType.CustError</vodml-id>
-            <name>CustError</name>
-            <description>
-                TODO : Missing description : please, update your UML model asap.
-            </description>
-            <datatype>
-                <utype>char:ErrorType</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>0</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </attribute>
-    </objectType>
-
-    <objectType>
-        <vodml-id>TimeAxis</vodml-id>
-        <name>TimeAxisType</name>
-        <description>
-            TODO : Missing description : please, update your UML model asap.
-        </description>
-        <extends>
-            <utype>char:ChAxis</utype>
-        </extends>
-        <attribute>
-            <vodml-id>TimeAxis.numbins</vodml-id>
-            <name>numbins</name>
-            <description>
-                TODO : Missing description : please, update your UML model asap.
-            </description>
-            <datatype>
-                <utype>ivoa:nonnegativeInteger</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>1</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </attribute>
-    </objectType>
-
-    <objectType>
-        <vodml-id>Custom1DCharacterisationAxis</vodml-id>
-        <name>Custom1DCharacterisationAxis</name>
-        <description>Introduced to model custom 1D axes.</description>
-        <extends>
-            <utype>char:ChAxis</utype>
-        </extends>
-        <attribute>
-            <vodml-id>Custom1DCharacterisationAxis.numBins</vodml-id>
-            <name>numBins</name>
-            <description>
-                TODO : Missing description : please, update your UML model asap.
-            </description>
-            <datatype>
-                <utype>ivoa:nonnegativeInteger</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>1</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </attribute>
-    </objectType>
-
-    <objectType>
-        <vodml-id>SpatialAxis</vodml-id>
-        <name>SpatialAxisType</name>
-        <description>
-            TODO : Missing description : please, update your UML model asap.
-        </description>
-        <extends>
-            <utype>char:ChAxis</utype>
-        </extends>
-        <attribute>
-            <vodml-id>SpatialAxis.numbins1</vodml-id>
-            <name>numbins1</name>
-            <description>
-                TODO : Missing description : please, update your UML model asap.
-            </description>
-            <datatype>
-                <utype>ivoa:nonnegativeInteger</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>1</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </attribute>
-        <attribute>
-            <vodml-id>SpatialAxis.numbins2</vodml-id>
-            <name>numbins2</name>
-            <description>
-                TODO : Missing description : please, update your UML model asap.
-            </description>
-            <datatype>
-                <utype>ivoa:nonnegativeInteger</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>1</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </attribute>
-    </objectType>
-
-    <objectType abstract="true">
-        <vodml-id>ChAxis</vodml-id>
-        <name>CharacterisationAxisType</name>
-        <description>describes an axis and its properties </description>
-        <attribute>
-            <vodml-id>ChAxis.AxisName</vodml-id>
-            <name>axisName</name>
-            <description>A name representing the physical nature of the axis like Spatial, Spectral, Time, Velocity or any other free name for an axis</description>
-            <datatype>
-                <utype>ivoa:string</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>1</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </attribute>
-        <attribute>
-            <vodml-id>ChAxis.ucd</vodml-id>
-            <name>ucd</name>
-            <description>The physical meaning of the axis, Type: standard semantic tag defined in the UCD list.</description>
-            <datatype>
-                <utype>ivoa:string</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>0</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </attribute>
-        <attribute>
-            <vodml-id>ChAxis.unit</vodml-id>
-            <name>unit</name>
-            <description>default unit for the axis: Type: controlled unit vocabulary following the VOTable units definitions </description>
-            <datatype>
-                <utype>ivoa:string</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>1</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </attribute>
-        <attribute>
-            <vodml-id>ChAxis.independentAxisType</vodml-id>
-            <name>independentAxisType</name>
-            <description>Indicates wether the axis is independent or not from the other axes. The Observable axis has a false independentAxis "value" Type : boolean</description>
-            <datatype>
-                <utype>ivoa:boolean</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>0</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </attribute>
-        <attribute>
-            <vodml-id>ChAxis.CalibStatus</vodml-id>
-            <name>calibrationStatus</name>
-            <description>defines if and how the axis is calibrated: Possible String values: CALIBRATED, UNCALIBRATED, RELATIVE, NORMALIZED </description>
-            <datatype>
-                <utype>char:CalibrationStatus</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>1</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </attribute>
-        <attribute>
-            <vodml-id>ChAxis.undersamplingStatus</vodml-id>
-            <name>undersamplingStatus</name>
-            <description>A flag to mention wether the data are undersampled. Type: boolean</description>
-            <datatype>
-                <utype>ivoa:boolean</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>0</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </attribute>
-        <attribute>
-            <vodml-id>ChAxis.regularsamplingStatus</vodml-id>
-            <name>regularsamplingStatus</name>
-            <description>A flag to mention wether the data are regularly sampled. Type : boolean </description>
-            <datatype>
-                <utype>ivoa:boolean</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>0</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </attribute>
-        <collection>
-            <vodml-id>ChAxis.accuracy</vodml-id>
-            <name>accuracy</name>
-            <description>Global accuracy description of the axis</description>
-            <datatype>
-                <utype>char:AccuracyType</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>0</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </collection>
-        <collection>
-            <vodml-id>ChAxis.coverage</vodml-id>
-            <name>coverage</name>
-            <description>
-                TODO : Missing description : please, update your UML model asap.
-            </description>
-            <datatype>
-                <utype>char:CoverageType</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>1</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </collection>
-        <collection>
-            <vodml-id>ChAxis.resolution</vodml-id>
-            <name>resolution</name>
-            <description>
-                TODO : Missing description : please, update your UML model asap.
-            </description>
-            <datatype>
-                <utype>char:ResolutionType</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>0</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </collection>
-        <collection>
-            <vodml-id>ChAxis.samplingPrecision</vodml-id>
-            <name>samplingPrecision</name>
-            <description>
-                TODO : Missing description : please, update your UML model asap.
-            </description>
-            <datatype>
-                <utype>char:SamplingPrecisionType</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>0</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </collection>
-        <reference>
-            <vodml-id>ChAxis.coordsystem</vodml-id>
-            <name>coordsystem</name>
-            <description>Reference coordinate system for the axis</description>
-            <datatype>
-                <utype>stc:astroCoordSystemType</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>1</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </reference>
-        <reference>
-            <vodml-id>ChAxis.ObsyLoc</vodml-id>
-            <name>ObsyLoc</name>
-            <description>Observatory location Type: a STC:observatoryLocationType or an xlink</description>
-            <datatype>
-                <utype>stc:observatoryLocationType</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>0</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </reference>
-    </objectType>
-
-    <objectType abstract="true">
-        <vodml-id>Char</vodml-id>
-        <name>CharacterisationType</name>
-        <description>
-            TODO : Missing description : please, update your UML model asap.
-        </description>
-        <collection>
-            <vodml-id>Char.characterisationAxis</vodml-id>
-            <name>characterisationAxis</name>
-            <description>
-                TODO : Missing description : please, update your UML model asap.
-            </description>
-            <datatype>
-                <utype>char:ChAxis</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>1</minOccurs>
-                <maxOccurs>-1</maxOccurs>
-            </multiplicity>
-        </collection>
-    </objectType>
-
-    <objectType>
-        <vodml-id>CompositeCharacterisationAxis</vodml-id>
-        <name>CompositeCharacterisationAxis</name>
-        <description>INtroduced to model composite axes.</description>
-        <extends>
-            <utype>char:ChAxis</utype>
-        </extends>
-        <attribute>
-            <vodml-id>CompositeCharacterisationAxis.dim</vodml-id>
-            <name>dim</name>
-            <description>
-                TODO : Missing description : please, update your UML model asap.
-            </description>
-            <datatype>
-                <utype>ivoa:nonnegativeInteger</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>1</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </attribute>
-        <collection>
-            <vodml-id>CompositeCharacterisationAxis.childAxis</vodml-id>
-            <name>childAxis</name>
-            <description>
-                TODO : Missing description : please, update your UML model asap.
-            </description>
-            <datatype>
-                <utype>char:ComponentAxis</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>1</minOccurs>
-                <maxOccurs>-1</maxOccurs>
-            </multiplicity>
-        </collection>
-    </objectType>
-
-    <objectType>
-        <vodml-id>CharCoordAreaType</vodml-id>
-        <name>CharCoordAreaType</name>
-        <description>
-            TODO : Missing description : please, update your UML model asap.
-        </description>
-    </objectType>
-
-    <objectType>
-        <vodml-id>SpectralAxis</vodml-id>
-        <name>SpectralAxisType</name>
-        <description>
-            TODO : Missing description : please, update your UML model asap.
-        </description>
-        <extends>
-            <utype>char:ChAxis</utype>
-        </extends>
-        <attribute>
-            <vodml-id>SpectralAxis.numbins</vodml-id>
-            <name>numbins</name>
-            <description>
-                TODO : Missing description : please, update your UML model asap.
-            </description>
-            <datatype>
-                <utype>ivoa:nonnegativeInteger</utype>
-            </datatype>
-            <multiplicity>
-                <minOccurs>1</minOccurs>
-                <maxOccurs>1</maxOccurs>
-            </multiplicity>
-        </attribute>
-    </objectType>
+        </literal>
+    </enumeration>
 
     <dataType>
         <vodml-id>ResolutionSupportType</vodml-id>
@@ -745,7 +79,7 @@
                 TODO : Missing description : please, update your UML model asap.
             </description>
             <datatype>
-                <utype>ivoa:string</utype>
+                <vodml-ref>ivoa:string</vodml-ref>
             </datatype>
             <multiplicity>
                 <minOccurs>0</minOccurs>
@@ -759,7 +93,7 @@
                 TODO : Missing description : please, update your UML model asap.
             </description>
             <datatype>
-                <utype>stc:double1Type</utype>
+                <vodml-ref>stc:double1Type</vodml-ref>
             </datatype>
             <multiplicity>
                 <minOccurs>1</minOccurs>
@@ -773,7 +107,7 @@
                 TODO : Missing description : please, update your UML model asap.
             </description>
             <datatype>
-                <utype>ivoa:string</utype>
+                <vodml-ref>ivoa:string</vodml-ref>
             </datatype>
             <multiplicity>
                 <minOccurs>0</minOccurs>
@@ -787,7 +121,7 @@
                 TODO : Missing description : please, update your UML model asap.
             </description>
             <datatype>
-                <utype>stc:astroCoordSystemType</utype>
+                <vodml-ref>stc:astroCoordSystemType</vodml-ref>
             </datatype>
             <multiplicity>
                 <minOccurs>0</minOccurs>
@@ -825,7 +159,7 @@
                 TODO : Missing description : please, update your UML model asap.
             </description>
             <datatype>
-                <utype>stc:astroCoordsType</utype>
+                <vodml-ref>stc:astroCoordsType</vodml-ref>
             </datatype>
             <multiplicity>
                 <minOccurs>0</minOccurs>
@@ -837,7 +171,7 @@
             <name>unit</name>
             <description>redefinition of unit</description>
             <datatype>
-                <utype>ivoa:string</utype>
+                <vodml-ref>ivoa:string</vodml-ref>
             </datatype>
             <multiplicity>
                 <minOccurs>0</minOccurs>
@@ -851,22 +185,19 @@
                 TODO : Missing description : please, update your UML model asap.
             </description>
             <datatype>
-                <utype>ivoa:string</utype>
+                <vodml-ref>ivoa:string</vodml-ref>
             </datatype>
             <multiplicity>
                 <minOccurs>0</minOccurs>
                 <maxOccurs>1</maxOccurs>
             </multiplicity>
-            <constraints>
-                <maxLength>-1</maxLength>
-            </constraints>
         </attribute>
         <reference>
             <vodml-id>LocationType.coordSystem</vodml-id>
             <name>coordSystem</name>
             <description>Redefinition of coordsystem</description>
             <datatype>
-                <utype>stc:astroCoordSystemType</utype>
+                <vodml-ref>stc:astroCoordSystemType</vodml-ref>
             </datatype>
             <multiplicity>
                 <minOccurs>0</minOccurs>
@@ -906,7 +237,7 @@
             TODO : Missing description : please, update your UML model asap.
         </description>
         <extends>
-            <utype>char:ErrorType</utype>
+            <vodml-ref>char:ErrorType</vodml-ref>
         </extends>
         <attribute>
             <vodml-id>CustomError.flavor</vodml-id>
@@ -915,7 +246,7 @@
                 TODO : Missing description : please, update your UML model asap.
             </description>
             <datatype>
-                <utype>ivoa:string</utype>
+                <vodml-ref>ivoa:string</vodml-ref>
             </datatype>
             <multiplicity>
                 <minOccurs>1</minOccurs>
@@ -947,7 +278,7 @@
             TODO : Missing description : please, update your UML model asap.
         </description>
         <extends>
-            <utype>char:ErrorType</utype>
+            <vodml-ref>char:ErrorType</vodml-ref>
         </extends>
     </dataType>
 
@@ -964,7 +295,7 @@
                 TODO : Missing description : please, update your UML model asap.
             </description>
             <datatype>
-                <utype>stc:coordIntervalType</utype>
+                <vodml-ref>stc:coordIntervalType</vodml-ref>
             </datatype>
             <multiplicity>
                 <minOccurs>0</minOccurs>
@@ -978,7 +309,7 @@
                 TODO : Missing description : please, update your UML model asap.
             </description>
             <datatype>
-                <utype>ivoa:string</utype>
+                <vodml-ref>ivoa:string</vodml-ref>
             </datatype>
             <multiplicity>
                 <minOccurs>0</minOccurs>
@@ -994,7 +325,7 @@
             TODO : Missing description : please, update your UML model asap.
         </description>
         <extends>
-            <utype>char:ErrorType</utype>
+            <vodml-ref>char:ErrorType</vodml-ref>
         </extends>
     </dataType>
 
@@ -1035,7 +366,7 @@
                 TODO : Missing description : please, update your UML model asap.
             </description>
             <datatype>
-                <utype>char:ErrorRefValType</utype>
+                <vodml-ref>char:ErrorRefValType</vodml-ref>
             </datatype>
             <multiplicity>
                 <minOccurs>1</minOccurs>
@@ -1049,7 +380,7 @@
                 TODO : Missing description : please, update your UML model asap.
             </description>
             <datatype>
-                <utype>char:ErrorBoundsType</utype>
+                <vodml-ref>char:ErrorBoundsType</vodml-ref>
             </datatype>
             <multiplicity>
                 <minOccurs>0</minOccurs>
@@ -1063,7 +394,7 @@
                 TODO : Missing description : please, update your UML model asap.
             </description>
             <datatype>
-                <utype>char:ErrorVariabilityType</utype>
+                <vodml-ref>char:ErrorVariabilityType</vodml-ref>
             </datatype>
             <multiplicity>
                 <minOccurs>0</minOccurs>
@@ -1072,52 +403,716 @@
         </attribute>
     </dataType>
 
-    <enumeration>
-        <vodml-id>CalibrationStatus</vodml-id>
-        <name>CalibrationStatus</name>
+    <objectType abstract="true">
+        <vodml-id>CharCoordinateType</vodml-id>
+        <name>CharCoordinateType</name>
+        <description>A coordinate type to define n-D bounding boxes. To be overridden by any of the following possible substitution elements.</description>
+        <attribute>
+            <vodml-id>CharCoordinateType.Name</vodml-id>
+            <name>Name</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <datatype>
+                <vodml-ref>ivoa:string</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>1</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </attribute>
+    </objectType>
+
+    <objectType>
+        <vodml-id>ResolutionType</vodml-id>
+        <name>ResolutionType</name>
         <description>
             TODO : Missing description : please, update your UML model asap.
         </description>
-        <literal>
-            <vodml-id>CalibrationStatus.CALIBRATED</vodml-id>
-            <name>CALIBRATED</name>
+        <attribute>
+            <vodml-id>ResolutionType.unit</vodml-id>
+            <name>unit</name>
             <description>
                 TODO : Missing description : please, update your UML model asap.
             </description>
-        </literal>
-        <literal>
-            <vodml-id>CalibrationStatus.UNCALIBRATED</vodml-id>
-            <name>UNCALIBRATED</name>
+            <datatype>
+                <vodml-ref>ivoa:string</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>0</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </attribute>
+        <attribute>
+            <vodml-id>ResolutionType.resolutionRefVal</vodml-id>
+            <name>resolutionRefVal</name>
             <description>
                 TODO : Missing description : please, update your UML model asap.
             </description>
-        </literal>
-        <literal>
-            <vodml-id>CalibrationStatus.RELATIVE</vodml-id>
-            <name>RELATIVE</name>
+            <datatype>
+                <vodml-ref>char:ResolutionRefValType</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>1</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </attribute>
+        <attribute>
+            <vodml-id>ResolutionType.resolutionBounds</vodml-id>
+            <name>resolutionBounds</name>
             <description>
                 TODO : Missing description : please, update your UML model asap.
             </description>
-        </literal>
-        <literal>
-            <vodml-id>CalibrationStatus.NORMALIZED</vodml-id>
-            <name>NORMALIZED</name>
+            <datatype>
+                <vodml-ref>char:ResolutionBoundsType</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>0</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </attribute>
+        <attribute>
+            <vodml-id>ResolutionType.resolutionSupport</vodml-id>
+            <name>resolutionSupport</name>
             <description>
                 TODO : Missing description : please, update your UML model asap.
             </description>
-        </literal>
-    </enumeration>
+            <datatype>
+                <vodml-ref>char:ResolutionSupportType</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>0</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </attribute>
+        <attribute>
+            <vodml-id>ResolutionType.resolutionVariability</vodml-id>
+            <name>resolutionVariability</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <datatype>
+                <vodml-ref>char:ResolutionVariabilityType</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>0</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </attribute>
+        <reference>
+            <vodml-id>ResolutionType.coordSystem</vodml-id>
+            <name>coordSystem</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <datatype>
+                <vodml-ref>stc:astroCoordSystemType</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>0</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </reference>
+    </objectType>
 
-    <version>0.5</version>
-    <lastModified>2014-03-26T15:22:06</lastModified>
-    <import>
-        <vodml-id>stc</vodml-id>
-        <url>http://volute.googlecode.com/svn/trunk/projects/dm/vo-dml/models/stc/STC.vo-dml.xml</url>
-        <documentationURL>http://volute.googlecode.com/svn/trunk/projects/dm/vo-dml/models/stc/STC.html</documentationURL>
-    </import>
-    <import>
-        <vodml-id>ivoa</vodml-id>
-        <url>https://volute.googlecode.com/svn/trunk/projects/dm/vo-dml/models/ivoa/IVOA.vo-dml.xml</url>
-        <documentationURL>http://volute.googlecode.com/svn/trunk/projects/dm/vo-dml/models/ivoa/IVOA.html</documentationURL>
-    </import>
+    <objectType>
+        <vodml-id>ComponentAxis</vodml-id>
+        <name>ComponentAxis</name>
+        <description>INtrouced tom model aggregation of 1D axes to build a custom composite axis type.</description>
+        <reference>
+            <vodml-id>ComponentAxis.axis</vodml-id>
+            <name>axis</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <datatype>
+                <vodml-ref>char:Custom1DCharacterisationAxis</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>1</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </reference>
+    </objectType>
+
+    <objectType>
+        <vodml-id>SamplingPrecisionType</vodml-id>
+        <name>SamplingPrecisionType</name>
+        <description>
+            TODO : Missing description : please, update your UML model asap.
+        </description>
+        <attribute>
+            <vodml-id>SamplingPrecisionType.unit</vodml-id>
+            <name>unit</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <datatype>
+                <vodml-ref>ivoa:string</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>0</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </attribute>
+        <attribute>
+            <vodml-id>SamplingPrecisionType.samplingPrecisionRefVal</vodml-id>
+            <name>samplingPrecisionRefVal</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <datatype>
+                <vodml-ref>char:SamplingPrecisionRefValType</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>1</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </attribute>
+        <attribute>
+            <vodml-id>SamplingPrecisionType.samplingPrecisionBounds</vodml-id>
+            <name>samplingPrecisionBounds</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <datatype>
+                <vodml-ref>char:SamplingPrecisionBoundsType</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>0</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </attribute>
+        <attribute>
+            <vodml-id>SamplingPrecisionType.samplingPrecisionSupport</vodml-id>
+            <name>samplingPrecisionSupport</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <datatype>
+                <vodml-ref>char:SamplingPrecisionSupportType</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>0</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </attribute>
+        <attribute>
+            <vodml-id>SamplingPrecisionType.samplingPrecisionVariability</vodml-id>
+            <name>samplingPrecisionVariability</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <datatype>
+                <vodml-ref>char:SamplingPrecisionVariability</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>0</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </attribute>
+        <reference>
+            <vodml-id>SamplingPrecisionType.coordSystem</vodml-id>
+            <name>coordSystem</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <datatype>
+                <vodml-ref>stc:astroCoordSystemType</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>0</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </reference>
+    </objectType>
+
+    <objectType>
+        <vodml-id>CoverageType</vodml-id>
+        <name>CoverageType</name>
+        <description>How the observation is spanned along this axis</description>
+        <attribute>
+            <vodml-id>CoverageType.unit</vodml-id>
+            <name>unit</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <datatype>
+                <vodml-ref>ivoa:string</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>0</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </attribute>
+        <attribute>
+            <vodml-id>CoverageType.location</vodml-id>
+            <name>location</name>
+            <description>Typical value on one axis</description>
+            <datatype>
+                <vodml-ref>char:LocationType</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>1</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </attribute>
+        <attribute>
+            <vodml-id>CoverageType.bounds</vodml-id>
+            <name>bounds</name>
+            <description>the limits of the observation on this axis</description>
+            <datatype>
+                <vodml-ref>char:BoundsType</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>0</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </attribute>
+        <attribute>
+            <vodml-id>CoverageType.support</vodml-id>
+            <name>support</name>
+            <description>describes the area where measurements are effectively present and interpretable </description>
+            <datatype>
+                <vodml-ref>char:SupportType</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>0</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </attribute>
+        <attribute>
+            <vodml-id>CoverageType.sensitivity</vodml-id>
+            <name>sensitivity</name>
+            <description>encodes the variability of response along the axis </description>
+            <datatype>
+                <vodml-ref>char:SensitivityType</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>0</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </attribute>
+        <reference>
+            <vodml-id>CoverageType.coordsystem</vodml-id>
+            <name>coordsystem</name>
+            <description>redefinition of coordsystem</description>
+            <datatype>
+                <vodml-ref>stc:astroCoordSystemType</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>0</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </reference>
+    </objectType>
+
+    <objectType>
+        <vodml-id>AccuracyType</vodml-id>
+        <name>AccuracyType</name>
+        <description>
+            TODO : Missing description : please, update your UML model asap.
+        </description>
+        <attribute>
+            <vodml-id>AccuracyType.quality</vodml-id>
+            <name>quality</name>
+            <description>A combination of flags attesting the data quality. Type: String</description>
+            <datatype>
+                <vodml-ref>ivoa:string</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>0</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </attribute>
+        <attribute>
+            <vodml-id>AccuracyType.statError</vodml-id>
+            <name>statError</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <datatype>
+                <vodml-ref>char:StatErrorType</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>0</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </attribute>
+        <attribute>
+            <vodml-id>AccuracyType.sysError</vodml-id>
+            <name>sysError</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <datatype>
+                <vodml-ref>char:SysErrorType</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>0</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </attribute>
+        <attribute>
+            <vodml-id>AccuracyType.CustError</vodml-id>
+            <name>CustError</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <datatype>
+                <vodml-ref>char:ErrorType</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>0</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </attribute>
+    </objectType>
+
+    <objectType>
+        <vodml-id>TimeAxis</vodml-id>
+        <name>TimeAxisType</name>
+        <description>
+            TODO : Missing description : please, update your UML model asap.
+        </description>
+        <extends>
+            <vodml-ref>char:ChAxis</vodml-ref>
+        </extends>
+        <attribute>
+            <vodml-id>TimeAxis.numbins</vodml-id>
+            <name>numbins</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <datatype>
+                <vodml-ref>ivoa:nonnegativeInteger</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>1</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </attribute>
+    </objectType>
+
+    <objectType>
+        <vodml-id>Custom1DCharacterisationAxis</vodml-id>
+        <name>Custom1DCharacterisationAxis</name>
+        <description>Introduced to model custom 1D axes.</description>
+        <extends>
+            <vodml-ref>char:ChAxis</vodml-ref>
+        </extends>
+        <attribute>
+            <vodml-id>Custom1DCharacterisationAxis.numBins</vodml-id>
+            <name>numBins</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <datatype>
+                <vodml-ref>ivoa:nonnegativeInteger</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>1</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </attribute>
+    </objectType>
+
+    <objectType>
+        <vodml-id>SpatialAxis</vodml-id>
+        <name>SpatialAxisType</name>
+        <description>
+            TODO : Missing description : please, update your UML model asap.
+        </description>
+        <extends>
+            <vodml-ref>char:ChAxis</vodml-ref>
+        </extends>
+        <attribute>
+            <vodml-id>SpatialAxis.numbins1</vodml-id>
+            <name>numbins1</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <datatype>
+                <vodml-ref>ivoa:nonnegativeInteger</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>1</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </attribute>
+        <attribute>
+            <vodml-id>SpatialAxis.numbins2</vodml-id>
+            <name>numbins2</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <datatype>
+                <vodml-ref>ivoa:nonnegativeInteger</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>1</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </attribute>
+    </objectType>
+
+    <objectType abstract="true">
+        <vodml-id>ChAxis</vodml-id>
+        <name>CharacterisationAxisType</name>
+        <description>describes an axis and its properties </description>
+        <attribute>
+            <vodml-id>ChAxis.AxisName</vodml-id>
+            <name>axisName</name>
+            <description>A name representing the physical nature of the axis like Spatial, Spectral, Time, Velocity or any other free name for an axis</description>
+            <datatype>
+                <vodml-ref>ivoa:string</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>1</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </attribute>
+        <attribute>
+            <vodml-id>ChAxis.ucd</vodml-id>
+            <name>ucd</name>
+            <description>The physical meaning of the axis, Type: standard semantic tag defined in the UCD list.</description>
+            <datatype>
+                <vodml-ref>ivoa:string</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>0</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </attribute>
+        <attribute>
+            <vodml-id>ChAxis.unit</vodml-id>
+            <name>unit</name>
+            <description>default unit for the axis: Type: controlled unit vocabulary following the VOTable units definitions </description>
+            <datatype>
+                <vodml-ref>ivoa:string</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>1</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </attribute>
+        <attribute>
+            <vodml-id>ChAxis.independentAxisType</vodml-id>
+            <name>independentAxisType</name>
+            <description>Indicates wether the axis is independent or not from the other axes. The Observable axis has a false independentAxis "value" Type : boolean</description>
+            <datatype>
+                <vodml-ref>ivoa:boolean</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>0</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </attribute>
+        <attribute>
+            <vodml-id>ChAxis.CalibStatus</vodml-id>
+            <name>calibrationStatus</name>
+            <description>defines if and how the axis is calibrated: Possible String values: CALIBRATED, UNCALIBRATED, RELATIVE, NORMALIZED </description>
+            <datatype>
+                <vodml-ref>char:CalibrationStatus</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>1</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </attribute>
+        <attribute>
+            <vodml-id>ChAxis.undersamplingStatus</vodml-id>
+            <name>undersamplingStatus</name>
+            <description>A flag to mention wether the data are undersampled. Type: boolean</description>
+            <datatype>
+                <vodml-ref>ivoa:boolean</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>0</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </attribute>
+        <attribute>
+            <vodml-id>ChAxis.regularsamplingStatus</vodml-id>
+            <name>regularsamplingStatus</name>
+            <description>A flag to mention wether the data are regularly sampled. Type : boolean </description>
+            <datatype>
+                <vodml-ref>ivoa:boolean</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>0</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </attribute>
+        <composition>
+            <vodml-id>ChAxis.accuracy</vodml-id>
+            <name>accuracy</name>
+            <description>Global accuracy description of the axis</description>
+            <datatype>
+                <vodml-ref>char:AccuracyType</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>0</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </composition>
+        <composition>
+            <vodml-id>ChAxis.coverage</vodml-id>
+            <name>coverage</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <datatype>
+                <vodml-ref>char:CoverageType</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>1</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </composition>
+        <composition>
+            <vodml-id>ChAxis.resolution</vodml-id>
+            <name>resolution</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <datatype>
+                <vodml-ref>char:ResolutionType</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>0</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </composition>
+        <composition>
+            <vodml-id>ChAxis.samplingPrecision</vodml-id>
+            <name>samplingPrecision</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <datatype>
+                <vodml-ref>char:SamplingPrecisionType</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>0</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </composition>
+        <reference>
+            <vodml-id>ChAxis.coordsystem</vodml-id>
+            <name>coordsystem</name>
+            <description>Reference coordinate system for the axis</description>
+            <datatype>
+                <vodml-ref>stc:astroCoordSystemType</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>1</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </reference>
+        <reference>
+            <vodml-id>ChAxis.ObsyLoc</vodml-id>
+            <name>ObsyLoc</name>
+            <description>Observatory location Type: a STC:observatoryLocationType or an xlink</description>
+            <datatype>
+                <vodml-ref>stc:observatoryLocationType</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>0</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </reference>
+    </objectType>
+
+    <objectType abstract="true">
+        <vodml-id>Char</vodml-id>
+        <name>CharacterisationType</name>
+        <description>
+            TODO : Missing description : please, update your UML model asap.
+        </description>
+        <composition>
+            <vodml-id>Char.characterisationAxis</vodml-id>
+            <name>characterisationAxis</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <datatype>
+                <vodml-ref>char:ChAxis</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>1</minOccurs>
+                <maxOccurs>-1</maxOccurs>
+            </multiplicity>
+        </composition>
+    </objectType>
+
+    <objectType>
+        <vodml-id>CompositeCharacterisationAxis</vodml-id>
+        <name>CompositeCharacterisationAxis</name>
+        <description>INtroduced to model composite axes.</description>
+        <extends>
+            <vodml-ref>char:ChAxis</vodml-ref>
+        </extends>
+        <attribute>
+            <vodml-id>CompositeCharacterisationAxis.dim</vodml-id>
+            <name>dim</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <datatype>
+                <vodml-ref>ivoa:nonnegativeInteger</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>1</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </attribute>
+        <composition>
+            <vodml-id>CompositeCharacterisationAxis.childAxis</vodml-id>
+            <name>childAxis</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <datatype>
+                <vodml-ref>char:ComponentAxis</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>1</minOccurs>
+                <maxOccurs>-1</maxOccurs>
+            </multiplicity>
+        </composition>
+    </objectType>
+
+    <objectType>
+        <vodml-id>CharCoordAreaType</vodml-id>
+        <name>CharCoordAreaType</name>
+        <description>
+            TODO : Missing description : please, update your UML model asap.
+        </description>
+    </objectType>
+
+    <objectType>
+        <vodml-id>SpectralAxis</vodml-id>
+        <name>SpectralAxisType</name>
+        <description>
+            TODO : Missing description : please, update your UML model asap.
+        </description>
+        <extends>
+            <vodml-ref>char:ChAxis</vodml-ref>
+        </extends>
+        <attribute>
+            <vodml-id>SpectralAxis.numbins</vodml-id>
+            <name>numbins</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <datatype>
+                <vodml-ref>ivoa:nonnegativeInteger</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>1</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </attribute>
+    </objectType>
 </vo-dml:model>

@@ -48,7 +48,7 @@
                     <maxOccurs>1</maxOccurs>
                 </multiplicity>
             </attribute>
-            <collection>
+            <composition>
                 <vodml-id>experiment.Observation.obsConfig</vodml-id>
                 <name>obsConfig</name>
                 <description>Observation configuration metadata, provides information about who, where, and how the observation was conducted.
@@ -60,8 +60,8 @@
                     <minOccurs>1</minOccurs>
                     <maxOccurs>1</maxOccurs>
                 </multiplicity>
-            </collection>
-            <collection>
+            </composition>
+            <composition>
                 <vodml-id>experiment.Observation.result</vodml-id>
                 <name>result</name>
                 <description>The result of an observation is zero or more Observation Datasets.
@@ -73,8 +73,8 @@
                     <minOccurs>0</minOccurs>
                     <maxOccurs>-1</maxOccurs>
                 </multiplicity>
-            </collection>
-            <collection>
+            </composition>
+            <composition>
                 <vodml-id>experiment.Observation.target</vodml-id>
                 <name>target</name>
                 <description>The target of the observation.  The content of this object may vary greatly depending on the goals and nature of the observation.  For example, the 'target' could be a galaxy, stellar object, planet, or calibratioin source.  As such, we allow the BaseTarget class here, and permit the users to define and use more content rich flavors according to their needs.</description>
@@ -85,8 +85,8 @@
                     <minOccurs>1</minOccurs>
                     <maxOccurs>1</maxOccurs>
                 </multiplicity>
-            </collection>
-            <collection>
+            </composition>
+            <composition>
                 <vodml-id>experiment.Observation.proposal</vodml-id>
                 <name>proposal</name>
                 <description>Identifies any proposal related to the observation.  This field may be used to gather all observations and products related to a particular proposal.
@@ -98,7 +98,7 @@
                     <minOccurs>0</minOccurs>
                     <maxOccurs>1</maxOccurs>
                 </multiplicity>
-            </collection>
+            </composition>
         </objectType>
 
         <objectType>
@@ -139,7 +139,7 @@
                     <maxOccurs>1</maxOccurs>
                 </multiplicity>
             </attribute>
-            <collection>
+            <composition>
                 <vodml-id>experiment.ObsConfig.facility</vodml-id>
                 <name>facility</name>
                 <description>Metadata pertaining to the facility performing the observation.
@@ -151,8 +151,8 @@
                     <minOccurs>0</minOccurs>
                     <maxOccurs>1</maxOccurs>
                 </multiplicity>
-            </collection>
-            <collection>
+            </composition>
+            <composition>
                 <vodml-id>experiment.ObsConfig.instrument</vodml-id>
                 <name>instrument</name>
                 <description>Metadata pertaining to the instrument used to create the data.</description>
@@ -163,7 +163,7 @@
                     <minOccurs>0</minOccurs>
                     <maxOccurs>1</maxOccurs>
                 </multiplicity>
-            </collection>
+            </composition>
         </objectType>
 
         <objectType abstract="true">
@@ -369,7 +369,7 @@
 
                 The primary purpose of this object is to provide a common framework in which specific information may be placed to aid in discovery and filtering of datasets in various access protocols.
             </description>
-            <collection>
+            <composition>
                 <vodml-id>experiment.Derived.derivedElement</vodml-id>
                 <name>derivedElement</name>
                 <description>Collection of zero or more DerivedElement objects, each of which provides a specific quantity obtained by analyzing the dataset content.
@@ -381,7 +381,7 @@
                     <minOccurs>0</minOccurs>
                     <maxOccurs>-1</maxOccurs>
                 </multiplicity>
-            </collection>
+            </composition>
         </objectType>
 
         <objectType abstract="true">
@@ -410,7 +410,7 @@
                     <maxOccurs>1</maxOccurs>
                 </multiplicity>
             </attribute>
-            <collection>
+            <composition>
                 <vodml-id>experiment.ObsDataset.characterisation</vodml-id>
                 <name>characterisation</name>
                 <description>Characterisation provides a 'characteristic' view of the dataset coordinate space.  For each represented domain (spatial, spectral, temporal, etc), characterisation provides metadata summarizing the coverage, resolution, representative accuracies, etc. for the dataset asa a whole.</description>
@@ -421,8 +421,8 @@
                     <minOccurs>1</minOccurs>
                     <maxOccurs>1</maxOccurs>
                 </multiplicity>
-            </collection>
-            <collection>
+            </composition>
+            <composition>
                 <vodml-id>experiment.ObsDataset.derived</vodml-id>
                 <name>derived</name>
                 <description>Provides a high level summary of certain properties of the dataset.  Its primary purpose is to support high level filtering of datasets during data discovery.
@@ -434,7 +434,7 @@
                     <minOccurs>0</minOccurs>
                     <maxOccurs>1</maxOccurs>
                 </multiplicity>
-            </collection>
+            </composition>
             <reference>
                 <vodml-id>experiment.ObsDataset.target</vodml-id>
                 <name>target</name>
@@ -778,7 +778,7 @@
                     <maxOccurs>1</maxOccurs>
                 </multiplicity>
             </attribute>
-            <collection>
+            <composition>
                 <vodml-id>dataset.Dataset.curation</vodml-id>
                 <name>curation</name>
                 <description>Provides metadata related to the entity responsible for the curation of the dataset.
@@ -790,8 +790,8 @@
                     <minOccurs>1</minOccurs>
                     <maxOccurs>1</maxOccurs>
                 </multiplicity>
-            </collection>
-            <collection>
+            </composition>
+            <composition>
                 <vodml-id>dataset.Dataset.dataID</vodml-id>
                 <name>dataID</name>
                 <description>DataID provides high level identification metadata for the dataset itself, and any associations with various collections.</description>
@@ -802,7 +802,7 @@
                     <minOccurs>1</minOccurs>
                     <maxOccurs>1</maxOccurs>
                 </multiplicity>
-            </collection>
+            </composition>
         </objectType>
 
         <objectType>
@@ -888,7 +888,7 @@
                     <maxOccurs>1</maxOccurs>
                 </multiplicity>
             </attribute>
-            <collection>
+            <composition>
                 <vodml-id>dataset.DataID.creator</vodml-id>
                 <name>creator</name>
                 <description>The institution or entity which created the dataset.</description>
@@ -899,8 +899,8 @@
                     <minOccurs>0</minOccurs>
                     <maxOccurs>1</maxOccurs>
                 </multiplicity>
-            </collection>
-            <collection>
+            </composition>
+            <composition>
                 <vodml-id>dataset.DataID.contributor</vodml-id>
                 <name>contributor</name>
                 <description>Persons or entities who contributed to the generation of the scientific content of the dataset.  Users of the dataset should include these in subsequent credits and acknowledgements. (RM:Curation.Contributor)</description>
@@ -911,8 +911,8 @@
                     <minOccurs>0</minOccurs>
                     <maxOccurs>-1</maxOccurs>
                 </multiplicity>
-            </collection>
-            <collection>
+            </composition>
+            <composition>
                 <vodml-id>dataset.DataID.collection</vodml-id>
                 <name>collection</name>
                 <description>The dataset is associated with zero or more Collections (instrument name, survey name, etc.) .  Each instance identifies a tag indicating some degree of compatibility with other data sharing the same Collection properties.</description>
@@ -923,7 +923,7 @@
                     <minOccurs>0</minOccurs>
                     <maxOccurs>-1</maxOccurs>
                 </multiplicity>
-            </collection>
+            </composition>
         </objectType>
 
         <objectType>
@@ -982,7 +982,7 @@
                     <maxOccurs>1</maxOccurs>
                 </multiplicity>
             </attribute>
-            <collection>
+            <composition>
                 <vodml-id>dataset.Curation.publisher</vodml-id>
                 <name>publisher</name>
                 <description>The entity making the data available.  (RM:Curation.Publisher)</description>
@@ -993,8 +993,8 @@
                     <minOccurs>1</minOccurs>
                     <maxOccurs>1</maxOccurs>
                 </multiplicity>
-            </collection>
-            <collection>
+            </composition>
+            <composition>
                 <vodml-id>dataset.Curation.contact</vodml-id>
                 <name>contact</name>
                 <description>Contact information of the person/entity responsible for the content of the dataset.  We recommend using a generic 'helpdesk' type contact rather than individuals whose information may more easily become obsolete. (RM:Curation.Contact)</description>
@@ -1005,8 +1005,8 @@
                     <minOccurs>0</minOccurs>
                     <maxOccurs>1</maxOccurs>
                 </multiplicity>
-            </collection>
-            <collection>
+            </composition>
+            <composition>
                 <vodml-id>dataset.Curation.reference</vodml-id>
                 <name>reference</name>
                 <description>Zero or more bibliographic or documentation references associated with the dataset.  Each instance provides a single forward link to a major publication which references the dataset.  (RM:General.Source)</description>
@@ -1017,7 +1017,7 @@
                     <minOccurs>0</minOccurs>
                     <maxOccurs>-1</maxOccurs>
                 </multiplicity>
-            </collection>
+            </composition>
         </objectType>
 
         <objectType>

@@ -253,7 +253,7 @@
                     <maxOccurs>1</maxOccurs>
                 </multiplicity>
             </attribute>
-            <collection>
+            <composition>
                 <vodml-id>dataset.Dataset.dataID</vodml-id>
                 <name>dataID</name>
                 <description/>
@@ -264,8 +264,8 @@
                     <minOccurs>1</minOccurs>
                     <maxOccurs>1</maxOccurs>
                 </multiplicity>
-            </collection>
-            <collection>
+            </composition>
+            <composition>
                 <vodml-id>dataset.Dataset.curation</vodml-id>
                 <name>curation</name>
                 <description/>
@@ -276,7 +276,7 @@
                     <minOccurs>1</minOccurs>
                     <maxOccurs>1</maxOccurs>
                 </multiplicity>
-            </collection>
+            </composition>
         </objectType>
         <objectType>
             <vodml-id>dataset.DataID</vodml-id>
@@ -366,7 +366,7 @@
                     <maxOccurs>1</maxOccurs>
                 </multiplicity>
             </attribute>
-            <collection>
+            <composition>
                 <vodml-id>dataset.DataID.collection</vodml-id>
                 <name>collection</name>
                 <description/>
@@ -377,8 +377,8 @@
                     <minOccurs>0</minOccurs>
                     <maxOccurs>-1</maxOccurs>
                 </multiplicity>
-            </collection>
-            <collection>
+            </composition>
+            <composition>
                 <vodml-id>dataset.DataID.contributor</vodml-id>
                 <name>contributor</name>
                 <description/>
@@ -389,7 +389,7 @@
                     <minOccurs>0</minOccurs>
                     <maxOccurs>-1</maxOccurs>
                 </multiplicity>
-            </collection>
+            </composition>
         </objectType>
         <objectType>
             <vodml-id>dataset.Curation</vodml-id>
@@ -467,7 +467,7 @@
                     <maxOccurs>1</maxOccurs>
                 </multiplicity>
             </attribute>
-            <collection>
+            <composition>
                 <vodml-id>dataset.Curation.reference</vodml-id>
                 <name>reference</name>
                 <description/>
@@ -478,7 +478,7 @@
                     <minOccurs>0</minOccurs>
                     <maxOccurs>-1</maxOccurs>
                 </multiplicity>
-            </collection>
+            </composition>
         </objectType>
     </package>
     <package>

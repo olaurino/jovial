@@ -126,7 +126,7 @@ class VodmlReader {
                 attributes: xml.attribute.collect {
                     attributeFrom(it)
                 } as BasicEventList,
-                collections: xml.collection.collect {
+                compositions: xml.composition.collect {
                     compositionFrom(it)
                 } as BasicEventList,
                 references: xml.reference.collect {

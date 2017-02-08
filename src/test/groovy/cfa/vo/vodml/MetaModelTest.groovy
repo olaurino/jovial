@@ -217,7 +217,7 @@ class MetaModelTest {
                                 multiplicity: new Multiplicity(minOccurs: 0, maxOccurs: 1),
                         ),
                 ],
-                collections: [
+                compositions: [
                         new Composition(
                                 name: "collection",
                                 vodmlid: "dataset.DataID.collection",
@@ -307,7 +307,7 @@ class MetaModelTest {
                                 multiplicity: new Multiplicity(minOccurs: 0, maxOccurs: 1),
                         ),
                 ],
-                collections: [
+                compositions: [
                         new Composition(
                                 name: "reference",
                                 vodmlid: "dataset.Curation.reference",
@@ -335,7 +335,7 @@ class MetaModelTest {
 
                         ),
                 ],
-                collections: [
+                compositions: [
                         new Composition(
                                 name: "dataID",
                                 vodmlid: "dataset.Dataset.dataID",

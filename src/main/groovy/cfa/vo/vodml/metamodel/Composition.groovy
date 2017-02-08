@@ -42,7 +42,7 @@ class Composition extends Relation implements Buildable {
     @Override
     void build(GroovyObject builder) {
         def elem = {
-            collection() {
+            composition() {
                 "vodml-id"(this.vodmlid)
                 name(this.name)
                 description(this.description)

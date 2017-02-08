@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<vo-dml:model xmlns:vo-dml="http://www.ivoa.net/xml/VODML/v1.0"
-              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:schemaLocation="http://www.ivoa.net/xml/VODML/v1.0 http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/xsd/vo-dml-v1.0.xsd">
+<vo-dml:model xmlns:vo-dml="http://www.ivoa.net/xml/VODML/v1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ivoa.net/xml/VODML/v1.0 http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/xsd/vo-dml-v1.0.xsd">
     <name>src</name>
     <description>This is a sample data model. It contains the IVOA UML Profile and imports the IVOA_Profile data model with primitive types.
         It has some sample relationships etc to be used in documentation etc.</description>
@@ -544,7 +542,7 @@
                     <maxOccurs>1</maxOccurs>
                 </multiplicity>
             </attribute>
-            <collection>
+            <composition>
                 <vodml-id>source.Source.luminosity</vodml-id>
                 <name>luminosity</name>
                 <description>
@@ -557,7 +555,7 @@
                     <minOccurs>0</minOccurs>
                     <maxOccurs>-1</maxOccurs>
                 </multiplicity>
-            </collection>
+            </composition>
         </objectType>
 
         <objectType>

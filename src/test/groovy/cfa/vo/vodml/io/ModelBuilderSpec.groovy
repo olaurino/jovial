@@ -243,7 +243,7 @@ class ModelBuilderSpec extends Specification {
         model.dataTypes[0].attributes[0].multiplicity == new Multiplicity(minOccurs: 0, maxOccurs: 1)
         model.dataTypes[0].attributes[1].multiplicity == new Multiplicity(minOccurs: 0, maxOccurs: -1)
         model.dataTypes[0].references[0].multiplicity == new Multiplicity(minOccurs: 1, maxOccurs: -1)
-        model.objectTypes[0].collections[0].multiplicity == new Multiplicity(minOccurs: 0, maxOccurs: 3)
+        model.objectTypes[0].compositions[0].multiplicity == new Multiplicity(minOccurs: 0, maxOccurs: 3)
     }
 
     def "test multiplicity error"() {

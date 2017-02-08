@@ -111,7 +111,7 @@ class Resolver {
     }
 
     private match(Type type, String attributeName) {
-        def matches = ["attributes", "references", "collections"].findResults {
+        def matches = ["attributes", "references", "compositions"].findResults {
             if (type.hasProperty(it)) {
                 type."$it".findResults {
                     if (it.name == attributeName) {
@@ -146,7 +146,7 @@ class Resolver {
                 }
                 types[key] = type
 
-                ["attributes", "references", "collections"].each {
+                ["attributes", "references", "compositions"].each {
                     if (type.hasProperty(it)) {
                         type?."$it".each { role ->
                             VodmlRef rkey = role.vodmlid

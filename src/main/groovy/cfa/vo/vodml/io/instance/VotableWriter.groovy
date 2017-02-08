@@ -88,7 +88,7 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
                 objectInstance.references.each {
                     REFERENCE(dmrole: it.role, it.value)
                 }
-                if (objectInstance.hasProperty("collections")) {
+                if (objectInstance.hasProperty("compositions")) {
                     objectInstance.collections.each {
                         out << buildCollection(it, builder)
                     }
