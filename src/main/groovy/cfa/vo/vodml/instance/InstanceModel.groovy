@@ -119,6 +119,7 @@ class DefaultNode implements VoBuilderNode {
 @Canonical
 class DataModelInstance extends DefaultNode {
     List<ModelImportInstance> models = []
+    List<GlobalsInstance> globals = []
     @Delegate HasObjects hasObjects = new HasObjects()
     @Delegate HasTables hasTables = new HasTables()
 
@@ -128,6 +129,8 @@ class DataModelInstance extends DefaultNode {
      * @return
      */
     public leftShift(ModelImportInstance data) {models << data}
+
+    public leftShift(GlobalsInstance data) {globals << data}
 
     /**
      * Overload left shift operator for adding Models to this votable
@@ -276,6 +279,12 @@ class ObjectInstance extends Instance {
                 ourCollections == theirCollections &&
                 ourObjects == theirObjects
     }
+}
+
+@Canonical
+class GlobalsInstance extends Instance {
+    @Delegate HasObjects hasObjects = new HasObjects()
+    String id
 }
 
 /**

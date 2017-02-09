@@ -51,6 +51,15 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
                             }
                         }
                     }
+
+                    instance.globals.each { gl ->
+                        GLOBALS(ID: gl.id) {
+                            gl.objectTypes.each { inst ->
+                                out << buildObject(inst, delegate)
+                            }
+                        }
+                    }
+
                     if (instance.tables) {
                         TEMPLATES() {
                             instance.tables.each {
@@ -81,7 +90,11 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
 
     void buildObject(objectInstance, builder) {
         def elem = {
-            INSTANCE(dmtype:objectInstance.type.toString(), ID: objectInstance.id) {
+            def attrs = [dmtype: objectInstance.type.toString()]
+            if (objectInstance.id) {
+                attrs.ID = objectInstance.id
+            }
+            INSTANCE(attrs) {
                 if (objectInstance.pk) {
                     PRIMARYKEY() {
                         PKFIELD() {

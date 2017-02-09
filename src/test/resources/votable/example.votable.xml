@@ -64,47 +64,47 @@
             </INSTANCE>
         </GLOBALS>
 
-        <!--<GLOBALS ID="_SDSS_FILTERS">-->
-            <!--<INSTANCE dmtype="filter:PhotometryFilter">-->
-                <!--<IDENTIFIER>-->
-                    <!--<IDFIELD>-->
-                        <!--<LITERAL dmtype="ivoa:string" value="sdss:g"/>-->
-                    <!--</IDFIELD>-->
-                <!--</IDENTIFIER>-->
-                <!--<ATTRIBUTE dmrole="filter:PhotometryFilter.name">-->
-                    <!--<LITERAL dmtype="ivoa:string" value="sdss:g"/>-->
-                <!--</ATTRIBUTE>-->
-            <!--</INSTANCE>-->
-            <!--<INSTANCE dmtype="filter:PhotometryFilter">-->
-                <!--<IDENTIFIER>-->
-                    <!--<IDFIELD>-->
-                        <!--<LITERAL dmtype="ivoa:string"  value="sdss:r"/>-->
-                    <!--</IDFIELD>-->
-                <!--</IDENTIFIER>-->
-                <!--<ATTRIBUTE dmrole="filter:PhotometryFilter.name">-->
-                    <!--<LITERAL dmtype="ivoa:string"  value="sdss:r"/>-->
-                <!--</ATTRIBUTE>-->
-            <!--</INSTANCE>-->
-            <!--<INSTANCE dmtype="filter:PhotometryFilter">-->
-                <!--<IDENTIFIER>-->
-                    <!--<IDFIELD>-->
-                        <!--<LITERAL dmtype="ivoa:string" value="sdss:u"/>-->
-                    <!--</IDFIELD>-->
-                <!--</IDENTIFIER>-->
-                <!--<ATTRIBUTE dmrole="filter:PhotometryFilter.name">-->
-                    <!--<LITERAL dmtype="ivoa:string" value="sdss:u"/>-->
-                <!--</ATTRIBUTE>-->
-            <!--</INSTANCE>-->
+        <GLOBALS ID="_SDSS_FILTERS">
+            <INSTANCE dmtype="filter:PhotometryFilter">
+                <PRIMARYKEY>
+                    <PKFIELD>
+                        <LITERAL dmtype="ivoa:string" value="sdss:g"/>
+                    </PKFIELD>
+                </PRIMARYKEY>
+                <ATTRIBUTE dmrole="filter:PhotometryFilter.name">
+                    <LITERAL dmtype="ivoa:string" value="sdss:g"/>
+                </ATTRIBUTE>
+            </INSTANCE>
+            <INSTANCE dmtype="filter:PhotometryFilter">
+                <PRIMARYKEY>
+                    <PKFIELD>
+                        <LITERAL dmtype="ivoa:string"  value="sdss:r"/>
+                    </PKFIELD>
+                </PRIMARYKEY>
+                <ATTRIBUTE dmrole="filter:PhotometryFilter.name">
+                    <LITERAL dmtype="ivoa:string"  value="sdss:r"/>
+                </ATTRIBUTE>
+            </INSTANCE>
+            <INSTANCE dmtype="filter:PhotometryFilter">
+                <PRIMARYKEY>
+                    <PKFIELD>
+                        <LITERAL dmtype="ivoa:string" value="sdss:u"/>
+                    </PKFIELD>
+                </PRIMARYKEY>
+                <ATTRIBUTE dmrole="filter:PhotometryFilter.name">
+                    <LITERAL dmtype="ivoa:string" value="sdss:u"/>
+                </ATTRIBUTE>
+            </INSTANCE>
 
-        <!--</GLOBALS>-->
+        </GLOBALS>
 
         <!--<TEMPLATES tableref="_table1">-->
             <!--<INSTANCE ID="_source" dmtype="sample:catalog.Source">-->
-                <!--<IDENTIFIER>-->
-                    <!--<IDFIELD>-->
+                <!--<PRIMARYKEY>-->
+                    <!--<PKFIELD>-->
                         <!--<COLUMN dmtype="ivoa:string" ref="_designation"/>-->
-                    <!--</IDFIELD>-->
-                <!--</IDENTIFIER>-->
+                    <!--</PKFIELD>-->
+                <!--</PRIMARYKEY>-->
                 <!--<ATTRIBUTE dmrole="sample:catalog.AbstractSource.name">-->
                     <!--<COLUMN dmtype="ivoa:string" ref="_designation"/>-->
                 <!--</ATTRIBUTE>-->
@@ -174,9 +174,9 @@
             <!--<INSTANCE ID="SDSS_MAGS" dmtype="src:source.LuminosityMeasurement">-->
                 <!--<CONTAINER>-->
                     <!--<FOREIGNKEY>-->
-                        <!--<IDFIELD>-->
+                        <!--<PKFIELD>-->
                             <!--<COLUMN dmtype="ivoa:string" ref="_container"/>-->
-                        <!--</IDFIELD>-->
+                        <!--</PKFIELD>-->
                         <!--<TARGETID>_source</TARGETID>-->
                     <!--</FOREIGNKEY>-->
                 <!--</CONTAINER>-->
@@ -189,9 +189,9 @@
                 <!--&lt;!&ndash; Following is example of OR-like reference, but not to another table but to a singleton object &ndash;&gt;-->
                 <!--<REFERENCE dmrole="src:source.LuminosityMeasurement.filter">-->
                     <!--<FOREIGNKEY>-->
-                        <!--<IDFIELD>-->
+                        <!--<PKFIELD>-->
                             <!--<COLUMN dmtype="ivoa:string" ref="_filter"/>-->
-                        <!--</IDFIELD>-->
+                        <!--</PKFIELD>-->
                         <!--<TARGETID>_SDSS_FILTERS</TARGETID>-->
                     <!--</FOREIGNKEY>-->
                 <!--</REFERENCE>-->

@@ -62,4 +62,11 @@ votable {
             instance(role: "name", value: name)
         }
     }
+    globals(id: "_SDSS_FILTERS") {
+        ["sdss:g", "sdss:r", "sdss:u"].each { name ->
+            instance(type: "filter:PhotometryFilter", pk: name) {
+                instance(role: "name", value: name)
+            }
+        }
+    }
 }
