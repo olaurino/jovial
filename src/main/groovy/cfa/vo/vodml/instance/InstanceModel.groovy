@@ -72,37 +72,6 @@ class HasColumns {
 }
 
 @EqualsAndHashCode
-class HasAttributes {
-    List<AttributeInstance> attributes = []
-
-    /**
-     * Overloads the left shift operator for adding data type instances to build.
-     * It also makes sure the set of buildable strings is updated.
-     *
-     * @param data the DataType instance to be added
-     */
-    public leftShift(AttributeInstance data) {
-        attributes << data
-    }
-}
-
-//@EqualsAndHashCode
-//class HasValues {
-//    List<LiteralInstance> attributes = []
-//
-//    /**
-//     * Overloads the left shift operator for adding primitive type instances to build.
-//     * It also makes sure the set of buildable strings is updated. Instances are single values
-//     * or arrays to be serialized atomically (i.e. in a PARAM).
-//     *
-//     * @param data the PrimitiveType instance to be added
-//     */
-//    public leftShift(LiteralInstance data) {
-//        attributes << data
-//    }
-//}
-
-@EqualsAndHashCode
 class HasReferences {
     List<ReferenceInstance> references = []
 
@@ -151,7 +120,6 @@ class DefaultNode implements VoBuilderNode {
 class DataModelInstance extends DefaultNode {
     List<ModelImportInstance> models = []
     @Delegate HasObjects hasObjects = new HasObjects()
-    @Delegate HasAttributes hasData = new HasAttributes()
     @Delegate HasTables hasTables = new HasTables()
 
     /**
@@ -179,10 +147,7 @@ class DataModelInstance extends DefaultNode {
         def theirModels = new HashSet(other.models)
         def ourObjects = new HashSet(objectTypes)
         def theirObjects = new HashSet(other.objectTypes)
-        def ourDataObjects = new HashSet(attributes)
-        def theirDataObjects = new HashSet(other.attributes)
-        return ourModels.equals(theirModels) && ourObjects.equals(theirObjects) &&
-                ourDataObjects.equals(theirDataObjects)
+        return ourModels.equals(theirModels) && ourObjects.equals(theirObjects)
     }
 }
 
@@ -209,15 +174,20 @@ abstract class Instance extends DefaultNode {
         type = new VodmlRef(ref)
     }
 
-    public VodmlRef getType() {
+    public VodmlRef findType() {
         if (this.@type) {
             return this.@type
         }
         try {
-            return resolver.resolveTypeOfRole(this.@role)?.vodmlref ?: null
+            this.@type = resolver.resolveTypeOfRole(this.@role)?.vodmlref ?: null
+            return this.@type
         } catch (IllegalArgumentException ignore) {
             return null
         }
+    }
+
+    private void updateType() {
+        this.@type = findType()
     }
 
     /**
@@ -243,6 +213,7 @@ abstract class Instance extends DefaultNode {
     @Override
     public void apply() {
         attrs.each {k, v -> this."$k" = v}
+        updateType()
     }
 
     @Override
@@ -260,37 +231,10 @@ abstract class Instance extends DefaultNode {
         }
         return true
     }
-}
-
-/**
- * Class for DataType instances. These instances can contain other DataType instances as well as
- * References to ObjectTypes and primitive types.
- */
-class AttributeInstance extends Instance {
-    String value
-    @Delegate HasReferences hasReferences = new HasReferences()
-    @Delegate HasColumns hasColumns = new HasColumns()
-    @Delegate HasAttributes hasAttributes = new HasAttributes()
 
     @Override
-    public boolean equals(Object o) {
-        if (o == null || !(o instanceof AttributeInstance)) {
-            return false
-        }
-        if (!super.equals(o)) {
-            return false
-        }
-        def ourReferences = new HashSet(references)
-        def theirReferences = new HashSet(o.references)
-        def ourColumns = new HashSet(columns)
-        def theirColumns = new HashSet(o.columns)
-        def ourAttributes = new HashSet(o.attributes)
-        def theirAttributes = new HashSet(o.attributes)
-
-        return this.value == o.value &&
-                ourReferences == theirReferences &&
-                ourColumns == theirColumns &&
-                ourAttributes == theirAttributes
+    public String toString() {
+        return "${this.class.name}[$type, $role]"
     }
 }
 
@@ -298,12 +242,12 @@ class AttributeInstance extends Instance {
  * Class for instances of ObjectTypes. These instances can contain Collections (Composition relationship) in addition
  * to DataType and PrimitiveType instances.
  */
-@Canonical
 class ObjectInstance extends Instance {
-    @Delegate HasAttributes hasAttributes = new HasAttributes()
+    @Delegate HasObjects hasObjects = new HasObjects()
     @Delegate HasReferences hasReferences = new HasReferences()
     @Delegate HasColumns hasColumns = new HasColumns()
     List<CompositionInstance> collections = []
+    String value
     Boolean fullId
 
     public leftShift(CompositionInstance object) {collections << object}
@@ -322,10 +266,15 @@ class ObjectInstance extends Instance {
         def theirColumns = new HashSet(o.columns)
         def ourCollections = new HashSet(this.collections)
         def theirCollections = new HashSet(o.collections)
+        def ourObjects = new HashSet(this.objectTypes)
+        def theirObjects = new HashSet(o.objectTypes)
 
-        return ourReferences == theirReferences &&
+
+        return this.value == o.value &&
+                ourReferences == theirReferences &&
                 ourColumns == theirColumns &&
-                ourCollections == theirCollections
+                ourCollections == theirCollections &&
+                ourObjects == theirObjects
     }
 }
 

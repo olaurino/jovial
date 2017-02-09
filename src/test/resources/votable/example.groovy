@@ -54,11 +54,11 @@ votable {
     model(spec: filterSpec, vodmlURL: filterLocation, identifier: "ivo://ivoa.org/dm/sample/Filter/1.9")
     model(spec: sampleSpec, vodmlURL: sampleLocation)
     instance(type: "sample:catalog.SkyCoordinateFrame", id: "_icrs") {
-        attribute(role: "name", value: "ICRS")
+        instance(role: "name", value: "ICRS")
     }
     ["2mass:H", "2mass:J", "2mass:K"].each { name ->
         instance(type: "filter:PhotometryFilter", id: "_${name.replace(':', '')}", fullId: true) {
-            attribute(role: "name", value: name)
+            instance(role: "name", value: name)
         }
     }
 }

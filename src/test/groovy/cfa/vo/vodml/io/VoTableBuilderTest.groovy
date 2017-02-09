@@ -32,7 +32,6 @@
  */
 package cfa.vo.vodml.io
 
-import cfa.vo.vodml.instance.AttributeInstance
 import cfa.vo.vodml.instance.DataModelInstance
 import cfa.vo.vodml.instance.ModelImportInstance
 import cfa.vo.vodml.instance.ObjectInstance
@@ -81,18 +80,18 @@ class VoTableBuilderTest {
             model(spec: stcSpec, vodmlURL: "https://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/STC2/prototype/STCPrototype-2.0.vo-dml.xml")
             model(spec: dsSpec, vodmlURL: "http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/ds/DatasetMetadata-1.0.vo-dml.xml")
             instance(type: "ds:experiment.AstroTarget") {
-                attribute(role: "name", value: "3C273")
-                attribute(role: "description", value: "A Quasar")
-                attribute(role: "position") {
-                    attribute(role: "coord", type: "stc:stctypes.RealDoublet") {
-                        attribute(role: "d1", value: 187.2792)
-                        attribute(role: "d2", value: 2.0525)
+                instance(role: "name", value: "3C273")
+                instance(role: "description", value: "A Quasar")
+                instance(role: "position") {
+                    instance(role: "coord", type: "stc:stctypes.RealDoublet") {
+                        instance(role: "d1", value: 187.2792)
+                        instance(role: "d2", value: 2.0525)
                     }
                 }
-                attribute(role: "objectClass", value: "BLAZAR")
-                attribute(role: "spectralClass", value: "Sy1")
-                attribute(role: "redshift", value: 0.158)
-                attribute(role: "varAmpl", value: Double.NaN)
+                instance(role: "objectClass", value: "BLAZAR")
+                instance(role: "spectralClass", value: "Sy1")
+                instance(role: "redshift", value: 0.158)
+                instance(role: "varAmpl", value: Double.NaN)
             }
         }
 
@@ -174,30 +173,30 @@ class VoTableBuilderTest {
             model(spec: charSpec, vodmlURL: "http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/characterization/Characterization.vo-dml.xml")
             model(spec: ivoaSpec, vodmlURL: "https://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/ivoa/IVOA.vo-dml.xml")
             instance(type: "ds:experiment.Observation") {
-                attribute(role: "observationID", value:"obsid.2015.73")
+                instance(role: "observationID", value:"obsid.2015.73")
                 composition(role: "target") {
                     instance(type: "ds:experiment.AstroTarget") {
-                        attribute(role: "name", value: "3C273")
-                        attribute(role: "description", value: "A Quasar")
-                        attribute(role: "position") {
-                            attribute(role: "coord", type: "stc:stctypes.RealDoublet") {
-                                attribute(role: "d1", value: 187.2792)
-                                attribute(role: "d2", value: 2.0525)
+                        instance(role: "name", value: "3C273")
+                        instance(role: "description", value: "A Quasar")
+                        instance(role: "position") {
+                            instance(role: "coord", type: "stc:stctypes.RealDoublet") {
+                                instance(role: "d1", value: 187.2792)
+                                instance(role: "d2", value: 2.0525)
                             }
                         }
-                        attribute(role: "objectClass", value: "BLAZAR")
-                        attribute(role: "spectralClass", value: "Sy1")
-                        attribute(role: "redshift", value: 0.158)
-                        attribute(role: "varAmpl", value: Double.NaN)
+                        instance(role: "objectClass", value: "BLAZAR")
+                        instance(role: "spectralClass", value: "Sy1")
+                        instance(role: "redshift", value: 0.158)
+                        instance(role: "varAmpl", value: Double.NaN)
                     }
                 }
                 composition(role: "obsConfig") {
                     instance(type: "ds:experiment.ObsConfig") {
-                        attribute(role: "bandpass", value: "optical")
-                        attribute(role: "datasource", value: "survey")
+                        instance(role: "bandpass", value: "optical")
+                        instance(role: "datasource", value: "survey")
                         composition(role: "instrument") {
                             instance(type: "ds:experiment.Instrument") {
-                                attribute(role: "name", value: "ACIS")
+                                instance(role: "name", value: "ACIS")
                             }
                         }
                         composition(role: "facility") {
@@ -209,14 +208,14 @@ class VoTableBuilderTest {
                 }
                 composition(role: "proposal") {
                     instance(type: "ds:experiment.Proposal") {
-                        attribute(role: "identifier", value: "PROPOSAL/756/2014.06")
+                        instance(role: "identifier", value: "PROPOSAL/756/2014.06")
                     }
                 }
                 composition(role: "result") {
                     instance(type: "ds:experiment.ObsDataset") {
-                        attribute(role: "dataProductType", value: "ds:dataset.DataProductType.CUBE")
-                        attribute(role: "dataProductSubtype", value: "MySubtype")
-                        attribute(role: "calibLevel", value: 0)
+                        instance(role: "dataProductType", value: "ds:dataset.DataProductType.CUBE")
+                        instance(role: "dataProductSubtype", value: "MySubtype")
+                        instance(role: "calibLevel", value: 0)
                         composition(role: "characterisation") {
                             instance(type: "ds:experiment.Characterisation")
                         }
@@ -224,32 +223,32 @@ class VoTableBuilderTest {
                             instance(type: "ds:experiment.Derived") {
                                 composition(role: "derivedElement") {
                                     instance(type: "ds:experiment.DerivedScalar") {
-                                        attribute(role: "name", value: "SNR")
-                                        attribute(role: "value", value: 1.25)
+                                        instance(role: "name", value: "SNR")
+                                        instance(role: "value", value: 1.25)
                                     }
                                 }
                             }
                         }
                         composition(role: "dataID") {
                             instance(type: "ds:dataset.DataID") {
-                                attribute(role: "title", value: "datasetTitle")
-                                attribute(role: "datasetID", value: "ivo://some/uri")
-                                attribute(role: "creatorDID", value: "me://some/other/uri")
-                                attribute(role: "version", value: "DR3")
-                                attribute(role: "date", value: "20160422T11:55:30")
-                                attribute(role: "creationType", value: "ds:dataset.CreationType.ARCHIVAL")
+                                instance(role: "title", value: "datasetTitle")
+                                instance(role: "datasetID", value: "ivo://some/uri")
+                                instance(role: "creatorDID", value: "me://some/other/uri")
+                                instance(role: "version", value: "DR3")
+                                instance(role: "date", value: "20160422T11:55:30")
+                                instance(role: "creationType", value: "ds:dataset.CreationType.ARCHIVAL")
                                 composition(role: "collection") {
                                     instance(type: "ds:dataset.Collection") {
-                                        attribute(role: "name", value: "Data Release 3")
+                                        instance(role: "name", value: "Data Release 3")
                                     }
                                 }
                                 composition(role: "contributor") {
                                     instance(type: "ds:dataset.Contributor") {
-                                        attribute(role: "acknowledgment", value: "Project Manager")
+                                        instance(role: "acknowledgment", value: "Project Manager")
                                         reference(role: "party", value: "BILL")
                                     }
                                     instance(type: "ds:dataset.Contributor") {
-                                        attribute(role: "acknowledgment", value: "Bought the donuts!")
+                                        instance(role: "acknowledgment", value: "Bought the donuts!")
                                         reference(role: "party", value: "TOM")
                                     }
                                 }
@@ -262,10 +261,10 @@ class VoTableBuilderTest {
                         }
                         composition(role: "curation") {
                             instance(type: "ds:dataset.Curation") {
-                                attribute(role: "publisherDID", value: "me://some/other/uri")
-                                attribute(role: "version", value: "DR3")
-                                attribute(role: "releaseDate", value: "20160422T11:55:30")
-                                attribute(role: "rights", value: "ds:dataset.RightsType.PUBLIC")
+                                instance(role: "publisherDID", value: "me://some/other/uri")
+                                instance(role: "version", value: "DR3")
+                                instance(role: "releaseDate", value: "20160422T11:55:30")
+                                instance(role: "rights", value: "ds:dataset.RightsType.PUBLIC")
                                 composition(role: "contact") {
                                     instance(type: "ds:dataset.Contact") {
                                         reference(role: "party", value: "BILL")
@@ -273,16 +272,16 @@ class VoTableBuilderTest {
                                 }
                                 composition(role: "publisher") {
                                     instance(type: "ds:dataset.Publisher") {
-                                        attribute(role: "publisherID", value: "ivo://acme.org")
+                                        instance(role: "publisherID", value: "ivo://acme.org")
                                         reference(role: "party", value: "ACME")
                                     }
                                 }
                                 composition(role: "reference") {
                                     instance(type: "ds:dataset.Publication") {
-                                        attribute(role: "refCode", value: "ApJ12345")
+                                        instance(role: "refCode", value: "ApJ12345")
                                     }
                                     instance(type: "ds:dataset.Publication") {
-                                        attribute(role: "refCode", value: "ApJ6789")
+                                        instance(role: "refCode", value: "ApJ6789")
                                     }
                                 }
                             }
@@ -291,23 +290,23 @@ class VoTableBuilderTest {
                 }
             }
             instance(id: "ACME", type: "ds:party.Organization") {
-                attribute(role: "name", value: "ACME edu")
-                attribute(role: "address", value: "565 N Clinton Drive, Milwaukee, WI")
-                attribute(role: "phone", value: "555-012-3456")
-                attribute(role: "email", value: "helpdesk@acme.org")
-                attribute(role: "logo", value: "http://acme.org/stunning.png")
+                instance(role: "name", value: "ACME edu")
+                instance(role: "address", value: "565 N Clinton Drive, Milwaukee, WI")
+                instance(role: "phone", value: "555-012-3456")
+                instance(role: "email", value: "helpdesk@acme.org")
+                instance(role: "logo", value: "http://acme.org/stunning.png")
             }
             instance(id: "BILL", type: "ds:party.Individual") {
-                attribute(role: "name", value: "William E. Coyote")
-                attribute(role: "address", value: "565 N Clinton Drive, Milwaukee, WI")
-                attribute(role: "phone", value: "555-654-3210")
-                attribute(role: "email", value: "bill@acme.org")
+                instance(role: "name", value: "William E. Coyote")
+                instance(role: "address", value: "565 N Clinton Drive, Milwaukee, WI")
+                instance(role: "phone", value: "555-654-3210")
+                instance(role: "email", value: "bill@acme.org")
             }
             instance(id: "TOM", type: "ds:party.Individual") {
-                attribute(role: "name", value: "Tom Ray")
-                attribute(role: "address", value: "565 N Clinton Drive, Milwaukee, WI")
-                attribute(role: "phone", value: "555-999-5555")
-                attribute(role: "email", value: "bill@acme.org")
+                instance(role: "name", value: "Tom Ray")
+                instance(role: "address", value: "565 N Clinton Drive, Milwaukee, WI")
+                instance(role: "phone", value: "555-999-5555")
+                instance(role: "email", value: "bill@acme.org")
             }
             instance(id: "COORDSYS", type: "stc:coordsystem.AstroCoordSystem")
         }
@@ -320,21 +319,25 @@ class VoTableBuilderTest {
         def instance = new VoTableBuilder().votable {
             model(spec: dsSpec)
             instance(type: "$org") {
-                attribute(role: "name", value:"OrgName")
-                attribute(role: "address", value:"An Address")
+                instance(role: "name", value:"OrgName")
+                instance(role: "address", value:"An Address")
             }
         }
 
         def expected = new DataModelInstance()
         expected << new ModelImportInstance(spec: dsSpec)
         def obj = new ObjectInstance(type: "$org")
-        obj.attributes << new AttributeInstance(role: "ds:party.Party.name", value:"OrgName")
-        obj.attributes << new AttributeInstance(role: "${org}.address", value:"An Address")
+        def name = new ObjectInstance(role: "ds:party.Party.name", value:"OrgName")
+        name.apply()
+        def address = new ObjectInstance(role: "${org}.address", value:"An Address")
+        address.apply()
+        obj << name
+        obj << address
         expected.objectTypes << obj
 
         assert instance == expected
 
-        assert new AttributeInstance(role: "foo") != new AttributeInstance(role: "bar")
+        assert new ObjectInstance(role: "foo") != new ObjectInstance(role: "bar")
     }
 
     public static String preamble(String nested) {

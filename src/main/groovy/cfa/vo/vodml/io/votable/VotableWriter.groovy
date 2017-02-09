@@ -89,7 +89,7 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
                         }
                     }
                 }
-                objectInstance.attributes.each {
+                objectInstance.objectTypes.each {
                     out << buildAttribute(it, builder)
                 }
                 objectInstance.references.each {
@@ -133,7 +133,7 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
         elem()
     }
 
-    void buildAttribute(AttributeInstance attributeInstance, builder) {
+    void buildAttribute(ObjectInstance attributeInstance, builder) {
         def elem = {
             ATTRIBUTE(dmrole: attributeInstance.role) {
                 LITERAL(value: attributeInstance.value, dmtype: attributeInstance.type.toString())

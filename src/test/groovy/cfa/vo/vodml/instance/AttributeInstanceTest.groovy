@@ -53,30 +53,30 @@ class AttributeInstanceTest extends Specification {
             model(spec: stcSpec, vodmlURL: "https://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/STC2/prototype/STCPrototype-2.0.vo-dml.xml")
             model(spec: ivoaSpec, vodmlURL: "https://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/ivoa/IVOA.vo-dml.xml")
             instance(type: "ds:experiment.AstroTarget") {
-                attribute(role: "name", value: "3C273")
-                attribute(role: "description", value: "A Quasar")
-                attribute(role: "position", type: "stc:coords.Position") {
-                    attribute(role: "coord", type: "stc:stctypes.RealDoublet") {
-                        attribute(role: "d1", value: 187.2792)
-                        attribute(role: "d2", value: 2.0525)
+                instance(role: "name", value: "3C273")
+                instance(role: "description", value: "A Quasar")
+                instance(role: "position", type: "stc:coords.Position") {
+                    instance(role: "coord", type: "stc:stctypes.RealDoublet") {
+                        instance(role: "d1", value: 187.2792)
+                        instance(role: "d2", value: 2.0525)
                     }
                 }
-                attribute(role: "objectClass", value: "BLAZAR")
-                attribute(role: "spectralClass", value: "Sy1")
-                attribute(role: "redshift", value: 0.158)
-                attribute(role: "varAmpl", value: Double.NaN)
+                instance(role: "objectClass", value: "BLAZAR")
+                instance(role: "spectralClass", value: "Sy1")
+                instance(role: "redshift", value: 0.158)
+                instance(role: "varAmpl", value: Double.NaN)
             }
         }
 
         expect:
-        !instance.objectTypes[0].attributes.empty
-        !instance.objectTypes[0].attributes[2].attributes.empty
+        !instance.objectTypes[0].objectTypes.empty
+        !instance.objectTypes[0].objectTypes[2].objectTypes.empty
     }
 
     def "test inequality"() {
         given:
-        def i1 = new AttributeInstance(role: "bar:baz")
-        def i2 = new AttributeInstance(type: "foo:bar")
+        def i1 = new ObjectInstance(role: "bar:baz")
+        def i2 = new ObjectInstance(type: "foo:bar")
 
         expect:
         i1 != i2
