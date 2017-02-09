@@ -69,7 +69,7 @@ class VotableWriterSpec extends Specification {
         System.out = stdout
     }
 
-    def "Build"() {
+    def "test5"() {
         given:
         String[] args = ["-i", instanceDsl]
 

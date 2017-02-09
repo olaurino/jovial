@@ -57,7 +57,8 @@ votable {
         instance(role: "name", value: "ICRS")
     }
     ["2mass:H", "2mass:J", "2mass:K"].each { name ->
-        instance(type: "filter:PhotometryFilter", id: "_${name.replace(':', '')}", fullId: true) {
+        def id = "_${name.replace(':', '')}"
+        instance(type: "filter:PhotometryFilter", id: id, pk: id) {
             instance(role: "name", value: name)
         }
     }

@@ -248,7 +248,7 @@ class ObjectInstance extends Instance {
     @Delegate HasColumns hasColumns = new HasColumns()
     List<CompositionInstance> collections = []
     String value
-    Boolean fullId
+    String pk
 
     public leftShift(CompositionInstance object) {collections << object}
 

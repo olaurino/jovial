@@ -534,7 +534,7 @@
 			<xs:extension base="VODMLInstance">
 				<xs:sequence>
 					<!-- lets be explicit -->
-					<xs:element name="IDENTIFIER" type="VODMLObjectIdentifier" minOccurs="0">
+					<xs:element name="PRIMARYKEY" type="VODMLObjectIdentifier" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Objects, i.e. ObjectType instances, can have a unique identifier which can be used in ORM-like references.
@@ -785,7 +785,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="IDFIELD" maxOccurs="unbounded" type="VODMLObjectIdentifierField">
+			<xs:element name="PKFIELD" maxOccurs="unbounded" type="VODMLObjectIdentifierField">
 				<xs:annotation>
 					<xs:documentation>
 						A field in an identifier. The identifier may contain 1 or more such fields. Their order 

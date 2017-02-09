@@ -31,33 +31,33 @@
             </INSTANCE>
 
             <INSTANCE ID="_2massH" dmtype="filter:PhotometryFilter">
-                <IDENTIFIER>
-                    <IDFIELD>
+                <PRIMARYKEY>
+                    <PKFIELD>
                         <LITERAL dmtype="ivoa:string" value="_2massH"/>
-                    </IDFIELD>
-                </IDENTIFIER>
+                    </PKFIELD>
+                </PRIMARYKEY>
                 <ATTRIBUTE dmrole="filter:PhotometryFilter.name">
                     <LITERAL dmtype="ivoa:string" value="2mass:H"/>
                 </ATTRIBUTE>
             </INSTANCE>
 
             <INSTANCE ID="_2massJ" dmtype="filter:PhotometryFilter">
-                <IDENTIFIER>
-                    <IDFIELD>
+                <PRIMARYKEY>
+                    <PKFIELD>
                         <LITERAL dmtype="ivoa:string" value="_2massJ"/>
-                    </IDFIELD>
-                </IDENTIFIER>
+                    </PKFIELD>
+                </PRIMARYKEY>
                 <ATTRIBUTE dmrole="filter:PhotometryFilter.name">
                     <LITERAL dmtype="ivoa:string" value="2mass:J"/>
                 </ATTRIBUTE>
             </INSTANCE>
 
             <INSTANCE ID="_2massK" dmtype="filter:PhotometryFilter">
-                <IDENTIFIER>
-                    <IDFIELD>
+                <PRIMARYKEY>
+                    <PKFIELD>
                         <LITERAL dmtype="ivoa:string" value="_2massK"/>
-                    </IDFIELD>
-                </IDENTIFIER>
+                    </PKFIELD>
+                </PRIMARYKEY>
                 <ATTRIBUTE dmrole="filter:PhotometryFilter.name">
                     <LITERAL dmtype="ivoa:string" value="2mass:K"/>
                 </ATTRIBUTE>

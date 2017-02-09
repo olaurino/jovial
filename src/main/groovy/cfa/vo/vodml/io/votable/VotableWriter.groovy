@@ -82,10 +82,10 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
     void buildObject(objectInstance, builder) {
         def elem = {
             INSTANCE(dmtype:objectInstance.type.toString(), ID: objectInstance.id) {
-                if (objectInstance.fullId) {
-                    IDENTIFIER() {
-                        IDFIELD() {
-                            LITERAL(dmtype: "ivoa:string", value: objectInstance.id)
+                if (objectInstance.pk) {
+                    PRIMARYKEY() {
+                        PKFIELD() {
+                            LITERAL(dmtype: "ivoa:string", value: objectInstance.pk)
                         }
                     }
                 }
