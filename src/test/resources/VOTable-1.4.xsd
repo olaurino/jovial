@@ -718,11 +718,12 @@
 	<xs:complexType name="VODMLReference">
 		<xs:annotation>
 			<xs:documentation>
-				Provides a reference to an ObjectType instance. Must allow that instance to be identified exactly.
+				Provides a reference to an ObjectType votable. Must allow that instance to be identified exactly.
 				VArious different modes depending on how that instance is serialized.
 				- If as a Standalone instance in same VOTable document, an IDREF can point to its ID (use IDREF).
 				- If as a row in a TABLE a relational foreign key can be used (use ORMREFERENCE)
-				- if a remote document contains the serialized instance, a URI must be used that MUST be able to identify that object
+				- if a remote document contains the serialized instance, a URI must be used that MUST be able to
+				identify that object
 				inside its remote serialization (a REMOTEREFERENCE must be used).
 			</xs:documentation>
 		</xs:annotation>

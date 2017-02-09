@@ -30,31 +30,53 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  * #L%
  */
-package cfa.vo.vodml.io.instance
+/**
+ * Copyright (C) 2017 Smithsonian Astrophysical Observatory
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-import cfa.vo.vodml.instance.DataModelInstance
-import groovy.xml.XmlUtil
+package cfa.vo.vodml.io.votable
 
-abstract class AbstractMarkupInstanceWriter implements InstanceWriter {
-    private DataModelInstance instance
+import cfa.vo.vodml.io.Main
+import cfa.vo.vodml.utils.XmlUtils
+import spock.lang.Specification
 
-    @Override
-    void write(DataModelInstance instance, OutputStream os) {
-        this.instance = instance
-        def writer = new OutputStreamWriter(os)
-        def builder = getMarkupBuilder().bind {
-            mkp.xmlDeclaration()
-            mkp.declareNamespace("${this.prefix}": this.nameSpace, xsi: "http://www.w3.org/2001/XMLSchema-instance")
-            out << build(instance, delegate)
-        }
-        XmlUtil.serialize builder, writer
+class VotableWriterSpec extends Specification {
+    def instanceFile = getClass().getResource("/votable/example.votable.xml")
+    def instanceDsl = getClass().getResource("/votable/example.groovy").path
+    def baos = new ByteArrayOutputStream()
+    def stdout
+    def instanceVotableXml
+
+    void setup() {
+        instanceVotableXml = instanceFile.text
+        stdout = System.out
+        System.out = new PrintStream(baos)
     }
 
-    abstract void build(DataModelInstance instance, builder)
+    void cleanup() {
+        System.out = stdout
+    }
 
-    abstract String getNameSpace()
+    def "Build"() {
+        given:
+        String[] args = ["-i", instanceDsl]
 
-    abstract String getPrefix()
+        when:
+        Main.main(args)
 
-    abstract getMarkupBuilder()
+        then:
+        XmlUtils.testXml(instanceVotableXml, baos.toString())
+    }
 }

@@ -30,7 +30,7 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  * #L%
  */
-package cfa.vo.vodml.io.instance
+package cfa.vo.vodml.io.votable
 
 import cfa.vo.vodml.instance.*
 import groovy.xml.StreamingMarkupBuilder
@@ -44,14 +44,18 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
                     instance.models.each {
                         out << buildModel(it, delegate)
                     }
-                    GLOBALS() {
-                        instance.objectTypes.each {
-                            out << buildObject(it, delegate, false)
+                    if (instance.objectTypes) {
+                        GLOBALS() {
+                            instance.objectTypes.each {
+                                out << buildObject(it, delegate)
+                            }
                         }
                     }
-                    TEMPLATES() {
-                        instance.tables.each {
-                            out << buildTable(it, delegate)
+                    if (instance.tables) {
+                        TEMPLATES() {
+                            instance.tables.each {
+                                out << buildTable(it, delegate)
+                            }
                         }
                     }
                 }
@@ -63,28 +67,31 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
 
     void buildModel(ModelImportInstance modelImportInstance, builder) {
         def elem = {
-            def attrs = [
-                    name: modelImportInstance.name,
-                    url : modelImportInstance.vodmlURL,
-            ]
-            if (modelImportInstance.identifier) {
-                attrs['identifier'] = modelImportInstance.identifier
+            MODEL() {
+                NAME(modelImportInstance.name)
+                URL(modelImportInstance.vodmlURL)
+                if (modelImportInstance.identifier) {
+                    IDENTIFIER(modelImportInstance.identifier)
+                }
             }
-            MODEL(attrs)
         }
         elem.delegate = builder
         elem()
     }
 
-    void buildObject(objectInstance, builder, slot="slot") {
-        def elem = { tagname = "INSTANCE" ->
-            "$tagname"(dmtype:objectInstance.type.toString(), id: objectInstance.id) {
-                objectInstance.attributes.each {
-                    out << buildValue(it, builder)
+    void buildObject(objectInstance, builder) {
+        def elem = {
+            INSTANCE(dmtype:objectInstance.type.toString(), ID: objectInstance.id) {
+                if (objectInstance.fullId) {
+                    IDENTIFIER() {
+                        IDFIELD() {
+                            LITERAL(dmtype: "ivoa:string", value: objectInstance.id)
+                        }
+                    }
                 }
-//                objectInstance.dataTypes.each {
-//                    out << buildObject(it, builder, "slot")
-//                }
+                objectInstance.attributes.each {
+                    out << buildAttribute(it, builder)
+                }
                 objectInstance.references.each {
                     REFERENCE(dmrole: it.role, it.value)
                 }
@@ -100,27 +107,15 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
                 }
             }
         }
-        def wrapper = {
-            if ("slot".equals(slot)) {
-                ATTRIBUTE(dmrole:objectInstance.role.toString()) {
-                    elem("INSTANCE")
-                }
-            } else if ("template".equals(slot)) {
-                elem("TEMPLATE")
-            } else {
-                elem()
-            }
-        }
-        wrapper.delegate = builder
         elem.delegate = builder
-        wrapper()
+        elem()
     }
 
     void buildComposition(CompositionInstance compositionInstance, builder) {
         def elem = {
             COMPOSITION(dmrole:compositionInstance.role.toString()) {
                 for (instance in compositionInstance.objectTypes) {
-                    out << buildObject(instance, builder, false)
+                    out << buildObject(instance, builder)
                 }
             }
         }
@@ -131,17 +126,17 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
     void buildTable(TableInstance tableInstance, builder) {
         def elem = {
             for (instance in tableInstance.objectTypes) {
-              out << buildObject(instance, builder, "")
+              out << buildObject(instance, builder)
             }
         }
         elem.delegate = builder
         elem()
     }
 
-    void buildValue(LiteralInstance valueInstance, builder) {
+    void buildAttribute(AttributeInstance attributeInstance, builder) {
         def elem = {
-            ATTRIBUTE(dmrole: valueInstance.role) {
-                LITERAL(valueInstance.value, dmtype: valueInstance.type.toString())
+            ATTRIBUTE(dmrole: attributeInstance.role) {
+                LITERAL(value: attributeInstance.value, dmtype: attributeInstance.type.toString())
             }
         }
         elem.delegate = builder

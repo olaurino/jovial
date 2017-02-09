@@ -2,7 +2,7 @@
  * #%L
  * jovial
  * %%
- * Copyright (C) 2016 Smithsonian Astrophysical Observatory
+ * Copyright (C) 2016 - 2017 Smithsonian Astrophysical Observatory
  * %%
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
@@ -30,10 +30,31 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  * #L%
  */
-package cfa.vo.vodml.io.instance
+package cfa.vo.vodml.io.votable
 
 import cfa.vo.vodml.instance.DataModelInstance
+import groovy.xml.XmlUtil
 
-public interface InstanceWriter {
-    void write(DataModelInstance instance, OutputStream os)
+abstract class AbstractMarkupInstanceWriter implements InstanceWriter {
+    private DataModelInstance instance
+
+    @Override
+    void write(DataModelInstance instance, OutputStream os) {
+        this.instance = instance
+        def writer = new OutputStreamWriter(os)
+        def builder = getMarkupBuilder().bind {
+            mkp.xmlDeclaration()
+            mkp.declareNamespace("${this.prefix}": this.nameSpace, xsi: "http://www.w3.org/2001/XMLSchema-instance")
+            out << build(instance, delegate)
+        }
+        XmlUtil.serialize builder, writer
+    }
+
+    abstract void build(DataModelInstance instance, builder)
+
+    abstract String getNameSpace()
+
+    abstract String getPrefix()
+
+    abstract getMarkupBuilder()
 }

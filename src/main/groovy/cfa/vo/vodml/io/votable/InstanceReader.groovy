@@ -30,7 +30,7 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  * #L%
  */
-package cfa.vo.vodml.io.instance
+package cfa.vo.vodml.io.votable
 
 import cfa.vo.vodml.instance.DataModelInstance
 

@@ -2,7 +2,7 @@
  * #%L
  * jovial
  * %%
- * Copyright (C) 2016 Smithsonian Astrophysical Observatory
+ * Copyright (C) 2016 - 2017 Smithsonian Astrophysical Observatory
  * %%
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
@@ -30,47 +30,35 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  * #L%
  */
-package cfa.vo.vodml.io
+package votable
 
-import cfa.vo.vodml.io.votable.VotableWriter
+import cfa.vo.vodml.io.VodmlReader
 
-public class Main {
-    public static void main(String[] args) {
-        def cli = new CliBuilder(usage: "jovial -[mih] input-file")
+def location = { path ->
+    VodmlReader.getResource("/${path}")
+}
 
-        cli.with {
-            h longOpt: 'help', 'Show usage information'
-            m longOpt: 'model', 'convert a model. This is the default'
-            i longOpt: 'instance', 'convert an instance'
+def ivoaLocation = location('ivoa.vo-dml.xml')
+def ivoaRemoteLocation = new URL("http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/ivoa/IVOA.vo-dml.xml")
+def filterLocation = new URL("http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/sample/filter/Filter.vo-dml.xml")
+def sampleLocation = new URL("http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/sample/sample/Sample.vo-dml.xml")
+
+def reader = new VodmlReader()
+
+ivoaSpec = reader.read(ivoaLocation.openStream())
+filterSpec = reader.read(filterLocation.openStream())
+sampleSpec = reader.read(sampleLocation.openStream())
+
+votable {
+    model(spec: ivoaSpec, vodmlURL: ivoaRemoteLocation)
+    model(spec: filterSpec, vodmlURL: filterLocation, identifier: "ivo://ivoa.org/dm/sample/Filter/1.9")
+    model(spec: sampleSpec, vodmlURL: sampleLocation)
+    instance(type: "sample:catalog.SkyCoordinateFrame", id: "_icrs") {
+        attribute(role: "name", value: "ICRS")
+    }
+    ["2mass:H", "2mass:J", "2mass:K"].each { name ->
+        instance(type: "filter:PhotometryFilter", id: "_${name.replace(':', '')}", fullId: true) {
+            attribute(role: "name", value: name)
         }
-
-        def options = cli.parse(args)
-
-        if (!options || options.h || !options.arguments().size()) {
-            cli.usage()
-            return
-        }
-
-        def writer
-        def model
-        def filename = options.arguments().get(0)
-
-        if (options.i) {
-            def modelString = new File(filename).text
-            def builder = new VoTableBuilder()
-            def binding = new Binding(votable: builder.&script)
-            def shell = new GroovyShell(Main.class.classLoader, binding)
-            model = shell.evaluate modelString
-            writer = new VotableWriter()
-        } else {
-            def modelString = new File(filename).text
-            def builder = new ModelBuilder()
-            def binding = new Binding(model: builder.&script)
-            def shell = new GroovyShell(Main.class.classLoader, binding)
-            model = shell.evaluate modelString
-            writer = new ModelWriter()
-        }
-
-        writer.write(model, System.out)
     }
 }

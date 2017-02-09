@@ -53,30 +53,30 @@ class AttributeInstanceTest extends Specification {
             model(spec: stcSpec, vodmlURL: "https://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/STC2/prototype/STCPrototype-2.0.vo-dml.xml")
             model(spec: ivoaSpec, vodmlURL: "https://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/ivoa/IVOA.vo-dml.xml")
             instance(type: "ds:experiment.AstroTarget") {
-                literal(role: "name", value: "3C273")
-                literal(role: "description", value: "A Quasar")
+                attribute(role: "name", value: "3C273")
+                attribute(role: "description", value: "A Quasar")
                 attribute(role: "position", type: "stc:coords.Position") {
                     attribute(role: "coord", type: "stc:stctypes.RealDoublet") {
-                        literal(role: "d1", value: 187.2792)
-                        literal(role: "d2", value: 2.0525)
+                        attribute(role: "d1", value: 187.2792)
+                        attribute(role: "d2", value: 2.0525)
                     }
                 }
-                literal(role: "objectClass", value: "BLAZAR")
-                literal(role: "spectralClass", value: "Sy1")
-                literal(role: "redshift", value: 0.158)
-                literal(role: "varAmpl", value: Double.NaN)
+                attribute(role: "objectClass", value: "BLAZAR")
+                attribute(role: "spectralClass", value: "Sy1")
+                attribute(role: "redshift", value: 0.158)
+                attribute(role: "varAmpl", value: Double.NaN)
             }
         }
 
         expect:
-        !instance.objectTypes[0].dataTypes.empty
-        !instance.objectTypes[0].dataTypes[0].dataTypes.empty
+        !instance.objectTypes[0].attributes.empty
+        !instance.objectTypes[0].attributes[2].attributes.empty
     }
 
     def "test inequality"() {
         given:
-        def i1 = new AttributeInstance(attrs: [:])
-        def i2 = new AttributeInstance(attrs: [type: "foo:bar"])
+        def i1 = new AttributeInstance(role: "bar:baz")
+        def i2 = new AttributeInstance(type: "foo:bar")
 
         expect:
         i1 != i2

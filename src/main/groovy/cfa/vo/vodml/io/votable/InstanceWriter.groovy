@@ -30,47 +30,10 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  * #L%
  */
-package cfa.vo.vodml.io
+package cfa.vo.vodml.io.votable
 
-import cfa.vo.vodml.io.votable.VotableWriter
+import cfa.vo.vodml.instance.DataModelInstance
 
-public class Main {
-    public static void main(String[] args) {
-        def cli = new CliBuilder(usage: "jovial -[mih] input-file")
-
-        cli.with {
-            h longOpt: 'help', 'Show usage information'
-            m longOpt: 'model', 'convert a model. This is the default'
-            i longOpt: 'instance', 'convert an instance'
-        }
-
-        def options = cli.parse(args)
-
-        if (!options || options.h || !options.arguments().size()) {
-            cli.usage()
-            return
-        }
-
-        def writer
-        def model
-        def filename = options.arguments().get(0)
-
-        if (options.i) {
-            def modelString = new File(filename).text
-            def builder = new VoTableBuilder()
-            def binding = new Binding(votable: builder.&script)
-            def shell = new GroovyShell(Main.class.classLoader, binding)
-            model = shell.evaluate modelString
-            writer = new VotableWriter()
-        } else {
-            def modelString = new File(filename).text
-            def builder = new ModelBuilder()
-            def binding = new Binding(model: builder.&script)
-            def shell = new GroovyShell(Main.class.classLoader, binding)
-            model = shell.evaluate modelString
-            writer = new ModelWriter()
-        }
-
-        writer.write(model, System.out)
-    }
+public interface InstanceWriter {
+    void write(DataModelInstance instance, OutputStream os)
 }
