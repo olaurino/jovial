@@ -33,6 +33,7 @@
 package cfa.vo.vodml.instance
 
 import cfa.vo.vodml.metamodel.Composition
+import cfa.vo.vodml.metamodel.ElementRef
 import cfa.vo.vodml.metamodel.Model
 import cfa.vo.vodml.utils.Resolver
 import cfa.vo.vodml.utils.VoBuilderNode
@@ -107,6 +108,7 @@ class HasTables {
  */
 class DefaultNode implements VoBuilderNode {
     Resolver resolver = Resolver.instance
+    def parent
     void start(Map m) {}
     void apply() {}
     void end() {}
@@ -164,7 +166,6 @@ class DataModelInstance extends DefaultNode {
  */
 abstract class Instance extends DefaultNode {
     String id
-    def parent
     VodmlRef type
     VodmlRef role
     protected Map attrs
@@ -249,11 +250,38 @@ class ObjectInstance extends Instance {
     @Delegate HasObjects hasObjects = new HasObjects()
     @Delegate HasReferences hasReferences = new HasReferences()
     @Delegate HasColumns hasColumns = new HasColumns()
-    List<CompositionInstance> collections = []
+    List<CompositionInstance> compositions = []
     String value
     String pk
+    List<PkInstance> primaryKeys = []
 
-    public leftShift(CompositionInstance object) {collections << object}
+    public leftShift(ObjectInstance object) {
+        if (resolver.resolveRole(object.role) instanceof Composition) {
+            def existing = compositions.find { it.role == object.role }
+            if (existing) {
+                existing << object
+            } else {
+                def comp = new CompositionInstance(role: object.role)
+                comp << object
+                compositions << comp
+            }
+        } else {
+            hasObjects << object
+        }
+    }
+
+    public leftShift(PkInstance data) {primaryKeys << data}
+
+    public leftShift(ExternalInstance object) {
+        def existing = compositions.find { it.role == object.role }
+        if (existing) {
+            existing << object
+        } else {
+            def comp = new CompositionInstance(role: object.role)
+            comp << object
+            compositions << comp
+        }
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -267,8 +295,8 @@ class ObjectInstance extends Instance {
         def theirReferences = new HashSet(o.references)
         def ourColumns = new HashSet(columns)
         def theirColumns = new HashSet(o.columns)
-        def ourCollections = new HashSet(this.collections)
-        def theirCollections = new HashSet(o.collections)
+        def ourCollections = new HashSet(this.compositions)
+        def theirCollections = new HashSet(o.compositions)
         def ourObjects = new HashSet(this.objectTypes)
         def theirObjects = new HashSet(o.objectTypes)
 
@@ -293,6 +321,7 @@ class GlobalsInstance extends Instance {
 @Canonical
 class CompositionInstance extends Instance {
     @Delegate HasObjects hasObjects = new HasObjects()
+    List<ExternalInstance> externals = []
     Integer maxOccurs = -1;
 
     /**
@@ -308,6 +337,10 @@ class CompositionInstance extends Instance {
         }
     }
 
+    public leftShift(ExternalInstance object) {
+        externals << object
+    }
+
     @Override
     public void setRole(String ref) {
         super.setRole(ref)
@@ -321,7 +354,12 @@ class CompositionInstance extends Instance {
  */
 @Canonical
 class TableInstance extends CompositionInstance {
+    String ref
+}
 
+@Canonical
+class PkInstance extends Instance {
+    String column
 }
 
 /**
@@ -329,7 +367,12 @@ class TableInstance extends CompositionInstance {
  */
 @Canonical
 class ReferenceInstance extends Instance {
-    String value
+    String idref
+}
+
+@Canonical
+class ExternalInstance extends Instance {
+    String ref
 }
 
 /**
@@ -338,6 +381,7 @@ class ReferenceInstance extends Instance {
 @Canonical
 class ColumnInstance extends Instance {
     String value
+    String ref
 }
 
 /**

@@ -33,6 +33,7 @@
 package cfa.vo.vodml.utils;
 
 import org.apache.commons.lang3.StringUtils;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xmlunit.builder.DiffBuilder;
@@ -49,21 +50,22 @@ public class XmlUtils {
         doTest(diff);
     }
 
-    public static void testVodmlInstanceXml(String control, String actual) {
+    public static void testVotable(String control, String actual) {
+        ElementSelector allLeaves = ElementSelectors.byXPath(".//*[not(*)]",
+                ElementSelectors.and(ElementSelectors.byNameAndText, ElementSelectors.byNameAndAllAttributes));
+
         ElementSelector selector = ElementSelectors.conditionalBuilder()
-                .whenElementIsNamed("model")
-                .thenUse(new ModelMatcher()).build();
+                .whenElementIsNamed("ATTRIBUTE")
+                .thenUse(ElementSelectors.and(ElementSelectors.byNameAndAttributes("dmrole"), allLeaves))
+                .whenElementIsNamed("INSTANCE")
+                .thenUse(allLeaves)
+                .build();
 
         Diff diff = baseBuilder(control, actual)
                 .withNodeMatcher(new DefaultNodeMatcher(selector, ElementSelectors.Default))
-                .withNodeFilter(new ModelNodeFilter())
                 .build();
 
         doTest(diff);
-    }
-
-    public static void assertVotableAltEqual(String standardVODMLI, String altVotable) {
-        throw new AssertionError("not Implemented");
     }
 
     private static void doTest(Diff diff) {
@@ -85,47 +87,5 @@ public class XmlUtils {
                     }
                 })
                 .normalizeWhitespace();
-    }
-
-    public static class ModelNodeFilter implements Predicate<Node> {
-
-        @Override
-        public boolean test(Node node) {
-            return !node.getNodeName().equals("identifier");
-        }
-    }
-
-    public static class ModelMatcher implements ElementSelector {
-
-        @Override
-        public boolean canBeCompared(Element control, Element test) {
-
-            if (!"model".equals(test.getLocalName())) {
-                return false;
-            }
-            String controlVodmlURL = control.getElementsByTagName("vodmlURL").item(0).getTextContent();
-            String controlPrefix = control.getElementsByTagName("vodmlrefPrefix").item(0).getTextContent();
-
-            Node controlIdentifierNode = control.getElementsByTagName("identifier").item(0);
-            String controlIdentifier = null;
-            if (controlIdentifierNode != null) {
-                controlIdentifier = controlIdentifierNode.getTextContent();
-            }
-
-
-            String testVodmlURL = test.getElementsByTagName("vodmlURL").item(0).getTextContent();
-            String testPrefix = test.getElementsByTagName("vodmlrefPrefix").item(0).getTextContent();
-
-
-            Node testIdentifierNode = test.getElementsByTagName("identifier").item(0);
-            String testIdentifier = null;
-            if (testIdentifierNode != null) {
-                testIdentifier = testIdentifierNode.getTextContent();
-            }
-
-            return StringUtils.equals(controlVodmlURL, testVodmlURL) &&
-                    StringUtils.equals(controlPrefix, testPrefix) &&
-                    StringUtils.equals(controlIdentifier, testIdentifier);
-        }
     }
 }

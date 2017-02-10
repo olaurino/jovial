@@ -98,77 +98,77 @@
 
         </GLOBALS>
 
-        <!--<TEMPLATES tableref="_table1">-->
-            <!--<INSTANCE ID="_source" dmtype="sample:catalog.Source">-->
-                <!--<PRIMARYKEY>-->
-                    <!--<PKFIELD>-->
-                        <!--<COLUMN dmtype="ivoa:string" ref="_designation"/>-->
-                    <!--</PKFIELD>-->
-                <!--</PRIMARYKEY>-->
-                <!--<ATTRIBUTE dmrole="sample:catalog.AbstractSource.name">-->
-                    <!--<COLUMN dmtype="ivoa:string" ref="_designation"/>-->
-                <!--</ATTRIBUTE>-->
-                <!--<ATTRIBUTE dmrole="sample:catalog.AbstractSource.position">-->
-                    <!--<INSTANCE dmtype="sample:catalog.SkyCoordinate">-->
-                        <!--<ATTRIBUTE dmrole="sample:catalog.SkyCoordinate.longitude">-->
-                            <!--<COLUMN dmtype="ivoa:RealQuantity" ref="_ra"/>-->
-                        <!--</ATTRIBUTE>-->
-                        <!--<ATTRIBUTE dmrole="sample:catalog.SkyCoordinate.latitude">-->
-                            <!--<COLUMN dmtype="ivoa:RealQuantity" ref="_dec"/>-->
-                        <!--</ATTRIBUTE>-->
-                        <!--<REFERENCE dmrole="sample:catalog.SkyCoordinate.frame">-->
-                            <!--<IDREF>_icrs</IDREF>-->
-                        <!--</REFERENCE>-->
-                    <!--</INSTANCE>-->
-                <!--</ATTRIBUTE>-->
+        <TEMPLATES tableref="_table1">
+            <INSTANCE ID="_source" dmtype="sample:catalog.Source">
+                <PRIMARYKEY>
+                    <PKFIELD>
+                        <COLUMN dmtype="ivoa:string" ref="_designation"/>
+                    </PKFIELD>
+                </PRIMARYKEY>
+                <ATTRIBUTE dmrole="sample:catalog.AbstractSource.name">
+                    <COLUMN dmtype="ivoa:string" ref="_designation"/>
+                </ATTRIBUTE>
+                <ATTRIBUTE dmrole="sample:catalog.AbstractSource.position">
+                    <INSTANCE dmtype="sample:catalog.SkyCoordinate">
+                        <ATTRIBUTE dmrole="sample:catalog.SkyCoordinate.longitude">
+                            <COLUMN dmtype="ivoa:RealQuantity" ref="_ra"/>
+                        </ATTRIBUTE>
+                        <ATTRIBUTE dmrole="sample:catalog.SkyCoordinate.latitude">
+                            <COLUMN dmtype="ivoa:RealQuantity" ref="_dec"/>
+                        </ATTRIBUTE>
+                        <REFERENCE dmrole="sample:catalog.SkyCoordinate.frame">
+                            <IDREF>_icrs</IDREF>
+                        </REFERENCE>
+                    </INSTANCE>
+                </ATTRIBUTE>
 
-                <!--<COMPOSITION dmrole="sample:catalog.AbstractSource.luminosity">-->
-                    <!--<INSTANCE dmtype="sample:catalog.LuminosityMeasurement">-->
-                        <!--<ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.value">-->
-                            <!--<COLUMN dmtype="ivoa:RealQuantity" ref="_magH"/>-->
-                        <!--</ATTRIBUTE>-->
-                        <!--<ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.error">-->
-                            <!--<COLUMN dmtype="ivoa:RealQuantity" ref="_errH"/>-->
-                        <!--</ATTRIBUTE>-->
-                        <!--<ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.type">-->
-                            <!--<LITERAL dmtype="sample:catalog.LuminosityType" value="magnitude"/>-->
-                        <!--</ATTRIBUTE>-->
-                        <!--<REFERENCE dmrole="sample:catalog.LuminosityMeasurement.filter">-->
-                            <!--<IDREF>_2massH</IDREF>-->
-                        <!--</REFERENCE>-->
-                    <!--</INSTANCE>-->
-                    <!--<INSTANCE dmtype="sample:catalog.LuminosityMeasurement">-->
-                        <!--<ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.value">-->
-                            <!--<COLUMN dmtype="ivoa:RealQuantity" ref="_magJ"/>-->
-                        <!--</ATTRIBUTE>-->
-                        <!--<ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.error">-->
-                            <!--<COLUMN dmtype="ivoa:RealQuantity" ref="_errJ"/>-->
-                        <!--</ATTRIBUTE>-->
-                        <!--<ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.type">-->
-                            <!--<LITERAL dmtype="sample:catalog.LuminosityType" value="magnitude"/>-->
-                        <!--</ATTRIBUTE>-->
-                        <!--<REFERENCE dmrole="sample:catalog.LuminosityMeasurement.filter">-->
-                            <!--<IDREF>_2massJ</IDREF>-->
-                        <!--</REFERENCE>-->
-                    <!--</INSTANCE>-->
-                    <!--<INSTANCE dmtype="sample:catalog.LuminosityMeasurement">-->
-                        <!--<ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.value">-->
-                            <!--<COLUMN dmtype="ivoa:RealQuantity" ref="_magK"/>-->
-                        <!--</ATTRIBUTE>-->
-                        <!--<ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.error">-->
-                            <!--<COLUMN dmtype="ivoa:RealQuantity" ref="_errK"/>-->
-                        <!--</ATTRIBUTE>-->
-                        <!--<ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.type">-->
-                            <!--<LITERAL dmtype="sample:catalog.LuminosityType" value="magnitude"/>-->
-                        <!--</ATTRIBUTE>-->
-                        <!--<REFERENCE dmrole="sample:catalog.LuminosityMeasurement.filter">-->
-                            <!--<IDREF>_2massK</IDREF>-->
-                        <!--</REFERENCE>-->
-                    <!--</INSTANCE>-->
-                    <!--<EXTINSTANCES>SDSS_MAGS</EXTINSTANCES>-->
-                <!--</COMPOSITION>-->
-            <!--</INSTANCE>-->
-        <!--</TEMPLATES>-->
+                <COMPOSITION dmrole="sample:catalog.AbstractSource.luminosity">
+                    <INSTANCE dmtype="sample:catalog.LuminosityMeasurement">
+                        <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.value">
+                            <COLUMN dmtype="ivoa:RealQuantity" ref="_magH"/>
+                        </ATTRIBUTE>
+                        <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.error">
+                            <COLUMN dmtype="ivoa:RealQuantity" ref="_errH"/>
+                        </ATTRIBUTE>
+                        <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.type">
+                            <LITERAL dmtype="sample:catalog.LuminosityType" value="magnitude"/>
+                        </ATTRIBUTE>
+                        <REFERENCE dmrole="sample:catalog.LuminosityMeasurement.filter">
+                            <IDREF>_2massH</IDREF>
+                        </REFERENCE>
+                    </INSTANCE>
+                    <INSTANCE dmtype="sample:catalog.LuminosityMeasurement">
+                        <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.value">
+                            <COLUMN dmtype="ivoa:RealQuantity" ref="_magJ"/>
+                        </ATTRIBUTE>
+                        <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.error">
+                            <COLUMN dmtype="ivoa:RealQuantity" ref="_errJ"/>
+                        </ATTRIBUTE>
+                        <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.type">
+                            <LITERAL dmtype="sample:catalog.LuminosityType" value="magnitude"/>
+                        </ATTRIBUTE>
+                        <REFERENCE dmrole="sample:catalog.LuminosityMeasurement.filter">
+                            <IDREF>_2massJ</IDREF>
+                        </REFERENCE>
+                    </INSTANCE>
+                    <INSTANCE dmtype="sample:catalog.LuminosityMeasurement">
+                        <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.value">
+                            <COLUMN dmtype="ivoa:RealQuantity" ref="_magK"/>
+                        </ATTRIBUTE>
+                        <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.error">
+                            <COLUMN dmtype="ivoa:RealQuantity" ref="_errK"/>
+                        </ATTRIBUTE>
+                        <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.type">
+                            <LITERAL dmtype="sample:catalog.LuminosityType" value="magnitude"/>
+                        </ATTRIBUTE>
+                        <REFERENCE dmrole="sample:catalog.LuminosityMeasurement.filter">
+                            <IDREF>_2massK</IDREF>
+                        </REFERENCE>
+                    </INSTANCE>
+                    <EXTINSTANCES>SDSS_MAGS</EXTINSTANCES>
+                </COMPOSITION>
+            </INSTANCE>
+        </TEMPLATES>
         <!--<TEMPLATES tableref="_sdss_mags">-->
 
             <!--<INSTANCE ID="SDSS_MAGS" dmtype="src:source.LuminosityMeasurement">-->

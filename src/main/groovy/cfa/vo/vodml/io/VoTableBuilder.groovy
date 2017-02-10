@@ -109,6 +109,10 @@ class VoTableBuilder extends BuilderSupport {
             parent.apply()
         }
 
+        if (child.respondsTo("apply")) {
+            child.apply()
+        }
+
         if (parent) {
             log.debug("$parent << $child")
             try {

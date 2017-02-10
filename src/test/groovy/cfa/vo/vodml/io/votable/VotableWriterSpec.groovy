@@ -67,6 +67,7 @@ class VotableWriterSpec extends Specification {
 
     void cleanup() {
         System.out = stdout
+        println(baos.toString())
     }
 
     def "test5"() {
@@ -77,6 +78,6 @@ class VotableWriterSpec extends Specification {
         Main.main(args)
 
         then:
-        XmlUtils.testXml(instanceVotableXml, baos.toString())
+        XmlUtils.testVotable(instanceVotableXml, baos.toString())
     }
 }

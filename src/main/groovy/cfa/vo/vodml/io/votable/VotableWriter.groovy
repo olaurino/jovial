@@ -60,11 +60,9 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
                         }
                     }
 
-                    if (instance.tables) {
-                        TEMPLATES() {
-                            instance.tables.each {
-                                out << buildTable(it, delegate)
-                            }
+                    instance.tables.each { tab ->
+                        TEMPLATES(tableref: tab.ref) {
+                            out << buildTable(tab, delegate)
                         }
                     }
                 }
@@ -94,28 +92,43 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
             if (objectInstance.id) {
                 attrs.ID = objectInstance.id
             }
-            INSTANCE(attrs) {
-                if (objectInstance.pk) {
-                    PRIMARYKEY() {
-                        PKFIELD() {
-                            LITERAL(dmtype: "ivoa:string", value: objectInstance.pk)
+            if (objectInstance.value) {
+                LITERAL(value: objectInstance.value, dmtype: objectInstance.type.toString())
+            } else {
+                INSTANCE(attrs) {
+                    if (objectInstance.pk) {
+                        PRIMARYKEY() {
+                            PKFIELD() {
+                                LITERAL(dmtype: "ivoa:string", value: objectInstance.pk)
+                            }
                         }
                     }
-                }
-                objectInstance.objectTypes.each {
-                    out << buildAttribute(it, builder)
-                }
-                objectInstance.references.each {
-                    REFERENCE(dmrole: it.role, it.value)
-                }
-                if (objectInstance.hasProperty("compositions")) {
-                    objectInstance.compositions.each {
-                        out << buildComposition(it, builder)
+                    objectInstance.primaryKeys.each { pk ->
+                        PRIMARYKEY() {
+                            PKFIELD() {
+                                COLUMN(dmtype: "ivoa:string", ref: pk.column)
+                            }
+                        }
                     }
-                }
-                objectInstance.columns.each { column ->
-                    ATTRIBUTE(dmrole: column.role) {
-                        COLUMN(ref: column.value)
+                    objectInstance.objectTypes.each { inst ->
+                        ATTRIBUTE(dmrole: inst.role) {
+                            out << buildObject(inst, builder)
+                        }
+                    }
+                    objectInstance.references.each { ref ->
+                        REFERENCE(dmrole: ref.role) {
+                            IDREF(ref.idref)
+                        }
+                    }
+                    if (objectInstance.hasProperty("compositions")) {
+                        objectInstance.compositions.each { comp ->
+                            out << buildComposition(comp, builder)
+                        }
+                    }
+                    objectInstance.columns.each { column ->
+                        ATTRIBUTE(dmrole: column.role) {
+                            COLUMN(dmtype: column.type, ref: column.ref)
+                        }
                     }
                 }
             }
@@ -129,6 +142,9 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
             COMPOSITION(dmrole:compositionInstance.role.toString()) {
                 for (instance in compositionInstance.objectTypes) {
                     out << buildObject(instance, builder)
+                }
+                compositionInstance.externals.each { ext ->
+                    EXTINSTANCES(ext.ref)
                 }
             }
         }
@@ -146,15 +162,15 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
         elem()
     }
 
-    void buildAttribute(ObjectInstance attributeInstance, builder) {
-        def elem = {
-            ATTRIBUTE(dmrole: attributeInstance.role) {
-                LITERAL(value: attributeInstance.value, dmtype: attributeInstance.type.toString())
-            }
-        }
-        elem.delegate = builder
-        elem()
-    }
+//    void buildAttribute(ObjectInstance attributeInstance, builder) {
+//        def elem = {
+//            ATTRIBUTE(dmrole: attributeInstance.role) {
+//                LITERAL(value: attributeInstance.value, dmtype: attributeInstance.type.toString())
+//            }
+//        }
+//        elem.delegate = builder
+//        elem()
+//    }
 
     @Override
     String getNameSpace() {
