@@ -55,20 +55,23 @@ votable {
     model(spec: ivoaSpec, vodmlURL: ivoaRemoteLocation)
     model(spec: filterSpec, vodmlURL: filterLocation, identifier: "ivo://ivoa.org/dm/sample/Filter/1.9")
     model(spec: sampleSpec, vodmlURL: "$remote/sample/sample/Sample.vo-dml.xml")
+
     instance(type: "sample:catalog.SkyCoordinateFrame", id: "_icrs") {
         instance(role: "name", value: "ICRS")
     }
 
     ["2mass:H", "2mass:J", "2mass:K"].each { name ->
         def id = "_${name.replace(':', '')}"
-        instance(type: "filter:PhotometryFilter", id: id, pk: id) {
+        instance(type: "filter:PhotometryFilter", id: id) {
+            pk(value: id)
             instance(role: "name", value: name)
         }
     }
 
     globals(id: "_SDSS_FILTERS") {
         ["sdss:g", "sdss:r", "sdss:u"].each { name ->
-            instance(type: "filter:PhotometryFilter", pk: name) {
+            instance(type: "filter:PhotometryFilter") {
+                pk(value: name)
                 instance(role: "name", value: name)
             }
         }
@@ -76,8 +79,9 @@ votable {
 
     table(ref: "_table1") {
         instance(type:"sample:catalog.Source", id:"_source") {
-            pk(column: "_designation")
-            column(role: "name", ref:"_designation")
+            pk() {
+                column(role: "name", ref:"_designation")
+            }
             instance(role: "position") {
                 column(role: "longitude", ref:"_ra")
                 column(role: "latitude", ref:"_dec")
@@ -120,6 +124,21 @@ votable {
                 instance(role: "type", value: "magnitude")
             }
             external(role: "luminosity", ref:"SDSS_MAGS")
+        }
+    }
+
+    table(ref: "_sdss_mags") {
+        instance(id: "SDSS_MAGS", type: "sample:catalog.LuminosityMeasurement") {
+            fk(target: "_source") {
+                column(ref: "_container")
+            }
+            column(role: "value", ref: "_mag")
+            column(role: "error", ref: "_eMag")
+            reference(role: "filter") {
+                fk(target: "_SDSS_FILTERS") {
+                    column(ref: "_filter")
+                }
+            }
         }
     }
 }

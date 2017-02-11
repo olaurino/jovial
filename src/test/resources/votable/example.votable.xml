@@ -169,36 +169,33 @@
                 </COMPOSITION>
             </INSTANCE>
         </TEMPLATES>
-        <!--<TEMPLATES tableref="_sdss_mags">-->
-
-            <!--<INSTANCE ID="SDSS_MAGS" dmtype="src:source.LuminosityMeasurement">-->
-                <!--<CONTAINER>-->
-                    <!--<FOREIGNKEY>-->
-                        <!--<PKFIELD>-->
-                            <!--<COLUMN dmtype="ivoa:string" ref="_container"/>-->
-                        <!--</PKFIELD>-->
-                        <!--<TARGETID>_source</TARGETID>-->
-                    <!--</FOREIGNKEY>-->
-                <!--</CONTAINER>-->
-                <!--<ATTRIBUTE dmrole="src:source.LuminosityMeasurement.value">-->
-                    <!--<COLUMN dmtype="ivoa:RealQuantity" ref="_mag"/>-->
-                <!--</ATTRIBUTE>-->
-                <!--<ATTRIBUTE dmrole="src:source.LuminosityMeasurement.error">-->
-                    <!--<COLUMN dmtype="ivoa:RealQuantity" ref="_eMag"/>-->
-                <!--</ATTRIBUTE>-->
-                <!--&lt;!&ndash; Following is example of OR-like reference, but not to another table but to a singleton object &ndash;&gt;-->
-                <!--<REFERENCE dmrole="src:source.LuminosityMeasurement.filter">-->
-                    <!--<FOREIGNKEY>-->
-                        <!--<PKFIELD>-->
-                            <!--<COLUMN dmtype="ivoa:string" ref="_filter"/>-->
-                        <!--</PKFIELD>-->
-                        <!--<TARGETID>_SDSS_FILTERS</TARGETID>-->
-                    <!--</FOREIGNKEY>-->
-                <!--</REFERENCE>-->
-            <!--</INSTANCE>-->
-
-        <!--</TEMPLATES>-->
-
+        <TEMPLATES tableref="_sdss_mags">
+            <INSTANCE ID="SDSS_MAGS" dmtype="sample:catalog.LuminosityMeasurement">
+                <CONTAINER>
+                    <FOREIGNKEY>
+                        <PKFIELD>
+                            <COLUMN dmtype="ivoa:string" ref="_container"/>
+                        </PKFIELD>
+                        <TARGETID>_source</TARGETID>
+                    </FOREIGNKEY>
+                </CONTAINER>
+                <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.value">
+                    <COLUMN dmtype="ivoa:RealQuantity" ref="_mag"/>
+                </ATTRIBUTE>
+                <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.error">
+                    <COLUMN dmtype="ivoa:RealQuantity" ref="_eMag"/>
+                </ATTRIBUTE>
+                <!-- Following is example of OR-like reference, but not to another table but to a singleton object -->
+                <REFERENCE dmrole="sample:catalog.LuminosityMeasurement.filter">
+                    <FOREIGNKEY>
+                        <PKFIELD>
+                            <COLUMN dmtype="ivoa:string" ref="_filter"/>
+                        </PKFIELD>
+                        <TARGETID>_SDSS_FILTERS</TARGETID>
+                    </FOREIGNKEY>
+                </REFERENCE>
+            </INSTANCE>
+        </TEMPLATES>
     </VODML>
 
     <!--<RESOURCE ID="table_objects">-->

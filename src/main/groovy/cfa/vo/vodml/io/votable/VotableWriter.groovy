@@ -96,17 +96,39 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
                 LITERAL(value: objectInstance.value, dmtype: objectInstance.type.toString())
             } else {
                 INSTANCE(attrs) {
-                    if (objectInstance.pk) {
-                        PRIMARYKEY() {
-                            PKFIELD() {
-                                LITERAL(dmtype: "ivoa:string", value: objectInstance.pk)
+                    if (objectInstance.primaryKey) {
+                        if (objectInstance.primaryKey.value) {
+                            PRIMARYKEY() {
+                                PKFIELD() {
+                                    LITERAL(dmtype: "ivoa:string", value: objectInstance.primaryKey.value)
+                                }
+                            }
+                        } else {
+                            def pk = objectInstance.primaryKey
+                            PRIMARYKEY() {
+                                PKFIELD() {
+                                    pk.columns.each { column ->
+                                        COLUMN(dmtype: "ivoa:string", ref: column.ref)
+                                    }
+                                }
+                            }
+                            pk.columns.each { column ->
+                                ATTRIBUTE(dmrole: column.role) {
+                                    COLUMN(dmtype: column.type, ref: column.ref)
+                                }
                             }
                         }
                     }
-                    objectInstance.primaryKeys.each { pk ->
-                        PRIMARYKEY() {
-                            PKFIELD() {
-                                COLUMN(dmtype: "ivoa:string", ref: pk.column)
+                    if (objectInstance.foreignKey) {
+                        def fk = objectInstance.foreignKey
+                        CONTAINER() {
+                            FOREIGNKEY() {
+                                PKFIELD() {
+                                    fk.columns.each { column ->
+                                        COLUMN(dmtype: "ivoa:string", ref: column.ref)
+                                    }
+                                }
+                                TARGETID(fk.target)
                             }
                         }
                     }
@@ -117,7 +139,19 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
                     }
                     objectInstance.references.each { ref ->
                         REFERENCE(dmrole: ref.role) {
-                            IDREF(ref.idref)
+                            if (ref.idref) {
+                                IDREF(ref.idref)
+                            } else {
+                                def fk = ref.foreignKey
+                                FOREIGNKEY() {
+                                    PKFIELD() {
+                                        fk.columns.each { column ->
+                                            COLUMN(dmtype: "ivoa:string", ref: column.ref)
+                                        }
+                                    }
+                                    TARGETID(fk.target)
+                                }
+                            }
                         }
                     }
                     if (objectInstance.hasProperty("compositions")) {

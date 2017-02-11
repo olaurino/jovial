@@ -33,7 +33,6 @@
 package cfa.vo.vodml.instance
 
 import cfa.vo.vodml.metamodel.Composition
-import cfa.vo.vodml.metamodel.ElementRef
 import cfa.vo.vodml.metamodel.Model
 import cfa.vo.vodml.utils.Resolver
 import cfa.vo.vodml.utils.VoBuilderNode
@@ -253,7 +252,8 @@ class ObjectInstance extends Instance {
     List<CompositionInstance> compositions = []
     String value
     String pk
-    List<PkInstance> primaryKeys = []
+    PkInstance primaryKey
+    FkInstance foreignKey
 
     public leftShift(ObjectInstance object) {
         if (resolver.resolveRole(object.role) instanceof Composition) {
@@ -270,7 +270,15 @@ class ObjectInstance extends Instance {
         }
     }
 
-    public leftShift(PkInstance data) {primaryKeys << data}
+    public leftShift(PkInstance data) {
+        primaryKey = data
+        primaryKey.type = type
+    }
+
+    public leftShift(FkInstance data) {
+        foreignKey = data
+        foreignKey.type = type
+    }
 
     public leftShift(ExternalInstance object) {
         def existing = compositions.find { it.role == object.role }
@@ -355,11 +363,27 @@ class CompositionInstance extends Instance {
 @Canonical
 class TableInstance extends CompositionInstance {
     String ref
+    List<FkInstance> foreignKeys
+
+    def leftShift(FkInstance object) {
+
+    }
 }
 
 @Canonical
 class PkInstance extends Instance {
-    String column
+    List<ColumnInstance> columns = []
+    String value
+
+    def leftShift(ColumnInstance column) {
+        columns << column
+    }
+}
+
+@Canonical
+class FkInstance extends Instance {
+    @Delegate PkInstance instance = new PkInstance()
+    String target
 }
 
 /**
@@ -368,6 +392,9 @@ class PkInstance extends Instance {
 @Canonical
 class ReferenceInstance extends Instance {
     String idref
+    FkInstance foreignKey
+
+    def leftShift(FkInstance fk) {foreignKey = fk}
 }
 
 @Canonical
