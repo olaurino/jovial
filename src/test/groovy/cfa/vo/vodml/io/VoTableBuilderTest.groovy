@@ -173,118 +173,84 @@ class VoTableBuilderTest {
             model(spec: charSpec, vodmlURL: "http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/characterization/Characterization.vo-dml.xml")
             model(spec: ivoaSpec, vodmlURL: "https://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/ivoa/IVOA.vo-dml.xml")
             instance(type: "ds:experiment.Observation") {
-                instance(role: "observationID", value:"obsid.2015.73")
-                composition(role: "target") {
-                    instance(type: "ds:experiment.AstroTarget") {
-                        instance(role: "name", value: "3C273")
-                        instance(role: "description", value: "A Quasar")
-                        instance(role: "position") {
-                            instance(role: "coord", type: "stc:stctypes.RealDoublet") {
-                                instance(role: "d1", value: 187.2792)
-                                instance(role: "d2", value: 2.0525)
-                            }
-                        }
-                        instance(role: "objectClass", value: "BLAZAR")
-                        instance(role: "spectralClass", value: "Sy1")
-                        instance(role: "redshift", value: 0.158)
-                        instance(role: "varAmpl", value: Double.NaN)
-                    }
-                }
-                composition(role: "obsConfig") {
-                    instance(type: "ds:experiment.ObsConfig") {
-                        instance(role: "bandpass", value: "optical")
-                        instance(role: "datasource", value: "survey")
-                        composition(role: "instrument") {
-                            instance(type: "ds:experiment.Instrument") {
-                                instance(role: "name", value: "ACIS")
-                            }
-                        }
-                        composition(role: "facility") {
-                            instance(type: "ds:experiment.Facility") {
-                                reference(role: "party", value: "ACME")
-                            }
+                instance(role: "observationID", value: "obsid.2015.73")
+                instance(role: "target", type: "ds:experiment.AstroTarget") {
+                    instance(role: "name", value: "3C273")
+                    instance(role: "description", value: "A Quasar")
+                    instance(role: "position") {
+                        instance(role: "coord", type: "stc:stctypes.RealDoublet") {
+                            instance(role: "d1", value: 187.2792)
+                            instance(role: "d2", value: 2.0525)
                         }
                     }
+                    instance(role: "objectClass", value: "BLAZAR")
+                    instance(role: "spectralClass", value: "Sy1")
+                    instance(role: "redshift", value: 0.158)
+                    instance(role: "varAmpl", value: Double.NaN)
                 }
-                composition(role: "proposal") {
-                    instance(type: "ds:experiment.Proposal") {
-                        instance(role: "identifier", value: "PROPOSAL/756/2014.06")
+                instance(role: "obsConfig") {
+                    instance(role: "bandpass", value: "optical")
+                    instance(role: "datasource", value: "survey")
+                    instance(role: "instrument") {
+                        instance(role: "name", value: "ACIS")
+                    }
+                    instance(role: "facility") {
+                        reference(role: "party", idref: "ACME")
                     }
                 }
-                composition(role: "result") {
-                    instance(type: "ds:experiment.ObsDataset") {
-                        instance(role: "dataProductType", value: "ds:dataset.DataProductType.CUBE")
-                        instance(role: "dataProductSubtype", value: "MySubtype")
-                        instance(role: "calibLevel", value: 0)
-                        composition(role: "characterisation") {
-                            instance(type: "ds:experiment.Characterisation")
+                instance(role: "proposal") {
+                    instance(role: "identifier", value: "PROPOSAL/756/2014.06")
+                }
+                instance(role: "result", type: "ds:experiment.ObsDataset") {
+                    instance(role: "dataProductType", value: "ds:dataset.DataProductType.CUBE")
+                    instance(role: "dataProductSubtype", value: "MySubtype")
+                    instance(role: "calibLevel", value: 0)
+                    instance(role: "characterisation")
+                    instance(role: "derived") {
+                        instance(role: "derivedElement", type:"ds:experiment.DerivedScalar") {
+                            instance(role: "name", value: "SNR")
+                            instance(role: "value", type:"ivoa:quantity.RealQuantity", value: 1.25)
                         }
-                        composition(role: "derived") {
-                            instance(type: "ds:experiment.Derived") {
-                                composition(role: "derivedElement") {
-                                    instance(type: "ds:experiment.DerivedScalar") {
-                                        instance(role: "name", value: "SNR")
-                                        instance(role: "value", value: 1.25)
-                                    }
-                                }
-                            }
+                    }
+                    instance(role: "dataID") {
+                        instance(role: "title", value: "datasetTitle")
+                        instance(role: "datasetID", value: "ivo://some/uri")
+                        instance(role: "creatorDID", value: "me://some/other/uri")
+                        instance(role: "version", value: "DR3")
+                        instance(role: "date", value: "20160422T11:55:30")
+                        instance(role: "creationType", value: "ds:dataset.CreationType.ARCHIVAL")
+                        instance(role: "collection") {
+                            instance(role: "name", value: "Data Release 3")
                         }
-                        composition(role: "dataID") {
-                            instance(type: "ds:dataset.DataID") {
-                                instance(role: "title", value: "datasetTitle")
-                                instance(role: "datasetID", value: "ivo://some/uri")
-                                instance(role: "creatorDID", value: "me://some/other/uri")
-                                instance(role: "version", value: "DR3")
-                                instance(role: "date", value: "20160422T11:55:30")
-                                instance(role: "creationType", value: "ds:dataset.CreationType.ARCHIVAL")
-                                composition(role: "collection") {
-                                    instance(type: "ds:dataset.Collection") {
-                                        instance(role: "name", value: "Data Release 3")
-                                    }
-                                }
-                                composition(role: "contributor") {
-                                    instance(type: "ds:dataset.Contributor") {
-                                        instance(role: "acknowledgment", value: "Project Manager")
-                                        reference(role: "party", value: "BILL")
-                                    }
-                                    instance(type: "ds:dataset.Contributor") {
-                                        instance(role: "acknowledgment", value: "Bought the donuts!")
-                                        reference(role: "party", value: "TOM")
-                                    }
-                                }
-                                composition(role: "creator") {
-                                    instance(type: "ds:dataset.Creator") {
-                                        reference(role: "party", value: "ACME")
-                                    }
-                                }
-                            }
+                        instance(role: "contributor") {
+                            instance(role: "acknowledgment", value: "Project Manager")
+                            reference(role: "party", idref: "BILL")
                         }
-                        composition(role: "curation") {
-                            instance(type: "ds:dataset.Curation") {
-                                instance(role: "publisherDID", value: "me://some/other/uri")
-                                instance(role: "version", value: "DR3")
-                                instance(role: "releaseDate", value: "20160422T11:55:30")
-                                instance(role: "rights", value: "ds:dataset.RightsType.PUBLIC")
-                                composition(role: "contact") {
-                                    instance(type: "ds:dataset.Contact") {
-                                        reference(role: "party", value: "BILL")
-                                    }
-                                }
-                                composition(role: "publisher") {
-                                    instance(type: "ds:dataset.Publisher") {
-                                        instance(role: "publisherID", value: "ivo://acme.org")
-                                        reference(role: "party", value: "ACME")
-                                    }
-                                }
-                                composition(role: "reference") {
-                                    instance(type: "ds:dataset.Publication") {
-                                        instance(role: "refCode", value: "ApJ12345")
-                                    }
-                                    instance(type: "ds:dataset.Publication") {
-                                        instance(role: "refCode", value: "ApJ6789")
-                                    }
-                                }
+                            instance(role: "contributor") {
+                                instance(role: "acknowledgment", value: "Bought the donuts!")
+                                reference(role: "party", idref: "TOM")
                             }
+                        instance(role: "creator") {
+                            reference(role: "party", idref: "ACME")
+                        }
+                    }
+                    instance(role: "curation") {
+                        instance(role: "publisherDID", value: "me://some/other/uri")
+                        instance(role: "version", value: "DR3")
+                        instance(role: "releaseDate", value: "20160422T11:55:30")
+                        instance(role: "rights", value: "ds:dataset.RightsType.PUBLIC")
+                        instance(role: "contact") {
+                            reference(role: "party", idref: "BILL")
+                        }
+                        instance(role: "publisher") {
+                            instance(role: "publisherID", value: "ivo://acme.org")
+                            reference(role: "party", idref: "ACME")
+                        }
+                        instance(role: "reference", type: "ds:dataset.Publication") {
+                            instance(role: "refCode", value: "ApJ12345")
+                        }
+                        instance(role: "reference", type: "ds:dataset.Publication") {
+                            instance(role: "refCode", value: "ApJ6789")
                         }
                     }
                 }
