@@ -110,7 +110,20 @@ class DefaultNode implements VoBuilderNode {
     def parent
     void start(Map m) {}
     void apply() {}
-    void end() {}
+    void end() {
+        if (parent != null &&
+                parent.metaClass.respondsTo(parent, "updateColumns") &&
+                this.hasProperty("columns")) {
+            parent.updateColumns(this.columns)
+        }
+    }
+
+    void updateColumns(Collection<ColumnInstance> columns) {
+        if (parent != null &&
+                parent.metaClass.respondsTo(parent, "updateColumns")) {
+            parent.updateColumns(columns)
+        }
+    }
 }
 
 /**
@@ -220,11 +233,6 @@ abstract class Instance extends DefaultNode {
     }
 
     @Override
-    public void end() {
-
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (o == null || !(o instanceof Instance)) {
             return false
@@ -251,7 +259,6 @@ class ObjectInstance extends Instance {
     @Delegate HasColumns hasColumns = new HasColumns()
     List<CompositionInstance> compositions = []
     String value
-    String pk
     PkInstance primaryKey
     FkInstance foreignKey
 
@@ -315,6 +322,16 @@ class ObjectInstance extends Instance {
                 ourCollections == theirCollections &&
                 ourObjects == theirObjects
     }
+
+    void end() {
+        if (primaryKey != null) {
+            updateColumns(primaryKey.columns)
+        }
+        if (foreignKey != null) {
+            updateColumns(foreignKey.columns)
+        }
+        super.end()
+    }
 }
 
 @Canonical
@@ -363,21 +380,24 @@ class CompositionInstance extends Instance {
 @Canonical
 class TableInstance extends CompositionInstance {
     String ref
+    @Delegate HasColumns hasColumns = new HasColumns()
     List<FkInstance> foreignKeys
 
     def leftShift(FkInstance object) {
 
     }
+
+    void updateColumns(Collection<ColumnInstance> columns) {
+        columns.each {
+            this << it
+        }
+    }
 }
 
 @Canonical
 class PkInstance extends Instance {
-    List<ColumnInstance> columns = []
+    @Delegate HasColumns hasColumns = new HasColumns()
     String value
-
-    def leftShift(ColumnInstance column) {
-        columns << column
-    }
 }
 
 @Canonical
@@ -393,8 +413,18 @@ class FkInstance extends Instance {
 class ReferenceInstance extends Instance {
     String idref
     FkInstance foreignKey
+    @Delegate HasColumns hasColumns = new HasColumns()
 
-    def leftShift(FkInstance fk) {foreignKey = fk}
+    def leftShift(FkInstance fk) {
+        foreignKey = fk
+    }
+
+    void end() {
+        if (foreignKey != null) {
+            updateColumns(foreignKey.columns)
+        }
+        super.end()
+    }
 }
 
 @Canonical

@@ -66,6 +66,17 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
                         }
                     }
                 }
+                if (instance.tables) {
+                    RESOURCE(ID: "table_objects") {
+                        instance.tables.each() { tab ->
+                            TABLE(ID: tab.ref) {
+                                tab.columns.each { col ->
+                                    FIELD(ID: col.ref)
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
         elem.delegate = builder

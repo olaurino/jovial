@@ -198,28 +198,21 @@
         </TEMPLATES>
     </VODML>
 
-    <!--<RESOURCE ID="table_objects">-->
+    <RESOURCE ID="table_objects">
 
-        <!--<TABLE ID="SDSS_FILTERS">-->
-            <!--<FIELD name="name" ID="filtername" datatype="char"/>-->
-            <!--<FIELD name="description" ID="sdss_descr" datatype="char"/>-->
-        <!--</TABLE>-->
-
-
-        <!--<TABLE ID="_table1">-->
-            <!--&lt;!&ndash; The following GROUP represents 0 or more Sources indirectly. For it has FIELDref-s, hence indicating the Source-->
-              <!--instances are stored in the TABLE rows. Note that not all FIELDs are represented in the annotation, as there is no model-->
-              <!--covering all elements such as. &ndash;&gt;-->
-
-            <!--<FIELD name="designation" ID="_designation" utype="ivoa:string" datatype="char">-->
-                <!--<DESCRIPTION>source designation formed from sexigesimal coordinates</DESCRIPTION>-->
-            <!--</FIELD>-->
-            <!--<FIELD name="ra" ID="_ra" unit="deg" datatype="float">-->
-                <!--<DESCRIPTION>right ascension (J2000 decimal deg)</DESCRIPTION>-->
-            <!--</FIELD>-->
-            <!--<FIELD name="dec" ID="_dec" unit="deg" datatype="float">-->
-                <!--<DESCRIPTION>declination (J2000 decimal deg)</DESCRIPTION>-->
-            <!--</FIELD>-->
+        <TABLE ID="_table1">
+            <!-- The following GROUP represents 0 or more Sources indirectly. For it has FIELDref-s, hence indicating the Source
+              instances are stored in the TABLE rows. Note that not all FIELDs are represented in the annotation, as there is no model
+              covering all elements such as. -->
+            <FIELD name="designation" ID="_designation" datatype="char">
+                <DESCRIPTION>source designation formed from sexigesimal coordinates</DESCRIPTION>
+            </FIELD>
+            <FIELD name="ra" ID="_ra" unit="deg" datatype="float">
+                <DESCRIPTION>right ascension (J2000 decimal deg)</DESCRIPTION>
+            </FIELD>
+            <FIELD name="dec" ID="_dec" unit="deg" datatype="float">
+                <DESCRIPTION>declination (J2000 decimal deg)</DESCRIPTION>
+            </FIELD>
             <!--<FIELD name="clon" datatype="char" arraysize="*">-->
                 <!--<DESCRIPTION>Right ascention in Sexagesimal format.</DESCRIPTION>-->
             <!--</FIELD>-->
@@ -235,36 +228,36 @@
             <!--<FIELD name="err_ang" unit="deg" datatype="float">-->
                 <!--<DESCRIPTION>angle of error ellipse major axis unit="E of" N</DESCRIPTION>-->
             <!--</FIELD>-->
-            <!--<FIELD name="j_m" unit="mag" ID="_magJ" datatype="float">-->
-                <!--<DESCRIPTION>J band selected "default" magnitude</DESCRIPTION>-->
-            <!--</FIELD>-->
-            <!--<FIELD name="j_cmsig" unit="mag" ID="_errJ" datatype="float">-->
-                <!--<DESCRIPTION>corrected J band photometric uncertainty</DESCRIPTION>-->
-            <!--</FIELD>-->
+            <FIELD name="j_m" unit="mag" ID="_magJ" datatype="float">
+                <DESCRIPTION>J band selected "default" magnitude</DESCRIPTION>
+            </FIELD>
+            <FIELD name="j_cmsig" unit="mag" ID="_errJ" datatype="float">
+                <DESCRIPTION>corrected J band photometric uncertainty</DESCRIPTION>
+            </FIELD>
             <!--<FIELD name="j_msigcom" unit="mag" datatype="float">-->
                 <!--<DESCRIPTION>combined (total J band photometric uncertainty)</DESCRIPTION>-->
             <!--</FIELD>-->
             <!--<FIELD name="j_snr" datatype="float">-->
                 <!--<DESCRIPTION>J band (scan) signal-to-noise ratio</DESCRIPTION>-->
             <!--</FIELD>-->
-            <!--<FIELD name="h_m" unit="mag" ID="_magH" datatype="float">-->
-                <!--<DESCRIPTION>H band selected 'default' magnitude</DESCRIPTION>-->
-            <!--</FIELD>-->
-            <!--<FIELD name="h_cmsig" unit="mag" ID="_errH" datatype="float">-->
-                <!--<DESCRIPTION>corrected H band photometric uncertainty</DESCRIPTION>-->
-            <!--</FIELD>-->
+            <FIELD name="h_m" unit="mag" ID="_magH" datatype="float">
+                <DESCRIPTION>H band selected 'default' magnitude</DESCRIPTION>
+            </FIELD>
+            <FIELD name="h_cmsig" unit="mag" ID="_errH" datatype="float">
+                <DESCRIPTION>corrected H band photometric uncertainty</DESCRIPTION>
+            </FIELD>
             <!--<FIELD name="h_msigcom" unit="mag" datatype="float">-->
                 <!--<DESCRIPTION>combined (total) H band photometric uncertainty</DESCRIPTION>-->
             <!--</FIELD>-->
             <!--<FIELD name="h_snr" datatype="float">-->
                 <!--<DESCRIPTION>H band "scan" signal-to-noise ratio</DESCRIPTION>-->
             <!--</FIELD>-->
-            <!--<FIELD name="k_m" unit="mag" ID="_magK" datatype="float">-->
-                <!--<DESCRIPTION>K band selected 'default' magnitude</DESCRIPTION>-->
-            <!--</FIELD>-->
-            <!--<FIELD name="k_cmsig" unit="mag" ID="_errK" datatype="float">-->
-                <!--<DESCRIPTION>corrected K band photometric uncertainty</DESCRIPTION>-->
-            <!--</FIELD>-->
+            <FIELD name="k_m" unit="mag" ID="_magK" datatype="float">
+                <DESCRIPTION>K band selected 'default' magnitude</DESCRIPTION>
+            </FIELD>
+            <FIELD name="k_cmsig" unit="mag" ID="_errK" datatype="float">
+                <DESCRIPTION>corrected K band photometric uncertainty</DESCRIPTION>
+            </FIELD>
             <!--<FIELD name="k_msigcom" unit="mag" datatype="float">-->
                 <!--<DESCRIPTION>combined (total) K band photometric uncertainty</DESCRIPTION>-->
             <!--</FIELD>-->
@@ -449,13 +442,13 @@
                     <!--</TR>-->
                 <!--</TABLEDATA>-->
             <!--</DATA>-->
-        <!--</TABLE>-->
+        </TABLE>
 
-        <!--<TABLE ID="_sdss_mags">-->
-            <!--<FIELD ID="_container" name="parentId" datatype="char"/>-->
-            <!--<FIELD ID="_mag" name="mag" datatype="float"/>-->
-            <!--<FIELD ID="_eMag" name="eMag" datatype="float"/>-->
-            <!--<FIELD ID="_filter" name="filter" datatype="char"/>-->
+        <TABLE ID="_sdss_mags">
+            <FIELD ID="_container" name="parentId" datatype="char"/>
+            <FIELD ID="_mag" name="mag" datatype="float"/>
+            <FIELD ID="_eMag" name="eMag" datatype="float"/>
+            <FIELD ID="_filter" name="filter" datatype="char"/>
             <!--<DATA>-->
                 <!--<TABLEDATA>-->
                     <!--<TR>-->
@@ -472,7 +465,7 @@
                     <!--</TR>-->
                 <!--</TABLEDATA>-->
             <!--</DATA>-->
-        <!--</TABLE>-->
+        </TABLE>
 
-    <!--</RESOURCE>-->
+    </RESOURCE>
 </VOTABLE>

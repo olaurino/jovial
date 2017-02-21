@@ -89,7 +89,7 @@ votable {
                     idref("_icrs")
                 }
             }
-//            ['H', 'K', 'J'].each { name ->
+//            ['J', 'H', 'K'].each { name ->
 //                instance(role: "luminosity") {
 //                    column(role: "value", ref: "_mag$name")
 //                    column(role: "error", ref: "_err$name")

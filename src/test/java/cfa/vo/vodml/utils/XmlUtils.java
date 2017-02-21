@@ -34,13 +34,9 @@ package cfa.vo.vodml.utils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Attr;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xmlunit.builder.DiffBuilder;
-import org.xmlunit.diff.DefaultNodeMatcher;
-import org.xmlunit.diff.Diff;
-import org.xmlunit.diff.ElementSelector;
-import org.xmlunit.diff.ElementSelectors;
+import org.xmlunit.diff.*;
 import org.xmlunit.util.Predicate;
 
 public class XmlUtils {
@@ -55,14 +51,25 @@ public class XmlUtils {
                 ElementSelectors.and(ElementSelectors.byNameAndText, ElementSelectors.byNameAndAllAttributes));
 
         ElementSelector selector = ElementSelectors.conditionalBuilder()
+                .whenElementIsNamed("FIELD")
+                .thenUse(ElementSelectors.byNameAndAttributes("ID"))
                 .whenElementIsNamed("ATTRIBUTE")
                 .thenUse(ElementSelectors.and(ElementSelectors.byNameAndAttributes("dmrole"), allLeaves))
                 .whenElementIsNamed("INSTANCE")
                 .thenUse(allLeaves)
+                .whenElementIsNamed("RESOURCE")
+                .thenUse(ElementSelectors.Default)
+                .whenElementIsNamed("TABLE")
+                .thenUse(ElementSelectors.and(ElementSelectors.byNameAndAttributes("ID"), allLeaves))
                 .build();
 
         Diff diff = baseBuilder(control, actual)
                 .withNodeMatcher(new DefaultNodeMatcher(selector, ElementSelectors.Default))
+                .withDifferenceEvaluator(DifferenceEvaluators.chain(
+                        DifferenceEvaluators.Default,
+                        new IgnoreAttributeDifferenceEvaluator("FIELD", "arraysize"),
+                        new FieldDifferenceEvaluator()
+                ))
                 .build();
 
         doTest(diff);
@@ -80,12 +87,66 @@ public class XmlUtils {
                 .checkForSimilar()
                 .ignoreWhitespace()
                 .ignoreComments()
-                .withNodeFilter(new Predicate<Node>(){
+                .withNodeFilter(new Predicate<Node>() {
                     @Override
                     public boolean test(org.w3c.dom.Node node) {
                         return !"lastModified".equals(node.getNodeName());
                     }
                 })
+                .withNodeFilter(new Predicate<Node>() {
+                    @Override
+                    public boolean test(org.w3c.dom.Node node) {
+                        return !"DESCRIPTION".equals(node.getNodeName());
+                    }
+                })
                 .normalizeWhitespace();
+    }
+
+    private static class FieldDifferenceEvaluator implements DifferenceEvaluator {
+
+        @Override
+        public ComparisonResult evaluate(Comparison comparison, ComparisonResult outcome) {
+            if (outcome == ComparisonResult.EQUAL){
+                return outcome; // only evaluate differences.
+            }
+
+            final Node controlNode = comparison.getControlDetails().getTarget();
+            final Node testNode = comparison.getTestDetails().getTarget();
+
+            if (controlNode != null) {
+                if (StringUtils.equals(controlNode.getLocalName(), "FIELD")) {
+                    String controlId = controlNode.getAttributes().getNamedItem("ID").getNodeValue();
+                    String testId = testNode.getAttributes().getNamedItem("ID").getNodeValue();
+                    if (StringUtils.equals(controlId, testId)) {
+                        return ComparisonResult.SIMILAR;
+                    }
+                }
+            }
+            return outcome;
+        }
+    }
+
+    private static class IgnoreAttributeDifferenceEvaluator implements DifferenceEvaluator {
+
+        private String attributeName;
+        private String parentName;
+
+        IgnoreAttributeDifferenceEvaluator(String parentName, String attributeName) {
+            this.parentName = parentName;
+            this.attributeName = attributeName;
+        }
+
+        @Override
+        public ComparisonResult evaluate(Comparison comparison, ComparisonResult outcome) {
+            if (outcome == ComparisonResult.EQUAL) return outcome; // only evaluate differences.
+            final Node controlNode = comparison.getControlDetails().getTarget();
+            if (controlNode instanceof Attr) {
+                Attr attr = (Attr) controlNode;
+                if (attr.getName().equals(attributeName) && attr.getOwnerElement().getLocalName().equals(parentName)) {
+                    return ComparisonResult.SIMILAR; // will evaluate this difference as similar
+                }
+            }
+            return outcome;
+        }
     }
 }
