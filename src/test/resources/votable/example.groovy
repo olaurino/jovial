@@ -136,7 +136,7 @@ votable {
                     column(role: "value", id: "_magJ", data: j)
                     instance(role: "type", value: "magnitude")
                 }
-                external(role: "luminosity", ref: "SDSS_MAGS")
+                composition(role: "luminosity", ref: "SDSS_MAGS")
             }
         }
 

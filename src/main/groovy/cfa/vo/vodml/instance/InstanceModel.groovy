@@ -297,7 +297,7 @@ class ObjectInstance extends Instance {
         foreignKey.type = type
     }
 
-    public leftShift(ExternalInstance object) {
+    public leftShift(CompositionInstance object) {
         def existing = compositions.find { it.role == object.role }
         if (existing) {
             existing << object
@@ -356,7 +356,8 @@ class GlobalsInstance extends Instance {
 @Canonical
 class CompositionInstance extends Instance {
     @Delegate HasObjects hasObjects = new HasObjects()
-    List<ExternalInstance> externals = []
+    List<CompositionInstance> externals = []
+    String ref
     Integer maxOccurs = -1;
 
     /**
@@ -372,7 +373,7 @@ class CompositionInstance extends Instance {
         }
     }
 
-    public leftShift(ExternalInstance object) {
+    public leftShift(CompositionInstance object) {
         externals << object
     }
 
@@ -435,11 +436,6 @@ class ReferenceInstance extends Instance {
         }
         super.end()
     }
-}
-
-@Canonical
-class ExternalInstance extends Instance {
-    String ref
 }
 
 /**
