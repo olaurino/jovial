@@ -71,7 +71,30 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
                         instance.tables.each() { tab ->
                             TABLE(ID: tab.ref) {
                                 tab.columns.each { col ->
-                                    FIELD(ID: col.ref)
+                                    def attrs = col.infer(col.data[0])
+                                    attrs['ID'] = col.ref
+                                    FIELD(attrs)
+                                }
+                                DATA() {
+                                    TABLEDATA() {
+                                        // first, reverse lists:
+                                        tab.columns.each { col ->
+                                            col.data = col.data.reverse()
+                                        }
+                                        while (tab.columns[0].data.size > 0) {
+                                            TR() {
+                                                tab.columns.each { col ->
+                                                    def val
+                                                    try {
+                                                        val = col.data.pop().toString()
+                                                    } catch (Exception ignore) {
+                                                        val = "null"
+                                                    }
+                                                    TD(val)
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }

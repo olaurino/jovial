@@ -262,6 +262,13 @@ class ObjectInstance extends Instance {
     PkInstance primaryKey
     FkInstance foreignKey
 
+    ObjectInstance(Map attrs) {
+        for (entry in attrs) {
+            this."${entry.key}" = entry.value
+        }
+        apply()
+    }
+
     public leftShift(ObjectInstance object) {
         if (resolver.resolveRole(object.role) instanceof Composition) {
             def existing = compositions.find { it.role == object.role }
@@ -437,8 +444,32 @@ class ExternalInstance extends Instance {
  */
 @Canonical
 class ColumnInstance extends Instance {
-    String value
+    def data = []
     String ref
+
+
+    static Map infer(value) {
+        def dt = "char"
+        def ars = "*"
+        if (value == null) {
+            // empty array or value
+        } else if(value in String) { // Simple case, it's a string
+            dt = "char"
+            ars = value.length().toString()
+        } else if (value in Number) { // or it's a number
+            dt = [Integer.class, int.class].any {it.isAssignableFrom(value.class)} ? "int" : "float"
+            ars = "1"
+        } else if ([Collection, Object[]].any {it.isAssignableFrom(value.class)}) { // it's an array
+            dt = infer(value[0]).datatype
+            if (value.hasProperty("length")) {
+                ars = value.length.toString()
+            } else if (value.respondsTo("size")) {
+                ars = value.size().toString()
+            }
+        }
+
+        [datatype: dt, arraysize: ars]
+    }
 }
 
 /**

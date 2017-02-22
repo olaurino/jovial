@@ -61,13 +61,17 @@ public class XmlUtils {
                 .thenUse(ElementSelectors.Default)
                 .whenElementIsNamed("TABLE")
                 .thenUse(ElementSelectors.and(ElementSelectors.byNameAndAttributes("ID"), allLeaves))
+                .whenElementIsNamed("TR")
+                .thenUse(allLeaves)
+                .whenElementIsNamed("TD")
+                .thenUse(ElementSelectors.byNameAndText)
                 .build();
 
         Diff diff = baseBuilder(control, actual)
                 .withNodeMatcher(new DefaultNodeMatcher(selector, ElementSelectors.Default))
                 .withDifferenceEvaluator(DifferenceEvaluators.chain(
                         DifferenceEvaluators.Default,
-                        new IgnoreAttributeDifferenceEvaluator("FIELD", "arraysize"),
+                        new IgnoreAttributeDifferenceEvaluator("arraysize"),
                         new FieldDifferenceEvaluator()
                 ))
                 .build();
@@ -115,11 +119,47 @@ public class XmlUtils {
 
             if (controlNode != null) {
                 if (StringUtils.equals(controlNode.getLocalName(), "FIELD")) {
-                    String controlId = controlNode.getAttributes().getNamedItem("ID").getNodeValue();
-                    String testId = testNode.getAttributes().getNamedItem("ID").getNodeValue();
-                    if (StringUtils.equals(controlId, testId)) {
-                        return ComparisonResult.SIMILAR;
+
+                    Node controlIdNode = controlNode.getAttributes().getNamedItem("ID");
+                    Node testIdNode = testNode.getAttributes().getNamedItem("ID");
+
+                    if (controlIdNode != null && testIdNode != null) {
+                        String controlId = controlIdNode.getNodeValue();
+                        String testId = testIdNode.getNodeValue();
+                        if (!StringUtils.equals(controlId, testId)) {
+                            return ComparisonResult.DIFFERENT;
+                        }
                     }
+
+                    Node controlDataTypeNode = controlNode.getAttributes().getNamedItem("datatype");
+                    Node testDataTypeNode = testNode.getAttributes().getNamedItem("datatype");
+
+                    if (controlDataTypeNode != null && testDataTypeNode != null) {
+                        String control = controlDataTypeNode.getNodeValue();
+                        String test = testDataTypeNode.getNodeValue();
+                        if (!StringUtils.equals(control, test)) {
+                            return ComparisonResult.DIFFERENT;
+                        }
+
+                        Node controlArraySizeNode = controlNode.getAttributes().getNamedItem("arraysize");
+                        Node testArraySizeNode = testNode.getAttributes().getNamedItem("arraysize");
+
+                        if (controlArraySizeNode != null && testArraySizeNode != null) {
+                            String controlAS = controlArraySizeNode.getNodeValue();
+                            String testAS = testArraySizeNode.getNodeValue();
+                            if (!(
+                                    (StringUtils.equals(controlAS, testAS)) ||
+                                    ("*".equals(controlAS) && Integer.valueOf(testAS)>0) ||
+                                    ("*".equals(testAS) && Integer.valueOf(controlAS)>0)
+                                  )
+                            ) {
+                                return ComparisonResult.DIFFERENT;
+                            }
+                        }
+                    }
+
+                    return ComparisonResult.SIMILAR;
+
                 }
             }
             return outcome;
@@ -129,10 +169,8 @@ public class XmlUtils {
     private static class IgnoreAttributeDifferenceEvaluator implements DifferenceEvaluator {
 
         private String attributeName;
-        private String parentName;
 
-        IgnoreAttributeDifferenceEvaluator(String parentName, String attributeName) {
-            this.parentName = parentName;
+        public IgnoreAttributeDifferenceEvaluator(String attributeName) {
             this.attributeName = attributeName;
         }
 
@@ -142,7 +180,7 @@ public class XmlUtils {
             final Node controlNode = comparison.getControlDetails().getTarget();
             if (controlNode instanceof Attr) {
                 Attr attr = (Attr) controlNode;
-                if (attr.getName().equals(attributeName) && attr.getOwnerElement().getLocalName().equals(parentName)) {
+                if (attr.getName().equals(attributeName)) {
                     return ComparisonResult.SIMILAR; // will evaluate this difference as similar
                 }
             }
