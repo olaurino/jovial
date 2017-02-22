@@ -77,28 +77,31 @@ votable {
         }
     }
 
-    def sourceNames = ['08120809-0206132', '08115683-0205428', '08115826-0205336']
-    def ra = [123.033734, 122.986794, 122.992773]
-    def dec = [-2.103671, -2.095231, -2.092676]
-    def j = [14.161, 15.860, 16.273]
-    def jErr = [0.025, 0.060, 0.096]
-    def h = [13.681, 15.103, 15.718]
-    def hErr = [0.027, 0.077, 0.112]
-    def k = [13.675, 14.847, 15.460]
-    def kErr = [0.048, 0.127, 0.212]
+    resource(id: "table_objects") {
 
-    table(ref: "_table1") {
-        instance(type:"sample:catalog.Source", id:"_source") {
-            pk() {
-                column(role: "name", ref:"_designation", data: sourceNames)
-            }
-            instance(role: "position") {
-                column(role: "longitude", ref:"_ra", data: ra)
-                column(role: "latitude", ref:"_dec", data: dec)
-                reference(role: "frame") {
-                    idref("_icrs")
+        table(ref: "_table1") {
+
+            def sourceNames = ['08120809-0206132', '08115683-0205428', '08115826-0205336']
+            def ra = [123.033734, 122.986794, 122.992773]
+            def dec = [-2.103671, -2.095231, -2.092676]
+            def j = [14.161, 15.860, 16.273]
+            def jErr = [0.025, 0.060, 0.096]
+            def h = [13.681, 15.103, 15.718]
+            def hErr = [0.027, 0.077, 0.112]
+            def k = [13.675, 14.847, 15.460]
+            def kErr = [0.048, 0.127, 0.212]
+
+            instance(type: "sample:catalog.Source", id: "_source") {
+                pk() {
+                    column(role: "name", ref: "_designation", data: sourceNames)
                 }
-            }
+                instance(role: "position") {
+                    column(role: "longitude", ref: "_ra", data: ra)
+                    column(role: "latitude", ref: "_dec", data: dec)
+                    reference(role: "frame") {
+                        idref("_icrs")
+                    }
+                }
 //            ['J', 'H', 'K'].each { name ->
 //                instance(role: "luminosity") {
 //                    column(role: "value", ref: "_mag$name")
@@ -109,49 +112,50 @@ votable {
 //                    }
 //                }
 //            }
-            instance(role: "luminosity") {
-                column(role: "value", ref: "_magH", data: h)
-                column(role: "error", ref: "_errH", data: hErr)
-                instance(role: "type", value: "magnitude")
-                reference(role: "filter") {
-                    idref("_2massH")
+                instance(role: "luminosity") {
+                    column(role: "value", ref: "_magH", data: h)
+                    column(role: "error", ref: "_errH", data: hErr)
+                    instance(role: "type", value: "magnitude")
+                    reference(role: "filter") {
+                        idref("_2massH")
+                    }
                 }
-            }
-            instance(role: "luminosity") {
-                column(role: "value", ref: "_magK", data: k)
-                column(role: "error", ref: "_errK", data: kErr)
-                instance(role: "type", value: "magnitude")
-                reference(role: "filter") {
-                    idref("_2massK")
+                instance(role: "luminosity") {
+                    column(role: "value", ref: "_magK", data: k)
+                    column(role: "error", ref: "_errK", data: kErr)
+                    instance(role: "type", value: "magnitude")
+                    reference(role: "filter") {
+                        idref("_2massK")
+                    }
                 }
-            }
-            instance(role: "luminosity") {
-                column(role: "error", ref: "_errJ", data: jErr)
-                reference(role: "filter") {
-                    idref("_2massJ")
+                instance(role: "luminosity") {
+                    column(role: "error", ref: "_errJ", data: jErr)
+                    reference(role: "filter") {
+                        idref("_2massJ")
+                    }
+                    column(role: "value", ref: "_magJ", data: j)
+                    instance(role: "type", value: "magnitude")
                 }
-                column(role: "value", ref: "_magJ", data: j)
-                instance(role: "type", value: "magnitude")
+                external(role: "luminosity", ref: "SDSS_MAGS")
             }
-            external(role: "luminosity", ref:"SDSS_MAGS")
         }
-    }
 
-    def sourceId = ["08120809-0206132", "08120809-0206132"]
-    def mag = [23.2, 23.0]
-    def err = [0.04, 0.03]
-    def filterId = ["sdss:g", "sdss:r"]
+        def sourceId = ["08120809-0206132", "08120809-0206132"]
+        def mag = [23.2, 23.0]
+        def err = [0.04, 0.03]
+        def filterId = ["sdss:g", "sdss:r"]
 
-    table(ref: "_sdss_mags") {
-        instance(id: "SDSS_MAGS", type: "sample:catalog.LuminosityMeasurement") {
-            fk(target: "_source") {
-                column(ref: "_container", data: sourceId)
-            }
-            column(role: "value", ref: "_mag", data: mag)
-            column(role: "error", ref: "_eMag", data: err)
-            reference(role: "filter") {
-                fk(target: "_SDSS_FILTERS") {
-                    column(ref: "_filter", data: filterId)
+        table(ref: "_sdss_mags") {
+            instance(id: "SDSS_MAGS", type: "sample:catalog.LuminosityMeasurement") {
+                fk(target: "_source") {
+                    column(ref: "_container", data: sourceId)
+                }
+                column(role: "value", ref: "_mag", data: mag)
+                column(role: "error", ref: "_eMag", data: err)
+                reference(role: "filter") {
+                    fk(target: "_SDSS_FILTERS") {
+                        column(ref: "_filter", data: filterId)
+                    }
                 }
             }
         }

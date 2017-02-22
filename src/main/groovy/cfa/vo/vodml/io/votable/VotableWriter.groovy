@@ -60,39 +60,31 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
                         }
                     }
 
+                    instance.resources.each { res ->
+                        res.tables.each { tab ->
+                            TEMPLATES(tableref: tab.ref) {
+                                out << buildTable(tab, delegate)
+                            }
+                        }
+                    }
+
                     instance.tables.each { tab ->
                         TEMPLATES(tableref: tab.ref) {
                             out << buildTable(tab, delegate)
                         }
                     }
                 }
+                instance.resources.each { res ->
+                    RESOURCE(ID: res.id) {
+                        res.tables.each { tab ->
+                            out << buildTableData(tab, delegate)
+                        }
+                    }
+                }
                 if (instance.tables) {
-                    RESOURCE(ID: "table_objects") {
-                        instance.tables.each() { tab ->
-                            TABLE(ID: tab.ref) {
-                                tab.columns.each { col ->
-                                    def attrs = col.infer(col.data[0])
-                                    attrs['ID'] = col.ref
-                                    FIELD(attrs)
-                                }
-                                DATA() {
-                                    TABLEDATA() {
-                                        while (tab.columns[0].data.size > 0) {
-                                            TR() {
-                                                tab.columns.each { col ->
-                                                    def val
-                                                    try {
-                                                        val = col.data.pop().toString()
-                                                    } catch (Exception ignore) {
-                                                        val = "null"
-                                                    }
-                                                    TD(val)
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
+                    RESOURCE() {
+                        instance.tables.each { tab ->
+                            out << buildTableData(tab, delegate)
                         }
                     }
                 }
@@ -220,6 +212,37 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
         def elem = {
             for (instance in tableInstance.objectTypes) {
               out << buildObject(instance, builder)
+            }
+        }
+        elem.delegate = builder
+        elem()
+    }
+
+    void buildTableData(TableInstance tab, builder) {
+        def elem = {
+            TABLE(ID: tab.ref) {
+                tab.columns.each { col ->
+                    def attrs = col.infer(col.data[0])
+                    attrs['ID'] = col.ref
+                    FIELD(attrs)
+                }
+                DATA() {
+                    TABLEDATA() {
+                        while (tab.columns[0].data.size > 0) {
+                            TR() {
+                                tab.columns.each { col ->
+                                    def val
+                                    try {
+                                        val = col.data.pop().toString()
+                                    } catch (Exception ignore) {
+                                        val = "null"
+                                    }
+                                    TD(val)
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
         elem.delegate = builder
