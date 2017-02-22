@@ -79,7 +79,7 @@ votable {
 
     resource(id: "table_objects") {
 
-        table(ref: "_table1") {
+        table(id: "_table1") {
 
             def sourceNames = ['08120809-0206132', '08115683-0205428', '08115826-0205336']
             def ra = [123.033734, 122.986794, 122.992773]
@@ -93,19 +93,19 @@ votable {
 
             instance(type: "sample:catalog.Source", id: "_source") {
                 pk() {
-                    column(role: "name", ref: "_designation", data: sourceNames)
+                    column(role: "name", id: "_designation", data: sourceNames)
                 }
                 instance(role: "position") {
-                    column(role: "longitude", ref: "_ra", data: ra)
-                    column(role: "latitude", ref: "_dec", data: dec)
+                    column(role: "longitude", id: "_ra", data: ra)
+                    column(role: "latitude", id: "_dec", data: dec)
                     reference(role: "frame") {
                         idref("_icrs")
                     }
                 }
 //            ['J', 'H', 'K'].each { name ->
 //                instance(role: "luminosity") {
-//                    column(role: "value", ref: "_mag$name")
-//                    column(role: "error", ref: "_err$name")
+//                    column(role: "value", id: "_mag$name")
+//                    column(role: "error", id: "_err$name")
 //                    instance(role: "type", value: "magnitude")
 //                    reference(role: "filter") {
 //                        idref("_2mass$name")
@@ -113,27 +113,27 @@ votable {
 //                }
 //            }
                 instance(role: "luminosity") {
-                    column(role: "value", ref: "_magH", data: h)
-                    column(role: "error", ref: "_errH", data: hErr)
+                    column(role: "value", id: "_magH", data: h)
+                    column(role: "error", id: "_errH", data: hErr)
                     instance(role: "type", value: "magnitude")
                     reference(role: "filter") {
                         idref("_2massH")
                     }
                 }
                 instance(role: "luminosity") {
-                    column(role: "value", ref: "_magK", data: k)
-                    column(role: "error", ref: "_errK", data: kErr)
+                    column(role: "value", id: "_magK", data: k)
+                    column(role: "error", id: "_errK", data: kErr)
                     instance(role: "type", value: "magnitude")
                     reference(role: "filter") {
                         idref("_2massK")
                     }
                 }
                 instance(role: "luminosity") {
-                    column(role: "error", ref: "_errJ", data: jErr)
+                    column(role: "error", id: "_errJ", data: jErr)
                     reference(role: "filter") {
                         idref("_2massJ")
                     }
-                    column(role: "value", ref: "_magJ", data: j)
+                    column(role: "value", id: "_magJ", data: j)
                     instance(role: "type", value: "magnitude")
                 }
                 external(role: "luminosity", ref: "SDSS_MAGS")
@@ -145,16 +145,16 @@ votable {
         def err = [0.04, 0.03]
         def filterId = ["sdss:g", "sdss:r"]
 
-        table(ref: "_sdss_mags") {
+        table(id: "_sdss_mags") {
             instance(id: "SDSS_MAGS", type: "sample:catalog.LuminosityMeasurement") {
                 fk(target: "_source") {
-                    column(ref: "_container", data: sourceId)
+                    column(id: "_container", data: sourceId)
                 }
-                column(role: "value", ref: "_mag", data: mag)
-                column(role: "error", ref: "_eMag", data: err)
+                column(role: "value", id: "_mag", data: mag)
+                column(role: "error", id: "_eMag", data: err)
                 reference(role: "filter") {
                     fk(target: "_SDSS_FILTERS") {
-                        column(ref: "_filter", data: filterId)
+                        column(id: "_filter", data: filterId)
                     }
                 }
             }

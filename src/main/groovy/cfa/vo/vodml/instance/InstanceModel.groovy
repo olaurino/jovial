@@ -389,7 +389,7 @@ class CompositionInstance extends Instance {
  */
 @Canonical
 class TableInstance extends CompositionInstance {
-    String ref
+    String id
     @Delegate HasColumns hasColumns = new HasColumns()
     List<FkInstance> foreignKeys
 
@@ -448,7 +448,7 @@ class ExternalInstance extends Instance {
 @Canonical
 class ColumnInstance extends Instance {
     def data = []
-    String ref
+    String id
 
 
     static Map infer(value) {

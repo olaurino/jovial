@@ -62,14 +62,14 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
 
                     instance.resources.each { res ->
                         res.tables.each { tab ->
-                            TEMPLATES(tableref: tab.ref) {
+                            TEMPLATES(tableref: tab.id) {
                                 out << buildTable(tab, delegate)
                             }
                         }
                     }
 
                     instance.tables.each { tab ->
-                        TEMPLATES(tableref: tab.ref) {
+                        TEMPLATES(tableref: tab.id) {
                             out << buildTable(tab, delegate)
                         }
                     }
@@ -130,13 +130,13 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
                             PRIMARYKEY() {
                                 PKFIELD() {
                                     pk.columns.each { column ->
-                                        COLUMN(dmtype: "ivoa:string", ref: column.ref)
+                                        COLUMN(dmtype: "ivoa:string", ref: column.id)
                                     }
                                 }
                             }
                             pk.columns.each { column ->
                                 ATTRIBUTE(dmrole: column.role) {
-                                    COLUMN(dmtype: column.type, ref: column.ref)
+                                    COLUMN(dmtype: column.type, ref: column.id)
                                 }
                             }
                         }
@@ -147,7 +147,7 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
                             FOREIGNKEY() {
                                 PKFIELD() {
                                     fk.columns.each { column ->
-                                        COLUMN(dmtype: "ivoa:string", ref: column.ref)
+                                        COLUMN(dmtype: "ivoa:string", ref: column.id)
                                     }
                                 }
                                 TARGETID(fk.target)
@@ -168,7 +168,7 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
                                 FOREIGNKEY() {
                                     PKFIELD() {
                                         fk.columns.each { column ->
-                                            COLUMN(dmtype: "ivoa:string", ref: column.ref)
+                                            COLUMN(dmtype: "ivoa:string", ref: column.id)
                                         }
                                     }
                                     TARGETID(fk.target)
@@ -183,7 +183,7 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
                     }
                     objectInstance.columns.each { column ->
                         ATTRIBUTE(dmrole: column.role) {
-                            COLUMN(dmtype: column.type, ref: column.ref)
+                            COLUMN(dmtype: column.type, ref: column.id)
                         }
                     }
                 }
@@ -220,10 +220,10 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
 
     void buildTableData(TableInstance tab, builder) {
         def elem = {
-            TABLE(ID: tab.ref) {
+            TABLE(ID: tab.id) {
                 tab.columns.each { col ->
                     def attrs = col.infer(col.data[0])
-                    attrs['ID'] = col.ref
+                    attrs['ID'] = col.id
                     FIELD(attrs)
                 }
                 DATA() {
