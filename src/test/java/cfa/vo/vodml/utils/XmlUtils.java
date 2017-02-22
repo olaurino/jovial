@@ -94,13 +94,8 @@ public class XmlUtils {
                 .withNodeFilter(new Predicate<Node>() {
                     @Override
                     public boolean test(org.w3c.dom.Node node) {
-                        return !"lastModified".equals(node.getNodeName());
-                    }
-                })
-                .withNodeFilter(new Predicate<Node>() {
-                    @Override
-                    public boolean test(org.w3c.dom.Node node) {
-                        return !"DESCRIPTION".equals(node.getNodeName());
+                        return !"lastModified".equals(node.getNodeName()) &&
+                                !"DESCRIPTION".equals(node.getNodeName());
                     }
                 })
                 .normalizeWhitespace();

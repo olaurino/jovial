@@ -77,10 +77,6 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
                                 }
                                 DATA() {
                                     TABLEDATA() {
-                                        // first, reverse lists:
-                                        tab.columns.each { col ->
-                                            col.data = col.data.reverse()
-                                        }
                                         while (tab.columns[0].data.size > 0) {
                                             TR() {
                                                 tab.columns.each { col ->
