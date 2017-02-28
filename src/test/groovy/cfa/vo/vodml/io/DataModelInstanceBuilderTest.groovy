@@ -41,7 +41,7 @@ import cfa.vo.vodml.utils.XmlUtils
 import org.junit.Before
 import org.junit.Test
 
-class VoTableBuilderTest {
+class DataModelInstanceBuilderTest {
     def writer = new VotableWriter()
     ByteArrayOutputStream os = new ByteArrayOutputStream()
     Model dsSpec;
@@ -62,9 +62,9 @@ class VoTableBuilderTest {
 
     @Test
     void testPreamble() {
-        def builder = new VoTableBuilder()
+        def builder = new DataModelInstanceBuilder()
 
-        DataModelInstance instance = builder.votable {
+        DataModelInstance instance = builder.dmInstance {
             model(spec: dsSpec, vodmlURL: "http://some/where/dataset.vo-dml.xml")
         }
 
@@ -76,7 +76,7 @@ class VoTableBuilderTest {
 
     @Test
     void testTarget() {
-        DataModelInstance instance = new VoTableBuilder().votable {
+        DataModelInstance instance = new DataModelInstanceBuilder().dmInstance {
             model(spec: stcSpec, vodmlURL: "https://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/STC2/prototype/STCPrototype-2.0.vo-dml.xml")
             model(spec: dsSpec, vodmlURL: "http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/ds/DatasetMetadata-1.0.vo-dml.xml")
             instance(type: "ds:experiment.AstroTarget") {
@@ -167,7 +167,7 @@ class VoTableBuilderTest {
 
     @Test
     void testDatasetInstance() {
-        DataModelInstance instance = new VoTableBuilder().votable {
+        DataModelInstance instance = new DataModelInstanceBuilder().dmInstance {
             model(spec: dsSpec, vodmlURL: "http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/ds/DatasetMetadata-1.0.vo-dml.xml")
             model(spec: stcSpec, vodmlURL: "https://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/STC2/prototype/STCPrototype-2.0.vo-dml.xml")
             model(spec: charSpec, vodmlURL: "http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/characterization/Characterization.vo-dml.xml")
@@ -282,7 +282,7 @@ class VoTableBuilderTest {
 
     @Test
     void testObjectType() {
-        def instance = new VoTableBuilder().votable {
+        def instance = new DataModelInstanceBuilder().dmInstance {
             model(spec: dsSpec)
             instance(type: "$org") {
                 instance(role: "name", value:"OrgName")

@@ -32,7 +32,7 @@
  */
 package cfa.vo.vodml.instance
 
-import cfa.vo.vodml.io.VoTableBuilder
+import cfa.vo.vodml.io.DataModelInstanceBuilder
 import cfa.vo.vodml.io.VodmlReader
 import cfa.vo.vodml.metamodel.Model
 import spock.lang.Specification
@@ -49,7 +49,7 @@ class AttributeInstanceTest extends Specification {
 
     def "test position"() {
         given:
-        DataModelInstance instance = new VoTableBuilder().votable {
+        DataModelInstance instance = new DataModelInstanceBuilder().dmInstance {
             model(spec: stcSpec, vodmlURL: "https://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/STC2/prototype/STCPrototype-2.0.vo-dml.xml")
             model(spec: ivoaSpec, vodmlURL: "https://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/ivoa/IVOA.vo-dml.xml")
             instance(type: "ds:experiment.AstroTarget") {

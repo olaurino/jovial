@@ -66,7 +66,7 @@ import groovy.util.logging.Slf4j
  * def reader = new VodmlReader()
  * def modelSpec = reader.read(new URL("file://some/location/to.vodml.xml))
  *
- * def votableInstance = new VoTableBuilder().votable {
+ * def votableInstance = new DataModelInstanceBuilder().votable {
  *     model(modelSpec)
  *     object(type: "ds:party.Organization") {
  *         value(role: "name", value:"OrgName")
@@ -83,11 +83,11 @@ import groovy.util.logging.Slf4j
  */
 
 @Slf4j
-class VoTableBuilder extends BuilderSupport {
+class DataModelInstanceBuilder extends BuilderSupport {
     private static final String MODEL_PACKAGE = "cfa.vo.vodml.instance"
 
     private static final Map SUPPORTED_MODELS = [build: ArrayList,].withDefault {
-        if ("votable" == it.toLowerCase()) {
+        if ("dminstance" == it.toLowerCase()) {
             return DataModelInstance.class
         }
         if ("model" == it.toLowerCase()) {
@@ -186,6 +186,6 @@ class VoTableBuilder extends BuilderSupport {
     }
 
     def script = { cl ->
-        this.votable(cl)
+        this.dmInstance(cl)
     }
 }

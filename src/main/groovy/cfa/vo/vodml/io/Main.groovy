@@ -57,8 +57,8 @@ public class Main {
 
         if (options.i) {
             def modelString = new File(filename).text
-            def builder = new VoTableBuilder()
-            def binding = new Binding(votable: builder.&script)
+            def builder = new DataModelInstanceBuilder()
+            def binding = new Binding(dmInstance: builder.&script)
             def shell = new GroovyShell(Main.class.classLoader, binding)
             model = shell.evaluate modelString
             writer = new VotableWriter()

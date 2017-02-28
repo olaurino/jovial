@@ -51,7 +51,7 @@ ivoaSpec = reader.read(ivoaLocation.openStream())
 filterSpec = reader.read(filterLocation.openStream())
 sampleSpec = reader.read(sampleLocation.openStream())
 
-votable {
+dmInstance {
     model(spec: ivoaSpec, vodmlURL: ivoaRemoteLocation)
     model(spec: filterSpec, vodmlURL: filterLocation, identifier: "ivo://ivoa.org/dm/sample/Filter/1.9")
     model(spec: sampleSpec, vodmlURL: "$remote/sample/sample/Sample.vo-dml.xml")
