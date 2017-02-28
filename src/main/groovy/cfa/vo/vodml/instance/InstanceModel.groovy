@@ -32,6 +32,7 @@
  */
 package cfa.vo.vodml.instance
 
+import cfa.vo.vodml.io.VodmlReader
 import cfa.vo.vodml.metamodel.Composition
 import cfa.vo.vodml.metamodel.Model
 import cfa.vo.vodml.utils.Resolver
@@ -489,6 +490,7 @@ class ModelImportInstance extends Instance {
     String vodmlURL = ""
     String documentationURL = ""
     Model spec
+    private reader = new VodmlReader()
 
     /**
      * Overrides parent's end() method for making sure parent receives the model spec.
@@ -511,5 +513,9 @@ class ModelImportInstance extends Instance {
     @Override
     public void apply() {
         super.apply()
+        if (spec == null && vodmlURL != null) {
+            setSpec(reader.read(new URL(vodmlURL).openStream()))
+            resolver << spec
+        }
     }
 }
