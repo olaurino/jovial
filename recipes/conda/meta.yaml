@@ -1,0 +1,17 @@
+package:
+ name: jovial 
+ version: 0.1 
+
+source:
+ git_url: https://github.com/olaurino/jovial
+ git_rev: new-mapping
+
+build:
+ number: 0
+
+requirements:
+ build:
+  - openjdk 8.17.*
+ run:
+  - openjdk 8.17.*
+
