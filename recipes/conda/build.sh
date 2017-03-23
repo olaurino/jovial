@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 mvn package -DskipTests
 
 export JOVIAL_DIR=${PREFIX}/opt/jovial
