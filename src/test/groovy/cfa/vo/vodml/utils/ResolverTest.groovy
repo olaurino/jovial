@@ -49,6 +49,8 @@ class ResolverTest {
 
         assert resolver.resolveAttribute("ds:party.Party", "name") == new VodmlRef("ds:party.Party.name")
         assert resolver.resolveAttribute("ds:party.Organization", "name") == new VodmlRef("ds:party.Party.name")
+
+        assert resolver.resolveType("char:firstPackage.secondPackage.Type").name  == "Type"
     }
 
     @Test

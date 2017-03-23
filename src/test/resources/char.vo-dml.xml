@@ -1115,4 +1115,16 @@
             </multiplicity>
         </attribute>
     </objectType>
+    <package>
+        <vodml-id>firstPackage</vodml-id>
+        <name>firstPackage</name>
+        <package>
+            <vodml-id>firstPackage.secondPackage</vodml-id>
+            <name>secondPackage</name>
+            <dataType>
+                <vodml-id>firstPackage.secondPackage.Type</vodml-id>
+                <name>Type</name>
+            </dataType>
+        </package>
+    </package>
 </vo-dml:model>

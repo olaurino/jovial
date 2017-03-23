@@ -130,9 +130,6 @@ class Resolver {
 
     private void index(Model spec) {
         indexPackage(spec.name, spec)
-        spec.packages.each {
-            indexPackage(spec.name, it)
-        }
     }
 
     private indexPackage(String prefix, pkg) {
@@ -158,6 +155,9 @@ class Resolver {
                     }
                 }
             }
+        }
+        pkg.packages.each { subPackage ->
+            indexPackage(prefix, subPackage)
         }
     }
 }
