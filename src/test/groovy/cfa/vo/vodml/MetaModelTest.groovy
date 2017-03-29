@@ -355,8 +355,10 @@ class MetaModelTest {
                 extends_: new ElementRef(vodmlref: "ds:party.Role"),
                 constraints: [
                         new SubsettedRole (
-                                role: new ElementRef(vodmlref: "ds:party.Role.party"),
-                                dataType: new ElementRef(vodmlref: "ds:party.Organization")
+                                role: new Attribute(
+                                    vodmlid: "ds:party.Role.party.subsettedByparty.Facility",
+                                    dataType: new ElementRef(vodmlref: "ds:party.Organization")
+                                )
                         )
                 ]
         )

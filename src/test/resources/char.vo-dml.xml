@@ -280,6 +280,14 @@
         <extends>
             <vodml-ref>char:ErrorType</vodml-ref>
         </extends>
+        <constraint xsi:type="vo-dml:SubsettedRole">
+            <role>
+                <vodml-ref>char:ErrorType.aQuantity</vodml-ref>
+            </role>
+            <datatype>
+                <vodml-ref>ivoa:realQuantity</vodml-ref>
+            </datatype>
+        </constraint>
     </dataType>
 
     <dataType>
@@ -395,6 +403,17 @@
             </description>
             <datatype>
                 <vodml-ref>char:ErrorVariabilityType</vodml-ref>
+            </datatype>
+            <multiplicity>
+                <minOccurs>0</minOccurs>
+                <maxOccurs>1</maxOccurs>
+            </multiplicity>
+        </attribute>
+        <attribute>
+            <vodml-id>ErrorType.aQuantity</vodml-id>
+            <name>aQuantity</name>
+            <datatype>
+                <vodml-ref>ivoa:Quantity</vodml-ref>
             </datatype>
             <multiplicity>
                 <minOccurs>0</minOccurs>

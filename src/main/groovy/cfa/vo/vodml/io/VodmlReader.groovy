@@ -133,7 +133,7 @@ class VodmlReader {
                     referenceFrom(it)
                 } as BasicEventList,
                 constraints: xml.constraint.collect {
-                    constraintFrom(it)
+                    constraintFrom(it, xml."vodml-id")
                 } as BasicEventList,
         )
     }
@@ -152,7 +152,7 @@ class VodmlReader {
                     referenceFrom(it)
                 } as BasicEventList,
                 constraints: xml.constraint.collect {
-                    constraintFrom(it)
+                    constraintFrom(it, xml."vodml-id")
                 } as BasicEventList
         )
     }
@@ -237,11 +237,14 @@ class VodmlReader {
         )
     }
 
-    private Constraint constraintFrom(GPathResult xml) {
+    private Constraint constraintFrom(GPathResult xml, typeId) {
         if (xml."@xsi:type"?.equals("vo-dml:SubsettedRole")) {
+            def roleRef = elementRefFrom(xml.role)
+            roleRef.vodmlref.reference += ".subsettedBy$typeId"
+            def dataTypeRef = elementRefFrom(xml.datatype)
+            def attr = new Attribute(name: "subsettedRole", vodmlid: roleRef.vodmlref, dataType: dataTypeRef)
             new SubsettedRole(
-                    role: elementRefFrom(xml.role),
-                    dataType: elementRefFrom(xml.datatype),
+                    role: attr,
                     semanticConcept: semanticConceptFrom(xml.semanticconcept)
             )
         } else {

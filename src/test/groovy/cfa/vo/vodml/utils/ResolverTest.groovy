@@ -54,6 +54,15 @@ class ResolverTest {
     }
 
     @Test
+    public void testIndexSubsettedRole() {
+        assert resolver.resolveRole("char:ErrorType.aQuantity").dataType.vodmlref == new VodmlRef("ivoa:Quantity")
+
+        def expectedRef = new VodmlRef("char:ErrorType.aQuantity.subsettedByStatErrorType")
+        assert resolver.resolveAttribute("char:StatErrorType", "aQuantity") == expectedRef
+        assert resolver.resolveTypeOfRole(expectedRef).vodmlref == new VodmlRef("ivoa:realQuantity")
+    }
+
+    @Test
     public void resolveTypeOfRole() {
         def roleRef = new VodmlRef("ds:party.Party.name")
         assert resolver.resolveTypeOfRole(roleRef).vodmlref == new VodmlRef("ivoa:string")

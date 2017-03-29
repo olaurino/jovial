@@ -39,8 +39,7 @@ import groovy.transform.EqualsAndHashCode
 @Bindable
 @EqualsAndHashCode
 class SubsettedRole extends Constraint {
-    ElementRef role
-    ElementRef dataType
+    Attribute role
     SemanticConcept semanticConcept
 
     @Override
@@ -51,10 +50,12 @@ class SubsettedRole extends Constraint {
                     "description"(this.description)
                 }
                 "role"() {
-                    out << this.role
+                    def vodmlidString = this.role.vodmlid.toString()
+                    def index = vodmlidString.indexOf(".subsettedBy")
+                    "vodml-ref"(vodmlidString.substring(0, index))
                 }
                 datatype {
-                    out << this.dataType
+                    out << this.role.dataType
                 }
                 if (this.semanticConcept) {
                     out << semanticConcept

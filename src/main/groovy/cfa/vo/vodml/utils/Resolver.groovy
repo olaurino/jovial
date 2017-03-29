@@ -71,13 +71,16 @@ class Resolver {
         }
         Type type = types[typeRef]
         def matches = match(type, attributeName)
-        if (matches.size() == 1) {
-            return new VodmlRef(typeRef.prefix, matches[0].vodmlid)
+        if (matches.size() >= 1) {
+            def vodmlid = matches[0].vodmlid
+            if (!vodmlid.prefix) {
+                return new VodmlRef(typeRef.prefix, vodmlid)
+            } else {
+                return vodmlid
+            }
         }
-        else if (matches.size() == 0) {
+        else {
             throw new IllegalArgumentException(String.format("No Such Attribute '%s' in %s", attributeName, typeRef))
-        } else if (matches.size() >1) {
-            throw new IllegalArgumentException(String.format("Ambiguous Attribute '%s' in %s", attributeName, typeRef))
         }
     }
 
@@ -121,6 +124,20 @@ class Resolver {
             }
         }.flatten()
 
+        if (type.hasProperty("constraints")) {
+            matches += type.constraints.findResults {
+                if (it.hasProperty("role")) {
+                    def roleRef = new VodmlRef(it.role.vodmlid)
+                    def index = roleRef.reference.indexOf(".subsettedBy")
+                    roleRef.reference = roleRef.reference.substring(0, index)
+                    def role = resolveRole(roleRef)
+                    if (role.name == attributeName) {
+                        it.role
+                    }
+                }
+            }.flatten()
+        }
+
         if (type.extends_) {
             type = types[new VodmlRef(type.extends_.vodmlref)]
             matches += match(type, attributeName)
@@ -151,6 +168,14 @@ class Resolver {
                                 rkey = new VodmlRef(prefix, role.vodmlid)
                             }
                             roles[rkey] = role
+                        }
+                    }
+                }
+
+                if (type.hasProperty("constraints")) {
+                    type.constraints.each { constraint ->
+                        if (constraint.hasProperty("role")) {
+                            roles[constraint.role.vodmlid] = constraint.role
                         }
                     }
                 }

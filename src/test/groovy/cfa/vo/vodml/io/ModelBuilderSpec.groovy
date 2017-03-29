@@ -346,8 +346,8 @@ Illegal multiplicity expression. Please use '<minOccurs>..<maxOccurs>', where:
         model.dataTypes[1].extends_ == [vodmlref: new VodmlRef("test:BaseDataType")] as ElementRef
         model.dataTypes[1].constraints[0].description == "must be a particular thing"
         model.dataTypes[1].constraints[1].description == null
-        model.dataTypes[1].constraints[1].role == [vodmlref: new VodmlRef("test:BaseDataType.anAttribute")] as ElementRef
-        model.dataTypes[1].constraints[1].dataType == [vodmlref: new VodmlRef("test:DerivedPrimType")] as ElementRef
+        model.dataTypes[1].constraints[1].role.vodmlid == new VodmlRef("test:BaseDataType.anAttribute.subsettedByDerivedDataType")
+        model.dataTypes[1].constraints[1].role.dataType == [vodmlref: new VodmlRef("test:DerivedPrimType")] as ElementRef
         model.objectTypes[0].name == "BaseObjectType"
         model.objectTypes[0].description == "A base object type"
         model.objectTypes[0].vodmlid == new VodmlRef("BaseObjectType")
@@ -357,11 +357,11 @@ Illegal multiplicity expression. Please use '<minOccurs>..<maxOccurs>', where:
         model.objectTypes[1].extends_ == [vodmlref: new VodmlRef("test:BaseObjectType")] as ElementRef
         model.objectTypes[1].constraints[0].description == "must be another particular thing"
         model.objectTypes[1].constraints[1].description == null
-        model.objectTypes[1].constraints[1].role == [vodmlref: new VodmlRef("test:BaseObjectType.anAttribute")] as ElementRef
-        model.objectTypes[1].constraints[1].dataType == [vodmlref: new VodmlRef("test:DerivedDataType")] as ElementRef
+        model.objectTypes[1].constraints[1].role.vodmlid == new VodmlRef("test:BaseObjectType.anAttribute.subsettedByDerivedObjectType")
+        model.objectTypes[1].constraints[1].role.dataType == [vodmlref: new VodmlRef("test:DerivedDataType")] as ElementRef
         model.objectTypes[1].constraints[2].description == null
-        model.objectTypes[1].constraints[2].role == [vodmlref: new VodmlRef("test:BaseObjectType.anEnumeration")] as ElementRef
-        model.objectTypes[1].constraints[2].dataType == [vodmlref: new VodmlRef("test:DerivedEnum")] as ElementRef
+        model.objectTypes[1].constraints[2].role.vodmlid == new VodmlRef("test:BaseObjectType.anEnumeration.subsettedByDerivedObjectType")
+        model.objectTypes[1].constraints[2].role.dataType == [vodmlref: new VodmlRef("test:DerivedEnum")] as ElementRef
         model.packages[0].name == "aPackage"
         model.packages[0].primitiveTypes[0].name == "PrimType"
         model.packages[0].primitiveTypes[0].description == "A base primitive type"
@@ -380,8 +380,8 @@ Illegal multiplicity expression. Please use '<minOccurs>..<maxOccurs>', where:
         model.packages[0].dataTypes[1].extends_ == [vodmlref: new VodmlRef("test:aPackage.BaseDataType")] as ElementRef
         model.packages[0].dataTypes[1].constraints[0].description == "must be a particular thing"
         model.packages[0].dataTypes[1].constraints[1].description == null
-        model.packages[0].dataTypes[1].constraints[1].role == [vodmlref: new VodmlRef("test:aPackage.BaseDataType.anAttribute")] as ElementRef
-        model.packages[0].dataTypes[1].constraints[1].dataType == [vodmlref: new VodmlRef("test:aPackage.DerivedPrimType")] as ElementRef
+        model.packages[0].dataTypes[1].constraints[1].role.vodmlid == new VodmlRef("test:aPackage.BaseDataType.anAttribute.subsettedByaPackage.DerivedDataType")
+        model.packages[0].dataTypes[1].constraints[1].role.dataType == [vodmlref: new VodmlRef("test:aPackage.DerivedPrimType")] as ElementRef
         model.packages[0].objectTypes[0].name == "BaseObjectType"
         model.packages[0].objectTypes[0].description == "A base object type"
         model.packages[0].objectTypes[0].vodmlid == new VodmlRef("aPackage.BaseObjectType")
@@ -391,11 +391,11 @@ Illegal multiplicity expression. Please use '<minOccurs>..<maxOccurs>', where:
         model.packages[0].objectTypes[1].extends_ == [vodmlref: new VodmlRef("test:aPackage.BaseObjectType")] as ElementRef
         model.packages[0].objectTypes[1].constraints[0].description == "must be another particular thing"
         model.packages[0].objectTypes[1].constraints[1].description == null
-        model.packages[0].objectTypes[1].constraints[1].role == [vodmlref: new VodmlRef("test:aPackage.BaseObjectType.anAttribute")] as ElementRef
-        model.packages[0].objectTypes[1].constraints[1].dataType == [vodmlref: new VodmlRef("test:aPackage.DerivedDataType")] as ElementRef
+        model.packages[0].objectTypes[1].constraints[1].role.vodmlid == new VodmlRef("test:aPackage.BaseObjectType.anAttribute.subsettedByaPackage.DerivedObjectType")
+        model.packages[0].objectTypes[1].constraints[1].role.dataType == [vodmlref: new VodmlRef("test:aPackage.DerivedDataType")] as ElementRef
         model.packages[0].objectTypes[1].constraints[2].description == null
-        model.packages[0].objectTypes[1].constraints[2].role == [vodmlref: new VodmlRef("test:aPackage.BaseObjectType.anEnumeration")] as ElementRef
-        model.packages[0].objectTypes[1].constraints[2].dataType == [vodmlref: new VodmlRef("test:aPackage.DerivedEnum")] as ElementRef
+        model.packages[0].objectTypes[1].constraints[2].role.vodmlid == new VodmlRef("test:aPackage.BaseObjectType.anEnumeration.subsettedByaPackage.DerivedObjectType")
+        model.packages[0].objectTypes[1].constraints[2].role.dataType == [vodmlref: new VodmlRef("test:aPackage.DerivedEnum")] as ElementRef
     }
 
     def "full model (as in MetaModelTest but with DSL)"() {
