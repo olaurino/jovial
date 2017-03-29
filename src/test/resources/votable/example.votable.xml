@@ -99,7 +99,7 @@
         </GLOBALS>
 
         <TEMPLATES tableref="_table1">
-            <INSTANCE ID="_source" dmtype="sample:catalog.Source">
+            <INSTANCE ID="_source" dmtype="sample:catalog.SDSSSource">
                 <PRIMARYKEY>
                     <PKFIELD>
                         <COLUMN dmtype="ivoa:string" ref="_designation"/>
@@ -119,6 +119,18 @@
                         <REFERENCE dmrole="sample:catalog.SkyCoordinate.frame">
                             <IDREF>_icrs</IDREF>
                         </REFERENCE>
+                    </INSTANCE>
+                </ATTRIBUTE>
+
+                <!-- Example of subsetting serialization -->
+                <ATTRIBUTE dmrole="sample:catalog.AbstractSource.positionError">
+                    <INSTANCE dmtype="sample:catalog.AlignedEllipse">
+                        <ATTRIBUTE dmrole="sample:catalog.AlignedEllipse.longError">
+                            <LITERAL value="0.1" dmtype="ivoa:real"/>
+                        </ATTRIBUTE>
+                        <ATTRIBUTE dmrole="sample:catalog.AlignedEllipse.latError">
+                            <LITERAL value="0.1" dmtype="ivoa:real"/>
+                        </ATTRIBUTE>
                     </INSTANCE>
                 </ATTRIBUTE>
 

@@ -33,6 +33,7 @@
 package cfa.vo.vodml.io.votable
 
 import cfa.vo.vodml.instance.*
+import cfa.vo.vodml.utils.VodmlRef
 import groovy.xml.StreamingMarkupBuilder
 
 class VotableWriter extends AbstractMarkupInstanceWriter {
@@ -135,7 +136,7 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
                                 }
                             }
                             pk.columns.each { column ->
-                                ATTRIBUTE(dmrole: column.role) {
+                                ATTRIBUTE(dmrole: roleFilter(column.role)) {
                                     COLUMN(dmtype: column.type, ref: column.id)
                                 }
                             }
@@ -155,7 +156,7 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
                         }
                     }
                     objectInstance.objectTypes.each { inst ->
-                        ATTRIBUTE(dmrole: inst.role) {
+                        ATTRIBUTE(dmrole: roleFilter(inst.role)) {
                             out << buildObject(inst, builder)
                         }
                     }
@@ -182,7 +183,7 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
                         }
                     }
                     objectInstance.columns.each { column ->
-                        ATTRIBUTE(dmrole: column.role) {
+                        ATTRIBUTE(dmrole: roleFilter(column.role)) {
                             COLUMN(dmtype: column.type, ref: column.id)
                         }
                     }
@@ -249,15 +250,15 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
         elem()
     }
 
-//    void buildAttribute(ObjectInstance attributeInstance, builder) {
-//        def elem = {
-//            ATTRIBUTE(dmrole: attributeInstance.role) {
-//                LITERAL(value: attributeInstance.value, dmtype: attributeInstance.type.toString())
-//            }
-//        }
-//        elem.delegate = builder
-//        elem()
-//    }
+    private static String roleFilter(VodmlRef roleRef) {
+        def role = roleRef.toString()
+        def index = role.indexOf(".subsettedBy")
+        if (index > 0) {
+            return role.substring(0, index)
+        } else {
+            return role
+        }
+    }
 
     @Override
     String getNameSpace() {

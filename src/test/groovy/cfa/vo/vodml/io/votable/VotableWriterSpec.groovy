@@ -67,7 +67,6 @@ class VotableWriterSpec extends Specification {
 
     void cleanup() {
         System.out = stdout
-        println(baos.toString())
     }
 
     def "test5"() {

@@ -91,7 +91,7 @@ dmInstance {
             def k = [13.675, 14.847, 15.460]
             def kErr = [0.048, 0.127, 0.212]
 
-            instance(type: "sample:catalog.Source", id: "_source") {
+            instance(type: "sample:catalog.SDSSSource", id: "_source") {
                 pk() {
                     column(role: "name", id: "_designation", data: sourceNames)
                 }
@@ -101,6 +101,10 @@ dmInstance {
                     reference(role: "frame") {
                         idref("_icrs")
                     }
+                }
+                instance(role: "positionError") {
+                    instance(role: "longError", value: 0.1)
+                    instance(role: "latError", value: 0.1)
                 }
 //            ['J', 'H', 'K'].each { name ->
 //                instance(role: "luminosity") {
