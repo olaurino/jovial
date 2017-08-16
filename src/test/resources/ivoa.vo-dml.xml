@@ -59,7 +59,8 @@
     <dataType>
         <vodml-id>Identity</vodml-id>
         <name>Identity</name>
-        <description>This datatype represents an identifier for an object in the data model. It consists of 3 attributes that each are assumed to work in a particular context or representation of a data model instance.</description>
+        <description>This datatype represents an identifier for an object in the data model. It consists of 3 attributes
+            that each are assumed to work in a particular context or representation of a data model votable.</description>
         <attribute>
             <vodml-id>Identity.id</vodml-id>
             <name>id</name>

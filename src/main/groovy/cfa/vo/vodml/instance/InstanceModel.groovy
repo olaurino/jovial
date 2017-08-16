@@ -32,77 +32,19 @@
  */
 package cfa.vo.vodml.instance
 
+import cfa.vo.vodml.io.VodmlReader
+import cfa.vo.vodml.metamodel.Composition
 import cfa.vo.vodml.metamodel.Model
-import cfa.vo.vodml.io.VoTableBuilder
-import cfa.vo.vodml.io.VodmlWriter
 import cfa.vo.vodml.utils.Resolver
 import cfa.vo.vodml.utils.VoBuilderNode
 import cfa.vo.vodml.utils.VodmlRef
-import com.sun.org.apache.xpath.internal.operations.Equals
 import groovy.transform.Canonical
 import groovy.transform.EqualsAndHashCode
 import groovy.util.logging.Log
 
-/**
- * A Groovy Trait that knows how to build its own collections.
- *
- * The assumption is that each buildable node will have one or more lists of attributes,
- * each with its own buildable implementation.
- *
- * Implementing classes can call the build closure in their build implementation and pass
- * their own delegate to it. The closure will build the required attributes.
- *
- * The set of attribute lists is updated by calling the {@link VodmlBuildable#add(String)} method.
- *
- * The trait also defines an abstract callback method that will be called by this trait's
- * default implementation of the {@link VodmlBuildable#build(groovy.lang.GroovyObject)} method.
- */
-trait VodmlBuildable implements Buildable {
-    Set<String> toBuild = [] as Set
-
-    /**
-     * Add a field name to the set of field names to be built by this buildable instance
-     * @param name
-     */
-    void add(String name) {
-        toBuild << name
-    }
-
-    /**
-     * Convenience closure implementing classes can use to have their field lists built
-     */
-    Closure build = { delegate ->
-        toBuild.each { arrayToBuild ->
-            this."$arrayToBuild".each {
-                delegate.out << it
-            }
-        }
-    }
-
-    /**
-     * Default implementation of the Buildable interface. It sets up the correct delegate
-     * for the callback concrete implementation and then calls it
-     * @param builder The builder object injected by the markup builder.
-     */
-    @Override
-    void build(GroovyObject builder) {
-        def callback = getBuildCallback()
-        callback.delegate = builder
-        callback.call()
-    }
-
-    /**
-     * Implementing classes must implement this method and return their build callback
-     * @return The callback that builds this buildable instance.
-     */
-    abstract Closure getBuildCallback()
-}
-
-/**
- * Trait for buildable nodes that have a list of ObjectType-s to build.
- */
-trait HasObjects implements VodmlBuildable {
-    List<ObjectInstance> objectTypes = []
+@EqualsAndHashCode
+class HasObjects {
+    Set<ObjectInstance> objectTypes = []
 
     /**
      * Overloads the left shift operator for adding object type instances to build.
@@ -112,51 +54,26 @@ trait HasObjects implements VodmlBuildable {
      */
     public leftShift(ObjectInstance data) {
         objectTypes << data
-        add("objectTypes")
     }
 }
 
-/**
- * Trait for buildable nodes that have a list of DataTypes to build
- */
-trait HasData implements VodmlBuildable {
-    List<DataInstance> dataTypes = []
+@EqualsAndHashCode
+class HasColumns {
+    Set<ColumnInstance> columns = []
 
     /**
-     * Overloads the left shift operator for adding data type instances to build.
+     * Overloads the left shift operator for adding object type instances to build.
      * It also makes sure the set of buildable strings is updated.
      *
-     * @param data the DataType instance to be added
+     * @param data the ObjectType instance to be added.
      */
-    public leftShift(DataInstance data) {
-        dataTypes << data
-        add("dataTypes")
+    public leftShift(ColumnInstance data) {
+        columns << data
     }
 }
 
-/**
- * Trait for buildable nodes that have a list of primitive values to build
- */
-trait HasValues implements VodmlBuildable {
-    List<ValueInstance> attributes = []
-
-    /**
-     * Overloads the left shift operator for adding primitive type instances to build.
-     * It also makes sure the set of buildable strings is updated. Instances are single values
-     * or arrays to be serialized atomically (i.e. in a PARAM).
-     *
-     * @param data the PrimitiveType instance to be added
-     */
-    public leftShift(ValueInstance data) {
-        attributes << data
-        toBuild.add("attributes")
-    }
-}
-
-/**
- * Trait for buildable nodes that have a list of references to build
- */
-trait HasReferences implements VodmlBuildable {
+@EqualsAndHashCode
+class HasReferences {
     List<ReferenceInstance> references = []
 
     /**
@@ -167,38 +84,71 @@ trait HasReferences implements VodmlBuildable {
      */
     public leftShift(ReferenceInstance data) {
         references << data
-        add("references")
+    }
+}
+
+@EqualsAndHashCode
+class HasTables {
+    List<TableInstance> tables = []
+
+    /**
+     * Overloads the left shift operator for adding references to build.
+     * It also makes sure the set of buildable strings is updated.
+     *
+     * @param data the Reference instance to be added
+     */
+    public leftShift(TableInstance data) {
+        tables << data
     }
 }
 
 /**
- * This trait provides default implementations to the methods needed by any {@link VoBuilderNode}.
+ * This class provides default implementations to the methods needed by any {@link VoBuilderNode}.
  * It also injects the singleton instance of the {@link Resolver}.
  */
-trait DefaultNode implements VoBuilderNode {
+class DefaultNode implements VoBuilderNode {
     Resolver resolver = Resolver.instance
-    void start(Map m = [:]) {}
+    def parent
+    void start(Map m) {}
     void apply() {}
-    void end() {}
+    void end() {
+        if (parent != null &&
+                parent.metaClass.respondsTo(parent, "updateColumns") &&
+                this.hasProperty("columns")) {
+            parent.updateColumns(this.columns)
+        }
+    }
+
+    void updateColumns(Collection<ColumnInstance> columns) {
+        if (parent != null &&
+                parent.metaClass.respondsTo(parent, "updateColumns")) {
+            parent.updateColumns(columns)
+        }
+    }
 }
 
 /**
  * This class represents a Votable instance. Models, ObjectTypes, and DataTypes can be added to it.
- * It is important to provide model specifications (see {@link ModelInstance}).
+ * It is important to provide model specifications (see {@link ModelImportInstance}).
  */
 @Canonical
-@EqualsAndHashCode(excludes="resolver")
-class VotableInstance implements DefaultNode, HasObjects, HasData {
-    String ns = "http://www.ivoa.net/xml/VOTable/v1.3_vodml"
-    String prefix = ""
-    List<ModelInstance> models = []
+class DataModelInstance extends DefaultNode {
+    List<ModelImportInstance> models = []
+    List<GlobalsInstance> globals = []
+    List<ResourceInstance> resources = []
+    @Delegate HasObjects hasObjects = new HasObjects()
+    @Delegate HasTables hasTables = new HasTables()
 
     /**
      * Overload left shift operator for adding ModelInstances to this votable
-     * @param data the ModelInstance to add
+     * @param data the ModelImportInstance to add
      * @return
      */
-    public leftShift(ModelInstance data) {models << data}
+    public leftShift(ModelImportInstance data) {models << data}
+
+    public leftShift(GlobalsInstance data) {globals << data}
+
+    public leftShift(ResourceInstance data) {resources << data}
 
     /**
      * Overload left shift operator for adding Models to this votable
@@ -209,26 +159,16 @@ class VotableInstance implements DefaultNode, HasObjects, HasData {
         resolver << data}
 
     @Override
-    Closure getBuildCallback() {
-        def callback = {
-            VOTABLE() {
-                models.each {
-                    out << it
-                }
-                RESOURCE() {
-                    build.call(delegate)
-                }
-            }
+    public boolean equals(Object o) {
+        if (! (o instanceof DataModelInstance)) {
+            return false
         }
-    }
-
-    /**
-     * Serialize this instance to an OutputStream
-     * @param os
-     */
-    public toXml(OutputStream os) {
-        VodmlWriter write = new VodmlWriter()
-        write.write(this, os)
+        def other = (DataModelInstance) o
+        def ourModels = new HashSet(models)
+        def theirModels = new HashSet(other.models)
+        def ourObjects = new HashSet(objectTypes)
+        def theirObjects = new HashSet(other.objectTypes)
+        return ourModels.equals(theirModels) && ourObjects.equals(theirObjects)
     }
 }
 
@@ -240,9 +180,8 @@ class VotableInstance implements DefaultNode, HasObjects, HasData {
  * When setting a role for this instance, one can use both the full qualified {@link VodmlRef} or just the
  * role's name. The name will we resolved to the fully qualified {@link VodmlRef}.
  */
-abstract class Instance implements DefaultNode {
+abstract class Instance extends DefaultNode {
     String id
-    def parent
     VodmlRef type
     VodmlRef role
     protected Map attrs
@@ -255,11 +194,20 @@ abstract class Instance implements DefaultNode {
         type = new VodmlRef(ref)
     }
 
-    public VodmlRef getType() {
+    public VodmlRef findType() {
         if (this.@type) {
             return this.@type
         }
-        return resolver.resolveTypeOfRole(this.@role)?.vodmlref ?: null
+        try {
+            this.@type = resolver.resolveTypeOfRole(this.@role)?.vodmlref ?: null
+            return this.@type
+        } catch (IllegalArgumentException ignore) {
+            return null
+        }
+    }
+
+    private void updateType() {
+        this.@type = findType()
     }
 
     /**
@@ -285,11 +233,7 @@ abstract class Instance implements DefaultNode {
     @Override
     public void apply() {
         attrs.each {k, v -> this."$k" = v}
-    }
-
-    @Override
-    public void end() {
-
+        updateType()
     }
 
     @Override
@@ -297,39 +241,15 @@ abstract class Instance implements DefaultNode {
         if (o == null || !(o instanceof Instance)) {
             return false
         }
-        return this.attrs == o.attrs
+        if ((this.role != o.role) || (this.type != o.type)) {
+            return false
+        }
+        return true
     }
-}
-
-/**
- * Class for DataType instances. These instances can contain other DataType instances as well as
- * References to ObjectTypes and primitive types.
- */
-class DataInstance extends Instance implements HasData, HasReferences, HasValues {
 
     @Override
-    Closure getBuildCallback() {
-        def callback = {
-            def m = [:]
-            if (this.id) {
-                m.ID = this.id
-            }
-
-            def vodmlm = [:]
-
-            if (role) {
-                vodmlm.role = role
-            }
-
-            if (type) {
-                vodmlm.type = type
-            }
-            GROUP(m) {
-                out << new Vodml(vodmlm)
-                build.call(delegate)
-            }
-            mkp.comment("End DataType role: ${role ?: "{No Role}"} type: ${type ?: "{No Type}"}")
-        }
+    public String toString() {
+        return "${this.class.name}[$type, $role]"
     }
 }
 
@@ -337,46 +257,109 @@ class DataInstance extends Instance implements HasData, HasReferences, HasValues
  * Class for instances of ObjectTypes. These instances can contain Collections (Composition relationship) in addition
  * to DataType and PrimitiveType instances.
  */
-@Canonical
-class ObjectInstance extends Instance implements HasValues, HasData, HasReferences {
-    private List<CollectionInstance> collections = []
+class ObjectInstance extends Instance {
+    @Delegate HasObjects hasObjects = new HasObjects()
+    @Delegate HasReferences hasReferences = new HasReferences()
+    @Delegate HasColumns hasColumns = new HasColumns()
+    List<CompositionInstance> compositions = []
+    String value
+    PkInstance primaryKey
+    FkInstance foreignKey
 
-    public leftShift(CollectionInstance object) {collections << object}
+    ObjectInstance(Map attrs) {
+        for (entry in attrs) {
+            this."${entry.key}" = entry.value
+        }
+        apply()
+    }
 
-    @Override
-    Closure getBuildCallback() {
-        def callback = {
-            def m = [:]
-            if (id) {
-                m.ID = id
+    public leftShift(ObjectInstance object) {
+        if (resolver.resolveRole(object.role) instanceof Composition) {
+            def existing = compositions.find { it.role == object.role }
+            if (existing) {
+                existing << object
+            } else {
+                def comp = new CompositionInstance(role: object.role)
+                comp << object
+                compositions << comp
             }
-
-            def vodmlm = [:]
-
-            if (role) {
-                vodmlm.role = role
-            }
-
-            if (type) {
-                vodmlm.type = type
-            }
-            GROUP(m) {
-                out << new Vodml(vodmlm)
-                build.call(delegate)
-                collections.each {
-                    out << it
-                }
-            }
-            mkp.comment("End ObjectType role: ${role ?: "{No Role}"} type: ${type ?: "{No Type}"}")
+        } else {
+            hasObjects << object
         }
     }
+
+    public leftShift(PkInstance data) {
+        primaryKey = data
+        primaryKey.type = type
+    }
+
+    public leftShift(FkInstance data) {
+        foreignKey = data
+        foreignKey.type = type
+    }
+
+    public leftShift(CompositionInstance object) {
+        def existing = compositions.find { it.role == object.role }
+        if (existing) {
+            existing << object
+        } else {
+            def comp = new CompositionInstance(role: object.role)
+            comp << object
+            compositions << comp
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || !(o instanceof ObjectInstance)) {
+            return false
+        }
+        if (!super.equals(o)) {
+            return false
+        }
+        def ourReferences = new HashSet(references)
+        def theirReferences = new HashSet(o.references)
+        def ourColumns = new HashSet(columns)
+        def theirColumns = new HashSet(o.columns)
+        def ourCollections = new HashSet(this.compositions)
+        def theirCollections = new HashSet(o.compositions)
+        def ourObjects = new HashSet(this.objectTypes)
+        def theirObjects = new HashSet(o.objectTypes)
+
+
+        return this.value == o.value &&
+                ourReferences == theirReferences &&
+                ourColumns == theirColumns &&
+                ourCollections == theirCollections &&
+                ourObjects == theirObjects
+    }
+
+    void end() {
+        if (primaryKey != null) {
+            updateColumns(primaryKey.columns)
+        }
+        if (foreignKey != null) {
+            updateColumns(foreignKey.columns)
+        }
+        super.end()
+    }
+}
+
+@Canonical
+class GlobalsInstance extends Instance {
+    @Delegate HasObjects hasObjects = new HasObjects()
+    String id
 }
 
 /**
  * Class implementing instances of Composition relationship. This is simply a container of ObjectTypes.
  */
 @Canonical
-class CollectionInstance extends Instance implements HasObjects {
+class CompositionInstance extends Instance {
+    @Delegate HasObjects hasObjects = new HasObjects()
+    List<CompositionInstance> externals = []
+    String ref
+    Integer maxOccurs = -1;
 
     /**
      * Override the {@link HasObjects} trait's left shift operator to propagate the role
@@ -385,75 +368,92 @@ class CollectionInstance extends Instance implements HasObjects {
      * @return
      */
     public leftShift(ObjectInstance object) {
-        HasObjects.super.leftShift(object)
-        object.role = role
+        hasObjects.leftShift(object)
+        if (object.hasProperty("role") && role != null) {
+            object.role = role
+        }
+    }
+
+    public leftShift(CompositionInstance object) {
+        externals << object
     }
 
     @Override
-    Closure getBuildCallback() {
-        def callback = {
-            build.call(delegate)
-            mkp.comment("End Collection role: ${role ?: "{No Role}"}")
+    public void setRole(String ref) {
+        super.setRole(ref)
+        Composition comp = resolver.resolveRole(super.role)
+        this.maxOccurs = comp.multiplicity.maxOccurs
+    }
+}
+
+/**
+ * Tables are undistinguishable from Collections, but they must be serialized differently
+ */
+@Canonical
+class TableInstance extends CompositionInstance {
+    String id
+    @Delegate HasColumns hasColumns = new HasColumns()
+    List<FkInstance> foreignKeys
+
+    def leftShift(FkInstance object) {
+
+    }
+
+    void updateColumns(Collection<ColumnInstance> columns) {
+        columns.each {
+            this << it
         }
     }
+}
+
+@Canonical
+class PkInstance extends Instance {
+    @Delegate HasColumns hasColumns = new HasColumns()
+    String value
+}
+
+@Canonical
+class FkInstance extends Instance {
+    @Delegate PkInstance instance = new PkInstance()
+    String target
 }
 
 /**
  * Class for References to ObjectType instances.
  */
 @Canonical
-class ReferenceInstance extends Instance implements VodmlBuildable {
-    String value
+class ReferenceInstance extends Instance {
+    String idref
+    FkInstance foreignKey
+    @Delegate HasColumns hasColumns = new HasColumns()
 
-    @Override
-    Closure getBuildCallback() {
-        def elem = {
-            if (value != null) {
-                GROUP(ref: value) {
-                    out << new Vodml(role: role)
-                }
-            }
+    def leftShift(FkInstance fk) {
+        foreignKey = fk
+    }
+
+    void end() {
+        if (foreignKey != null) {
+            updateColumns(foreignKey.columns)
         }
+        super.end()
     }
 }
 
 /**
- * Class for values. It supports arrays, but it is meant to be represented by atomic elements (i.e. PARAMs).
- *
- * The class attempts to infer the datatype of the value being passed.
+ * Columns are basically references, although differently serialized.
  */
-@Canonical(includes=["type","role"])
-class ValueInstance extends Instance implements VodmlBuildable {
-    def value
+@Canonical
+class ColumnInstance extends Instance {
+    def data = []
+    String id
 
-    @Override
-    Closure getBuildCallback() {
-        def elem = {
-            if (value != null) {
-                PARAM(paramAttrs()) {
-                    out << new Vodml(role: role, type: type)
-                }
-            }
-        }
-    }
-
-    private String stripRole() {
-        role.reference.split("\\.")[-1] ?: "none"
-    }
-
-    private Map paramAttrs() {
-        String name = resolver.resolveRole(this.role)?.name ?: stripRole()
-        Map datatype = infer(value)
-        datatype << [name:name, value:value]
-    }
 
     static Map infer(value) {
         def dt = "char"
         def ars = "*"
         if (value == null) {
-
-        }
-        else if(value in String) { // Simple case, it's a string
+            // empty array or value
+        } else if(value in String) { // Simple case, it's a string
             dt = "char"
             ars = value.length().toString()
         } else if (value in Number) { // or it's a number
@@ -472,18 +472,25 @@ class ValueInstance extends Instance implements VodmlBuildable {
     }
 }
 
+@Canonical
+class ResourceInstance extends Instance {
+    String id
+    @Delegate HasTables hasTables = new HasTables()
+}
+
 /**
  * Class for model declarations in the VODML preamble. It needs to be passed a {@link Model} specification
  * as well as the URL the model spec will be available at and a documentation URL for the model.
  */
 @Log
-@EqualsAndHashCode
-class ModelInstance extends Instance implements VodmlBuildable {
-    private final VODML_PREF = "vodml-map"
-    String identifier
-    String vodmlURL
-    String documentationURL
+@EqualsAndHashCode(excludes='spec')
+class ModelImportInstance extends Instance {
+    String name = ""
+    String identifier = ""
+    String vodmlURL = ""
+    String documentationURL = ""
     Model spec
+    private reader = new VodmlReader()
 
     /**
      * Overrides parent's end() method for making sure parent receives the model spec.
@@ -498,47 +505,17 @@ class ModelInstance extends Instance implements VodmlBuildable {
         }
     }
 
+    public void setSpec(Model spec) {
+        name = spec.name
+        this.spec = spec
+    }
+
     @Override
-    Closure getBuildCallback() {
-        def object = new VoTableBuilder().object(type: "$VODML_PREF:Model") {
-            value(role: "$VODML_PREF:Model.url", type: "ivoa:anyURI", value: vodmlURL)
-            if(identifier) {
-                value(role: "$VODML_PREF:Model.identifier", type:"ivoa:anyURI", value:identifier)
-            }
-            value(role: "$VODML_PREF:Model.name", type:"ivoa:string", value:spec.name)
-            value(role: "$VODML_PREF:Model.documentationURL", type: "ivoa:anyURI", value: documentationURL)
-        }
-        def elem = {
-            out << object
+    public void apply() {
+        super.apply()
+        if (spec == null && vodmlURL != null) {
+            setSpec(reader.read(new URL(vodmlURL).openStream()))
+            resolver << spec
         }
     }
 }
-
-/**
- * Class implementing the VODML element and its serialization.
- */
-class Vodml implements Buildable {
-    VodmlRef type
-    VodmlRef role
-
-    @Override
-    void build(GroovyObject builder) {
-        def elem = {
-            VODML() {
-                if (role) {
-                    ROLE() {
-                        out << role
-                    }
-                }
-                if (type) {
-                    TYPE() {
-                        out << type
-                    }
-                }
-             }
-        }
-        elem.delegate = builder
-        elem()
-    }
-}
-

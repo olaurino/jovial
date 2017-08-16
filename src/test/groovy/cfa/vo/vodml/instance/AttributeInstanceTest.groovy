@@ -30,29 +30,14 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  * #L%
  */
-/**
- * Copyright (C) 2016 Smithsonian Astrophysical Observatory
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package cfa.vo.vodml.instance
 
-import cfa.vo.vodml.io.VoTableBuilder
+import cfa.vo.vodml.io.DataModelInstanceBuilder
 import cfa.vo.vodml.io.VodmlReader
 import cfa.vo.vodml.metamodel.Model
 import spock.lang.Specification
 
-class DataInstanceTest extends Specification {
+class AttributeInstanceTest extends Specification {
     Model stcSpec
     Model ivoaSpec
 
@@ -64,34 +49,34 @@ class DataInstanceTest extends Specification {
 
     def "test position"() {
         given:
-        VotableInstance instance = new VoTableBuilder().votable {
+        DataModelInstance instance = new DataModelInstanceBuilder().dmInstance {
             model(spec: stcSpec, vodmlURL: "https://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/STC2/prototype/STCPrototype-2.0.vo-dml.xml")
             model(spec: ivoaSpec, vodmlURL: "https://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/ivoa/IVOA.vo-dml.xml")
-            object(type: "ds:experiment.AstroTarget") {
-                value(role: "name", value: "3C273")
-                value(role: "description", value: "A Quasar")
-                data(role: "position", type: "stc:coords.Position") {
-                    data(role: "coord", type: "stc:stctypes.RealDoublet") {
-                        value(role: "d1", value: 187.2792)
-                        value(role: "d2", value: 2.0525)
+            instance(type: "ds:experiment.AstroTarget") {
+                instance(role: "name", value: "3C273")
+                instance(role: "description", value: "A Quasar")
+                instance(role: "position", type: "stc:coords.Position") {
+                    instance(role: "coord", type: "stc:stctypes.RealDoublet") {
+                        instance(role: "d1", value: 187.2792)
+                        instance(role: "d2", value: 2.0525)
                     }
                 }
-                value(role: "objectClass", value: "BLAZAR")
-                value(role: "spectralClass", value: "Sy1")
-                value(role: "redshift", value: 0.158)
-                value(role: "varAmpl", value: Double.NaN)
+                instance(role: "objectClass", value: "BLAZAR")
+                instance(role: "spectralClass", value: "Sy1")
+                instance(role: "redshift", value: 0.158)
+                instance(role: "varAmpl", value: Double.NaN)
             }
         }
 
         expect:
-        !instance.objectTypes[0].dataTypes.empty
-        !instance.objectTypes[0].dataTypes[0].dataTypes.empty
+        !instance.objectTypes[0].objectTypes.empty
+        !instance.objectTypes[0].objectTypes[2].objectTypes.empty
     }
 
     def "test inequality"() {
         given:
-        def i1 = new DataInstance(attrs: [:])
-        def i2 = new DataInstance(attrs: [type: "foo:bar"])
+        def i1 = new ObjectInstance(role: "bar:baz")
+        def i2 = new ObjectInstance(type: "foo:bar")
 
         expect:
         i1 != i2

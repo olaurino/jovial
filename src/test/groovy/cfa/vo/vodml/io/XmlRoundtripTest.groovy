@@ -49,7 +49,7 @@ class XmlRoundtripTest {
         input = resource.openStream().text
         ByteArrayOutputStream os = new ByteArrayOutputStream();
 
-        new VodmlWriter().write(model, os)
+        new ModelWriter().write(model, os)
         output = os.toString("UTF-8")
     }
 

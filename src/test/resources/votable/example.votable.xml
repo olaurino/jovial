@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Example of a VOTable annotated with VODML elements mapping its contents to the simple/sample Source and Filter data
+  models used in the VO-DML and Mapping documents. This sample contains mapping to TABLEs including ORM relations between them. -->
+<VOTABLE xmlns="http://www.ivoa.net/xml/VOTable/v1.4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.ivoa.net/xml/VOTable/v1.4 http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/xsd/ext/VOTable-1.4_vodml.xsd"
+>
+    <!--
+      xsi:schemaLocation="http://www.ivoa.net/xml/VOTable/v1.3_vodml http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/xsd/ext/VOTable-1.3_vodmlAlt-GL-1type.xsd"
+     -->
+    <VODML>
+        <MODEL>
+            <NAME>ivoa</NAME>
+            <URL>http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/ivoa/IVOA.vo-dml.xml</URL>
+        </MODEL>
+        <MODEL>
+            <NAME>filter</NAME>
+            <URL>http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/sample/filter/Filter.vo-dml.xml</URL>
+            <IDENTIFIER>ivo://ivoa.org/dm/sample/Filter/1.9</IDENTIFIER>
+        </MODEL>
+        <MODEL>
+            <NAME>sample</NAME>
+            <URL>http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/sample/sample/Sample.vo-dml.xml</URL>
+        </MODEL>
+
+        <GLOBALS>
+
+            <INSTANCE ID="_icrs" dmtype="sample:catalog.SkyCoordinateFrame">
+                <ATTRIBUTE dmrole="sample:catalog.SkyCoordinateFrame.name">
+                    <LITERAL dmtype="ivoa:string" value="ICRS"/>
+                </ATTRIBUTE>
+            </INSTANCE>
+
+            <INSTANCE ID="_2massH" dmtype="filter:PhotometryFilter">
+                <PRIMARYKEY>
+                    <PKFIELD>
+                        <LITERAL dmtype="ivoa:string" value="_2massH"/>
+                    </PKFIELD>
+                </PRIMARYKEY>
+                <ATTRIBUTE dmrole="filter:PhotometryFilter.name">
+                    <LITERAL dmtype="ivoa:string" value="2mass:H"/>
+                </ATTRIBUTE>
+            </INSTANCE>
+
+            <INSTANCE ID="_2massJ" dmtype="filter:PhotometryFilter">
+                <PRIMARYKEY>
+                    <PKFIELD>
+                        <LITERAL dmtype="ivoa:string" value="_2massJ"/>
+                    </PKFIELD>
+                </PRIMARYKEY>
+                <ATTRIBUTE dmrole="filter:PhotometryFilter.name">
+                    <LITERAL dmtype="ivoa:string" value="2mass:J"/>
+                </ATTRIBUTE>
+            </INSTANCE>
+
+            <INSTANCE ID="_2massK" dmtype="filter:PhotometryFilter">
+                <PRIMARYKEY>
+                    <PKFIELD>
+                        <LITERAL dmtype="ivoa:string" value="_2massK"/>
+                    </PKFIELD>
+                </PRIMARYKEY>
+                <ATTRIBUTE dmrole="filter:PhotometryFilter.name">
+                    <LITERAL dmtype="ivoa:string" value="2mass:K"/>
+                </ATTRIBUTE>
+            </INSTANCE>
+        </GLOBALS>
+
+        <GLOBALS ID="_SDSS_FILTERS">
+            <INSTANCE dmtype="filter:PhotometryFilter">
+                <PRIMARYKEY>
+                    <PKFIELD>
+                        <LITERAL dmtype="ivoa:string" value="sdss:g"/>
+                    </PKFIELD>
+                </PRIMARYKEY>
+                <ATTRIBUTE dmrole="filter:PhotometryFilter.name">
+                    <LITERAL dmtype="ivoa:string" value="sdss:g"/>
+                </ATTRIBUTE>
+            </INSTANCE>
+            <INSTANCE dmtype="filter:PhotometryFilter">
+                <PRIMARYKEY>
+                    <PKFIELD>
+                        <LITERAL dmtype="ivoa:string"  value="sdss:r"/>
+                    </PKFIELD>
+                </PRIMARYKEY>
+                <ATTRIBUTE dmrole="filter:PhotometryFilter.name">
+                    <LITERAL dmtype="ivoa:string"  value="sdss:r"/>
+                </ATTRIBUTE>
+            </INSTANCE>
+            <INSTANCE dmtype="filter:PhotometryFilter">
+                <PRIMARYKEY>
+                    <PKFIELD>
+                        <LITERAL dmtype="ivoa:string" value="sdss:u"/>
+                    </PKFIELD>
+                </PRIMARYKEY>
+                <ATTRIBUTE dmrole="filter:PhotometryFilter.name">
+                    <LITERAL dmtype="ivoa:string" value="sdss:u"/>
+                </ATTRIBUTE>
+            </INSTANCE>
+
+        </GLOBALS>
+
+        <TEMPLATES tableref="_table1">
+            <INSTANCE ID="_source" dmtype="sample:catalog.SDSSSource">
+                <PRIMARYKEY>
+                    <PKFIELD>
+                        <COLUMN dmtype="ivoa:string" ref="_designation"/>
+                    </PKFIELD>
+                </PRIMARYKEY>
+                <ATTRIBUTE dmrole="sample:catalog.AbstractSource.name">
+                    <COLUMN dmtype="ivoa:string" ref="_designation"/>
+                </ATTRIBUTE>
+                <ATTRIBUTE dmrole="sample:catalog.AbstractSource.position">
+                    <INSTANCE dmtype="sample:catalog.SkyCoordinate">
+                        <ATTRIBUTE dmrole="sample:catalog.SkyCoordinate.longitude">
+                            <COLUMN dmtype="ivoa:RealQuantity" ref="_ra"/>
+                        </ATTRIBUTE>
+                        <ATTRIBUTE dmrole="sample:catalog.SkyCoordinate.latitude">
+                            <COLUMN dmtype="ivoa:RealQuantity" ref="_dec"/>
+                        </ATTRIBUTE>
+                        <REFERENCE dmrole="sample:catalog.SkyCoordinate.frame">
+                            <IDREF>_icrs</IDREF>
+                        </REFERENCE>
+                    </INSTANCE>
+                </ATTRIBUTE>
+
+                <!-- Example of subsetting serialization -->
+                <ATTRIBUTE dmrole="sample:catalog.AbstractSource.positionError">
+                    <INSTANCE dmtype="sample:catalog.AlignedEllipse">
+                        <ATTRIBUTE dmrole="sample:catalog.AlignedEllipse.longError">
+                            <LITERAL value="0.1" dmtype="ivoa:real"/>
+                        </ATTRIBUTE>
+                        <ATTRIBUTE dmrole="sample:catalog.AlignedEllipse.latError">
+                            <LITERAL value="0.1" dmtype="ivoa:real"/>
+                        </ATTRIBUTE>
+                    </INSTANCE>
+                </ATTRIBUTE>
+
+                <COMPOSITION dmrole="sample:catalog.AbstractSource.luminosity">
+                    <INSTANCE dmtype="sample:catalog.LuminosityMeasurement">
+                        <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.value">
+                            <COLUMN dmtype="ivoa:RealQuantity" ref="_magH"/>
+                        </ATTRIBUTE>
+                        <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.error">
+                            <COLUMN dmtype="ivoa:RealQuantity" ref="_errH"/>
+                        </ATTRIBUTE>
+                        <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.type">
+                            <LITERAL dmtype="sample:catalog.LuminosityType" value="magnitude"/>
+                        </ATTRIBUTE>
+                        <REFERENCE dmrole="sample:catalog.LuminosityMeasurement.filter">
+                            <IDREF>_2massH</IDREF>
+                        </REFERENCE>
+                    </INSTANCE>
+                    <INSTANCE dmtype="sample:catalog.LuminosityMeasurement">
+                        <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.value">
+                            <COLUMN dmtype="ivoa:RealQuantity" ref="_magJ"/>
+                        </ATTRIBUTE>
+                        <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.error">
+                            <COLUMN dmtype="ivoa:RealQuantity" ref="_errJ"/>
+                        </ATTRIBUTE>
+                        <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.type">
+                            <LITERAL dmtype="sample:catalog.LuminosityType" value="magnitude"/>
+                        </ATTRIBUTE>
+                        <REFERENCE dmrole="sample:catalog.LuminosityMeasurement.filter">
+                            <IDREF>_2massJ</IDREF>
+                        </REFERENCE>
+                    </INSTANCE>
+                    <INSTANCE dmtype="sample:catalog.LuminosityMeasurement">
+                        <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.value">
+                            <COLUMN dmtype="ivoa:RealQuantity" ref="_magK"/>
+                        </ATTRIBUTE>
+                        <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.error">
+                            <COLUMN dmtype="ivoa:RealQuantity" ref="_errK"/>
+                        </ATTRIBUTE>
+                        <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.type">
+                            <LITERAL dmtype="sample:catalog.LuminosityType" value="magnitude"/>
+                        </ATTRIBUTE>
+                        <REFERENCE dmrole="sample:catalog.LuminosityMeasurement.filter">
+                            <IDREF>_2massK</IDREF>
+                        </REFERENCE>
+                    </INSTANCE>
+                    <EXTINSTANCES>SDSS_MAGS</EXTINSTANCES>
+                </COMPOSITION>
+            </INSTANCE>
+        </TEMPLATES>
+        <TEMPLATES tableref="_sdss_mags">
+            <INSTANCE ID="SDSS_MAGS" dmtype="sample:catalog.LuminosityMeasurement">
+                <CONTAINER>
+                    <FOREIGNKEY>
+                        <PKFIELD>
+                            <COLUMN dmtype="ivoa:string" ref="_container"/>
+                        </PKFIELD>
+                        <TARGETID>_source</TARGETID>
+                    </FOREIGNKEY>
+                </CONTAINER>
+                <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.value">
+                    <COLUMN dmtype="ivoa:RealQuantity" ref="_mag"/>
+                </ATTRIBUTE>
+                <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.error">
+                    <COLUMN dmtype="ivoa:RealQuantity" ref="_eMag"/>
+                </ATTRIBUTE>
+                <!-- Following is example of OR-like reference, but not to another table but to a singleton object -->
+                <REFERENCE dmrole="sample:catalog.LuminosityMeasurement.filter">
+                    <FOREIGNKEY>
+                        <PKFIELD>
+                            <COLUMN dmtype="ivoa:string" ref="_filter"/>
+                        </PKFIELD>
+                        <TARGETID>_SDSS_FILTERS</TARGETID>
+                    </FOREIGNKEY>
+                </REFERENCE>
+            </INSTANCE>
+        </TEMPLATES>
+    </VODML>
+
+    <RESOURCE ID="table_objects">
+
+        <TABLE ID="_table1">
+            <!-- The following GROUP represents 0 or more Sources indirectly. For it has FIELDref-s, hence indicating the Source
+              instances are stored in the TABLE rows. Note that not all FIELDs are represented in the annotation, as there is no model
+              covering all elements such as. -->
+            <FIELD name="designation" ID="_designation" datatype="char" arraysize="*">
+                <DESCRIPTION>source designation formed from sexigesimal coordinates</DESCRIPTION>
+            </FIELD>
+            <FIELD name="ra" ID="_ra" unit="deg" datatype="float">
+                <DESCRIPTION>right ascension (J2000 decimal deg)</DESCRIPTION>
+            </FIELD>
+            <FIELD name="dec" ID="_dec" unit="deg" datatype="float">
+                <DESCRIPTION>declination (J2000 decimal deg)</DESCRIPTION>
+            </FIELD>
+            <FIELD name="j_m" unit="mag" ID="_magJ" datatype="float">
+                <DESCRIPTION>J band selected "default" magnitude</DESCRIPTION>
+            </FIELD>
+            <FIELD name="j_cmsig" unit="mag" ID="_errJ" datatype="float">
+                <DESCRIPTION>corrected J band photometric uncertainty</DESCRIPTION>
+            </FIELD>
+            <FIELD name="h_m" unit="mag" ID="_magH" datatype="float">
+                <DESCRIPTION>H band selected 'default' magnitude</DESCRIPTION>
+            </FIELD>
+            <FIELD name="h_cmsig" unit="mag" ID="_errH" datatype="float">
+                <DESCRIPTION>corrected H band photometric uncertainty</DESCRIPTION>
+            </FIELD>
+            <FIELD name="k_m" unit="mag" ID="_magK" datatype="float">
+                <DESCRIPTION>K band selected 'default' magnitude</DESCRIPTION>
+            </FIELD>
+            <FIELD name="k_cmsig" unit="mag" ID="_errK" datatype="float">
+                <DESCRIPTION>corrected K band photometric uncertainty</DESCRIPTION>
+            </FIELD>
+            <DATA>
+                <TABLEDATA>
+                    <TR>
+                        <TD>08120809-0206132</TD>
+                        <TD>123.033734</TD>
+                        <TD>-2.103671</TD>
+                        <TD>14.161</TD>
+                        <TD>0.025</TD>
+                        <TD>13.681</TD>
+                        <TD>0.027</TD>
+                        <TD>13.675</TD>
+                        <TD>0.048</TD>
+                    </TR>
+                    <TR>
+                        <TD>08115683-0205428</TD>
+                        <TD>122.986794</TD>
+                        <TD>-2.095231</TD>
+                        <TD>15.860</TD>
+                        <TD>0.060</TD>
+                        <TD>15.103</TD>
+                        <TD>0.077</TD>
+                        <TD>14.847</TD>
+                        <TD>0.127</TD>
+                    </TR>
+                    <TR>
+                        <TD>08115826-0205336</TD>
+                        <TD>122.992773</TD>
+                        <TD>-2.092676</TD>
+                        <TD>16.273</TD>
+                        <TD>0.096</TD>
+                        <TD>15.718</TD>
+                        <TD>0.112</TD>
+                        <TD>15.460</TD>
+                        <TD>0.212</TD>
+                    </TR>
+                </TABLEDATA>
+            </DATA>
+        </TABLE>
+
+        <TABLE ID="_sdss_mags">
+            <FIELD ID="_container" name="parentId" datatype="char" arraysize="*"/>
+            <FIELD ID="_mag" name="mag" datatype="float"/>
+            <FIELD ID="_eMag" name="eMag" datatype="float"/>
+            <FIELD ID="_filter" name="filter" datatype="char" arraysize="*"/>
+            <DATA>
+                <TABLEDATA>
+                    <TR>
+                        <TD>08120809-0206132</TD>
+                        <TD>23.2</TD>
+                        <TD>0.04</TD>
+                        <TD>sdss:g</TD>
+                    </TR>
+                    <TR>
+                        <TD>08120809-0206132</TD>
+                        <TD>23.0</TD>
+                        <TD>0.03</TD>
+                        <TD>sdss:r</TD>
+                    </TR>
+                </TABLEDATA>
+            </DATA>
+        </TABLE>
+
+    </RESOURCE>
+</VOTABLE>

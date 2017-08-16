@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<vo-dml:model xmlns:vo-dml="http://www.ivoa.net/xml/VODML/v1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ivoa.net/xml/VODML/v1.0 http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/xsd/vo-dml-v1.0.xsd">
-    <name>src</name>
+<vo-dml:model xmlns:vo-dml="http://www.ivoa.net/xml/VODML/v1.0"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://www.ivoa.net/xml/VODML/v1.0 http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/xsd/vo-dml-v1.0.xsd">
+    <name>sample</name>
     <description>This is a sample data model. It contains the IVOA UML Profile and imports the IVOA_Profile data model with primitive types.
         It has some sample relationships etc to be used in documentation etc.</description>
     <title>Sample VO-DML data model.</title>
     <version>1.0</version>
-    <lastModified>2015-10-09T11:40:28.000Z</lastModified>
+    <lastModified>2016-11-26T08:50:50</lastModified>
     <import>
         <name>ivoa</name>
-        <version>1.0</version>
-        <url>http://volute.googlecode.com/svn/trunk/projects/dm/vo-dml/models/ivoa/IVOA.vo-dml.xml</url>
-        <documentationURL>http://volute.googlecode.com/svn/trunk/projects/dm/vo-dml/models/ivoa/IVOA.html</documentationURL>
+        <url>http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/ivoa/IVOA.vo-dml.xml</url>
+        <documentationURL>https://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/ivoa/IVOA.html</documentationURL>
     </import>
     <import>
-        <name>photdm-alt</name>
-        <version>1.0</version>
-        <url>https://volute.googlecode.com/svn/trunk/projects/dm/vo-dml/models/photdm-alt/PhotDM-alt.vo-dml.xml</url>
-        <documentationURL>https://volute.googlecode.com/svn/trunk/projects/dm/vo-dml/models/photdm-alt/PhotDM-alt.html</documentationURL>
+        <name>filter</name>
+        <url>http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/sample/filter/Filter.vo-dml.xml</url>
+        <documentationURL>https://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/sample/filter/Filter.html</documentationURL>
     </import>
 
     <package>
-        <vodml-id>source</vodml-id>
-        <name>source</name>
+        <vodml-id>catalog</vodml-id>
+        <name>catalog</name>
         <description>
             TODO : Missing description : please, update your UML model asap.
         </description>
         <enumeration>
-            <vodml-id>source.LuminosityType</vodml-id>
+            <vodml-id>catalog.LuminosityType</vodml-id>
             <name>LuminosityType</name>
             <description>
                 TODO : Missing description : please, update your UML model asap.
             </description>
             <literal>
-                <vodml-id>source.LuminosityType.magnitude</vodml-id>
+                <vodml-id>catalog.LuminosityType.magnitude</vodml-id>
                 <name>magnitude</name>
                 <description>
                     TODO : Missing description : please, update your UML model asap.
                 </description>
             </literal>
             <literal>
-                <vodml-id>source.LuminosityType.flux</vodml-id>
+                <vodml-id>catalog.LuminosityType.flux</vodml-id>
                 <name>flux</name>
                 <description>
                     TODO : Missing description : please, update your UML model asap.
@@ -48,41 +48,41 @@
         </enumeration>
 
         <enumeration>
-            <vodml-id>source.SourceClassification</vodml-id>
+            <vodml-id>catalog.SourceClassification</vodml-id>
             <name>SourceClassification</name>
             <description>
                 TODO : Missing description : please, update your UML model asap.
             </description>
             <literal>
-                <vodml-id>source.SourceClassification.star</vodml-id>
+                <vodml-id>catalog.SourceClassification.star</vodml-id>
                 <name>star</name>
                 <description>
                     TODO : Missing description : please, update your UML model asap.
                 </description>
             </literal>
             <literal>
-                <vodml-id>source.SourceClassification.galaxy</vodml-id>
+                <vodml-id>catalog.SourceClassification.galaxy</vodml-id>
                 <name>galaxy</name>
                 <description>
                     TODO : Missing description : please, update your UML model asap.
                 </description>
             </literal>
             <literal>
-                <vodml-id>source.SourceClassification.AGN</vodml-id>
+                <vodml-id>catalog.SourceClassification.AGN</vodml-id>
                 <name>AGN</name>
                 <description>
                     TODO : Missing description : please, update your UML model asap.
                 </description>
             </literal>
             <literal>
-                <vodml-id>source.SourceClassification.planet</vodml-id>
+                <vodml-id>catalog.SourceClassification.planet</vodml-id>
                 <name>planet</name>
                 <description>
                     TODO : Missing description : please, update your UML model asap.
                 </description>
             </literal>
             <literal>
-                <vodml-id>source.SourceClassification.unknown</vodml-id>
+                <vodml-id>catalog.SourceClassification.unknown</vodml-id>
                 <name>unknown</name>
                 <description>
                     TODO : Missing description : please, update your UML model asap.
@@ -91,16 +91,16 @@
         </enumeration>
 
         <dataType>
-            <vodml-id>source.AlignedEllipse</vodml-id>
+            <vodml-id>catalog.AlignedEllipse</vodml-id>
             <name>AlignedEllipse</name>
             <description>
                 TODO : Missing description : please, update your UML model asap.
             </description>
             <extends>
-                <vodml-ref>src:source.SkyError</vodml-ref>
+                <vodml-ref>sample:catalog.SkyError</vodml-ref>
             </extends>
             <attribute>
-                <vodml-id>source.AlignedEllipse.longError</vodml-id>
+                <vodml-id>catalog.AlignedEllipse.longError</vodml-id>
                 <name>longError</name>
                 <description>
                     TODO : Missing description : please, update your UML model asap.
@@ -114,7 +114,7 @@
                 </multiplicity>
             </attribute>
             <attribute>
-                <vodml-id>source.AlignedEllipse.latError</vodml-id>
+                <vodml-id>catalog.AlignedEllipse.latError</vodml-id>
                 <name>latError</name>
                 <description>
                     TODO : Missing description : please, update your UML model asap.
@@ -130,16 +130,16 @@
         </dataType>
 
         <dataType>
-            <vodml-id>source.CircleError</vodml-id>
+            <vodml-id>catalog.CircleError</vodml-id>
             <name>CircleError</name>
             <description>
                 TODO : Missing description : please, update your UML model asap.
             </description>
             <extends>
-                <vodml-ref>src:source.SkyError</vodml-ref>
+                <vodml-ref>sample:catalog.SkyError</vodml-ref>
             </extends>
             <attribute>
-                <vodml-id>source.CircleError.radius</vodml-id>
+                <vodml-id>catalog.CircleError.radius</vodml-id>
                 <name>radius</name>
                 <description>
                     TODO : Missing description : please, update your UML model asap.
@@ -155,13 +155,13 @@
         </dataType>
 
         <dataType>
-            <vodml-id>source.GenericEllipse</vodml-id>
+            <vodml-id>catalog.GenericEllipse</vodml-id>
             <name>GenericEllipse</name>
             <description>
                 TODO : Missing description : please, update your UML model asap.
             </description>
             <extends>
-                <vodml-ref>src:source.SkyError</vodml-ref>
+                <vodml-ref>sample:catalog.SkyError</vodml-ref>
             </extends>
             <constraint>
                 <description>self.major&gt;=self.minor</description>
@@ -170,7 +170,7 @@
                 <description>self.minor &gt;= 0</description>
             </constraint>
             <attribute>
-                <vodml-id>source.GenericEllipse.major</vodml-id>
+                <vodml-id>catalog.GenericEllipse.major</vodml-id>
                 <name>major</name>
                 <description>major axis of error ellipse</description>
                 <datatype>
@@ -182,7 +182,7 @@
                 </multiplicity>
             </attribute>
             <attribute>
-                <vodml-id>source.GenericEllipse.minor</vodml-id>
+                <vodml-id>catalog.GenericEllipse.minor</vodml-id>
                 <name>minor</name>
                 <description>
                     TODO : Missing description : please, update your UML model asap.
@@ -196,7 +196,7 @@
                 </multiplicity>
             </attribute>
             <attribute>
-                <vodml-id>source.GenericEllipse.pa</vodml-id>
+                <vodml-id>catalog.GenericEllipse.pa</vodml-id>
                 <name>pa</name>
                 <description>Position angle of error ellipse in coordinate system of position.</description>
                 <datatype>
@@ -210,7 +210,7 @@
         </dataType>
 
         <dataType>
-            <vodml-id>source.SkyCoordinate</vodml-id>
+            <vodml-id>catalog.SkyCoordinate</vodml-id>
             <name>SkyCoordinate</name>
             <description>
                 TODO : Missing description : please, update your UML model asap.
@@ -222,11 +222,11 @@
                 <description>0&lt;=self.longitude.value &lt; 360 </description>
             </constraint>
             <attribute>
-                <vodml-id>source.SkyCoordinate.longitude</vodml-id>
+                <vodml-id>catalog.SkyCoordinate.longitude</vodml-id>
                 <name>longitude</name>
                 <description>The longitude part of this position in units of degrees.</description>
                 <datatype>
-                    <vodml-ref>ivoa:quantity.RealQuantity</vodml-ref>
+                    <vodml-ref>ivoa:RealQuantity</vodml-ref>
                 </datatype>
                 <multiplicity>
                     <minOccurs>1</minOccurs>
@@ -234,11 +234,11 @@
                 </multiplicity>
             </attribute>
             <attribute>
-                <vodml-id>source.SkyCoordinate.latitude</vodml-id>
+                <vodml-id>catalog.SkyCoordinate.latitude</vodml-id>
                 <name>latitude</name>
                 <description>The latitude part of this position in units of degrees.</description>
                 <datatype>
-                    <vodml-ref>ivoa:quantity.RealQuantity</vodml-ref>
+                    <vodml-ref>ivoa:RealQuantity</vodml-ref>
                 </datatype>
                 <multiplicity>
                     <minOccurs>1</minOccurs>
@@ -246,13 +246,13 @@
                 </multiplicity>
             </attribute>
             <reference>
-                <vodml-id>source.SkyCoordinate.frame</vodml-id>
+                <vodml-id>catalog.SkyCoordinate.frame</vodml-id>
                 <name>frame</name>
                 <description>
                     TODO : Missing description : please, update your UML model asap.
                 </description>
                 <datatype>
-                    <vodml-ref>src:source.SkyCoordinateFrame</vodml-ref>
+                    <vodml-ref>sample:catalog.SkyCoordinateFrame</vodml-ref>
                 </datatype>
                 <multiplicity>
                     <minOccurs>1</minOccurs>
@@ -262,17 +262,123 @@
         </dataType>
 
         <dataType abstract="true">
-            <vodml-id>source.SkyError</vodml-id>
+            <vodml-id>catalog.SkyError</vodml-id>
             <name>SkyError</name>
             <description>Error of a position on the sky.</description>
         </dataType>
 
         <objectType abstract="true">
-            <vodml-id>source.AstroObject</vodml-id>
+            <vodml-id>catalog.AbstractSource</vodml-id>
+            <name>AbstractSource</name>
+            <description>
+                TODO : Missing description : please, update your UML model asap.
+            </description>
+            <extends>
+                <vodml-ref>sample:catalog.AstroObject</vodml-ref>
+            </extends>
+            <constraint xsi:type="vo-dml:SubsettedRole">
+                <role>
+                    <vodml-ref>sample:catalog.AstroObject.label</vodml-ref>
+                </role>
+                <datatype>
+                    <vodml-ref>ivoa:string</vodml-ref>
+                </datatype>
+                <semanticconcept>
+                    <topConcept>http://purl.org/astronomy/vocab/DataObjectTypes/Source</topConcept>
+                </semanticconcept>
+            </constraint>
+            <attribute>
+                <vodml-id>catalog.AbstractSource.name</vodml-id>
+                <name>name</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:string</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>catalog.AbstractSource.description</vodml-id>
+                <name>description</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>ivoa:string</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>catalog.AbstractSource.position</vodml-id>
+                <name>position</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>sample:catalog.SkyCoordinate</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>catalog.AbstractSource.positionError</vodml-id>
+                <name>positionError</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>sample:catalog.SkyError</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <attribute>
+                <vodml-id>catalog.AbstractSource.classification</vodml-id>
+                <name>classification</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>sample:catalog.SourceClassification</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>1</minOccurs>
+                    <maxOccurs>1</maxOccurs>
+                </multiplicity>
+            </attribute>
+            <composition>
+                <vodml-id>catalog.AbstractSource.luminosity</vodml-id>
+                <name>luminosity</name>
+                <description>
+                    TODO : Missing description : please, update your UML model asap.
+                </description>
+                <datatype>
+                    <vodml-ref>sample:catalog.LuminosityMeasurement</vodml-ref>
+                </datatype>
+                <multiplicity>
+                    <minOccurs>0</minOccurs>
+                    <maxOccurs>-1</maxOccurs>
+                </multiplicity>
+            </composition>
+        </objectType>
+
+        <objectType abstract="true">
+            <vodml-id>catalog.AstroObject</vodml-id>
             <name>AstroObject</name>
             <description>Generic base class for all astronomical objects.</description>
             <attribute>
-                <vodml-id>source.AstroObject.label</vodml-id>
+                <vodml-id>catalog.AstroObject.label</vodml-id>
                 <name>label</name>
                 <description>
                     TODO : Missing description : please, update your UML model asap.
@@ -292,19 +398,19 @@
         </objectType>
 
         <objectType>
-            <vodml-id>source.LuminosityMeasurement</vodml-id>
+            <vodml-id>catalog.LuminosityMeasurement</vodml-id>
             <name>LuminosityMeasurement</name>
             <description>
                 TODO : Missing description : please, update your UML model asap.
             </description>
             <attribute>
-                <vodml-id>source.LuminosityMeasurement.value</vodml-id>
+                <vodml-id>catalog.LuminosityMeasurement.value</vodml-id>
                 <name>value</name>
                 <description>
                     TODO : Missing description : please, update your UML model asap.
                 </description>
                 <datatype>
-                    <vodml-ref>ivoa:quantity.RealQuantity</vodml-ref>
+                    <vodml-ref>ivoa:RealQuantity</vodml-ref>
                 </datatype>
                 <multiplicity>
                     <minOccurs>1</minOccurs>
@@ -312,13 +418,13 @@
                 </multiplicity>
             </attribute>
             <attribute>
-                <vodml-id>source.LuminosityMeasurement.error</vodml-id>
+                <vodml-id>catalog.LuminosityMeasurement.error</vodml-id>
                 <name>error</name>
                 <description>
                     TODO : Missing description : please, update your UML model asap.
                 </description>
                 <datatype>
-                    <vodml-ref>ivoa:quantity.RealQuantity</vodml-ref>
+                    <vodml-ref>ivoa:RealQuantity</vodml-ref>
                 </datatype>
                 <multiplicity>
                     <minOccurs>0</minOccurs>
@@ -326,7 +432,7 @@
                 </multiplicity>
             </attribute>
             <attribute>
-                <vodml-id>source.LuminosityMeasurement.description</vodml-id>
+                <vodml-id>catalog.LuminosityMeasurement.description</vodml-id>
                 <name>description</name>
                 <description>
                     TODO : Missing description : please, update your UML model asap.
@@ -340,13 +446,13 @@
                 </multiplicity>
             </attribute>
             <attribute>
-                <vodml-id>source.LuminosityMeasurement.type</vodml-id>
+                <vodml-id>catalog.LuminosityMeasurement.type</vodml-id>
                 <name>type</name>
                 <description>
                     TODO : Missing description : please, update your UML model asap.
                 </description>
                 <datatype>
-                    <vodml-ref>src:source.LuminosityType</vodml-ref>
+                    <vodml-ref>sample:catalog.LuminosityType</vodml-ref>
                 </datatype>
                 <multiplicity>
                     <minOccurs>1</minOccurs>
@@ -354,13 +460,13 @@
                 </multiplicity>
             </attribute>
             <reference>
-                <vodml-id>source.LuminosityMeasurement.filter</vodml-id>
+                <vodml-id>catalog.LuminosityMeasurement.filter</vodml-id>
                 <name>filter</name>
                 <description>
                     TODO : Missing description : please, update your UML model asap.
                 </description>
                 <datatype>
-                    <vodml-ref>photdm-alt:PhotometryFilter</vodml-ref>
+                    <vodml-ref>filter:PhotometryFilter</vodml-ref>
                 </datatype>
                 <multiplicity>
                     <minOccurs>1</minOccurs>
@@ -370,32 +476,32 @@
         </objectType>
 
         <objectType>
-            <vodml-id>source.SDSSSource</vodml-id>
+            <vodml-id>catalog.SDSSSource</vodml-id>
             <name>SDSSSource</name>
             <description>
                 TODO : Missing description : please, update your UML model asap.
             </description>
             <extends>
-                <vodml-ref>src:source.Source</vodml-ref>
+                <vodml-ref>sample:catalog.AbstractSource</vodml-ref>
             </extends>
             <constraint xsi:type="vo-dml:SubsettedRole">
                 <role>
-                    <vodml-ref>src:source.Source.positionError</vodml-ref>
+                    <vodml-ref>sample:catalog.AbstractSource.positionError</vodml-ref>
                 </role>
                 <datatype>
-                    <vodml-ref>src:source.AlignedEllipse</vodml-ref>
+                    <vodml-ref>sample:catalog.AlignedEllipse</vodml-ref>
                 </datatype>
             </constraint>
         </objectType>
 
         <objectType>
-            <vodml-id>source.SkyCoordinateFrame</vodml-id>
+            <vodml-id>catalog.SkyCoordinateFrame</vodml-id>
             <name>SkyCoordinateFrame</name>
             <description>
                 TODO : Missing description : please, update your UML model asap.
             </description>
             <attribute>
-                <vodml-id>source.SkyCoordinateFrame.name</vodml-id>
+                <vodml-id>catalog.SkyCoordinateFrame.name</vodml-id>
                 <name>name</name>
                 <description>
                     TODO : Missing description : please, update your UML model asap.
@@ -409,7 +515,7 @@
                 </multiplicity>
             </attribute>
             <attribute>
-                <vodml-id>source.SkyCoordinateFrame.documentURI</vodml-id>
+                <vodml-id>catalog.SkyCoordinateFrame.documentURI</vodml-id>
                 <name>documentURI</name>
                 <description>
                     TODO : Missing description : please, update your UML model asap.
@@ -423,7 +529,7 @@
                 </multiplicity>
             </attribute>
             <attribute>
-                <vodml-id>source.SkyCoordinateFrame.equinox</vodml-id>
+                <vodml-id>catalog.SkyCoordinateFrame.equinox</vodml-id>
                 <name>equinox</name>
                 <description>
                     TODO : Missing description : please, update your UML model asap.
@@ -437,7 +543,7 @@
                 </multiplicity>
             </attribute>
             <attribute>
-                <vodml-id>source.SkyCoordinateFrame.system</vodml-id>
+                <vodml-id>catalog.SkyCoordinateFrame.system</vodml-id>
                 <name>system</name>
                 <description>
                     TODO : Missing description : please, update your UML model asap.
@@ -453,126 +559,31 @@
         </objectType>
 
         <objectType>
-            <vodml-id>source.Source</vodml-id>
+            <vodml-id>catalog.Source</vodml-id>
             <name>Source</name>
             <description>
                 TODO : Missing description : please, update your UML model asap.
             </description>
             <extends>
-                <vodml-ref>src:source.AstroObject</vodml-ref>
+                <vodml-ref>sample:catalog.AbstractSource</vodml-ref>
             </extends>
-            <constraint xsi:type="vo-dml:SubsettedRole">
-                <role>
-                    <vodml-ref>src:source.AstroObject.label</vodml-ref>
-                </role>
-                <datatype>
-                    <vodml-ref>ivoa:string</vodml-ref>
-                </datatype>
-                <semanticconcept>
-                    <topConcept>http://purl.org/astronomy/vocab/DataObjectTypes/Source</topConcept>
-                </semanticconcept>
-            </constraint>
-            <attribute>
-                <vodml-id>source.Source.name</vodml-id>
-                <name>name</name>
-                <description>
-                    TODO : Missing description : please, update your UML model asap.
-                </description>
-                <datatype>
-                    <vodml-ref>ivoa:string</vodml-ref>
-                </datatype>
-                <multiplicity>
-                    <minOccurs>1</minOccurs>
-                    <maxOccurs>1</maxOccurs>
-                </multiplicity>
-            </attribute>
-            <attribute>
-                <vodml-id>source.Source.description</vodml-id>
-                <name>description</name>
-                <description>
-                    TODO : Missing description : please, update your UML model asap.
-                </description>
-                <datatype>
-                    <vodml-ref>ivoa:string</vodml-ref>
-                </datatype>
-                <multiplicity>
-                    <minOccurs>0</minOccurs>
-                    <maxOccurs>1</maxOccurs>
-                </multiplicity>
-            </attribute>
-            <attribute>
-                <vodml-id>source.Source.position</vodml-id>
-                <name>position</name>
-                <description>
-                    TODO : Missing description : please, update your UML model asap.
-                </description>
-                <datatype>
-                    <vodml-ref>src:source.SkyCoordinate</vodml-ref>
-                </datatype>
-                <multiplicity>
-                    <minOccurs>1</minOccurs>
-                    <maxOccurs>1</maxOccurs>
-                </multiplicity>
-            </attribute>
-            <attribute>
-                <vodml-id>source.Source.positionError</vodml-id>
-                <name>positionError</name>
-                <description>
-                    TODO : Missing description : please, update your UML model asap.
-                </description>
-                <datatype>
-                    <vodml-ref>src:source.SkyError</vodml-ref>
-                </datatype>
-                <multiplicity>
-                    <minOccurs>0</minOccurs>
-                    <maxOccurs>1</maxOccurs>
-                </multiplicity>
-            </attribute>
-            <attribute>
-                <vodml-id>source.Source.classification</vodml-id>
-                <name>classification</name>
-                <description>
-                    TODO : Missing description : please, update your UML model asap.
-                </description>
-                <datatype>
-                    <vodml-ref>src:source.SourceClassification</vodml-ref>
-                </datatype>
-                <multiplicity>
-                    <minOccurs>1</minOccurs>
-                    <maxOccurs>1</maxOccurs>
-                </multiplicity>
-            </attribute>
-            <composition>
-                <vodml-id>source.Source.luminosity</vodml-id>
-                <name>luminosity</name>
-                <description>
-                    TODO : Missing description : please, update your UML model asap.
-                </description>
-                <datatype>
-                    <vodml-ref>src:source.LuminosityMeasurement</vodml-ref>
-                </datatype>
-                <multiplicity>
-                    <minOccurs>0</minOccurs>
-                    <maxOccurs>-1</maxOccurs>
-                </multiplicity>
-            </composition>
         </objectType>
 
         <objectType>
-            <vodml-id>source.TwoMassSource</vodml-id>
+            <vodml-id>catalog.TwoMassSource</vodml-id>
             <name>TwoMassSource</name>
             <description>
                 TODO : Missing description : please, update your UML model asap.
             </description>
             <extends>
-                <vodml-ref>src:source.Source</vodml-ref>
+                <vodml-ref>sample:catalog.AbstractSource</vodml-ref>
             </extends>
             <constraint xsi:type="vo-dml:SubsettedRole">
                 <role>
-                    <vodml-ref>src:source.Source.positionError</vodml-ref>
+                    <vodml-ref>sample:catalog.AbstractSource.positionError</vodml-ref>
                 </role>
                 <datatype>
-                    <vodml-ref>src:source.GenericEllipse</vodml-ref>
+                    <vodml-ref>sample:catalog.GenericEllipse</vodml-ref>
                 </datatype>
             </constraint>
         </objectType>

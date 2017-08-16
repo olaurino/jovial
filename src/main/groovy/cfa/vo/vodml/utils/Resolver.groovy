@@ -58,7 +58,11 @@ class Resolver {
     }
 
     public ElementRef resolveTypeOfRole(VodmlRef roleRef) {
-        return roles[roleRef]?.dataType ?: null
+        def result = roles[roleRef]?.dataType
+        if (!result) {
+            throw new IllegalArgumentException("No such role: $roleRef")
+        }
+        return result
     }
 
     public VodmlRef resolveAttribute(VodmlRef typeRef, String attributeName) {
@@ -67,13 +71,16 @@ class Resolver {
         }
         Type type = types[typeRef]
         def matches = match(type, attributeName)
-        if (matches.size() == 1) {
-            return new VodmlRef(typeRef.prefix, matches[0].vodmlid)
+        if (matches.size() >= 1) {
+            def vodmlid = matches[0].vodmlid
+            if (!vodmlid.prefix) {
+                return new VodmlRef(typeRef.prefix, vodmlid)
+            } else {
+                return vodmlid
+            }
         }
-        else if (matches.size() == 0) {
+        else {
             throw new IllegalArgumentException(String.format("No Such Attribute '%s' in %s", attributeName, typeRef))
-        } else if (matches.size() >1) {
-            throw new IllegalArgumentException(String.format("Ambiguous Attribute '%s' in %s", attributeName, typeRef))
         }
     }
 
@@ -107,7 +114,7 @@ class Resolver {
     }
 
     private match(Type type, String attributeName) {
-        def matches = ["attributes", "references", "collections"].findResults {
+        def matches = ["attributes", "references", "compositions"].findResults {
             if (type.hasProperty(it)) {
                 type."$it".findResults {
                     if (it.name == attributeName) {
@@ -116,6 +123,20 @@ class Resolver {
                 }
             }
         }.flatten()
+
+        if (type.hasProperty("constraints")) {
+            matches += type.constraints.findResults {
+                if (it.hasProperty("role")) {
+                    def roleRef = new VodmlRef(it.role.vodmlid)
+                    def index = roleRef.reference.indexOf(".subsettedBy")
+                    roleRef.reference = roleRef.reference.substring(0, index)
+                    def role = resolveRole(roleRef)
+                    if (role.name == attributeName) {
+                        it.role
+                    }
+                }
+            }.flatten()
+        }
 
         if (type.extends_) {
             type = types[new VodmlRef(type.extends_.vodmlref)]
@@ -126,9 +147,6 @@ class Resolver {
 
     private void index(Model spec) {
         indexPackage(spec.name, spec)
-        spec.packages.each {
-            indexPackage(spec.name, it)
-        }
     }
 
     private indexPackage(String prefix, pkg) {
@@ -142,7 +160,7 @@ class Resolver {
                 }
                 types[key] = type
 
-                ["attributes", "references", "collections"].each {
+                ["attributes", "references", "compositions"].each {
                     if (type.hasProperty(it)) {
                         type?."$it".each { role ->
                             VodmlRef rkey = role.vodmlid
@@ -153,7 +171,18 @@ class Resolver {
                         }
                     }
                 }
+
+                if (type.hasProperty("constraints")) {
+                    type.constraints.each { constraint ->
+                        if (constraint.hasProperty("role")) {
+                            roles[constraint.role.vodmlid] = constraint.role
+                        }
+                    }
+                }
             }
+        }
+        pkg.packages.each { subPackage ->
+            indexPackage(prefix, subPackage)
         }
     }
 }

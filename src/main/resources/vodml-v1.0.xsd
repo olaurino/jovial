@@ -31,7 +31,7 @@
                     Requirements on the format are: 1) use in XML document 2) use as fragment in URI
                 </xsd:documentation>
             </xsd:annotation>
-            <xsd:pattern value="[\w\._-]+"/>
+            <xsd:pattern value="[a-zA-Z][a-zA-Z0-9\._]*"/>
         </xsd:restriction>
     </xsd:simpleType>
 
@@ -43,7 +43,7 @@
             </xsd:documentation>
         </xsd:annotation>
         <xsd:restriction base="xsd:string"> <!-- xsd:NCName ? -->
-            <xsd:pattern value="[a-zA-Z][\w_-]*">
+            <xsd:pattern value="[a-zA-Z][a-zA-Z0-9\-_]*">
                 <xsd:annotation>
                     <xsd:documentation>
                         A model name MUST NOT contain a semicolon.
@@ -65,7 +65,7 @@
                 TBD We could use an xsd:QName where VODMLREF is used, but that may have somewhat more sever syntax constraints than desired.
             </xsd:documentation>
         </xsd:annotation>
-        <xsd:restriction base="xsd:string">
+        <xsd:restriction base="xsd:string"> <!--  xsd:QName ?  -->
             <xsd:annotation>
                 <xsd:documentation>
                     A restriction on the valid strings that make this a valid reference to a referencable element.
@@ -78,7 +78,7 @@
                     MUST be [Prefix ':' VODMLID].
                 </xsd:documentation>
             </xsd:annotation>
-            <xsd:pattern value="[\w_-]+:[\w\-/\._]+"/>
+            <xsd:pattern value="[a-zA-Z][a-zA-Z0-9\._\-]+:[a-zA-Z][a-zA-Z0-9\._]*"/>
         </xsd:restriction>
     </xsd:simpleType>
 
@@ -90,7 +90,7 @@
             </xsd:documentation>
         </xsd:annotation>
         <xsd:restriction base="xsd:string"> <!-- xsd:NCName ? -->
-            <xsd:pattern value="[a-zA-Z_][\w_]*">
+            <xsd:pattern value="[a-zA-Z_][a-zA-Z0-9_]*">
                 <xsd:annotation>
                     <xsd:documentation>
                         A model name MUST NOT contain a semicolon.
@@ -467,9 +467,8 @@
                             </xsd:documentation>
                         </xsd:annotation>
                     </xsd:element>
-
                 </xsd:sequence>
-                <xsd:attribute name="abstract" type="xsd:boolean" default="false" use="optional" />
+                <xsd:attribute name="abstract" type="xsd:boolean" use="optional" />
             </xsd:extension>
         </xsd:complexContent>
     </xsd:complexType>
@@ -490,7 +489,7 @@
                             </xsd:documentation>
                         </xsd:annotation>
                     </xsd:element>
-                    <xsd:element name="collection" type="Composition" minOccurs="0" maxOccurs="unbounded">
+                    <xsd:element name="composition" type="Composition" minOccurs="0" maxOccurs="unbounded">
                         <xsd:annotation>
                             <xsd:documentation>
                                 TODO
@@ -678,7 +677,7 @@
                     <xsd:element name="semanticconcept" type="SemanticConcept" minOccurs="0">
                         <xsd:annotation>
                             <xsd:documentation>
-                                It is possible to assign a SEmanticConcept to an attribute definition.
+                                It is possible to assign a SemanticConcept to an attribute definition.
                                 This means that the values of the attribute have to comply with the definition of the
                                 SemanticConcept.
                                 This can be done in two manners. Either the SemanticConcept
@@ -710,7 +709,7 @@
             <xsd:element name="topConcept" type="xsd:anyURI" minOccurs="0">
                 <xsd:annotation>
                     <xsd:documentation>
-                        A URI identifiying a semntic concept that corresponds to the concept in the model.
+                        A URI identifiying a semantic concept that corresponds to the concept in the model.
                         Values of a corresponding attributes must be URI-s identifiying objects that are narrower
                         than the identified concept. This attribute may be null as
                         certain vocabularies may not have a
@@ -749,7 +748,7 @@
                 between the target ObjectType and the owner of the reference, the "referrer".
                 The referrer can be an ObjectType (typically) but also a DataType.
                 The relation is
-                looser than the composition/collection relationship, acting like a
+                looser than the composition relationship, acting like a
                 semantically meaningful pointer rather than indicating a component of the referrer.
                 Consequently, in general many referrers can point at the same target instance,
                 and ObjectType-s can
@@ -776,25 +775,25 @@
         <xsd:annotation>
             <xsd:documentation>
                 This type implements a composition relation between the parent and child ObjectTypes.
-                Its instances are ONLY used to set the "collection" field on an ObjectType.
-                It is a rule that an object type can only be the target of a single collection definition.
-                A subclass can be assigned a target to a collection if a
-                baseclass is already assigned such a target, but only if the collection is explicitly 'subsetted'.
-                A collection is assumed to be a set, i.e.
+                Its instances are ONLY used to set the composition field on an ObjectType.
+                It is a rule that an object type can only be the target of a single composition definition.
+                A subclass can be assigned a target to a composition if a
+                baseclass is already assigned such a target, but only if the composition is explicitly 'subsetted'.
+                A composition is assumed to be a set, i.e.
                 a given object (as identified by its identifier!) cannot occur
-                multiple times in the collection.
-                The collection
-                may be ordered, whichi implies that the order in whichi objects have been added
+                multiple times in the composition.
+                The composition
+                may be ordered, which implies that the order in which objects have been added
                 to
-                the collection is to be preserved. As clients can always do an explicit sort on any of the child objects' attributes,
+                the parent is to be preserved. As clients can always do an explicit sort on any of the child objects' attributes,
                 it seems not necessary to add functionality for
-                declaring a collection is
+                declaring a composition is
                 sorted on one or more attributes.
-                Through the uniqueInCollection constraint that can be assigned to attributes, a collection can impose the
-                constraint that different objects in the collection
+                Through the uniqueInCollection constraint that can be assigned to attributes, a composition can impose the
+                constraint that different objects in the composition
                 must have distinct values of the
                 attribute to which that constraint is assigned.
-                It would be better probably to add the capability to assign such constraints to this collection type.
+                It would be better probably to add the capability to assign such constraints to this composition type.
                 This would
                 also give more flexibility in for example creating explicit (named) keys, or defining
                 multi-attribute uniqueness constraints.
@@ -806,7 +805,7 @@
                     <xsd:element name="isOrdered" type="xsd:boolean" default="false" minOccurs="0">
                         <xsd:annotation>
                             <xsd:documentation>
-                                If true, this collection preserves the ordering of object insertions.
+                                If true, this composition preserves the ordering of object insertions.
                             </xsd:documentation>
                         </xsd:annotation>
                     </xsd:element>
@@ -827,7 +826,7 @@
         </xsd:annotation>
         <xsd:sequence>
             <xsd:choice>
-                <xsd:element name="minOccurs" type="xsd:nonNegativeInteger" default="1">
+                <xsd:element name="minOccurs" type="xsd:nonNegativeInteger" default="0">
                     <xsd:annotation>
                         <xsd:documentation>
                             Lower bound on number of instances/values.
@@ -850,7 +849,8 @@
         <xsd:annotation>
             <xsd:documentation>
                 Constraint represents rules that instances of Type-s must obey to be valid.
-                A Constraint is a referable element. Its description element describes the constraint in English.
+                A generic Constraint only has a 'description' element
+                which describes the constraint in English.
                 In future versions of the language extra elements may be added that give a more formal
                 definition of the constraint. In particular we may add expressions in a language
                 such as OCL or subset thereof tuned to VO-DML.
@@ -872,12 +872,11 @@
     <xsd:complexType name="SubsettedRole">
         <xsd:annotation>
             <xsd:documentation>
-                Constraint represents rules that instances of Type-s must obey to be valid.
-                A Constraint is a referable element. Its description element describes the constraint in English.
-                In future versions of the language extra elements may be added that give a more formal
-                definition of the constraint. In particular we may add expressions in a language
-                such as OCL or subset thereof tuned to VO-DML.
-                In terms of OCL, VO-DML COnstraint-s are invariants of a Type.
+                A special type of constraint that represents the common pattern where a subtype.
+                would like to restrict certain aspects of a definition of a  roles defined on a super type.
+                The constraint explicitly defines the datatype of the identified role. This new datatype MUST
+                be a subtype of the declared datatype of the role that is being constrained. Similarly
+                a new, more restrictive semantic concept  may be defined.
             </xsd:documentation>
         </xsd:annotation>
         <xsd:complexContent>
@@ -915,56 +914,7 @@
         </xsd:complexContent>
 
     </xsd:complexType>
-    <!--
-    The following, commented-out type definition is a proposal for an alternative way to define subsetting of roles.
-    It allows one to refine certain properties of an inherited role, without requiring a re-definition of the role itself.
-    The latter would lead to extra constraints on this role (e.g. name must not chnage) and a new vodml-id for the inherited role,
-    complicating interpretations, especially of "naive" clients as defined in the mapping document.
-     -->
-    <!--
-     <xsd:complexType name="SubsettingConstraint">
-       <xsd:annotation>
-         <xsd:documentation>
-         Implementation of the UML "subsets" concept as a special type of constraint.
-         </xsd:documentation>
-       </xsd:annotation>
-       <xsd:complexContent>
-       <xsd:extension base="Constraint">
-           <xsd:annotation>
-               <xsd:documentation>
-               The inherited description element of a SubsettingConstraint MAY be used to define custom cnstraints on the role.
-               IF not empty, "self" in the expression now refers to the Role on the instance, NOT the instance itself!
-               </xsd:documentation>
-           </xsd:annotation>
-       <xsd:sequence>
-         <xsd:element name="overrides" type="VODMLREF" minOccurs="1">
-           <xsd:annotation>
-             <xsd:documentation>
-               Identifies the role that is overridden. MUST identify a role inherited from a super type.
-             </xsd:documentation>
-           </xsd:annotation>
-         </xsd:element>
-         <xsd:element name="datatype" type="VODMLREF" minOccurs="0">
-           <xsd:annotation>
-             <xsd:documentation>
-               IF the subsetting constrains the role to a sub-type of the dattaype of the subseted ROle,
-               This element identifies this subtype. May be null if another feature is overriden.
-             </xsd:documentation>
-           </xsd:annotation>
-         </xsd:element>
-         <xsd:element name="multiplicity" type="Multiplicity" minOccurs="0">
-           <xsd:annotation>
-             <xsd:documentation>
-               IF the subsetting constrains the role to a sub-type of the dattaype of the subseted ROle,
-               This element identifies this subtype. May be null if another feature is overriden.
-             </xsd:documentation>
-           </xsd:annotation>
-         </xsd:element>
-       </xsd:sequence>
-       </xsd:extension>
-       </xsd:complexContent>
-     </xsd:complexType>
-    -->
+
     <!-- Begin of element declaration(s) -->
     <xsd:element name="model" type="Model">
         <xsd:annotation>

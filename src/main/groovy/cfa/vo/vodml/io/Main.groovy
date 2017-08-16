@@ -32,14 +32,45 @@
  */
 package cfa.vo.vodml.io
 
+import cfa.vo.vodml.io.votable.VotableWriter
+
 public class Main {
     public static void main(String[] args) {
-        def modelString = new File(args[0]).text
-        def builder = new ModelBuilder()
-        def binding = new Binding(model: builder.&script)
-        def shell = new GroovyShell(Main.class.classLoader, binding)
-        def model = shell.evaluate modelString
-        def writer = new VodmlWriter()
+        def cli = new CliBuilder(usage: "jovial -[mih] input-file")
+
+        cli.with {
+            h longOpt: 'help', 'Show usage information'
+            m longOpt: 'model', 'convert a model. This is the default'
+            i longOpt: 'instance', 'convert an instance'
+        }
+
+        def options = cli.parse(args)
+
+        if (!options || options.h || !options.arguments().size()) {
+            cli.usage()
+            return
+        }
+
+        def writer
+        def model
+        def filename = options.arguments().get(0)
+
+        if (options.i) {
+            def modelString = new File(filename).text
+            def builder = new DataModelInstanceBuilder()
+            def binding = new Binding(dmInstance: builder.&script)
+            def shell = new GroovyShell(Main.class.classLoader, binding)
+            model = shell.evaluate modelString
+            writer = new VotableWriter()
+        } else {
+            def modelString = new File(filename).text
+            def builder = new ModelBuilder()
+            def binding = new Binding(model: builder.&script)
+            def shell = new GroovyShell(Main.class.classLoader, binding)
+            model = shell.evaluate modelString
+            writer = new ModelWriter()
+        }
+
         writer.write(model, System.out)
     }
 }

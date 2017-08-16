@@ -2,7 +2,7 @@
  * #%L
  * jovial
  * %%
- * Copyright (C) 2016 Smithsonian Astrophysical Observatory
+ * Copyright (C) 2016 - 2017 Smithsonian Astrophysical Observatory
  * %%
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
@@ -30,39 +30,53 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  * #L%
  */
-package cfa.vo.vodml.metamodel
+/**
+ * Copyright (C) 2017 Smithsonian Astrophysical Observatory
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-import groovy.beans.Bindable
-import groovy.transform.EqualsAndHashCode
+package cfa.vo.vodml.io.votable
 
+import cfa.vo.vodml.io.Main
+import cfa.vo.vodml.utils.XmlUtils
+import spock.lang.Specification
 
-@Bindable
-@EqualsAndHashCode
-class SubsettedRole extends Constraint {
-    Attribute role
-    SemanticConcept semanticConcept
+class VotableWriterSpec extends Specification {
+    def instanceFile = getClass().getResource("/votable/example.votable.xml")
+    def instanceDsl = getClass().getResource("/votable/example.groovy").path
+    def baos = new ByteArrayOutputStream()
+    def stdout
+    def instanceVotableXml
 
-    @Override
-    void build(GroovyObject builder) {
-        def elem = {
-            constraint("xsi:type": "vo-dml:SubsettedRole") {
-                if (this.description) {
-                    "description"(this.description)
-                }
-                "role"() {
-                    def vodmlidString = this.role.vodmlid.toString()
-                    def index = vodmlidString.indexOf(".subsettedBy")
-                    "vodml-ref"(vodmlidString.substring(0, index))
-                }
-                datatype {
-                    out << this.role.dataType
-                }
-                if (this.semanticConcept) {
-                    out << semanticConcept
-                }
-            }
-        }
-        elem.delegate = builder
-        elem()
+    void setup() {
+        instanceVotableXml = instanceFile.text
+        stdout = System.out
+        System.out = new PrintStream(baos)
+    }
+
+    void cleanup() {
+        System.out = stdout
+    }
+
+    def "test5"() {
+        given:
+        String[] args = ["-i", instanceDsl]
+
+        when:
+        Main.main(args)
+
+        then:
+        XmlUtils.testVotable(instanceVotableXml, baos.toString())
     }
 }

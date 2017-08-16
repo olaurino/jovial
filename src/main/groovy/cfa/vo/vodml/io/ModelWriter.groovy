@@ -30,41 +30,22 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  * #L%
  */
-package cfa.vo.vodml.utils
+package cfa.vo.vodml.io
 
-import org.junit.Test
-// TODO docs and error handling
-class ResolverTest {
-    private TestResolver resolver = new TestResolver()
+import groovy.xml.StreamingMarkupBuilder
+import groovy.xml.XmlUtil
 
-    @Test
-    public void testIndex() {
-        assert resolver.resolveType("ds:dataset.Dataset").name == "Dataset"
-        assert resolver.resolveType("ds:party.Organization").name == "Organization"
-        assert resolver.resolveRole("ds:party.Party.name").name == "name"
+class ModelWriter {
+    public static final String PREFIX = "vo-dml"
+    public static final String NS = "http://www.ivoa.net/xml/VODML/v1.0"
 
-        assert resolver.extends("ds:party.Individual", "ds:party.Party")
-        assert !resolver.extends("ds:party.Individual", "ds:dataset.Dataset")
-        assert resolver.extends("ds:dataset.Publisher", "ds:party.Role")
-
-        assert resolver.resolveAttribute("ds:party.Party", "name") == new VodmlRef("ds:party.Party.name")
-        assert resolver.resolveAttribute("ds:party.Organization", "name") == new VodmlRef("ds:party.Party.name")
-
-        assert resolver.resolveType("char:firstPackage.secondPackage.Type").name  == "Type"
-    }
-
-    @Test
-    public void testIndexSubsettedRole() {
-        assert resolver.resolveRole("char:ErrorType.aQuantity").dataType.vodmlref == new VodmlRef("ivoa:Quantity")
-
-        def expectedRef = new VodmlRef("char:ErrorType.aQuantity.subsettedByStatErrorType")
-        assert resolver.resolveAttribute("char:StatErrorType", "aQuantity") == expectedRef
-        assert resolver.resolveTypeOfRole(expectedRef).vodmlref == new VodmlRef("ivoa:realQuantity")
-    }
-
-    @Test
-    public void resolveTypeOfRole() {
-        def roleRef = new VodmlRef("ds:party.Party.name")
-        assert resolver.resolveTypeOfRole(roleRef).vodmlref == new VodmlRef("ivoa:string")
+    def write(model, OutputStream os) {
+        def writer = new OutputStreamWriter(os)
+        def builder = new StreamingMarkupBuilder().bind {
+            mkp.xmlDeclaration()
+            mkp.declareNamespace("${PREFIX}": NS, xsi: "http://www.w3.org/2001/XMLSchema-instance")
+            out << model
+        }
+        XmlUtil.serialize builder, writer
     }
 }

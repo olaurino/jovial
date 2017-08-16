@@ -1,8 +1,10 @@
+package cfa.vo.vodml.utils;
+
 /*
  * #%L
  * jovial
  * %%
- * Copyright (C) 2016 Smithsonian Astrophysical Observatory
+ * Copyright (C) 2016 - 2017 Smithsonian Astrophysical Observatory
  * %%
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
@@ -30,39 +32,23 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  * #L%
  */
-package cfa.vo.vodml.metamodel
-
-import groovy.beans.Bindable
-import groovy.transform.EqualsAndHashCode
 
 
-@Bindable
-@EqualsAndHashCode
-class SubsettedRole extends Constraint {
-    Attribute role
-    SemanticConcept semanticConcept
+import org.junit.Test;
 
-    @Override
-    void build(GroovyObject builder) {
-        def elem = {
-            constraint("xsi:type": "vo-dml:SubsettedRole") {
-                if (this.description) {
-                    "description"(this.description)
-                }
-                "role"() {
-                    def vodmlidString = this.role.vodmlid.toString()
-                    def index = vodmlidString.indexOf(".subsettedBy")
-                    "vodml-ref"(vodmlidString.substring(0, index))
-                }
-                datatype {
-                    out << this.role.dataType
-                }
-                if (this.semanticConcept) {
-                    out << semanticConcept
-                }
-            }
-        }
-        elem.delegate = builder
-        elem()
+public class XmlUtilsTest {
+    private String baseline = "<TABLE>" +
+            "<FIELD ID='a' datatype='b' name='c'/>" +
+            "<FIELD ID='b' datatype='char' arraysize='*'/>" +
+            "</TABLE>";
+    private String test = "<TABLE>" +
+            "<FIELD ID='a' datatype='b'/>" +
+            "<FIELD ID='b' datatype='char' arraysize='3' name='d'/>" +
+            "</TABLE>";
+
+    @Test
+    public void testField() {
+        XmlUtils.testVotable(baseline, test);
     }
+
 }

@@ -39,10 +39,10 @@ import groovy.transform.EqualsAndHashCode
 @Bindable
 @EqualsAndHashCode
 class ObjectType extends Type implements Buildable, Parent, DataTypeLike {
-    List<Composition> collections = [] as BasicEventList
+    List<Composition> compositions = [] as BasicEventList
 
     void leftShift(Composition child) {
-        collections << child
+        compositions << child
         propagateVodmlid(child)
     }
 
@@ -68,7 +68,7 @@ class ObjectType extends Type implements Buildable, Parent, DataTypeLike {
                 this.attributes.each {
                     out << it
                 }
-                this.collections.each {
+                this.compositions.each {
                     out << it
                 }
                 this.references.each {

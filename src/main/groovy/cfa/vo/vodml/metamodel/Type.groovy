@@ -45,5 +45,8 @@ abstract class Type extends ReferableElement {
 
     void leftShift(Constraint constraint) {
         constraints.add(constraint)
+        if (constraint.hasProperty("role")) {
+            constraint.role.vodmlid.reference += ".subsettedBy$vodmlid"
+        }
     }
 }

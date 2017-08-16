@@ -32,6 +32,7 @@
  */
 package cfa.vo.vodml.io.factories.model
 
+import cfa.vo.vodml.metamodel.Attribute
 import cfa.vo.vodml.metamodel.ElementRef
 import cfa.vo.vodml.metamodel.SubsettedRole
 import cfa.vo.vodml.utils.VodmlRef
@@ -54,8 +55,7 @@ class SubsettedRoleFactory extends AbstractFactory {
         ElementRef role = new ElementRef(vodmlref: roleRef)
         ElementRef dataType = new ElementRef(vodmlref: dataTypeRef)
         SubsettedRole subsettedRole = attributes as SubsettedRole
-        subsettedRole.role = role
-        subsettedRole.dataType = dataType
+        subsettedRole.role = new Attribute(vodmlid: role.vodmlref, dataType: dataType)
         return subsettedRole
     }
 }

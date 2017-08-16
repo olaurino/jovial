@@ -30,20 +30,10 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  * #L%
  */
-package cfa.vo.vodml.io
+package cfa.vo.vodml.io.votable
 
-import groovy.xml.StreamingMarkupBuilder
-import groovy.xml.XmlUtil
+import cfa.vo.vodml.instance.DataModelInstance
 
-class VodmlWriter {
-
-    def write(model, OutputStream os) {
-        def writer = new OutputStreamWriter(os)
-        def builder = new StreamingMarkupBuilder().bind {
-            mkp.xmlDeclaration()
-            mkp.declareNamespace("${model.prefix}": model.ns, xsi: "http://www.w3.org/2001/XMLSchema-instance")
-            out << model
-        }
-        XmlUtil.serialize builder, writer
-    }
+public interface InstanceReader {
+    DataModelInstance read(String xmlString)
 }

@@ -1,21 +1,3 @@
-package cfa.vo.vodml
-
-import ca.odell.glazedlists.BasicEventList
-import ca.odell.glazedlists.EventList
-import cfa.vo.vodml.io.Validator
-import cfa.vo.vodml.io.VodmlWriter
-import cfa.vo.vodml.metamodel.*
-import cfa.vo.vodml.utils.XmlUtils
-import org.joda.time.DateTime
-import org.junit.Test
-
-class MetaModelTest {
-    Model model
-
-    @Test
-    void testSerialization() {
-        String expected = setUpModel();
-
 /*
  * #%L
  * jovial
@@ -48,8 +30,25 @@ class MetaModelTest {
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  * #L%
  */
+package cfa.vo.vodml
 
-        def writer = new VodmlWriter()
+import ca.odell.glazedlists.BasicEventList
+import ca.odell.glazedlists.EventList
+import cfa.vo.vodml.io.Validator
+import cfa.vo.vodml.io.ModelWriter
+import cfa.vo.vodml.utils.XmlUtils
+import cfa.vo.vodml.metamodel.*
+import org.joda.time.DateTime
+import org.junit.Test
+
+class MetaModelTest {
+    Model model
+
+    @Test
+    void testSerialization() {
+        String expected = setUpModel();
+
+        def writer = new ModelWriter()
         ByteArrayOutputStream os = new ByteArrayOutputStream()
         writer.write(model, os)
         String out = os.toString("UTF-8")
@@ -218,7 +217,7 @@ class MetaModelTest {
                                 multiplicity: new Multiplicity(minOccurs: 0, maxOccurs: 1),
                         ),
                 ],
-                collections: [
+                compositions: [
                         new Composition(
                                 name: "collection",
                                 vodmlid: "dataset.DataID.collection",
@@ -308,7 +307,7 @@ class MetaModelTest {
                                 multiplicity: new Multiplicity(minOccurs: 0, maxOccurs: 1),
                         ),
                 ],
-                collections: [
+                compositions: [
                         new Composition(
                                 name: "reference",
                                 vodmlid: "dataset.Curation.reference",
@@ -336,7 +335,7 @@ class MetaModelTest {
 
                         ),
                 ],
-                collections: [
+                compositions: [
                         new Composition(
                                 name: "dataID",
                                 vodmlid: "dataset.Dataset.dataID",
@@ -356,8 +355,10 @@ class MetaModelTest {
                 extends_: new ElementRef(vodmlref: "ds:party.Role"),
                 constraints: [
                         new SubsettedRole (
-                                role: new ElementRef(vodmlref: "ds:party.Role.party"),
-                                dataType: new ElementRef(vodmlref: "ds:party.Organization")
+                                role: new Attribute(
+                                    vodmlid: "ds:party.Role.party.subsettedByparty.Facility",
+                                    dataType: new ElementRef(vodmlref: "ds:party.Organization")
+                                )
                         )
                 ]
         )
