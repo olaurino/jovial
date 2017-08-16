@@ -42,7 +42,7 @@ def remote = "http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models"
 
 def ivoaLocation = location('ivoa.vo-dml.xml')
 def ivoaRemoteLocation = new URL("$remote/ivoa/IVOA.vo-dml.xml")
-def filterLocation = new URL("$remote/sample/filter/Filter.vo-dml.xml")
+def filterLocation = location("votable/Filter.vo-dml.xml")
 def sampleLocation = location("votable/Sample.vo-dml.xml")
 
 def reader = new VodmlReader()
@@ -53,7 +53,7 @@ sampleSpec = reader.read(sampleLocation.openStream())
 
 dmInstance {
     model(spec: ivoaSpec, vodmlURL: ivoaRemoteLocation)
-    model(spec: filterSpec, vodmlURL: filterLocation, identifier: "ivo://ivoa.org/dm/sample/Filter/1.9")
+    model(spec: filterSpec, vodmlURL: "$remote/sample/filter/Filter.vo-dml.xml", identifier: "ivo://ivoa.org/dm/sample/Filter/1.9")
     model(spec: sampleSpec, vodmlURL: "$remote/sample/sample/Sample.vo-dml.xml")
 
     instance(type: "sample:catalog.SkyCoordinateFrame", id: "_icrs") {
