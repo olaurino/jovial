@@ -13,7 +13,7 @@ standards, in particular the Virtual Observatory Data Modeling Language (VODML).
   * A Java/Groovy API for reading and writing standard data model descriptors.
   * A streamlined Domain Specific Language for defining data models and serialize them as standard descriptors.
   * A Domain Specific Language for expressing instances of data model types.
-  * A graphical tool for browsing and creating data models.
+  * A graphical tool for browsing and creating data models. (This is currently not a priority)
   
 The library tries to abstract and simplify the definition of models and their instances as much as possible.
 
@@ -25,7 +25,33 @@ standpoint this project is still work in progress.
 of an issue report.
 
 ### Requirements
-In order to build Jovial Maven 3 and Java SDK 7 or 8 are required.
+In order to run Jovial from a binary distribution you need a conda environment. Binary distributions are
+currently available only for Linux. MacOS and Windows binary distributions will be provided in the future.
+
+In order to build Jovial from sources Maven 3 and Java SDK 7 or 8 are required.
+
+### Binary install
+
+If you don't already have [Anaconda](https://www.continuum.io/downloads) installed, please install it.
+You can also download a minimal [Miniconda](https://conda.io/miniconda.html) distribution.
+
+Create a `conda` environment where you will run Jovial:
+
+````
+
+$ conda create -n jovial -c ivoa jovial
+$ source activate jovial
+
+````
+
+This will create and activate an environment named `jovial` where Jovial and all its dependencies are
+installed. To check that the installation was successful, type:
+
+````
+
+$ jovial --help
+
+````
 
 ### Build
 
