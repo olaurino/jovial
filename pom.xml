@@ -294,16 +294,21 @@
 
     <repositories>
         <repository>
+            <url>http://central.maven.org/maven2/</url>
+            <id>central</id>
+            <layout>default</layout>
+        </repository>
+        <repository>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
-            <id>central</id>
+            <id>cxc-releases</id>
             <name>libs-release</name>
             <url>http://artifactory.cfa.harvard.edu/artifactory/libs-release</url>
         </repository>
         <repository>
             <snapshots />
-            <id>snapshots</id>
+            <id>cxc-snapshots</id>
             <name>libs-snapshot</name>
             <url>http://artifactory.cfa.harvard.edu/artifactory/libs-snapshot</url>
         </repository>
