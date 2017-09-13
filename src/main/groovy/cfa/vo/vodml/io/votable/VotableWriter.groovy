@@ -172,7 +172,7 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
                         REFERENCE(dmrole: roleFilter(ref.role)) {
                             if (ref.idref) {
                                 IDREF(ref.idref)
-                            } else {
+                            } else if (ref.foreignKey) {
                                 def fk = ref.foreignKey
                                 FOREIGNKEY() {
                                     PKFIELD() {
@@ -182,6 +182,8 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
                                     }
                                     TARGETID(fk.target)
                                 }
+                            } else {
+                                REMOTEREFERENCE(ref.remote)
                             }
                         }
                     }

@@ -426,6 +426,7 @@ class FkInstance extends Instance {
 class ReferenceInstance extends Instance {
     String idref
     FkInstance foreignKey
+    String remote
     @Delegate HasColumns hasColumns = new HasColumns()
 
     def leftShift(FkInstance fk) {
