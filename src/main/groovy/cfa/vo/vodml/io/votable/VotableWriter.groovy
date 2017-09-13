@@ -116,7 +116,11 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
                 attrs.ID = objectInstance.id
             }
             if (objectInstance.value) {
-                LITERAL(value: objectInstance.value, dmtype: objectInstance.type.toString())
+                def literalAttrs = [value: objectInstance.value, dmtype: objectInstance.type.toString()]
+                if (objectInstance.unit) {
+                    literalAttrs.unit = objectInstance.unit
+                }
+                LITERAL(literalAttrs)
             } else {
                 INSTANCE(attrs) {
                     if (objectInstance.primaryKey) {
@@ -137,7 +141,11 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
                             }
                             pk.columns.each { column ->
                                 ATTRIBUTE(dmrole: roleFilter(column.role)) {
-                                    COLUMN(dmtype: column.type, ref: column.id)
+                                    def columnAttrs = [dmtype: column.type, ref: column.id]
+                                    if (column.unit) {
+                                        columnAttrs.unit = unit
+                                    }
+                                    COLUMN(columnAttrs)
                                 }
                             }
                         }
@@ -184,7 +192,11 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
                     }
                     objectInstance.columns.each { column ->
                         ATTRIBUTE(dmrole: roleFilter(column.role)) {
-                            COLUMN(dmtype: column.type, ref: column.id)
+                            def columnAttrs = [dmtype: column.type, ref: column.id]
+                            if (column.unit) {
+                                columnAttrs.unit = unit
+                            }
+                            COLUMN(columnAttrs)
                         }
                     }
                 }

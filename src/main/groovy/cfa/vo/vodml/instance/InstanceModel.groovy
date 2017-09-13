@@ -184,6 +184,7 @@ abstract class Instance extends DefaultNode {
     String id
     VodmlRef type
     VodmlRef role
+    String unit
     protected Map attrs
 
     /**
