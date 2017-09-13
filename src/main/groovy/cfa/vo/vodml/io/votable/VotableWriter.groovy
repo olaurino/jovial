@@ -161,7 +161,7 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
                         }
                     }
                     objectInstance.references.each { ref ->
-                        REFERENCE(dmrole: ref.role) {
+                        REFERENCE(dmrole: roleFilter(ref.role)) {
                             if (ref.idref) {
                                 IDREF(ref.idref)
                             } else {
