@@ -210,7 +210,7 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
 
     void buildComposition(CompositionInstance compositionInstance, builder) {
         def elem = {
-            COMPOSITION(dmrole:compositionInstance.role.toString()) {
+            COMPOSITION(dmrole: roleFilter(compositionInstance.role)) {
                 for (instance in compositionInstance.objectTypes) {
                     out << buildObject(instance, builder)
                 }

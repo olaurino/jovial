@@ -54,7 +54,14 @@ class Resolver {
     }
 
     public Role resolveRole(VodmlRef ref) {
-        roles[ref]
+        def role = roles[ref]
+        if ("subsettedRole" == role?.name) {
+            def roleId = role.vodmlid.toString()
+            def index = roleId.indexOf(".subsettedBy")
+            roleId = roleId.substring(0, index)
+            return resolveRole(roleId)
+        }
+        return role
     }
 
     public ElementRef resolveTypeOfRole(VodmlRef roleRef) {
