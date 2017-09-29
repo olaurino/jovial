@@ -243,16 +243,18 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
                 }
                 DATA() {
                     TABLEDATA() {
-                        while (tab.columns[0].data.size > 0) {
-                            TR() {
-                                tab.columns.each { col ->
-                                    def val
-                                    try {
-                                        val = col.data.pop().toString()
-                                    } catch (Exception ignore) {
-                                        val = "null"
+                        if (tab.columns) {
+                            while (tab.columns[0].data.size > 0) {
+                                TR() {
+                                    tab.columns.each { col ->
+                                        def val
+                                        try {
+                                            val = col.data.pop().toString()
+                                        } catch (Exception ignore) {
+                                            val = "null"
+                                        }
+                                        TD(val)
                                     }
-                                    TD(val)
                                 }
                             }
                         }
