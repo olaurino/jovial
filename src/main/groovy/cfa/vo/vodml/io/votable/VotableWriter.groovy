@@ -142,9 +142,6 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
                             pk.columns.each { column ->
                                 ATTRIBUTE(dmrole: roleFilter(column.role)) {
                                     def columnAttrs = [dmtype: column.type, ref: column.id]
-                                    if (column.unit) {
-                                        columnAttrs.unit = unit
-                                    }
                                     COLUMN(columnAttrs)
                                 }
                             }
@@ -195,9 +192,6 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
                     objectInstance.columns.each { column ->
                         ATTRIBUTE(dmrole: roleFilter(column.role)) {
                             def columnAttrs = [dmtype: column.type, ref: column.id]
-                            if (column.unit) {
-                                columnAttrs.unit = unit
-                            }
                             COLUMN(columnAttrs)
                         }
                     }
@@ -239,6 +233,10 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
                 tab.columns.each { col ->
                     def attrs = col.infer(col.data[0])
                     attrs['ID'] = col.id
+                    attrs['name'] = col.name ?: col.id
+                    if (col.unit) {
+                        attrs['unit'] = col.unit
+                    }
                     FIELD(attrs)
                 }
                 DATA() {

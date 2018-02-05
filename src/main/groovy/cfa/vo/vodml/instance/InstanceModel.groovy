@@ -448,6 +448,7 @@ class ReferenceInstance extends Instance {
 class ColumnInstance extends Instance {
     def data = []
     String id
+    String name
 
 
     static Map infer(value) {
