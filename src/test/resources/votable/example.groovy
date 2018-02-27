@@ -96,8 +96,8 @@ dmInstance {
                     column(role: "name", id: "_designation", data: sourceNames, name: 'designation')
                 }
                 instance(role: "position") {
-                    column(role: "longitude", id: "_ra", data: ra, name: 'ra')
-                    column(role: "latitude", id: "_dec", data: dec, name: 'dec')
+                    column(role: "longitude", id: "_ra", data: ra, name: 'ra', unit: 'deg')
+                    column(role: "latitude", id: "_dec", data: dec, name: 'dec', unit: 'deg')
                     reference(role: "frame") {
                         idref("_icrs")
                     }
@@ -117,27 +117,27 @@ dmInstance {
 //                }
 //            }
                 instance(role: "luminosity") {
-                    column(role: "value", id: "_magH", data: h, name: 'h_m')
-                    column(role: "error", id: "_errH", data: hErr, name: 'h_cmsig')
+                    column(role: "value", id: "_magH", data: h, name: 'h_m', unit: 'mag')
+                    column(role: "error", id: "_errH", data: hErr, name: 'h_cmsig', unit: 'mag')
                     instance(role: "type", value: "magnitude")
                     reference(role: "filter") {
                         idref("_2massH")
                     }
                 }
                 instance(role: "luminosity") {
-                    column(role: "value", id: "_magK", data: k, name: 'k_m')
-                    column(role: "error", id: "_errK", data: kErr, name: 'k_cmsig')
+                    column(role: "value", id: "_magK", data: k, name: 'k_m', unit: 'mag')
+                    column(role: "error", id: "_errK", data: kErr, name: 'k_cmsig', unit: 'mag')
                     instance(role: "type", value: "magnitude")
                     reference(role: "filter") {
                         idref("_2massK")
                     }
                 }
                 instance(role: "luminosity") {
-                    column(role: "error", id: "_errJ", data: jErr, name: 'j_cmsig')
+                    column(role: "error", id: "_errJ", data: jErr, name: 'j_cmsig', unit: 'mag')
                     reference(role: "filter") {
                         idref("_2massJ")
                     }
-                    column(role: "value", id: "_magJ", data: j, name: 'j_m')
+                    column(role: "value", id: "_magJ", data: j, name: 'j_m', unit: 'mag')
                     instance(role: "type", value: "magnitude")
                 }
                 composition(role: "luminosity", ref: "SDSS_MAGS")
