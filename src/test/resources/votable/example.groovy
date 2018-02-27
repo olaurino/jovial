@@ -93,11 +93,11 @@ dmInstance {
 
             instance(type: "sample:catalog.SDSSSource", id: "_source") {
                 pk() {
-                    column(role: "name", id: "_designation", data: sourceNames)
+                    column(role: "name", id: "_designation", data: sourceNames, name: 'designation')
                 }
                 instance(role: "position") {
-                    column(role: "longitude", id: "_ra", data: ra)
-                    column(role: "latitude", id: "_dec", data: dec)
+                    column(role: "longitude", id: "_ra", data: ra, name: 'ra')
+                    column(role: "latitude", id: "_dec", data: dec, name: 'dec')
                     reference(role: "frame") {
                         idref("_icrs")
                     }
@@ -117,27 +117,27 @@ dmInstance {
 //                }
 //            }
                 instance(role: "luminosity") {
-                    column(role: "value", id: "_magH", data: h)
-                    column(role: "error", id: "_errH", data: hErr)
+                    column(role: "value", id: "_magH", data: h, name: 'h_m')
+                    column(role: "error", id: "_errH", data: hErr, name: 'h_cmsig')
                     instance(role: "type", value: "magnitude")
                     reference(role: "filter") {
                         idref("_2massH")
                     }
                 }
                 instance(role: "luminosity") {
-                    column(role: "value", id: "_magK", data: k)
-                    column(role: "error", id: "_errK", data: kErr)
+                    column(role: "value", id: "_magK", data: k, name: 'k_m')
+                    column(role: "error", id: "_errK", data: kErr, name: 'k_cmsig')
                     instance(role: "type", value: "magnitude")
                     reference(role: "filter") {
                         idref("_2massK")
                     }
                 }
                 instance(role: "luminosity") {
-                    column(role: "error", id: "_errJ", data: jErr)
+                    column(role: "error", id: "_errJ", data: jErr, name: 'j_cmsig')
                     reference(role: "filter") {
                         idref("_2massJ")
                     }
-                    column(role: "value", id: "_magJ", data: j)
+                    column(role: "value", id: "_magJ", data: j, name: 'j_m')
                     instance(role: "type", value: "magnitude")
                 }
                 composition(role: "luminosity", ref: "SDSS_MAGS")
@@ -152,13 +152,13 @@ dmInstance {
         table(id: "_sdss_mags") {
             instance(id: "SDSS_MAGS", type: "sample:catalog.LuminosityMeasurement") {
                 fk(target: "_source") {
-                    column(id: "_container", data: sourceId)
+                    column(id: "_container", data: sourceId, name: 'parentId')
                 }
-                column(role: "value", id: "_mag", data: mag)
-                column(role: "error", id: "_eMag", data: err)
+                column(role: "value", id: "_mag", data: mag, name: 'mag')
+                column(role: "error", id: "_eMag", data: err, name: 'eMag')
                 reference(role: "filter") {
                     fk(target: "_SDSS_FILTERS") {
-                        column(id: "_filter", data: filterId)
+                        column(id: "_filter", data: filterId, name: 'filter')
                     }
                 }
             }
