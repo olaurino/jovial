@@ -48,6 +48,10 @@ class Resolver {
         return types[key]
     }
 
+    public Type resolveType(VodmlRef ref) {
+        return types[ref]
+    }
+
     public Role resolveRole(String ref) {
         def key = new VodmlRef(ref)
         resolveRole(key)

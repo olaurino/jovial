@@ -42,6 +42,7 @@ public class Main {
             h longOpt: 'help', 'Show usage information'
             m longOpt: 'model', 'convert a model. This is the default'
             i longOpt: 'instance', 'convert an instance'
+            p longOpt: 'python', 'convert a model to Python classes'
         }
 
         def options = cli.parse(args)
@@ -62,6 +63,11 @@ public class Main {
             def shell = new GroovyShell(Main.class.classLoader, binding)
             model = shell.evaluate modelString
             writer = new VotableWriter()
+        } else if (options.p) {
+            def modelFile = new File(filename)
+            def vodmlReader = new VodmlReader()
+            model = vodmlReader.read(modelFile)
+            writer = new PythonModelWriter()
         } else {
             def modelString = new File(filename).text
             def builder = new ModelBuilder()
