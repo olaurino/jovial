@@ -34,6 +34,7 @@ package cfa.vo.vodml.io
 
 import cfa.vo.vodml.metamodel.ElementRef
 import cfa.vo.vodml.metamodel.Model
+import cfa.vo.vodml.metamodel.Role
 import cfa.vo.vodml.utils.Resolver
 
 /**
@@ -76,8 +77,10 @@ class PythonModelWriter {
         def stringBuilder = StringBuilder.newInstance()
 
         stringBuilder << """
+
+@VO('$namespace:$enumeration.vodmlid')
 class $enumeration.name(StringQuantity):
-    vodml_id = '$namespace:$enumeration.vodmlid'\n"""
+    pass\n"""
 
         return stringBuilder.toString()
     }
@@ -93,18 +96,32 @@ class $enumeration.name(StringQuantity):
         def stringBuilder = StringBuilder.newInstance()
 
         stringBuilder << """
-class $objectOrDataType.name$parentString:
-    vodml_id = '$namespace:$objectOrDataType.vodmlid'\n"""
 
+@VO('$namespace:$objectOrDataType.vodmlid')
+class $objectOrDataType.name$parentString:\n"""
+
+        def empty = true
         ['attributes', 'compositions', 'references'].each { propertyName ->
             if (objectOrDataType.hasProperty(propertyName)) {
                 def roleName = propertyName.capitalize()[0..-2]
-                objectOrDataType."$propertyName".each { property ->
-                    stringBuilder << """    $property.name = $roleName('$namespace:$property.vodmlid')\n"""
+                objectOrDataType."$propertyName".each { Role property ->
+                    empty = false
+                    def name = toSnakeCase(property.name)
+                    def vodmlid = "$namespace:$property.vodmlid"
+                    def multi = ", min=$property.multiplicity.minOccurs, max=$property.multiplicity.maxOccurs"
+                    stringBuilder << "    $name = $roleName('$vodmlid'$multi)\n"
                 }
             }
         }
 
+        if (empty) {
+            stringBuilder << """    pass\n"""
+        }
+
         return stringBuilder.toString()
+    }
+
+    private static String toSnakeCase(String text) {
+        text.replaceAll(/([A-Z])/,/_$1/ ).toLowerCase().replaceAll(/^_/,'')
     }
 }
