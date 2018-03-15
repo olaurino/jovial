@@ -45,6 +45,7 @@ import groovy.util.logging.Log
 @EqualsAndHashCode
 class HasObjects {
     Set<ObjectInstance> objectTypes = []
+    Map<VodmlRef, List<ObjectInstance>> objectIndex = [:]
 
     /**
      * Overloads the left shift operator for adding object type instances to build.
@@ -54,6 +55,15 @@ class HasObjects {
      */
     public leftShift(ObjectInstance data) {
         objectTypes << data
+        try {
+            def role = data.role
+            if (!objectIndex[role]) {
+                objectIndex[role] = []
+            }
+            objectIndex[role].add(data)
+        } catch(Exception ignore) {
+            println(ignore)
+        }
     }
 }
 
@@ -222,7 +232,11 @@ abstract class Instance extends DefaultNode {
         try {
             this.role = this.resolver.resolveAttribute(this.parent.type, ref)
         } catch (Exception ex) {
-            this.role = new VodmlRef(ref)
+            def role_ref = new VodmlRef(ref)
+            if (this.parent != null && role_ref.prefix == null) {
+                println("WARNING: No such attribute ${this.parent.type}, ${ref}")
+            }
+            this.role = role_ref
         }
     }
 
