@@ -167,6 +167,12 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
                             }
                         }
                     }
+                    objectInstance.columns.each { column ->
+                        ATTRIBUTE(dmrole: roleFilter(column.role)) {
+                            def columnAttrs = [dmtype: column.type, ref: column.id]
+                            COLUMN(columnAttrs)
+                        }
+                    }
                     objectInstance.references.each { ref ->
                         REFERENCE(dmrole: roleFilter(ref.role)) {
                             if (ref.idref) {
@@ -189,12 +195,6 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
                     if (objectInstance.hasProperty("compositions")) {
                         objectInstance.compositions.each { comp ->
                             out << buildComposition(comp, builder)
-                        }
-                    }
-                    objectInstance.columns.each { column ->
-                        ATTRIBUTE(dmrole: roleFilter(column.role)) {
-                            def columnAttrs = [dmtype: column.type, ref: column.id]
-                            COLUMN(columnAttrs)
                         }
                     }
                 }
