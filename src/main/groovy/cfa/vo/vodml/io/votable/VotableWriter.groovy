@@ -109,6 +109,34 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
         elem()
     }
 
+    void buildKey(key, tagName, builder) {
+        def elem = {
+            "$tagName"() {
+                PKFIELD() {
+                    if (key.value) {
+                        LITERAL(dmtype: "ivoa:string", value: key.value)
+                    }
+                    else {
+                        key.columns.each { column ->
+                            COLUMN(dmtype: "ivoa:string", ref: column.id)
+                        }
+                    }
+                }
+                if (key.hasProperty("target") && key.target) {
+                    TARGETID(key.target)
+                }
+            }
+            key.columns.each { column ->
+                ATTRIBUTE(dmrole: roleFilter(column.role)) {
+                    def columnAttrs = [dmtype: column.type, ref: column.id]
+                    COLUMN(columnAttrs)
+                }
+            }
+        }
+        elem.delegate = builder
+        elem()
+    }
+
     void buildObject(objectInstance, builder) {
         def elem = {
             def attrs = [dmtype: objectInstance.type.toString()]
@@ -124,41 +152,11 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
             } else {
                 INSTANCE(attrs) {
                     if (objectInstance.primaryKey) {
-                        if (objectInstance.primaryKey.value) {
-                            PRIMARYKEY() {
-                                PKFIELD() {
-                                    LITERAL(dmtype: "ivoa:string", value: objectInstance.primaryKey.value)
-                                }
-                            }
-                        } else {
-                            def pk = objectInstance.primaryKey
-                            PRIMARYKEY() {
-                                PKFIELD() {
-                                    pk.columns.each { column ->
-                                        COLUMN(dmtype: "ivoa:string", ref: column.id)
-                                    }
-                                }
-                            }
-                            pk.columns.each { column ->
-                                ATTRIBUTE(dmrole: roleFilter(column.role)) {
-                                    def columnAttrs = [dmtype: column.type, ref: column.id]
-                                    COLUMN(columnAttrs)
-                                }
-                            }
-                        }
+                        buildKey(objectInstance.primaryKey, "PRIMARYKEY", builder)
                     }
                     if (objectInstance.foreignKey) {
                         def fk = objectInstance.foreignKey
-                        CONTAINER() {
-                            FOREIGNKEY() {
-                                PKFIELD() {
-                                    fk.columns.each { column ->
-                                        COLUMN(dmtype: "ivoa:string", ref: column.id)
-                                    }
-                                }
-                                TARGETID(fk.target)
-                            }
-                        }
+                        buildKey(fk, "FOREIGNKEY", builder)
                     }
                     objectInstance.objectIndex.each { role, objectInstances ->
                         ATTRIBUTE(dmrole: roleFilter(role)) {
@@ -179,14 +177,7 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
                                 IDREF(ref.idref)
                             } else if (ref.foreignKey) {
                                 def fk = ref.foreignKey
-                                FOREIGNKEY() {
-                                    PKFIELD() {
-                                        fk.columns.each { column ->
-                                            COLUMN(dmtype: "ivoa:string", ref: column.id)
-                                        }
-                                    }
-                                    TARGETID(fk.target)
-                                }
+                                buildKey(fk, "FOREIGNKEY", builder)
                             } else {
                                 REMOTEREFERENCE(ref.remote)
                             }
