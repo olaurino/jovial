@@ -475,7 +475,7 @@ class ColumnInstance extends Instance {
             ars = value.length().toString()
         } else if (value in Number) { // or it's a number
             dt = [Integer.class, int.class].any {it.isAssignableFrom(value.class)} ? "int" : "float"
-            ars = "1"
+            ars = null
         } else if ([Collection, Object[]].any {it.isAssignableFrom(value.class)}) { // it's an array
             dt = infer(value[0]).datatype
             if (value.hasProperty("length")) {
@@ -485,7 +485,11 @@ class ColumnInstance extends Instance {
             }
         }
 
-        [datatype: dt, arraysize: ars]
+        def attributes = [datatype: dt]
+        if (ars != null) {
+            attributes.arraysize = ars
+        }
+        return attributes
     }
 }
 

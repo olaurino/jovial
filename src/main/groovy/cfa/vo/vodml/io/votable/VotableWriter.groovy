@@ -127,9 +127,11 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
                 }
             }
             key.columns.each { column ->
-                ATTRIBUTE(dmrole: roleFilter(column.role)) {
-                    def columnAttrs = [dmtype: column.type, ref: column.id]
-                    COLUMN(columnAttrs)
+                if (column.role) {
+                    ATTRIBUTE(dmrole: roleFilter(column.role)) {
+                        def columnAttrs = [dmtype: column.type, ref: column.id]
+                        COLUMN(columnAttrs)
+                    }
                 }
             }
         }
@@ -156,7 +158,9 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
                     }
                     if (objectInstance.foreignKey) {
                         def fk = objectInstance.foreignKey
-                        buildKey(fk, "FOREIGNKEY", builder)
+                        CONTAINER() {
+                            buildKey(fk, "FOREIGNKEY", builder)
+                        }
                     }
                     objectInstance.objectIndex.each { role, objectInstances ->
                         ATTRIBUTE(dmrole: roleFilter(role)) {

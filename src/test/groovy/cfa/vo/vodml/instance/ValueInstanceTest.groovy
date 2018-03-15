@@ -45,9 +45,9 @@ class ValueInstanceTest {
     public void testString() {
         assert [datatype: "char", arraysize: '6'] == ColumnInstance.infer("string")
         assert [datatype: "char", arraysize: '5'] == ColumnInstance.infer("sting")
-        assert [datatype: "int", arraysize: '1'] == ColumnInstance.infer(35)
-        assert [datatype: "float", arraysize: '1'] == ColumnInstance.infer(3.5)
-        assert [datatype: "float", arraysize: '1'] == ColumnInstance.infer(1.0)
+        assert [datatype: "int"] == ColumnInstance.infer(35)
+        assert [datatype: "float"] == ColumnInstance.infer(3.5)
+        assert [datatype: "float"] == ColumnInstance.infer(1.0)
         assert [datatype: "float", arraysize: '3'] == ColumnInstance.infer([1.0, 1.1, 1.2])
         assert [datatype: "int", arraysize: '2'] == ColumnInstance.infer([1, 2])
         assert [datatype: "float", arraysize: '3'] == ColumnInstance.infer([1.0, 1.1, 1.2].toArray())
