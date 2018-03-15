@@ -160,9 +160,11 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
                             }
                         }
                     }
-                    objectInstance.objectTypes.each { inst ->
-                        ATTRIBUTE(dmrole: roleFilter(inst.role)) {
-                            out << buildObject(inst, builder)
+                    objectInstance.objectIndex.each { role, objectInstances ->
+                        ATTRIBUTE(dmrole: roleFilter(role)) {
+                            objectInstances.each { inst ->
+                                out << buildObject(inst, builder)
+                            }
                         }
                     }
                     objectInstance.references.each { ref ->
