@@ -44,11 +44,13 @@ import cfa.vo.vodml.utils.Resolver
  */
 class PythonModelWriter {
     Resolver resolver = Resolver.instance
+    VodmlReader reader = new VodmlReader()
     def namespace
 
     def write(Model model, OutputStream os) {
         namespace = model.name
         resolver << model
+        model.imports.each{resolver << reader.read(it.url.toURL().openStream())}
         def stringBuilder = "" << build_package(model)
         os.print(stringBuilder.toString())
     }
@@ -108,7 +110,8 @@ class $objectOrDataType.name$parentString:\n"""
                     empty = false
                     def name = toSnakeCase(property.name)
                     def vodmlid = "$namespace:$property.vodmlid"
-                    def multi = ", min=$property.multiplicity.minOccurs, max=$property.multiplicity.maxOccurs"
+                    def multi =
+                            ", min_occurs=$property.multiplicity.minOccurs, max_occurs=$property.multiplicity.maxOccurs"
                     stringBuilder << "    $name = $roleName('$vodmlid'$multi)\n"
                 }
             }
