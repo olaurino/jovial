@@ -75,6 +75,9 @@ class VotableWriter extends AbstractMarkupInstanceWriter {
                         }
                     }
                 }
+                if (instance.resources[0] instanceof EmptyResourceInstance && instance.tables) {
+                    instance.resources.remove(0);
+                }
                 instance.resources.each { res ->
                     RESOURCE(ID: res.id) {
                         res.tables.each { tab ->

@@ -95,73 +95,6 @@ class DataModelInstanceBuilderTest {
             }
         }
 
-        def votable = """<?xml version="1.0" encoding="UTF-8"?>
-<VOTABLE xmlns="http://www.ivoa.net/xml/VOTable/v1.4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <GROUP>
-    <VODML>
-      <TYPE>vodml-map:Model</TYPE>
-    </VODML>
-    <PARAM datatype="char" arraysize="92" name="url" value="http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/ds/DatasetMetadata-1.0.vo-dml.xml">
-      <VODML>
-        <ROLE>vodml-map:Model.url</ROLE>
-        <TYPE>ivoa:anyURI</TYPE>
-      </VODML>
-    </PARAM>
-    <PARAM datatype="char" arraysize="2" name="name" value="ds">
-      <VODML>
-        <ROLE>vodml-map:Model.name</ROLE>
-        <TYPE>ivoa:string</TYPE>
-      </VODML>
-    </PARAM>
-  </GROUP>
-  <!--End ObjectType role: {No Role} type: vodml-map:Model-->
-  <RESOURCE>
-    <GROUP>
-      <VODML>
-        <TYPE>ds:experiment.AstroTarget</TYPE>
-      </VODML>
-      <PARAM datatype="char" arraysize="5" name="name" value="3C273">
-        <VODML>
-          <ROLE>ds:experiment.BaseTarget.name</ROLE>
-          <TYPE>ivoa:string</TYPE>
-        </VODML>
-      </PARAM>
-      <PARAM datatype="char" arraysize="8" name="description" value="A Quasar">
-        <VODML>
-          <ROLE>ds:experiment.BaseTarget.description</ROLE>
-          <TYPE>ivoa:string</TYPE>
-        </VODML>
-      </PARAM>
-      <PARAM datatype="char" arraysize="6" name="objectClass" value="BLAZAR">
-        <VODML>
-          <ROLE>ds:experiment.AstroTarget.objectClass</ROLE>
-          <TYPE>ivoa:string</TYPE>
-        </VODML>
-      </PARAM>
-      <PARAM datatype="char" arraysize="3" name="spectralClass" value="Sy1">
-        <VODML>
-          <ROLE>ds:experiment.AstroTarget.spectralClass</ROLE>
-          <TYPE>ivoa:string</TYPE>
-        </VODML>
-      </PARAM>
-      <PARAM datatype="float" arraysize="1" name="redshift" value="0.158">
-        <VODML>
-          <ROLE>ds:experiment.AstroTarget.redshift</ROLE>
-          <TYPE>ivoa:real</TYPE>
-        </VODML>
-      </PARAM>
-      <PARAM datatype="float" arraysize="1" name="varAmpl" value="NaN">
-        <VODML>
-          <ROLE>ds:experiment.AstroTarget.varAmpl</ROLE>
-          <TYPE>ivoa:real</TYPE>
-        </VODML>
-      </PARAM>
-    </GROUP>
-    <!--End ObjectType role: {No Role} type: ds:experiment.AstroTarget-->
-  </RESOURCE>
-</VOTABLE>
-"""
-
         writer.write(instance, System.out)
     }
 
@@ -315,6 +248,7 @@ class DataModelInstanceBuilderTest {
       <URL>http://some/where/dataset.vo-dml.xml</URL>
     </MODEL>
   </VODML>
+  <RESOURCE ID="EMPTY"/>
 </VOTABLE>
 """
     }

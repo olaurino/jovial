@@ -145,7 +145,7 @@ class DefaultNode implements VoBuilderNode {
 class DataModelInstance extends DefaultNode {
     List<ModelImportInstance> models = []
     List<GlobalsInstance> globals = []
-    List<ResourceInstance> resources = []
+    List<ResourceInstance> resources = [new EmptyResourceInstance(id: "EMPTY")]
     @Delegate HasObjects hasObjects = new HasObjects()
     @Delegate HasTables hasTables = new HasTables()
 
@@ -158,7 +158,12 @@ class DataModelInstance extends DefaultNode {
 
     public leftShift(GlobalsInstance data) {globals << data}
 
-    public leftShift(ResourceInstance data) {resources << data}
+    public leftShift(ResourceInstance data) {
+        if (resources[0] instanceof EmptyResourceInstance) {
+            resources.remove(0);
+        }
+        resources << data
+    }
 
     /**
      * Overload left shift operator for adding Models to this votable
@@ -497,6 +502,11 @@ class ColumnInstance extends Instance {
 class ResourceInstance extends Instance {
     String id
     @Delegate HasTables hasTables = new HasTables()
+}
+
+@Canonical
+class EmptyResourceInstance extends ResourceInstance {
+
 }
 
 /**
