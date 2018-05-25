@@ -93,7 +93,7 @@ class $enumeration.name(StringQuantity):
         if (parentRef) {
             parentName = resolver.resolveType(parentRef.vodmlref).name
         }
-        def parentString = parentName ? "($parentName)" : ""
+        def parentString = parentName ? "($parentName)" : "BaseType"
 
         def stringBuilder = StringBuilder.newInstance()
 
