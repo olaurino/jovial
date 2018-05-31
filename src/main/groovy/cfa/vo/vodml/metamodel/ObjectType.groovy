@@ -32,14 +32,13 @@
  */
 package cfa.vo.vodml.metamodel
 
-import ca.odell.glazedlists.BasicEventList
 import groovy.beans.Bindable
 import groovy.transform.EqualsAndHashCode
 
 @Bindable
 @EqualsAndHashCode
 class ObjectType extends Type implements Buildable, Parent, DataTypeLike {
-    List<Composition> compositions = [] as BasicEventList
+    List<Composition> compositions = []
 
     void leftShift(Composition child) {
         compositions << child

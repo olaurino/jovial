@@ -32,8 +32,6 @@
  */
 package cfa.vo.vodml.metamodel
 
-import ca.odell.glazedlists.BasicEventList
-import ca.odell.glazedlists.EventList
 import cfa.vo.vodml.io.ModelWriter
 import cfa.vo.vodml.io.factories.model.StringAttribute
 import cfa.vo.vodml.utils.VodmlRef
@@ -51,9 +49,9 @@ class Model implements Buildable, PackageLike {
     String version = "1.0"
     DateTime lastModified = new DateTime()
     String description
-    EventList<String> authors = [] as BasicEventList
+    List<String> authors = []
     List<URI> previousVersions = []
-    EventList<ModelImport> imports = [] as BasicEventList
+    List<ModelImport> imports = []
 
     @Override
     String toString() {

@@ -32,14 +32,13 @@
  */
 package cfa.vo.vodml.metamodel
 
-import ca.odell.glazedlists.EventList
 import groovy.beans.Bindable
 import groovy.transform.EqualsAndHashCode
 
 @Bindable
 @EqualsAndHashCode
 class Enumeration_ extends ValueType implements Buildable, Parent {
-    List<EnumLiteral> literals = [] as EventList
+    List<EnumLiteral> literals = []
 
     void leftShift(EnumLiteral child) {
         literals.add(child)

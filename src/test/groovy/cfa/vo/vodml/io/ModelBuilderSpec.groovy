@@ -32,7 +32,6 @@
  */
 package cfa.vo.vodml.io
 
-import ca.odell.glazedlists.EventList
 import cfa.vo.vodml.VodmlException
 import cfa.vo.vodml.metamodel.ElementRef
 import cfa.vo.vodml.metamodel.Model
@@ -69,7 +68,7 @@ class ModelBuilderSpec extends Specification {
         model.name == "test"
         model.version == "1.0"
         model.description == "A Description"
-        model.authors == ["Jane Doe", "John Doe"] as EventList
+        model.authors == ["Jane Doe", "John Doe"]
         model.packages[0].name == "aPackage"
         model.packages[0].dataTypes[0].name == "DataType"
         model.packages[0].dataTypes[0].attributes[0].name == "anAttribute"
@@ -396,73 +395,5 @@ Illegal multiplicity expression. Please use '<minOccurs>..<maxOccurs>', where:
         model.packages[0].objectTypes[1].constraints[2].description == null
         model.packages[0].objectTypes[1].constraints[2].role.vodmlid == new VodmlRef("test:aPackage.BaseObjectType.anEnumeration.subsettedByaPackage.DerivedObjectType")
         model.packages[0].objectTypes[1].constraints[2].role.dataType == [vodmlref: new VodmlRef("test:aPackage.DerivedEnum")] as ElementRef
-    }
-
-    def "full model (as in MetaModelTest but with DSL)"() {
-        given: "I/O infrastructure"
-        def writer = new ModelWriter()
-        def os = new ByteArrayOutputStream()
-        and: "full model"
-        Model model = builder.model("ds") {
-            title("Dataset Metadata")
-            description("Generic, high-level metadata associated with an IVOA Dataset.")
-            lastModified("2016-04-20T16:44:59.239-04:00")
-            author("John Doe")
-            author("Jane Doe")
-            include("ivoa", version:"1.0", url: "https://some/url")
-            pack("dataset") {
-                enumeration("DataProductType") {
-                    literal("CUBE", description: "Data Cube")
-                    literal("IMAGE", description: "Image")
-                    literal("PHOTOMETRY", description: "Photometry")
-                    literal("SPECTRUM", description: "Spectrum")
-                    literal("TIMESERIES", description: "Time Series")
-                    literal("SED", description: "Spectral Energy Distribution")
-                    literal("VISIBILITY", description: "Visibility")
-                    literal("EVENT", description: "Event List")
-                    literal("CATALOG", description: "Catalog")
-                }
-                enumeration("CreationType") {
-                    literal("ARCHIVAL", description: "Archival")
-                    literal("CUTOUT", description: "Cutout")
-                    literal("FILTERED", description: "Filtered")
-                    literal("MOSAIC", description: "Mosaic")
-                    literal("SPECTRAL_EXTRACTION", description: "Spectral Extraction")
-                    literal("CATALOG_EXTRACTION", description: "Catalog Extraction")
-                }
-                enumeration("RightsType") {
-                    literal("PUBLIC", description: "Public Access")
-                    literal("PROPRIETARY", description: "Proprietary Access")
-                    literal("SECURE", description: "Secure Access")
-                }
-                dataType("Collection") {
-                    attribute("name", dataType: ivoa.string)
-                }
-                dataType("Contributor", parent: ds.party.Role) {
-                    attribute("acknowledgement", dataType: ivoa.string)
-                }
-                dataType("Creator", parent: ds.party.Role)
-                objectType("DataID") {
-                    attribute("title", dataType: ivoa.string, multiplicity: "0..1")
-                }
-            }
-            pack("party") {
-                objectType("Organization", parent: ds.party.Party) {
-                    attribute("address", dataType: ivoa.string)
-                    attribute("phone", dataType: ivoa.string)
-                    attribute("email", dataType: ivoa.string)
-                    attribute("logo", dataType: ivoa.anyURI)
-                }
-            }
-        }
-        and: "baseline model serialization"
-        String expected = getClass().getResource("/dataset.vo-dml.xml").text
-
-        when: "model is serialized"
-        writer.write(model, System.out)
-
-        then: "serialized model is equal to baseline"
-//        XMLAssert.assertXMLEqual(expected, os.toString("UTF-8"))
-        true
     }
 }

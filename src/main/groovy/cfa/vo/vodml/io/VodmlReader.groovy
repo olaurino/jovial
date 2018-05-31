@@ -32,7 +32,6 @@
  */
 package cfa.vo.vodml.io
 
-import ca.odell.glazedlists.BasicEventList
 import cfa.vo.vodml.metamodel.*
 import groovy.util.slurpersupport.GPathResult
 import org.joda.time.DateTime
@@ -59,28 +58,28 @@ class VodmlReader {
                 lastModified: new DateTime(xml.lastModified.toString()).withZone(DateTimeZone.UTC),
                 authors: xml.author?.collect {
                     it.text()
-                } as BasicEventList,
+                },
                 previousVersions: xml.previousVersions?.collect {
                     it.text()
-                } as BasicEventList,
+                },
                 imports: xml.import?.collect {
                     importFrom(it)
-                } as BasicEventList,
+                },
                 packages: xml.package?.collect {
                     packageFrom(it)
-                } as BasicEventList,
+                },
                 objectTypes: xml.objectType?.collect {
                     objectTypeFrom(it)
-                } as BasicEventList,
+                },
                 dataTypes: xml.dataType?.collect {
                     dataTypeFrom(it)
-                } as BasicEventList,
+                },
                 enumerations: xml.enumeration?.collect {
                     enumerationFrom(it)
-                } as BasicEventList,
+                },
                 primitiveTypes: xml.primitiveType.collect {
                     primitiveTypeFrom(it)
-                } as BasicEventList
+                }
         )
     }
 
@@ -100,19 +99,19 @@ class VodmlReader {
                 description: xml.description,
                 objectTypes: xml.objectType?.collect {
                     objectTypeFrom(it)
-                } as BasicEventList,
+                },
                 dataTypes: xml.dataType?.collect {
                     dataTypeFrom(it)
-                } as BasicEventList,
+                },
                 enumerations: xml.enumeration?.collect {
                     enumerationFrom(it)
-                } as BasicEventList,
+                },
                 primitiveTypes: xml.primitiveType.collect {
                     primitiveTypeFrom(it)
-                } as BasicEventList,
+                },
                 packages: xml.package?.collect {
                     packageFrom(it)
-                } as BasicEventList,
+                },
         )
     }
 
@@ -125,16 +124,16 @@ class VodmlReader {
                 extends_: elementRefFrom(xml.extends),
                 attributes: xml.attribute.collect {
                     attributeFrom(it)
-                } as BasicEventList,
+                },
                 compositions: xml.composition.collect {
                     compositionFrom(it)
-                } as BasicEventList,
+                },
                 references: xml.reference.collect {
                     referenceFrom(it)
-                } as BasicEventList,
+                },
                 constraints: xml.constraint.collect {
                     constraintFrom(it, xml."vodml-id")
-                } as BasicEventList,
+                },
         )
     }
 
@@ -147,13 +146,13 @@ class VodmlReader {
                 extends_: elementRefFrom(xml.extends),
                 attributes: xml.attribute?.collect {
                     attributeFrom(it)
-                } as BasicEventList,
+                },
                 references: xml.reference.collect {
                     referenceFrom(it)
-                } as BasicEventList,
+                },
                 constraints: xml.constraint.collect {
                     constraintFrom(it, xml."vodml-id")
-                } as BasicEventList
+                }
         )
     }
 
@@ -169,7 +168,7 @@ class VodmlReader {
                             vodmlid: it."vodml-id",
                             description: it.description,
                     )
-                } as BasicEventList
+                }
         )
     }
 

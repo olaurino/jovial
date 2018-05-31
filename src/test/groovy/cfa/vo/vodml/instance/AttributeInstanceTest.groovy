@@ -48,6 +48,7 @@ class AttributeInstanceTest extends Specification {
     }
 
     def "test position"() {
+        // Make sure instances can be found in undefined context.
         given:
         DataModelInstance instance = new DataModelInstanceBuilder().dmInstance {
             model(spec: stcSpec, vodmlURL: "https://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/STC2/prototype/STCPrototype-2.0.vo-dml.xml")

@@ -32,8 +32,6 @@
  */
 package cfa.vo.vodml
 
-import ca.odell.glazedlists.BasicEventList
-import ca.odell.glazedlists.EventList
 import cfa.vo.vodml.io.Validator
 import cfa.vo.vodml.io.ModelWriter
 import cfa.vo.vodml.utils.XmlUtils
@@ -366,14 +364,14 @@ class MetaModelTest {
         Package partyPackage = new Package(
                 name: "party",
                 vodmlid: "party",
-                objectTypes: [ role, party, organization, individual ] as BasicEventList
+                objectTypes: [ role, party, organization, individual ]
         )
 
         Package datasetPackage = new Package(
                 name: "dataset",
                 vodmlid: "dataset",
-                objectTypes: [ dataset, dataId, curation ] as BasicEventList,
-                dataTypes: [ collection, creator, contributor, contact, publication, publisher ] as BasicEventList,
+                objectTypes: [ dataset, dataId, curation ],
+                dataTypes: [ collection, creator, contributor, contact, publication, publisher ],
         )
 
         Enumeration_ dataProductType = new Enumeration_(
@@ -480,12 +478,12 @@ class MetaModelTest {
                 name: "ds",
                 title: "Dataset Metadata",
                 description: "Generic, high-level metadata associated with an IVOA Dataset.",
-                imports: [ ivoa ] as EventList,
-                authors: [ "Jane Doe", "John Doe" ] as EventList,
-                packages: [ datasetPackage, partyPackage ] as BasicEventList,
-                enumerations: [ dataProductType, creationType, rightsType ] as BasicEventList,
+                imports: [ ivoa ],
+                authors: [ "Jane Doe", "John Doe" ],
+                packages: [ datasetPackage, partyPackage ],
+                enumerations: [ dataProductType, creationType, rightsType ],
                 lastModified: DateTime.parse("2016-04-20T16:44:59.239-04:00"),
-                objectTypes: [facility, ] as BasicEventList
+                objectTypes: [facility, ]
         )
 
         return getClass().getResource("/dataset.vo-dml.xml").text

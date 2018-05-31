@@ -33,9 +33,9 @@
 
 package cfa.vo.vodml.io
 
+import cfa.vo.vodml.utils.XmlUtils
 import org.junit.Before
 import org.junit.Test
-import org.uispec4j.xml.XmlAssert
 
 
 class XmlRoundtripTest {
@@ -55,6 +55,6 @@ class XmlRoundtripTest {
 
     @Test
     void testRoundtrip() {
-        XmlAssert.assertEquals(input, output)
+        XmlUtils.testXml(input, output)
     }
 }
